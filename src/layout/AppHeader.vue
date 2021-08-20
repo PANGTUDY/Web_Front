@@ -1,8 +1,8 @@
 <template>
   <header class="header-global">
     <div style="position: relative">
-      <base-nav type="primary" effect="dark" expand>
-        <a class="navbar-brand" href="#">Default Color</a>
+      <base-nav type="honeydew" effect="light" expand>
+        <a class="navbar-brand" href="#">Pangtudy</a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
           <div class="col-6 collapse-brand">
