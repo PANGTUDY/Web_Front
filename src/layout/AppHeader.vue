@@ -15,7 +15,7 @@
 
         <ul class="navbar-nav ml-lg-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#"> Discover </a>
+            <a class="nav-link nav-link-icon" href="#"> login </a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-link-icon" href="#"> Profile </a>
