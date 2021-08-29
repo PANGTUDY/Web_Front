@@ -2,7 +2,7 @@
   <header class="header-global">
     <div style="position: relative">
       <base-nav type="honeydew" effect="light" expand>
-        <a class="navbar-brand" href="#">Pangtudy</a>
+        <a class="navbar-brand"><router-link to="/">Pangtudy</router-link></a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
           <div class="col-6 collapse-brand">
