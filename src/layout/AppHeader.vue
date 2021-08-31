@@ -2,6 +2,7 @@
   <header class="header-global">
     <div style="position: relative">
       <base-nav type="honeydew" effect="light" expand>
+      <img src="../../public/img/icons/common/pangtudy_logo.jpg.png" width="30px" height="30px"/>
         <a class="navbar-brand"><router-link to="/">Pangtudy</router-link></a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
