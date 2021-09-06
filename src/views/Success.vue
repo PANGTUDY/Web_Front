@@ -19,25 +19,24 @@
                           class="border-0">
                         <template>
                             <div class="text-muted text-center mb-3">
-                                <small>Sign in with</small>
+                                <small>로그인이 완료되었습니다</small>
                             </div>
                             <div class="btn-wrapper text-center">
-                                <base-button type="neutral">
-                                    <img slot="icon" src="img/icons/common/github.svg">
-                                    Github
+                                <base-button type="neutral" @click="goToPages">
+                                    <img slot="icon" src="img/icons/common/pangtudy_logo.jpg.png">
+                                    메인으로 가기
                                 </base-button>
 
                                 <base-button type="neutral">
-                                    <img slot="icon" src="img/icons/common/google.svg">
-                                    Google
+                                    로그아웃하기
                                 </base-button>
                             </div>
                         </template>
                         <template>
                             <div class="text-center text-muted mb-4">
-                                <small>Or sign in with credentials</small>
+                                <small>Successful signIn</small>
                             </div>
-                            <form role="form" @submit="onSubmit">
+                            <!-- <form role="form" @submit="onSubmit">
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Email"
@@ -53,13 +52,10 @@
                                 <base-checkbox>
                                     Remember me
                                 </base-checkbox>
-                                <div class="aler-danger" v-if="errorState">
-                                    <p></p>
-                                </div>
                                 <div class="text-center">
                                     <base-button btn_type="primary" class="my-4" type="submit">로그인</base-button>
                                 </div>
-                            </form>
+                            </form> -->
                         </template>
                     </card>
                     <div class="row mt-3">
@@ -80,41 +76,19 @@
     </section>
 </template>
 <script>
-import {mapActions,mapGetters} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
-    name:'Login',
-    data:()=>({
-        uid:'',
-        password:''
-    }),
-    methods:{
-        ...mapActions(['login']),
-        async onSubmit(){
-            try{
-                let loginResult = await this.login({uid:this.uid,password:this.password})
-                console.log(loginResult)
-                if(loginResult) this.goToPages()
-            }catch(err){
-                console.error(err)
-            }
-        },
-        goToPages(){
-            this.$router.push({
-                name:'success'
-            })
-        }
-    },
-    computed:{
-        ...mapGetters({
-            errorState:'getErrorState'
-        })
+   methods:{
+       goToPages(){
+           this.$router.push({
+               name:'components'
+           })
+       }
+   }
+
     } 
 
 
-};
 </script>
 <style>
-.alert-danger p{
-    color:red;
-}
 </style>

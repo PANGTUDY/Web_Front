@@ -7,6 +7,7 @@ import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
+import Success from "./views/Success.vue";
 
 Vue.use(Router);
 
@@ -57,6 +58,15 @@ export default new Router({
         header: AppHeader,
         default: Profile,
         footer: AppFooter
+      }
+    },
+    {
+      path: "/success", // 로그인 완료
+      name:"success",
+      components:{
+        header:AppHeader,
+        default:Success,
+        footer:AppFooter
       }
     }
   ],
