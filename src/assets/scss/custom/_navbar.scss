@@ -67,8 +67,8 @@
             }
         }
         .nav-link {
-            padding-top: $navbar-nav-link-padding-y;
-            padding-bottom: $navbar-nav-link-padding-y;
+            // padding-top: $navbar-nav-link-padding-y;
+            // padding-bottom: $navbar-nav-link-padding-y;
             border-radius: $navbar-nav-link-border-radius;
 
             i {
@@ -249,7 +249,7 @@
         overflow-y: auto;
         height: auto !important;
         opacity: 0;
-
+        
         .navbar-toggler {
             width: 20px;
             height: 20px;

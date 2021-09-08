@@ -8,9 +8,14 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
+import { Store } from "vuex";
 
 Vue.use(Router);
 
+const requireAuth = ()=> (from,to,next) =>{
+  if(Store.getters.getIsAuth) return next()
+  next('/')
+}
 export default new Router({
   linkExactActiveClass: "active",
   mode:'history',
@@ -66,7 +71,8 @@ export default new Router({
       components:{
         header:AppHeader,
         default:Success,
-        footer:AppFooter
+        footer:AppFooter,
+        beforeEnter: requireAuth() // success에 진입하기전에 requireAuth 함수를 실행
       }
     }
   ],

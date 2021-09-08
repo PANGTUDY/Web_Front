@@ -14,15 +14,20 @@
           </div>
         </div>
 
-        <ul class="navbar-nav ml-lg-auto">
+        <ul class="navbar-nav ml-lg-auto flex">
           <li class="nav-item">
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#"> Profile </a>
+            <a class="nav-link nav-link-icon" href="#">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#">  Meet </a>
+            <a class="nav-link nav-link-icon" href="#">Meet</a>
+          </li>
+          <li class="nav-item">
+            
+            <img src="../../public/img/icons/common/calendar.png" width="20px" height="20px"/>
+            <a class="nav-link nav-link-icon" href="#">Calendar</a>
           </li>
           <base-dropdown tag="li" title="Settings">
             <a class="dropdown-item" href="#">Action</a>
@@ -50,4 +55,5 @@ export default {
 };
 </script>
 <style>
+
 </style>
