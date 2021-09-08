@@ -37,19 +37,31 @@
                             <div class="text-center text-muted mb-4">
                                 <small>Or sign in with credentials</small>
                             </div>
-                            <form role="form" @submit="onSubmit">
+                            <form v-on:submit.prevent="onSubmit">
                                 <base-input alternative
                                             class="mb-3"
+                                            name="email"
+                                            v-validate="'required|email'" 
+                                            data-vv-as="email"
                                             placeholder="Email"
                                             v-model="uid"
                                             addon-left-icon="ni ni-email-83">
                                 </base-input>
+                                <p class="error" v-show="errors.has('email')">
+                                    {{errors.first('email')}}
+                                </p>
                                 <base-input alternative
                                             type="password"
+                                            name="password"
+                                            data-vv-as="password"
                                             placeholder="Password"
+                                            v-validate="'numeric'"
                                             v-model="password"
                                             addon-left-icon="ni ni-lock-circle-open">
                                 </base-input>
+                                 <p class="error" v-show="errors.has('password')">
+                                    {{errors.first('password')}}
+                                </p>
                                 <base-checkbox>
                                     Remember me
                                 </base-checkbox>
@@ -81,21 +93,30 @@
 </template>
 <script>
 import {mapActions,mapGetters} from 'vuex'
+
 export default {
     name:'Login',
-    data:()=>({
-        uid:'',
-        password:''
-    }),
+    data(){
+        return {
+            uid:'',
+            password:''
+        }
+    },
     methods:{
         ...mapActions(['login']),
         async onSubmit(){
+            this.$validator.validateAll() // validation check
+            if(!this.errors.any()){ // 아무 문제 없으면 아래 코드 실행 
             try{
+                
                 let loginResult = await this.login({uid:this.uid,password:this.password})
                 console.log(loginResult)
                 if(loginResult) this.goToPages()
             }catch(err){
                 console.error(err)
+            }
+            }else{
+                console.log('validate err')
             }
         },
         goToPages(){
@@ -115,6 +136,9 @@ export default {
 </script>
 <style>
 .alert-danger p{
+    color:red;
+}
+.error{
     color:red;
 }
 </style>
