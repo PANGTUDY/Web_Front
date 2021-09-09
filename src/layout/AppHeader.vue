@@ -56,5 +56,6 @@ export default {
 <style>
 li{
   display:flex;
-}
+} 
+/* 수정보완필요 */
 </style>
