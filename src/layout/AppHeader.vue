@@ -29,13 +29,13 @@
             <img src="../../public/img/icons/common/calendar.png" width="20px" height="20px"/>
             <a class="nav-link nav-link-icon" href="#">Calendar</a>
           </li>
-          <base-dropdown tag="li" title="Settings">
+          <!-- <base-dropdown tag="li" title="Settings">
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
-          </base-dropdown>
+          </base-dropdown> -->
         </ul>
       </base-nav>
     </div>
