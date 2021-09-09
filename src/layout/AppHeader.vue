@@ -28,7 +28,8 @@
             <img src="../../public/img/icons/common/calendar.png" width="20px" height="20px"/>
             <a class="nav-link nav-link-icon" href="#">Calendar</a>
           </li>
-          <base-dropdown tag="li" title="Settings">
+          <base-dropdown tag="li" title="Settings" img src="../../public/img/icons/common/settings.png">
+          
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
