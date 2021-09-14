@@ -7,6 +7,7 @@ import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
+<<<<<<< HEAD
 import Success from "./views/Success.vue";
 import pwinquiry from "./views/pwinquiry.vue";
 import Delete from "./views/delete.vue";
@@ -21,6 +22,14 @@ Vue.use(Router);
 
 
 const router = new Router({
+=======
+import Calendar from './views/conference/Calendar.vue';
+
+Vue.use(Router);
+
+export default new Router({
+  mode: 'history',
+>>>>>>> 0ee7b92 (ch4njun-001 Calendar 컴포넌트 추가)
   linkExactActiveClass: "active",
   mode:'history',
   routes: [
@@ -31,6 +40,14 @@ const router = new Router({
         header: AppHeader,
         default: Components,
         footer: AppFooter
+      }
+    },
+    {
+      path: "/calendar",
+      name: "calendar",
+      components: {
+        header: AppHeader,
+        default: Calendar,
       }
     },
     {

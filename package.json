@@ -14,6 +14,7 @@
     "bootstrap-vue": "^2.0.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "element-ui": "^2.15.6",
     "flatpickr": "^4.5.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
