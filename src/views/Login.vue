@@ -69,7 +69,7 @@
                                     <p></p>
                                 </div>
                                 <div class="text-center">
-                                    <base-button btn_type="primary" class="my-4" type="submit">로그인</base-button>
+                                    <base-button btn_type="primary" class="my-4" type="submit">login</base-button>
                                 </div>
                             </form>
                         </template>

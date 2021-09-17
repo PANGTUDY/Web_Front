@@ -19,7 +19,7 @@
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#">Profile</a>
+            <a class="nav-link nav-link-icon"><router-link to="/profile">Profile</router-link></a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-link-icon" href="#">Meet</a>

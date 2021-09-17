@@ -21,7 +21,8 @@ import router from "./router";
 import Argon from "./plugins/argon-kit";
 import './registerServiceWorker'
 import VueRouter from "vue-router";
-import store from './vuex/store';
+import store from "./user_store/store";
+
 import VeeValidate from 'vee-validate';
 
 
@@ -29,6 +30,7 @@ import VeeValidate from 'vee-validate';
 Vue.config.productionTip = false;
 Vue.use(Argon);
 Vue.use(VeeValidate);
+
 
 new Vue({
   router,

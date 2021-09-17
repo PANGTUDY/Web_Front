@@ -37,21 +37,24 @@
                             <div class="text-center text-muted mb-4">
                                 <small>Or sign up with credentials</small>
                             </div>
-                            <form role="form">
+                            <form role="form" @submit.prevent="register">
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Name"
-                                            addon-left-icon="ni ni-hat-3">
+                                            addon-left-icon="ni ni-hat-3"
+                                            v-model="name">
                                 </base-input>
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Email"
-                                            addon-left-icon="ni ni-email-83">
+                                            addon-left-icon="ni ni-email-83"
+                                            v-model="email">
                                 </base-input>
                                 <base-input alternative
                                             type="password"
                                             placeholder="Password"
-                                            addon-left-icon="ni ni-lock-circle-open">
+                                            addon-left-icon="ni ni-lock-circle-open"
+                                            v-model="password">
                                 </base-input>
                                 <div class="text-muted font-italic">
                                     <small>password strength:
@@ -64,7 +67,7 @@
                                     </span>
                                 </base-checkbox>
                                 <div class="text-center">
-                                    <base-button type="primary" class="my-4">Create account</base-button>
+                                    <base-button btn_type="primary" class="my-4" type="submit">Create account</base-button>
                                 </div>
                             </form>
                         </template>
@@ -75,7 +78,26 @@
     </section>
 </template>
 <script>
-export default {};
+export default {
+    data(){
+        return {
+            name:'',
+            email:'',
+            password:''
+        }
+    },
+    methods:{
+        register(){
+            this.$store.dispatch('register',{
+                name: this.name,
+                email: this.email,
+                password: this.password,
+            }).then(()=>{
+                this.$router.push({name:'components'})
+            })
+        }
+    }
+};
 </script>
 <style>
 </style>
