@@ -2,8 +2,8 @@
   <header class="header-global">
     <div style="position: relative">
       <base-nav type="honeydew" effect="light" expand>
-      <img src="../../public/img/icons/common/pangtudy_logo.jpg.png" width="30px" height="30px"/>
-        <a class="navbar-brand"><router-link to="/">Pangtudy</router-link></a>
+      <img src="../../public/img/icons/common/pangtudy_logo.jpg.png" width="40px" height="40px"/>
+        <a class="navbar-brand">Pangtudy</a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
           <div class="col-6 collapse-brand">
@@ -25,10 +25,9 @@
             <a class="nav-link nav-link-icon" href="#">Meet</a>
           </li>
           <li class="nav-item">
-            <img src="../../public/img/icons/common/calendar.png" width="20px" height="20px"/>
-            <a class="nav-link nav-link-icon" href="#">Calendar</a>
+            <a class="nav-link nav-link-icon" href="#">Board</a>
           </li>
-          <base-dropdown tag="li" title="Settings" img src="../../public/img/icons/common/settings.png">
+          <base-dropdown tag="li" title="Settings">
           
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
@@ -54,9 +53,10 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 li{
   display:flex;
 } 
+
 /* 수정보완필요 */
 </style>
