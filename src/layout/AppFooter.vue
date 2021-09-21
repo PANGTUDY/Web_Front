@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer has-cards">
+    <footer class="footer nav-footer">
         <div class="container">
             <hr>
             <div class="row align-items-center justify-content-md-between">
