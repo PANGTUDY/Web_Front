@@ -19,6 +19,9 @@
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link nav-link-icon"><router-link to="/register">Register</router-link></a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link nav-link-icon"><router-link to="/profile">Profile</router-link></a>
           </li>
           <li class="nav-item">

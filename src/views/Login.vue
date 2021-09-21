@@ -37,14 +37,14 @@
                             <div class="text-center text-muted mb-4">
                                 <small>Or sign in with credentials</small>
                             </div>
-                            <form v-on:submit.prevent="onSubmit">
+                            <form v-on:submit.prevent="login">
                                 <base-input alternative
                                             class="mb-3"
                                             name="email"
                                             v-validate="'required|email'" 
                                             data-vv-as="email"
                                             placeholder="Email"
-                                            v-model="uid"
+                                            v-model="email"
                                             addon-left-icon="ni ni-email-83">
                                 </base-input>
                                 <p class="error" v-show="errors.has('email')">
@@ -65,7 +65,7 @@
                                 <base-checkbox>
                                     Remember me
                                 </base-checkbox>
-                                <div class="aler-danger" v-if="errorState">
+                                <div class="aler-danger">
                                     <p></p>
                                 </div>
                                 <div class="text-center">
@@ -81,8 +81,9 @@
                             </a>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="#" class="text-light">
+                            <a class="text-light"><router-link to="/register">
                                 <small>Create new account</small>
+                                </router-link>
                             </a>
                         </div>
                     </div>
@@ -98,39 +99,22 @@ export default {
     name:'Login',
     data(){
         return {
-            uid:'',
+            email:'',
             password:''
         }
     },
-    methods:{
-        ...mapActions(['login']),
-        async onSubmit(){
-            this.$validator.validateAll() // validation check
-            if(!this.errors.any()){ // 아무 문제 없으면 아래 코드 실행 
-            try{
-                
-                let loginResult = await this.login({uid:this.uid,password:this.password})
-                console.log(loginResult)
-                if(loginResult) this.goToPages()
-            }catch(err){
-                console.error(err)
-            }
-            }else{
-                console.log('validate err')
-            }
-        },
-        goToPages(){
-            this.$router.push({
-                name:'success'
-            })
-        }
-    },
-    computed:{
-        ...mapGetters({
-            errorState:'getErrorState'
-        })
-    } 
-
+   methods:{
+       login(){
+           this.$store.dispatch('login',{
+               email:this.email,
+               password:this.password
+           })
+           .then(()=>{
+               this.$router.push({name:'components'})
+           })
+       }
+   }
+ 
 
 };
 </script>
