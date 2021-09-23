@@ -15,13 +15,16 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!loggedIn"> 
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!loggedIn">
             <a class="nav-link nav-link-icon"><router-link to="/register">Register</router-link></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-else>
+            <a class="nav-link nav-link-icon" @click="logout">Logout</a>
+          </li>
+          <li class="nav-item" v-if="loggedIn">
             <a class="nav-link nav-link-icon"><router-link to="/profile">Profile</router-link></a>
           </li>
           <li class="nav-item">
@@ -47,6 +50,7 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import {authComputed} from "../user_store/helper.js";
 
 export default {
   components: {
@@ -54,6 +58,15 @@ export default {
     CloseButton,
     BaseDropdown,
   },
+  computed:{
+    ...authComputed
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch('logout')
+    }
+ 
+  }
 };
 </script>
 <style scoped>
