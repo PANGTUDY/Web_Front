@@ -41,14 +41,17 @@
                                 <base-input alternative
                                             class="mb-3"
                                             name="email"
-                                            v-validate="'required|email'" 
+                                            v-validate="'email'"
+                                            v-istrue = "'required'" 
                                             data-vv-as="email"
                                             placeholder="Email"
                                             v-model="email"
                                             addon-left-icon="ni ni-email-83">
                                 </base-input>
+                                <p v-if="errorBag.email">{{errorBag.email[0]}}</p>
                                 <p class="error" v-show="errors.has('email')">
                                     {{errors.first('email')}}
+                                    {{errorBag}}
                                 </p>
                                 <base-input alternative
                                             type="password"
@@ -94,17 +97,28 @@
 </template>
 <script>
 import {mapActions,mapGetters} from 'vuex'
-
+import validator from './mixin/validator'
+import directives from './mixin/myDirectives'
 export default {
+    directives,
     name:'Login',
     data(){
         return {
             email:'',
-            password:''
+            password:'',
+            errorBag:{}
         }
     },
    methods:{
        login(){
+           const erors = validator.validate("email",this.email)
+
+           if(errors){
+               this.$set(this.errorBag,"email",errors)
+           }else{
+               this.$delete(this.errorBag,"email")
+           }
+
            this.$store.dispatch('login',{
                email:this.email,
                password:this.password

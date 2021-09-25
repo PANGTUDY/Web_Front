@@ -67,6 +67,9 @@
                                     </span>
                                 </base-checkbox>
                                 <div class="text-center">
+                                    <span class="text-success font-weight-700"><router-link to="/login">Already have an account? Login</router-link></span>
+                                </div>
+                                <div class="text-center">
                                     <base-button btn_type="primary" class="my-4" type="submit">Create account</base-button>
                                 </div>
                             </form>

@@ -12,11 +12,8 @@ import { Store } from "vuex";
 
 Vue.use(Router);
 
-const requireAuth = ()=> (from,to,next) =>{
-  if(Store.getters.getIsAuth) return next()
-  next('/')
-}
-export default new Router({
+
+const router = new Router({
   linkExactActiveClass: "active",
   mode:'history',
   routes: [
@@ -63,6 +60,9 @@ export default new Router({
         header: AppHeader,
         default: Profile,
         footer: AppFooter
+      },
+      meta:{
+        requiresAuth: true
       }
     },
     {
@@ -72,15 +72,19 @@ export default new Router({
         header:AppHeader,
         default:Success,
         footer:AppFooter,
-        beforeEnter: requireAuth() // success에 진입하기전에 requireAuth 함수를 실행
+       
       }
     }
   ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
-  }
 });
+router.beforeEach((to,from,next)=>{
+  const loggedIn = localStorage.getItem('user')
+
+  console.log(to);
+  if(to.matched.some(record=>record.meta.requiresAuth)&&!loggedIn){
+    next('/')
+  }
+  next()
+});
+
+export default router
