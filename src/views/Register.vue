@@ -38,21 +38,40 @@
                                 <small>Or sign up with credentials</small>
                             </div>
                             <form role="form" @submit.prevent="register">
+                                <label class="ni ni-hat-3" for="name"> name</label>
                                 <base-input alternative
                                             class="mb-3"
-                                            placeholder="Name"
-                                            addon-left-icon="ni ni-hat-3"
+                                            placeholder="name "
                                             v-model="name">
                                 </base-input>
+                                 <label class="ni ni-email-83" for="email"> email</label>
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Email"
-                                            addon-left-icon="ni ni-email-83"
                                             v-model="email">
                                 </base-input>
+                                <label class="fa fa-check" for="email"> confirm email</label>
+                                <span id="onlyemail">
+                                  <base-input alternative
+                                            class="mb-3 loose"
+                                            placeholder="Email 인증"
+                                            v-model="email">
+                                </base-input>
+                                <div>
+                                    <base-button btn_type="primary" class="my-4" type="submit">인증번호 전송</base-button>
+                                </div>
+                                </span>
+                                <label class="ni ni-lock-circle-open" for="password"> password</label>
                                 <base-input alternative
                                             type="password"
                                             placeholder="Password"
+                                            addon-left-icon="ni ni-lock-circle-open"
+                                            v-model="password">
+                                </base-input>
+                                <label class="fa fa-check" for="password">confirm password</label>
+                                <base-input alternative
+                                            type="password"
+                                            placeholder="Password 재확인"
                                             addon-left-icon="ni ni-lock-circle-open"
                                             v-model="password">
                                 </base-input>
@@ -103,4 +122,13 @@ export default {
 };
 </script>
 <style>
+#onlyemail{
+    display:flex;
+    flex-wrap:wrap;
+    height:80%;
+    
+}
+.loose{
+    width: 70%;
+}
 </style>
