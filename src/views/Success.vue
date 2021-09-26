@@ -1,6 +1,6 @@
 <template>
     <section class="section section-shaped section-lg my-0">
-        <div class="shape shape-style-1 bg-gradient-primary">
+        <div class="shape shape-style-1 bg-gradient-default">
             <span></span>
             <span></span>
             <span></span>
@@ -19,62 +19,43 @@
                           class="border-0">
                         <template>
                             <div class="text-muted text-center mb-3">
-                                <small>Sign in with</small>
+                                <small>로그인이 완료되었습니다</small>
                             </div>
                             <div class="btn-wrapper text-center">
-                                <base-button type="neutral">
-                                    <img slot="icon" src="img/icons/common/github.svg">
-                                    Github
+                                <base-button type="neutral" @click="goToPages">
+                                    <img slot="icon" src="img/icons/common/pangtudy_logo.jpg.png">
+                                    메인으로 가기
                                 </base-button>
 
                                 <base-button type="neutral">
-                                    <img slot="icon" src="img/icons/common/google.svg">
-                                    Google
+                                    로그아웃하기
                                 </base-button>
                             </div>
                         </template>
                         <template>
                             <div class="text-center text-muted mb-4">
-                                <small>Or sign in with credentials</small>
+                                <small>Successful signIn</small>
                             </div>
-                            <form v-on:submit.prevent="login">
+                            <!-- <form role="form" @submit="onSubmit">
                                 <base-input alternative
                                             class="mb-3"
-                                            name="email"
-                                            v-validate="'email'"
-                                            v-istrue = "'required'" 
-                                            data-vv-as="email"
                                             placeholder="Email"
-                                            v-model="email"
+                                            v-model="uid"
                                             addon-left-icon="ni ni-email-83">
                                 </base-input>
-                                <p v-if="errorBag.email">{{errorBag.email[0]}}</p>
-                                <p class="error" v-show="errors.has('email')">
-                                    {{errors.first('email')}}
-                                    {{errorBag}}
-                                </p>
                                 <base-input alternative
                                             type="password"
-                                            name="password"
-                                            data-vv-as="password"
                                             placeholder="Password"
-                                            v-validate="'numeric'"
                                             v-model="password"
                                             addon-left-icon="ni ni-lock-circle-open">
                                 </base-input>
-                                 <p class="error" v-show="errors.has('password')">
-                                    {{errors.first('password')}}
-                                </p>
                                 <base-checkbox>
                                     Remember me
                                 </base-checkbox>
-                                <div class="aler-danger">
-                                    <p></p>
-                                </div>
                                 <div class="text-center">
-                                    <base-button btn_type="primary" class="my-4" type="submit">login</base-button>
+                                    <base-button btn_type="primary" class="my-4" type="submit">로그인</base-button>
                                 </div>
-                            </form>
+                            </form> -->
                         </template>
                     </card>
                     <div class="row mt-3">
@@ -84,9 +65,8 @@
                             </a>
                         </div>
                         <div class="col-6 text-right">
-                            <a class="text-light"><router-link to="/register">
+                            <a href="#" class="text-light">
                                 <small>Create new account</small>
-                                </router-link>
                             </a>
                         </div>
                     </div>
@@ -96,47 +76,19 @@
     </section>
 </template>
 <script>
-import {mapActions,mapGetters} from 'vuex'
-import validator from './mixin/validator'
-import directives from './mixin/myDirectives'
+import {mapActions} from 'vuex'
 export default {
-    directives,
-    name:'Login',
-    data(){
-        return {
-            email:'',
-            password:'',
-            errorBag:{}
-        }
-    },
    methods:{
-       login(){
-           const erors = validator.validate("email",this.email)
-
-           if(errors){
-               this.$set(this.errorBag,"email",errors)
-           }else{
-               this.$delete(this.errorBag,"email")
-           }
-
-           this.$store.dispatch('login',{
-               email:this.email,
-               password:this.password
-           })
-           .then(()=>{
-               this.$router.push({name:'components'})
+       goToPages(){
+           this.$router.push({
+               name:'components'
            })
        }
    }
- 
 
-};
+    } 
+
+
 </script>
 <style>
-.alert-danger p{
-    color:red;
-}
-.error{
-    color:red;
-}
 </style>

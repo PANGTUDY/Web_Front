@@ -7,11 +7,15 @@ import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
+import Success from "./views/Success.vue";
+import { Store } from "vuex";
 
 Vue.use(Router);
 
-export default new Router({
+
+const router = new Router({
   linkExactActiveClass: "active",
+  mode:'history',
   routes: [
     {
       path: "/",
@@ -56,14 +60,31 @@ export default new Router({
         header: AppHeader,
         default: Profile,
         footer: AppFooter
+      },
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/success", // 로그인 완료
+      name:"success",
+      components:{
+        header:AppHeader,
+        default:Success,
+        footer:AppFooter,
+       
       }
     }
   ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
-  }
 });
+router.beforeEach((to,from,next)=>{
+  const loggedIn = localStorage.getItem('user')
+
+  console.log(to);
+  if(to.matched.some(record=>record.meta.requiresAuth)&&!loggedIn){
+    next('/')
+  }
+  next()
+});
+
+export default router
