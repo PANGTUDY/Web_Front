@@ -55,10 +55,10 @@
                                   <base-input alternative
                                             class="mb-3 loose"
                                             placeholder="Email 인증"
-                                            v-model="email">
+                                            v-model="email_confirm">
                                 </base-input>
                                 <div>
-                                    <base-button btn_type="primary" class="my-4" type="submit">인증번호 전송</base-button>
+                                    <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
                                 </div>
                                 </span>
                                 <label class="ni ni-lock-circle-open" for="password"> password</label>
@@ -73,7 +73,7 @@
                                             type="password"
                                             placeholder="Password 재확인"
                                             addon-left-icon="ni ni-lock-circle-open"
-                                            v-model="password">
+                                            v-model="password_confirm">
                                 </base-input>
                                 <div class="text-muted font-italic">
                                     <small>password strength:
@@ -105,7 +105,9 @@ export default {
         return {
             name:'',
             email:'',
-            password:''
+            password:'',
+            email_confirm:'',
+            password_confirm:''
         }
     },
     methods:{
@@ -130,5 +132,11 @@ export default {
 }
 .loose{
     width: 70%;
+    height:40%;
+}
+.reform{
+    margin-left:10px;
+    background-color:rgb(18, 17, 41);
+    color:white;
 }
 </style>
