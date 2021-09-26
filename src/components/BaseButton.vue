@@ -27,7 +27,7 @@ export default {
       default: "button",
       description: "Button tag (default -> button)"
     },
-    type: {
+    btn_type: {
       type: String,
       default: "default",
       description: "Button type (e,g primary, danger etc)"

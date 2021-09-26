@@ -11,7 +11,7 @@
                 <span></span>
             </div>
         </section>
-        <section class="section section-skew">
+        <section class="section section-skew" v-if="!isLoading">
             <div class="container">
                 <card shadow class="card-profile mt--300" no-body>
                     <div class="px-4">
@@ -31,18 +31,7 @@
                             </div>
                             <div class="col-lg-4 order-lg-1">
                                 <div class="card-profile-stats d-flex justify-content-center">
-                                    <div>
-                                        <span class="heading">22</span>
-                                        <span class="description">Friends</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">10</span>
-                                        <span class="description">Photos</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">89</span>
-                                        <span class="description">Comments</span>
-                                    </div>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -57,8 +46,8 @@
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
-                                    <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</p>
-                                    <a href="#">Show more</a>
+                                    <base-button type="info" size="sm" class="mr-4">회원탈퇴</base-button>
+                                    <base-button type="info" size="sm" class="mr-4">저장</base-button>
                                 </div>
                             </div>
                         </div>
@@ -66,10 +55,26 @@
                 </card>
             </div>
         </section>
+        <section class="section section-skew" v-else>
+            <p>Loading events</p>
+        </section>
     </div>
 </template>
 <script>
-export default {};
+import axios from 'axios';
+export default {
+    data(){
+        return {
+            isLoading: true
+        }
+    },
+    created(){
+        axios.get("//localhost:3000/profile").then(({data})=>{
+            this.events = data.events.events;
+            this.loading =  false;
+        })
+    }
+};
 </script>
 <style>
 </style>
