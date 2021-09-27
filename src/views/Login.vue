@@ -106,25 +106,19 @@ export default {
         return {
             email:'',
             password:'',
+
             errorBag:{}
         }
     },
    methods:{
        login(){
-           const erors = validator.validate("password",this.email)
-
-           if(errors){
-               this.$set(this.errorBag,"password",errors)
-           }else{
-               this.$delete(this.errorBag,"password")
-           }
-
            this.$store.dispatch('login',{
                email:this.email,
                password:this.password
            })
            .then(()=>{
-               this.$router.push({name:'components'})
+               this.$router.push({name:'profile'})
+               
            })
        }
    }

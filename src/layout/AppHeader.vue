@@ -21,7 +21,7 @@
           <li class="nav-item" v-if="!loggedIn">
             <a class="nav-link nav-link-icon"><router-link to="/register">Register</router-link></a>
           </li>
-          <li class="nav-item" v-else>
+          <li class="nav-item" v-if="loggedIn">
             <a class="nav-link nav-link-icon" @click="logout">Logout</a>
           </li>
           <li class="nav-item" v-if="loggedIn">

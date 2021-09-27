@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <template v-if="!isLoading">
-        <div class="profile-page">
+  <div class="profile-page">
         <section class="section-profile-cover section-shaped my-0">
             <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
                 <span></span>
@@ -39,10 +37,10 @@
                         </div>
                         <div class="text-center mt-5">
                             <h3>
-                                <span class="font-weight-light">{{events.name}}</span>
+                                <span class="font-weight-light">{{event.name}}</span>
                             </h3>
-                            <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>{{events.email}}</div>
-                            <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>{{events.date}}</div>
+                            <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>{{event.time}}</div>
+                            <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>{{event.date}}</div>
                             <div><i class="ni education_hat mr-2"></i>University of Computer Science</div>
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
@@ -58,33 +56,23 @@
             </div>
         </section>
         </div>
-        </template>
-        <section class="section section-skew" v-else>
-            <p>Loading events</p>
-        </section>
-    </div>
 </template>
+
 <script>
-import axios from 'axios';
-import { mapState } from 'vuex';
-
-
 export default {
-    data(){
-        return {
-            isLoading: true,
-            events:''
-        };
-    },
-    created(){
-        axios.get('//localhost:3000/profile').then(({data})=>{
-            this.events = data.events.events
-           
-            this.isLoading =  false;
-            console.log(this.events);
-        },);
-    },
-};
+    name:"EventCard",
+    props:{
+        event:{
+            type:Object,
+            default:()=>{
+                return{};
+            }
+        }
+    }
+
+}
 </script>
+
 <style>
+
 </style>
