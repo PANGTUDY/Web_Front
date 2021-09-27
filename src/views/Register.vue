@@ -38,19 +38,37 @@
                                 <small>Or sign up with credentials</small>
                             </div>
                             <form role="form" @submit.prevent="register">
+                                <div id="column">
+                                <label for="name">name</label>
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Name"
                                             addon-left-icon="ni ni-hat-3"
                                             v-model="name">
                                 </base-input>
+                                </div>
+                                <label for="email">email</label>
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Email"
                                             addon-left-icon="ni ni-email-83"
                                             v-model="email">
                                 </base-input>
+                                <label for="email">email 인증</label>
+                                 <base-input alternative
+                                            class="mb-3"
+                                            placeholder="Email을 다시 입력해주세요."
+                                            addon-left-icon="ni ni-email-83"
+                                            v-model="email">
+                                </base-input>
+                                 <label for="email">비밀번호</label>
                                 <base-input alternative
+                                            type="password"
+                                            placeholder="Password"
+                                            addon-left-icon="ni ni-lock-circle-open"
+                                            v-model="password">
+                                </base-input>
+                                 <base-input alternative
                                             type="password"
                                             placeholder="Password"
                                             addon-left-icon="ni ni-lock-circle-open"
@@ -103,4 +121,7 @@ export default {
 };
 </script>
 <style>
+.column{
+    display:inline-block;
+}
 </style>
