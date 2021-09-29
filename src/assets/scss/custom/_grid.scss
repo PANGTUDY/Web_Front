@@ -1,5 +1,7 @@
 @include media-breakpoint-up(lg) {
 	.container-lg {
-		max-width: 1160px;
+		align-items: center;
+		align-content: center;
+		max-width: 1140px;
 	}
 }

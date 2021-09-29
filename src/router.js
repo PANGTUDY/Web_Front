@@ -10,6 +10,8 @@ import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
 import { Store } from "vuex";
 
+import SearchList from "./views/components/board/SearchList.vue";
+
 Vue.use(Router);
 
 
@@ -73,6 +75,15 @@ const router = new Router({
         default:Success,
         footer:AppFooter,
        
+      }
+    },
+    {
+      path: "/searchList",
+      name: "searchList",
+      components: {
+        header: AppHeader,
+        default: SearchList,
+        footer: AppFooter
       }
     }
   ],

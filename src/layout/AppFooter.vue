@@ -1,7 +1,7 @@
 <template>
     <footer class="footer nav-footer">
         <div class="container">
-            <hr>
+            <hr style="margin: 1rem;">
             <div class="row align-items-center justify-content-md-between">
                 <div class="col-md-12">
                     <div class="copyright">
