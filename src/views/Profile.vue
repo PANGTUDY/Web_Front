@@ -21,7 +21,9 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                        <img v-lazy="'img/theme/team-4-800x800.jpg'" class="rounded-circle">
+                                        <img v-lazy-image src="../../public/img/icons/common/account.png" class="rounded-circle">
+                                        <input @change='onInputImage()' ref="serveyImage" type="file">
+                                        <base-button type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
                                     </a>
                                 </div>
                             </div>
@@ -39,10 +41,10 @@
                         </div>
                         <div class="text-center mt-5">
                             <h3>
-                                <span class="font-weight-light">{{events.name}}</span>
+                                <span class="font-weight-light">{{events[0].name}}</span>
                             </h3>
-                            <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>{{events.email}}</div>
-                            <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>{{events.date}}</div>
+                            <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>{{events[0].email}}</div>
+                            <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>{{events[0].date}}</div>
                             <div><i class="ni education_hat mr-2"></i>University of Computer Science</div>
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
@@ -87,4 +89,8 @@ export default {
 };
 </script>
 <style>
+.reset{
+    margin-left:220px;
+    margin-top:100px;
+}
 </style>
