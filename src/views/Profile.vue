@@ -21,7 +21,10 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                    
+                                        <img  v-if="url" v-lazy-image :src="url" class="rounded-circle">
+                                        <img  v-else v-lazy-image src="../../public/img/icons/common/account.png" class="rounded-circle">
+                                        <input type="file" @change="onImageUpload"/>
+                                        <base-button type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
                                     </a>
                                 </div>
                             </div>
@@ -38,12 +41,32 @@
                             </div>
                         </div>
                         <div class="text-center mt-5">
-                            <h3>
-                                <span class="font-weight-light">{{events[0].name}}</span>
-                            </h3>
-                            <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>{{events[0].email}}</div>
-                            <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>{{events[0].date}}</div>
-                            <div><i class="ni education_hat mr-2"></i>University of Computer Science</div>
+                            <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:</label>{{event[0].email}}</div>
+                               <div class="h6 font-weight-300"> 
+                                   <label class="relocation_heywon" for="email">password:</label>{{event[0].password}}
+                                    <base-button type="info" size="sm" class="mr-4">비밀번호 변경</base-button>
+                               </div>
+                            <div class="together_heywon">
+                                <label class="relocation_heywon" for="name"> name</label>
+                                <base-input alternative
+                                            class="width_heywon"
+                                            v-model="name"
+                                            :placeholder="[[event[0].name]]"
+                                            @change="func">
+                                </base-input>
+                            </div>
+                               <div class="together_heywon">
+                                <label class="relocation_heywon" for="name"> 상태메시지</label>
+                                <base-input alternative
+                                            class="width_heywon"
+                                            :placeholder="[[event[0].title]]"
+                                            v-model="title"
+                                            @change="func">
+                                            
+                                </base-input>
+                            </div>
+                              
+                            
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
@@ -73,8 +96,22 @@ export default {
     data(){
         return {
             isLoading: true,
-            event:''
+            url:null,
+            name:'',
+            event:'',
+            title:''
         };
+    },
+    methods:{
+        func:()=>{
+            if(this.name){
+                this.event.name = this.name;
+        }
+            if(this.title){
+                this.event.title = this.title;
+            }
+        },
+        
     },
     created(){
         axios.get('//localhost:3000/profile').then(({data})=>{
@@ -88,14 +125,19 @@ export default {
 };
 </script>
 <style>
-<<<<<<< HEAD
-.revalue{
-    margin-left:270px;
-    margin-top: 100px;
-=======
 .reset{
     margin-left:220px;
     margin-top:100px;
->>>>>>> 2601b0768761347bb6a77d22917480507884a91f
+}
+.width_heywon{
+    width:10%;
+}
+.together_heywon{
+    display:flex;
+    justify-content: center;
+}
+.relocation_heywon{
+    margin-top:12px;
+    margin-right: 5px;
 }
 </style>
