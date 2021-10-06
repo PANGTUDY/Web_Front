@@ -1,8 +1,10 @@
 {
-  "events": [{
+  "events": [
+    {
       "name": "박혜원",
       "email":"hw7319@naver.com",
-      "title": "Puppy Parade"
-    }]
+      "title": "Puppy"
+    }
+  ]
   
 }
