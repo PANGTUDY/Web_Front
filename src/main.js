@@ -24,6 +24,7 @@ import VueRouter from "vue-router";
 import store from "./user_store/store";
 
 import VeeValidate from 'vee-validate';
+import vuetify from './plugins/vuetify'
 
 
 
@@ -35,6 +36,7 @@ Vue.use(VeeValidate);
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount("#app");
 
