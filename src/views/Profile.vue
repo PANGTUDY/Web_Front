@@ -23,8 +23,14 @@
                                     <a href="#">
                                         <img  v-if="url" v-lazy-image :src="url" class="rounded-circle">
                                         <img  v-else v-lazy-image src="../../public/img/icons/common/account.png" class="rounded-circle">
-                                        <input type="file" @change="onImageUpload"/>
+                                        <div class="image-upload">
+                                            <div class="file-input">
+                                                
+                                                 <input type="file" @change="fileSelect()" ref='memberImage' id="mainImage" accept='image/*'/>
+                                            </div>    
                                         <base-button type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
+                                        </div>
+                                       
                                     </a>
                                 </div>
                             </div>
@@ -72,7 +78,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
                                     <base-button type="info" size="sm" class="mr-4">회원탈퇴</base-button>
-                                    <base-button type="info" size="sm" class="mr-4">저장</base-button>
+                                    <base-button type="info" size="sm" class="mr-4" v-on:click="subumit()">저장</base-button>
                                 </div>
                             </div>
                         </div>
@@ -97,6 +103,7 @@ export default {
         return {
             isLoading: true,
             url:null,
+            mainImage:'',
             name:'',
             event:'',
             title:''
@@ -111,6 +118,32 @@ export default {
                 this.event.title = this.title;
             }
         },
+        // input안의 이미지 파일 넘겨주기
+        fileSelect(){
+            this.mainImage = this.$refs.memberImage.files[0];
+        },
+        // 등록버튼 
+        submit(){
+            if(this.namve.length <= 0 || this.title.length <= 0){
+                window.alert('모든 내용을 입력하고 시도해주세요. ');
+                return false;
+            }
+
+            const formData = new formData();
+            formData.append('name',this.name);
+            formData.append('title',this.title);
+            formData.append('mainImage',this.mainImage);
+
+            axios.post("https://localhost:3000/:id",formData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((res)=>{
+                console.log(res);
+            }).catch((err)=>{
+                console.log(err);
+            });
+        }
         
     },
     created(){
@@ -138,6 +171,17 @@ export default {
 }
 .relocation_heywon{
     margin-top:12px;
-    margin-right: 5px;
+    margin-right: 0px;
+}
+.file-input{
+    margin-left:220px;
+    margin-top:100px;
+    position:absolute;
+    visibility: hidden;
+   
+}
+.image-upload{
+    position:relative;
+    
 }
 </style>
