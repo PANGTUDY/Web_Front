@@ -25,10 +25,12 @@
                                         <img  v-else v-lazy-image src="../../public/img/icons/common/account.png" class="rounded-circle">
                                         <div class="image-upload">
                                             <div class="file-input">
-                                                
-                                                 <input type="file" @change="fileSelect()" ref='memberImage' id="mainImage" accept='image/*'/>
+                                                  <label for="mainImage">
+                                                      <base-button  @click="$refs.memberImage.click()" type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
+                                                  </label>
+                                                 <input type="file" style="display:none;" @change="fileSelect()" ref="memberImage" id="mainImage" accept='image/*'/>
                                             </div>    
-                                        <base-button type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
+                                        
                                         </div>
                                        
                                     </a>
@@ -174,10 +176,10 @@ export default {
     margin-right: 0px;
 }
 .file-input{
-    margin-left:220px;
-    margin-top:100px;
+    margin-left:50px;
+    margin-top:0px;
     position:absolute;
-    visibility: hidden;
+   
    
 }
 .image-upload{
