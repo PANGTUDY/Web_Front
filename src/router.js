@@ -74,6 +74,16 @@ const router = new Router({
         footer:AppFooter,
        
       }
+      
+    },
+    {
+      path:"/pwinquriy",
+      name:"pwinquriy",
+      components:{
+        header:AppHeader,
+        default:pwinquriy,
+        footer:AppFooter,
+      }
     }
   ],
 });
