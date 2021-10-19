@@ -21,7 +21,7 @@ import router from "./router";
 import Argon from "./plugins/argon-kit";
 import './registerServiceWorker'
 import store from "./user_store/store";
-
+import lodash from 'lodash';
 import VeeValidate from 'vee-validate';
 
 
@@ -42,6 +42,7 @@ new Vue({
     }
    
   },
+  lodash,
   render: h => h(App)
 }).$mount("#app");
 

@@ -21,8 +21,9 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                        <img  v-if="url" v-lazy-image :src="url" class="rounded-circle">
-                                        <img  v-else v-lazy-image src="../../public/img/icons/common/account.png" class="rounded-circle">
+                                       <img v-if="person.src" :src="person.src" class="rounded-circle">
+                                        <img  v-else src="../../public/img/icons/common/account.png" class="rounded-circle">
+                                        
                                         <div class="image-upload">
                                             <div class="file-input">
                                                   <label for="mainImage">
@@ -104,7 +105,14 @@ export default {
     data(){
         return {
             isLoading: true,
-            url:null,
+            person:
+                {
+                    name:'',
+                    title:'',
+                    src:require('../../public/img/icons/common/happy.png')
+                },
+            
+            
             mainImage:'',
             name:'',
             event:'',
@@ -185,5 +193,8 @@ export default {
 .image-upload{
     position:relative;
     
+}
+.hide{
+    display:none;
 }
 </style>
