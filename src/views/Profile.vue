@@ -53,7 +53,7 @@
                             <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:</label>{{event[0].email}}</div>
                                <div class="h6 font-weight-300"> 
                                    <label class="relocation_heywon" for="email">password:</label>{{event[0].password}}
-                                    <base-button type="info" size="sm" class="mr-4">비밀번호 변경</base-button>
+                                    <base-button type="info" size="sm" class="mr-4" @click="pageMove">비밀번호 변경</base-button>
                                </div>
                             <div class="together_heywon">
                                 <label class="relocation_heywon" for="name"> name</label>
@@ -153,6 +153,10 @@ export default {
             }).catch((err)=>{
                 console.log(err);
             });
+        },
+        pageMove(){
+            
+            this.$router.push({path:'pwinquiry'})
         }
         
     },

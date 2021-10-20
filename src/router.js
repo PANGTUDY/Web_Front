@@ -8,6 +8,7 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
+import pwinquiry from "./views/pwinquiry.vue";
 import { Store } from "vuex";
 
 Vue.use(Router);
@@ -77,11 +78,11 @@ const router = new Router({
       
     },
     {
-      path:"/pwinquriy",
-      name:"pwinquriy",
+      path:"/pwinquiry",
+      name:"pwinquiry",
       components:{
         header:AppHeader,
-        default:pwinquriy,
+        default:pwinquiry,
         footer:AppFooter,
       }
     }

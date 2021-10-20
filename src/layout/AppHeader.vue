@@ -35,7 +35,7 @@
           </li>
           <base-dropdown tag="li" title="Settings">
           
-            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">권한관리</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
