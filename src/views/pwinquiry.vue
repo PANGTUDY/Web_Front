@@ -37,12 +37,16 @@
                                <div class="h6 font-weight-300"> 
                                 <label class="ni ni-lock-circle-open custom-password" for="confirm_password">현재 password</label>
                                 <div class="custom-layout">
-                                <base-input alternative
+                                <Validation-provider rules="required" v-slot="{errors}">
+                                 <base-input alternative
                                             type="password"
                                             placeholder="Password"
                                             addon-left-icon="ni ni-lock-circle-open"
                                             v-model="password">
-                                </base-input>
+                                </base-input>   
+                                <span>{{errors[0]}}</span>
+                                </Validation-provider>"
+                                
                                 </div>
                                 <label class="ni ni-lock-circle-open custom-password" for="confirm_password">새로운 password</label>
                                     <div class="custom-layout">
