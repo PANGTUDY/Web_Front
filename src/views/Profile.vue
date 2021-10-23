@@ -80,7 +80,7 @@
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
-                                    <base-button type="info" size="sm" class="mr-4">회원탈퇴</base-button>
+                                    <base-button type="info" size="sm" class="mr-4" @click="memberReset()">회원탈퇴</base-button>
                                     <base-button type="info" size="sm" class="mr-4" v-on:click="subumit()">저장</base-button>
                                 </div>
                             </div>
@@ -153,6 +153,9 @@ export default {
             }).catch((err)=>{
                 console.log(err);
             });
+        },
+        memberReset(){
+            this.$router.push({path:'delete'})
         },
         pageMove(){
             

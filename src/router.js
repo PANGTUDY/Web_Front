@@ -1,4 +1,4 @@
-import Vue from "vue";
+import vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
@@ -9,9 +9,10 @@ import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
 import pwinquiry from "./views/pwinquiry.vue";
+import Delete from "./views/delete.vue";
 import { Store } from "vuex";
 
-Vue.use(Router);
+vue.use(Router);
 
 
 const router = new Router({
@@ -83,6 +84,15 @@ const router = new Router({
       components:{
         header:AppHeader,
         default:pwinquiry,
+        footer:AppFooter,
+      }
+    },
+    {
+      path:"/delete",
+      name:"delete",
+      components:{
+        header:AppHeader,
+        default:Delete,
         footer:AppFooter,
       }
     }
