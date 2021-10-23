@@ -22,14 +22,26 @@ import Argon from "./plugins/argon-kit";
 import './registerServiceWorker'
 import store from "./user_store/store";
 import lodash from 'lodash';
-import VeeValidate from 'vee-validate';
-
+import VeeValidate, { ValidationObserver } from 'vee-validate';
+import {ValidationProvider, extend} from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+// veevalidate 설치 
 
 
 Vue.config.productionTip = false;
 Vue.use(Argon);
 Vue.use(VeeValidate);
 
+//veevalidate와 관련하여 모든 rule을 쓰겠다 
+
+  extend("required",{
+    ...required,
+    message:"필수 입력항목입니다.",
+  });
+
+
+Vue.component("ValidationProvider",ValidationProvider);
+Vue.component("ValidationObserver",ValidationObserver);
 
 new Vue({
   router,
