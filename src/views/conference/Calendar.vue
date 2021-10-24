@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-9">
-                <el-calendar v-model="selectDate">
+                <el-calendar v-model="select_date">
                     <template slot="dateCell" slot-scope="{date, data}">
                         <div>
                             <p :class="data.isSelected ? 'is-selected' : ''" >
@@ -18,15 +18,9 @@
                 </div>
             
                 <el-card shadow="never">
-                   <el-row>
-                       <el-col :span="24"><div class="grid-content bg-purple-light">Contents 1</div></el-col>
-                   </el-row>
-                   <el-row>
-                       <el-col :span="24"><div class="grid-content bg-purple-light">Contents 2</div></el-col>
-                   </el-row>
-                   <el-row>
-                       <el-col :span="24"><div class="grid-content bg-purple-light">Contents 3</div></el-col>
-                   </el-row>
+                    <el-row v-for="item in this.calendar[this.year + '-' + this.month + '-' + this.day]" :key="item.id">
+                        <el-col :span="24"><div class="grid-content bg-purple-light">{{ item.comment }}</div></el-col>
+                    </el-row>
                 </el-card>
             </div>
         </div>
@@ -34,28 +28,39 @@
 </template>
 
 <script>
+    import * as Api from "@/api/conference.js";
     export default {
         data() {
             return {
-                selectDate: new Date(),
+                select_date: new Date(),
                 count: 10
             }
         },
         computed: {
             year() {
-                return this.selectDate.getFullYear();
+                return this.select_date.getFullYear();
             },
             month() {
-                return this.selectDate.getMonth();
+                return this.select_date.getMonth();
             },
             day() {
-                return this.selectDate.getDate();
+                return this.select_date.getDate();
+            },
+            calendar() {
+                return this.$store.state.calendar;
             }
         },
         methods: {
             test(data, date) {
                 alert(data + "\n" + date);
+                console.log(this.calendar);
+                console.log(this.selectDate);
             }
+        },
+        mounted() {
+            this.$store.dispatch("load_calendar", 2021);
+            var source = new EventSource("http://localhost:10831/calendar/schedules/sse");
+            source.onmessage = (event) => { console.log(event); }
         }
     }
 </script>
