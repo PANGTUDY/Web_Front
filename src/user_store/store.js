@@ -38,6 +38,11 @@ export default new Vuex.Store({
             });
             console.log(state.calendar);
             state.current_year = payload.year;
+        },
+        UPDATE_CALENDAR(state, payload) {
+           var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
+           var update_id = state.calendar[date].findIndex(schedule => schedule.id === payload.schedule.id);
+           state.calendar[date][update_id] = payload.schedule;
         }
         
     },
@@ -61,6 +66,13 @@ export default new Vuex.Store({
         async load_calendar({ commit }, year) {
             const calendar = await Api.get_calendar(year);
             commit("LOAD_CALENDAR", { year: year, calendar: calendar.data });
+        },
+        call_calendar_event({commit}, event_data) {
+            switch (event_data.type) {
+                case 'MODIFY':
+                    commit('UPDATE_CALENDAR', { schedule: event_data.schedule });
+                    break;
+            }
         }
     }
     
