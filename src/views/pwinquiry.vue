@@ -37,25 +37,29 @@
                                <div class="h6 font-weight-300"> 
                                 <label class="ni ni-lock-circle-open custom-password" for="confirm_password">현재 password</label>
                                 <div class="custom-layout">
-                                <Validation-provider rules="required" v-slot="{errors}">
+                                
                                  <base-input alternative
                                             type="password"
                                             placeholder="Password"
                                             addon-left-icon="ni ni-lock-circle-open"
-                                            v-model="password">
+                                            
+                                            name="password">
                                 </base-input>   
-                                <span>{{errors[0]}}</span>
-                                </Validation-provider>"
+                                
+                                
                                 
                                 </div>
                                 <label class="ni ni-lock-circle-open custom-password" for="confirm_password">새로운 password</label>
                                     <div class="custom-layout">
                                     <base-input alternative
                                                 type="password"
+                                                v-validate="'required|password|max:3'"
                                                 placeholder="Password"
                                                 addon-left-icon="ni ni-lock-circle-open"
+                                                name="password"
                                                 v-model="password">
                                     </base-input>
+                                    <span v-show="errors.has('password')">{{errors.first('password')}}</span>
                                     </div>
                                     <label class="fa fa-check custom-password" for="password">새로운 password 확인</label>
                                     <div class="custom-layout">
@@ -63,7 +67,7 @@
                                                 type="password"
                                                 placeholder="Password 재확인"
                                                 addon-left-icon="ni ni-lock-circle-open"
-                                                v-model="password_confirm">
+                                               >
                                     </base-input>
                                     </div>
                                     <div class="text-muted font-italic">
@@ -78,7 +82,7 @@
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
-                                    <base-button type="info" size="sm" class="mr-4">수정</base-button>
+                                    <base-button btn-type="info" size="sm" class="mr-4"  type="submit" @click="save">수정</base-button>
                                 </div>
                             </div>
                         </div>
@@ -102,47 +106,18 @@ export default {
     data(){
         return {
             isLoading: true,
-            password:'',
-            password_confirm:''
+            password:''
             
         };
     },
     methods:{
-        func:()=>{
-            if(this.name){
-                this.event.name = this.name;
-        }
-            if(this.title){
-                this.event.title = this.title;
-            }
-        },
-        // input안의 이미지 파일 넘겨주기
-        fileSelect(){
-            this.mainImage = this.$refs.memberImage.files[0];
-        },
-        // 등록버튼 
-        submit(){
-            if(this.namve.length <= 0 || this.title.length <= 0){
-                window.alert('모든 내용을 입력하고 시도해주세요. ');
-                return false;
-            }
+      save(){
+          this.$validator.validateAll().then(success=>{
+              if(success){
 
-            const formData = new formData();
-            formData.append('name',this.name);
-            formData.append('title',this.title);
-            formData.append('mainImage',this.mainImage);
-
-            axios.post("https://localhost:3000/:id",formData,{
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res)=>{
-                console.log(res);
-            }).catch((err)=>{
-                console.log(err);
-            });
-        }
-        
+              }
+          })
+      }
     },
     created(){
         axios.get('//localhost:3000/profile').then(({data})=>{

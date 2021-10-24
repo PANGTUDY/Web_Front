@@ -188,15 +188,15 @@ export default {
     top:-500px;
 }
 .heywon-title{
-    font-size:20px;
-    color:red;
+    font-size:22px;
+    color:white;
     position:relative;
-    top:30px;
+    top:50px;
     left:20%;
 }
 .card{
     position:relative;
-    top:30%;
+    top:20%;
     
 }
 .heywon-theme{

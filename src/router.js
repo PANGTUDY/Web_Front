@@ -10,6 +10,7 @@ import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
 import pwinquiry from "./views/pwinquiry.vue";
 import Delete from "./views/delete.vue";
+import practice from "./views/practice.vue";
 import { Store } from "vuex";
 
 vue.use(Router);
@@ -93,6 +94,15 @@ const router = new Router({
       components:{
         header:AppHeader,
         default:Delete,
+        footer:AppFooter,
+      }
+    },
+    {
+      path:"/practice",
+      name:"practice",
+      components:{
+        header:AppHeader,
+        default: practice,
         footer:AppFooter,
       }
     }
