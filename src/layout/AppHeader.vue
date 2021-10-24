@@ -21,7 +21,7 @@
           <li class="nav-item" v-if="!loggedIn">
             <a class="nav-link nav-link-icon"><router-link to="/register">Register</router-link></a>
           </li>
-          <li class="nav-item" v-if="loggedIn">
+          <li class="nav-item" v-else>
             <a class="nav-link nav-link-icon" @click="logout">Logout</a>
           </li>
           <li class="nav-item" v-if="loggedIn">
@@ -31,11 +31,11 @@
             <a class="nav-link nav-link-icon" href="#">Meet</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#">Board</a>
+            <a class="nav-link nav-link-icon" href="#"><router-link to="/searchList">Board</router-link></a>
           </li>
           <base-dropdown tag="li" title="Settings">
           
-            <a class="dropdown-item" href="#">권한관리</a>
+            <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
