@@ -1,4 +1,4 @@
-import Vue from "vue";
+import vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
@@ -8,8 +8,10 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
+import pwinquiry from "./views/pwinquiry.vue";
+import Delete from "./views/delete.vue";
+import practice from "./views/practice.vue";
 import { Store } from "vuex";
-
 import SearchList from "./views/components/board/SearchList.vue";
 
 Vue.use(Router);
@@ -76,6 +78,32 @@ const router = new Router({
         footer:AppFooter,
        
       }
+    },
+    {
+      path:"/pwinquiry",
+      name:"pwinquiry",
+      components:{
+        header:AppHeader,
+        default:pwinquiry,
+        footer:AppFooter,
+      }
+    },
+    {
+      path:"/delete",
+      name:"delete",
+      components:{
+        header:AppHeader,
+        default:Delete,
+        footer:AppFooter,
+      }
+    },
+    {
+      path:"/practice",
+      name:"practice",
+      components:{
+        header:AppHeader,
+        default: practice,
+        footer:AppFooter,
     },
     {
       path: "/searchList",

@@ -41,14 +41,12 @@
                                 <base-input alternative
                                             class="mb-3"
                                             name="email"
-                                            v-validate="'email'"
-                                            v-istrue = "'required'" 
+                                            v-validate="'email'" 
                                             data-vv-as="email"
                                             placeholder="Email"
                                             v-model="email"
                                             addon-left-icon="ni ni-email-83">
                                 </base-input>
-                                <p v-if="errorBag.email">{{errorBag.email[0]}}</p>
                                 <p class="error" v-show="errors.has('email')">
                                     {{errors.first('email')}}
                                     {{errorBag}}
@@ -57,14 +55,16 @@
                                             type="password"
                                             name="password"
                                             data-vv-as="password"
+                                            v-istrue = "'required'"
                                             placeholder="Password"
                                             v-validate="'numeric'"
                                             v-model="password"
                                             addon-left-icon="ni ni-lock-circle-open">
                                 </base-input>
-                                 <p class="error" v-show="errors.has('password')">
+                                 <!-- <p class="error" v-show="errors.has('password')">
                                     {{errors.first('password')}}
-                                </p>
+                                </p> -->
+                                 <p v-if="errorBag.email">{{errorBag.email[0]}}</p>
                                 <base-checkbox>
                                     Remember me
                                 </base-checkbox>
@@ -106,25 +106,19 @@ export default {
         return {
             email:'',
             password:'',
+
             errorBag:{}
         }
     },
    methods:{
        login(){
-           const erors = validator.validate("email",this.email)
-
-           if(errors){
-               this.$set(this.errorBag,"email",errors)
-           }else{
-               this.$delete(this.errorBag,"email")
-           }
-
            this.$store.dispatch('login',{
                email:this.email,
                password:this.password
            })
            .then(()=>{
-               this.$router.push({name:'components'})
+               this.$router.push({name:'profile'})
+               
            })
        }
    }

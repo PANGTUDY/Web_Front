@@ -20,22 +20,52 @@ import App from "./App.vue";
 import router from "./router";
 import Argon from "./plugins/argon-kit";
 import './registerServiceWorker'
-import VueRouter from "vue-router";
 import store from "./user_store/store";
+import lodash from 'lodash';
+import VeeValidate  from "vee-validate";
 
+import ko from "vee-validate/dist/locale/ko.js";
 import VeeValidate from 'vee-validate';
 import vuetify from './plugins/vuetify'
 
+// veevalidate 설치 
+const config = {
+  locale:'ko',
+  dicitionary:{
+    ko
+  }
+}
 
+const dictionary = {
+  ko: {
+    attributes: {
+      passoword:'비밀번호'
+    }
+  }
+}
 
 Vue.config.productionTip = false;
 Vue.use(Argon);
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, config);
+
+
+//veevalidate와 관련하여 모든 rule을 쓰겠다 
+
+
 
 
 new Vue({
   router,
   store,
+  created(){
+    const userString = localStorage.getItem('user');
+    if(userString){
+        const userData = JSON.parse(userString);
+        this.$store.commit('SET_USER_DATA',userData)
+    }
+   
+  },
+  lodash,
   vuetify,
   render: h => h(App)
 }).$mount("#app");

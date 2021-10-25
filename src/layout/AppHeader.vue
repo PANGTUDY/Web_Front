@@ -15,6 +15,8 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
+           <li class="nav-item">
+            <img :src="person.src" class="rounded-circle" style="width:20px;height:20px;"></li>
           <li class="nav-item" v-if="!loggedIn"> 
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
           </li>
@@ -41,6 +43,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </base-dropdown>
+         
         </ul>
       </base-nav>
     </div>
@@ -53,6 +56,13 @@ import CloseButton from "@/components/CloseButton";
 import {authComputed} from "../user_store/helper.js";
 
 export default {
+  data(){
+    return {
+    person:{
+      src:require('../../public/img/icons/common/happy.png')
+    }
+    }
+  },
   components: {
     BaseNav,
     CloseButton,
