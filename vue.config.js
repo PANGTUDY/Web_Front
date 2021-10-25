@@ -1,6 +1,9 @@
 const webpack = require('webpack');
 
 module.exports = {
+  devServer: {
+    overlay: false
+  },
   configureWebpack: {
     // Set up all the aliases we use in our app.
     plugins: [
