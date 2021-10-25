@@ -25,6 +25,8 @@ import lodash from 'lodash';
 import VeeValidate  from "vee-validate";
 
 import ko from "vee-validate/dist/locale/ko.js";
+import VeeValidate from 'vee-validate';
+import vuetify from './plugins/vuetify'
 
 // veevalidate 설치 
 const config = {
@@ -64,6 +66,7 @@ new Vue({
    
   },
   lodash,
+  vuetify,
   render: h => h(App)
 }).$mount("#app");
 

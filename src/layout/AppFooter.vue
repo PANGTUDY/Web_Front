@@ -1,17 +1,13 @@
 <template>
-    <footer class="footer nav-footer">
-        <div class="container">
-            <hr>
-            <div class="row align-items-center justify-content-md-between">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        &copy; {{year}}
-                        <a href="https://github.com/PANGTUDY" target="_blank" rel="noopener">Pangtudy</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <v-footer padless>
+    <v-col
+      class="text-center"
+      cols="12"
+    >
+      &copy; {{year}}
+      <a href="https://github.com/PANGTUDY" target="_blank" rel="noopener">Pangtudy</a>
+    </v-col>
+  </v-footer>
 </template>
 <script>
 export default {

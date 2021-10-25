@@ -26,7 +26,8 @@
     "vue-router": "^3.5.2",
     "vue2-transitions": "^0.2.3",
     "vuex": "^3.6.2",
-    "write-json-file": "^5.0.0"
+    "write-json-file": "^5.0.0",
+    "vuetify": "^2.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
@@ -34,7 +35,10 @@
     "@vue/cli-plugin-pwa": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
     "node-sass": "^4.11.0",
+    "sass": "~1.32.0",
     "sass-loader": "^10.2.0",
-    "vue-template-compiler": "^2.6.6"
+    "vue-cli-plugin-vuetify": "~2.4.2",
+    "vue-template-compiler": "^2.6.6",
+    "vuetify-loader": "^1.7.0"
   }
 }

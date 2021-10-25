@@ -12,8 +12,9 @@ import pwinquiry from "./views/pwinquiry.vue";
 import Delete from "./views/delete.vue";
 import practice from "./views/practice.vue";
 import { Store } from "vuex";
+import SearchList from "./views/components/board/SearchList.vue";
 
-vue.use(Router);
+Vue.use(Router);
 
 
 const router = new Router({
@@ -77,7 +78,6 @@ const router = new Router({
         footer:AppFooter,
        
       }
-      
     },
     {
       path:"/pwinquiry",
@@ -104,6 +104,14 @@ const router = new Router({
         header:AppHeader,
         default: practice,
         footer:AppFooter,
+    },
+    {
+      path: "/searchList",
+      name: "searchList",
+      components: {
+        header: AppHeader,
+        default: SearchList,
+        footer: AppFooter
       }
     }
   ],
