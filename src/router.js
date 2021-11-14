@@ -10,7 +10,8 @@ import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
 import { Store } from "vuex";
 
-import SearchList from "./views/components/board/SearchList.vue";
+import List from "./views/components/board/List";
+import View from "./views/components/board/View";
 
 Vue.use(Router);
 
@@ -78,14 +79,23 @@ const router = new Router({
       }
     },
     {
-      path: "/searchList",
-      name: "searchList",
+      path: "/board/list",
+      name: "list",
       components: {
         header: AppHeader,
-        default: SearchList,
+        default: List,
         footer: AppFooter
       }
-    }
+    },
+    {
+      path: "/board/view/:id",
+      name: "view",
+      components: {
+        header: AppHeader,
+        default: View,
+        footer: AppFooter
+      }      
+    },
   ],
 });
 router.beforeEach((to,from,next)=>{

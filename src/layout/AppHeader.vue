@@ -31,7 +31,7 @@
             <a class="nav-link nav-link-icon" href="#">Meet</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#"><router-link to="/searchList">Board</router-link></a>
+            <a class="nav-link nav-link-icon" href="#"><router-link to="/board/list">Board</router-link></a>
           </li>
           <base-dropdown tag="li" title="Settings">
           

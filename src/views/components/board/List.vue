@@ -49,26 +49,26 @@
                     <div class="col-lg-10">
                         <h4>전체 글</h4>
                     </div>
-                    <div class="col-lg-2">
-                    <v-btn
-                    color="primary"
-                    elevation="2"
-                    outlined
-                    >글쓰기</v-btn>
+                    <div class="col-lg-2 text-right">
+                        <v-btn
+                        color="primary"
+                        elevation="2"
+                        outlined
+                        >글쓰기</v-btn>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <table class="tbList">
                             <colgroup>
-                                <col width="75%" />
+                                <col width="80%" />
                                 <col width="10%" />
-                                <col width="15%" />
+                                <col width="10%" />
                             </colgroup>
                             <tr v-for="(row, idx) in list" :key="idx">
-                                <td class="txt_left"><a href="javascript:;">{{row.subject}}</a></td>
+                                <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}</td>
                                 <td>{{row.name}}</td>
-                                <td>{{row.regdate.substring(0,10)}}</td>
+                                <td style="text-align: right; padding-right: 5px;">{{row.regdate.substring(0,10)}}</td>
                             </tr>
                             <tr v-if="list.length == 0">
                                 <td colspan="4">데이터가 없습니다.</td>
@@ -95,10 +95,10 @@ export default {
     data: () => ({
         keyword: '',
         list: [
-            { subject: '제목1', name: '김민주', regdate: '2021-10-10'},
-            { subject: '제목2', name: '김민주', regdate: '2021-10-10'},
-            { subject: '제목3', name: '김민주', regdate: '2021-10-10'},
-            { subject: '제목4', name: '김민주', regdate: '2021-10-10'},
+            { id: '1', subject: '제목1', name: '김민주', regdate: '2021-10-10'},
+            { id: '2', subject: '제목2', name: '김민주', regdate: '2021-10-10'},
+            { id: '3', subject: '제목3', name: '김민주', regdate: '2021-10-10'},
+            { id: '4', subject: '제목4', name: '김민주', regdate: '2021-10-10'},
         ],
         selectedItem: 0,
         hint: '키워드를 입력하세요',
@@ -120,6 +120,11 @@ export default {
     methods: {
         searchIcon() {
             alert(this.keyword)
+        },
+
+        fnView(id){
+            console.log(id);
+			this.$router.push({path:'./view/' + id}); //추가한 상세페이지 라우터
         },
     },
 }
