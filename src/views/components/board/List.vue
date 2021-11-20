@@ -1,93 +1,93 @@
 <template>
-    <div class="container pt-lg-md" style="min-height: 800px">
-       <div class="row justify-content-center">
-           <div class="col-lg-2">
-                <v-select
-                    v-model="select"
-                    :items="selectItems"
-                    item-text="text"
-                    item-value="value"
-                    single-line
-                ></v-select>
-           </div>
-           <div class="col-lg-8">
-                <v-text-field
-                    v-model="keyword"
-                    :append-icon="'fa-search'"
-                    placeholder="키워드를 입력하세요"
-                    hide-details="auto"
-                    type="text"
-                    @click:append="searchIcon"
-                >
-                <v-icon>fas fa-search</v-icon>
-                </v-text-field>
-           </div>
-       </div>
-       <div class="row justify-content-center">
-           <div class="col-lg-2">
-                <v-sheet rounded="lg">
-                    <v-list color="transparent">
-                        <v-subheader>CATEGORY</v-subheader>
-                        <v-list-item-group
-                            v-model="selectedItem"
-                            color="primary"
-                        >
-                            <v-list-item
-                                v-for="(item, i) in categoryItems"
-                                :key="i"
+    <v-app>
+        <div class="container pt-lg-md" style="min-height: 800px">
+        <div class="row justify-content-center">
+            <div class="col-lg-2">
+                    <v-select
+                        :items="selectItems"
+                        label="전체"
+                        single-line
+                    ></v-select>
+            </div>
+            <div class="col-lg-8">
+                    <v-text-field
+                        v-model="keyword"
+                        :append-icon="'fa-search'"
+                        placeholder="키워드를 입력하세요"
+                        hide-details="auto"
+                        type="text"
+                        @click:append="searchIcon"
+                    >
+                    <v-icon>fas fa-search</v-icon>
+                    </v-text-field>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-2">
+                    <v-sheet rounded="lg">
+                        <v-list color="transparent">
+                            <v-subheader>CATEGORY</v-subheader>
+                            <v-list-item-group
+                                v-model="selectedItem"
+                                color="primary"
                             >
-                                <v-list-item-content>
-                                    <v-list-item-title v-text="item.text"></v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list-item-group>
-                    </v-list>
-                </v-sheet>
-           </div>
-           <div class="col-lg-8">
-                <div class="row justify-content-right">
-                    <div class="col-lg-10">
-                        <h4>전체 글</h4>
+                                <v-list-item
+                                    v-for="(item, i) in categoryItems"
+                                    :key="i"
+                                >
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="item.text"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-list>
+                    </v-sheet>
+            </div>
+            <div class="col-lg-8">
+                    <div class="row justify-content-right">
+                        <div class="col-lg-10">
+                            <h4>전체 글</h4>
+                        </div>
+                        <div class="col-lg-2 text-right">
+                            <v-btn
+                            color="primary"
+                            elevation="2"
+                            outlined
+                            >글쓰기</v-btn>
+                        </div>
                     </div>
-                    <div class="col-lg-2 text-right">
-                        <v-btn
-                        color="primary"
-                        elevation="2"
-                        outlined
-                        >글쓰기</v-btn>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="tbList">
+                                <colgroup>
+                                    <col width="80%" />
+                                    <col width="10%" />
+                                    <col width="10%" />
+                                </colgroup>
+                                <tr v-for="(row, idx) in list" :key="idx">
+                                    <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}</td>
+                                    <td>{{row.name}}</td>
+                                    <td style="text-align: right; padding-right: 5px;">{{row.regdate.substring(0,10)}}</td>
+                                </tr>
+                                <tr v-if="list.length == 0">
+                                    <td colspan="4">데이터가 없습니다.</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <table class="tbList">
-                            <colgroup>
-                                <col width="80%" />
-                                <col width="10%" />
-                                <col width="10%" />
-                            </colgroup>
-                            <tr v-for="(row, idx) in list" :key="idx">
-                                <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}</td>
-                                <td>{{row.name}}</td>
-                                <td style="text-align: right; padding-right: 5px;">{{row.regdate.substring(0,10)}}</td>
-                            </tr>
-                            <tr v-if="list.length == 0">
-                                <td colspan="4">데이터가 없습니다.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-center">
-                        <v-pagination
-                        v-model="page"
-                        :length="6"
-                        color="#0D47A1"
-                        ></v-pagination>
-                    </div>
-                </div>                 
-           </div>
-       </div>
-    </div>
+                    <div>
+                        <div class="text-center">
+                            <v-pagination
+                            v-model="page"
+                            :length="6"
+                            color="#0D47A1"
+                            ></v-pagination>
+                        </div>
+                    </div>                 
+            </div>
+        </div>
+        </div>
+    </v-app>
 </template>
 
 <script>
@@ -104,10 +104,10 @@ export default {
         hint: '키워드를 입력하세요',
         select: { text:'제목', value: 0 },
         selectItems: [
-            { text:'제목', value: 0 },
-            { text:'제목+내용', value: 1 },
-            { text:'해시태그', value: 2 },
-            { text:'작성자', value: 3 },
+            '제목',
+            '제목+내용',
+            '해시태그',
+            '작성자',
         ],
         categoryItems: [
             { text: '전체 글' },
