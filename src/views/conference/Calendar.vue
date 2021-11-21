@@ -58,14 +58,11 @@
             }
         },
         mounted() {
-            this.$store.dispatch("load_calendar", 2021);
+            this.$store.dispatch("load_calendar", this.year);
             var source = new EventSource("http://localhost:10831/calendar/schedules/sse");
             source.onmessage = (event) => { 
                 var event_data = JSON.parse(event.data);
-                console.log(event_data);
-                
                 if (event_data.schedule.year === this.year) {
-                    console.log("It's Mine");
                     this.$store.dispatch("call_calendar_event", event_data);
                 }
             }
