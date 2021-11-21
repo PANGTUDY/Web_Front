@@ -12,7 +12,9 @@ import pwinquiry from "./views/pwinquiry.vue";
 import Delete from "./views/delete.vue";
 import practice from "./views/practice.vue";
 import { Store } from "vuex";
-import SearchList from "./views/components/board/SearchList.vue";
+
+import List from "./views/components/board/List";
+import View from "./views/components/board/View";
 
 Vue.use(Router);
 
@@ -76,7 +78,15 @@ const router = new Router({
         header:AppHeader,
         default:Success,
         footer:AppFooter,
-       
+      }
+    },
+    {
+      path: "/board/list",
+      name: "list",
+      components: {
+        header: AppHeader,
+        default: List,
+        footer: AppFooter
       }
     },
     {
@@ -106,14 +116,14 @@ const router = new Router({
         footer:AppFooter,
     },
     {
-      path: "/searchList",
-      name: "searchList",
+      path: "/board/view/:id",
+      name: "view",
       components: {
         header: AppHeader,
-        default: SearchList,
+        default: View,
         footer: AppFooter
-      }
-    }
+      }      
+    },
   ],
 });
 router.beforeEach((to,from,next)=>{
