@@ -15,23 +15,23 @@
             </base-dropdown>
           </ul> -->
           <template>
-			<v-menu offset-y left bottom>
-				<template v-slot:activator="{ on, attrs }">
-					<v-btn text v-bind="attrs" v-on="on">
-						<v-icon>mdi-dots-vertical</v-icon>
-					</v-btn>
-				</template>
-				
-				<v-list>
-					<v-list-item>
-						<v-list-item-title>수정</v-list-item-title>
-					</v-list-item>
-					<v-list-item>
-						<v-list-item-title>삭제</v-list-item-title>
-					</v-list-item>
-				</v-list>
-			</v-menu>
-		</template>
+            <v-menu offset-y left bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn text v-bind="attrs" v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item>
+                  <v-list-item-title>수정</v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>삭제</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
         </div>
       </div>
       <div class="row justify-content-center">
@@ -220,8 +220,8 @@ export default {
 }
 
 .comment_date {
-	font-size: 14px;
-	font: initial;
+  font-size: 14px;
+  font: initial;
 }
 
 .ma-2 {

@@ -1,4 +1,4 @@
-import vue from "vue";
+import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
@@ -15,6 +15,7 @@ import { Store } from "vuex";
 
 import List from "./views/components/board/List";
 import View from "./views/components/board/View";
+import New from "./views/components/board/New";
 
 Vue.use(Router);
 
@@ -81,15 +82,6 @@ const router = new Router({
       }
     },
     {
-      path: "/board/list",
-      name: "list",
-      components: {
-        header: AppHeader,
-        default: List,
-        footer: AppFooter
-      }
-    },
-    {
       path:"/pwinquiry",
       name:"pwinquiry",
       components:{
@@ -114,6 +106,25 @@ const router = new Router({
         header:AppHeader,
         default: practice,
         footer:AppFooter,
+      }
+    },
+    {
+      path: "/board/list",
+      name: "list",
+      components: {
+        header: AppHeader,
+        default: List,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/board/new",
+      name: "new",
+      components: {
+        header: AppHeader,
+        default: New,
+        footer: AppFooter
+      },
     },
     {
       path: "/board/view/:id",
@@ -126,6 +137,7 @@ const router = new Router({
     },
   ],
 });
+
 router.beforeEach((to,from,next)=>{
   const loggedIn = localStorage.getItem('user')
 
