@@ -3,7 +3,7 @@ const validateFns ={
         if(!value){
             return `${key}을 입력해주세요`
         }
-    }
+    },
 }
 const validator = {
     //error 객체와 검증자를 관리할 validates를 맵으로 초기화한다 

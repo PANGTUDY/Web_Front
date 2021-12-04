@@ -38,28 +38,16 @@ app.post("/register", (req, res) => {
     };
 
     const data = JSON.stringify(user, null, 2);
-    const dbUserEmail = require("./db/user.json").email;
+    var dbUserEmail = require("./db/user.json").email;
 
-    const errorsToSend = []; // 에러 수집하는 배열
-
-    if (dbUserEmail === user.email) {
-      // db에 이메일 있는지 확인
-      errorsToSend.push("An account with this email already exists.");
-    }
-    if (user.password.length < 5) {
-      // 비밀번호 규칙에 맞는지 확인
-      errorsToSend.push("Password too short.");
-    }
-    if (errorsToSend.length > 0) {
-      // 에러가 있는지 확인
-      res.status(400).json({ errors: errorsToSend }); // 에러가 있으면 보내준다
+    if (dbUserEmail === req.body.email) {
+      res.sendStatus(400);
     } else {
       fs.writeFile("./db/user.json", data, err => {
         if (err) {
           console.log(err + data);
         } else {
-          const token = jwt.sign(
-            {
+          const token = jwt.sign({
               user
             },
             "the_secret_key"
@@ -86,8 +74,7 @@ app.post("/login", (req, res) => {
     req.body.email === userInfo.email &&
     req.body.password === userInfo.password
   ) {
-    const token = jwt.sign(
-      {
+    const token = jwt.sign({
         userInfo
       },
       "the_secret_key"
@@ -99,8 +86,7 @@ app.post("/login", (req, res) => {
       name: userInfo.name
     });
   } else {
-    // res.sendStatus(400);
-    res.status(401).json({ error: "Invalid login. Please try again." }); // 사용자 정보가 없으면 에러를 보내준다.
+    res.sendStatus(400);
   }
 });
 

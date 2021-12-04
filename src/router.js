@@ -8,6 +8,9 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
+import pwinquiry from "./views/pwinquiry.vue";
+import Delete from "./views/delete.vue";
+import practice from "./views/practice.vue";
 import { Store } from "vuex";
 
 import List from "./views/components/board/List";
@@ -76,7 +79,33 @@ const router = new Router({
         header:AppHeader,
         default:Success,
         footer:AppFooter,
-       
+      }
+    },
+    {
+      path:"/pwinquiry",
+      name:"pwinquiry",
+      components:{
+        header:AppHeader,
+        default:pwinquiry,
+        footer:AppFooter,
+      }
+    },
+    {
+      path:"/delete",
+      name:"delete",
+      components:{
+        header:AppHeader,
+        default:Delete,
+        footer:AppFooter,
+      }
+    },
+    {
+      path:"/practice",
+      name:"practice",
+      components:{
+        header:AppHeader,
+        default: practice,
+        footer:AppFooter,
       }
     },
     {
@@ -108,6 +137,7 @@ const router = new Router({
     },
   ],
 });
+
 router.beforeEach((to,from,next)=>{
   const loggedIn = localStorage.getItem('user')
 
