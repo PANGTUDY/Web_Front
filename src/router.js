@@ -12,6 +12,7 @@ import { Store } from "vuex";
 
 import List from "./views/components/board/List";
 import View from "./views/components/board/View";
+import New from "./views/components/board/New";
 
 Vue.use(Router);
 
@@ -86,6 +87,15 @@ const router = new Router({
         default: List,
         footer: AppFooter
       }
+    },
+    {
+      path: "/board/new",
+      name: "new",
+      components: {
+        header: AppHeader,
+        default: New,
+        footer: AppFooter
+      },
     },
     {
       path: "/board/view/:id",

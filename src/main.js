@@ -27,11 +27,9 @@ import VeeValidate from 'vee-validate';
 import vuetify from './plugins/vuetify'
 
 
-
 Vue.config.productionTip = false;
 Vue.use(Argon);
 Vue.use(VeeValidate);
-
 
 new Vue({
   router,
