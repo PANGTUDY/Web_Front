@@ -12,8 +12,11 @@
 <script>
 export default {
     data:{
+        return{
         password:'',
         password_confirmation:''
+        }
+        
     }
 
 }
