@@ -39,6 +39,13 @@ export default new Vuex.Store({
             console.log(state.calendar);
             state.current_year = payload.year;
         },
+        CREATE_CALENDAR(state, payload) {
+            var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
+            if (date in state.calendar) 
+                state.calendar[date].push(payload.schedule);
+            else
+                state.calendar[date] = [payload.schedule];
+        },
         UPDATE_CALENDAR(state, payload) {
            var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
            var update_id = state.calendar[date].findIndex(schedule => schedule.id === payload.schedule.id);
@@ -69,6 +76,9 @@ export default new Vuex.Store({
         },
         call_calendar_event({commit}, event_data) {
             switch (event_data.type) {
+                case 'CREATE':
+                    commit('CREATE_CALENDAR', { schedule: event_data.schedule });
+                    break;
                 case 'MODIFY':
                     commit('UPDATE_CALENDAR', { schedule: event_data.schedule });
                     break;

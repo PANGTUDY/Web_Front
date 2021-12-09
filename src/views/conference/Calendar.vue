@@ -41,7 +41,7 @@
                 return this.select_date.getFullYear();
             },
             month() {
-                return this.select_date.getMonth();
+                return this.select_date.getMonth() + 1;
             },
             day() {
                 return this.select_date.getDate();
