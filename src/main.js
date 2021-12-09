@@ -24,6 +24,7 @@ import store from "./user_store/store";
 import lodash from 'lodash';
 
 import ko from "vee-validate/dist/locale/ko.js";
+import VeeValidate from "vee-validate";
 
 import vuetify from './plugins/vuetify'
 import ElementUI from 'element-ui';

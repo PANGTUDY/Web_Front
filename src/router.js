@@ -8,13 +8,10 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Success from "./views/Success.vue";
-<<<<<<< HEAD
 import pwinquiry from "./views/pwinquiry.vue";
 import Delete from "./views/delete.vue";
 import practice from "./views/practice.vue";
-=======
 import Calendar from "./views/conference/Calendar.vue"
->>>>>>> 4e43bd4 (Calendar SSE 테스트코드 추가)
 import { Store } from "vuex";
 
 import List from "./views/components/board/List";
