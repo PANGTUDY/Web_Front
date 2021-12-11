@@ -29,6 +29,7 @@ export default new Vuex.Store({
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장
+            state.calendar = {};
             payload.calendar.forEach(element => {
                 var date = element.year + '-' + element.month + '-' + element.day;
                 if (date in state.calendar) 

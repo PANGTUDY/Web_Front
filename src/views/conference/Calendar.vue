@@ -28,12 +28,10 @@
 </template>
 
 <script>
-    import * as Api from "@/api/conference.js";
     export default {
         data() {
             return {
                 select_date: new Date(),
-                count: 10
             }
         },
         computed: {
