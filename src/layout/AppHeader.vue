@@ -30,7 +30,7 @@
             <a class="nav-link nav-link-icon"><router-link to="/profile">Profile</router-link></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#">Meet</a>
+            <a class="nav-link nav-link-icon"><router-link to="/calendar">Calendar</router-link></a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-link-icon" href="#"><router-link to="/board/list">Board</router-link></a>
