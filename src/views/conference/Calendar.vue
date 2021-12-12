@@ -8,6 +8,9 @@
                             <p :class="data.isSelected ? 'is-selected' : ''" >
                                 {{ date.getDate() }}
                             </p>
+                            <div v-if="calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()] !== undefined">
+                                {{ calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()].length }}
+                            </div>
                         </div>
                     </template>
                 </el-calendar>
