@@ -1,4 +1,4 @@
-import vue from "vue";
+import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
@@ -114,7 +114,8 @@ const router = new Router({
         header:AppHeader,
         default: practice,
         footer:AppFooter,
-    },
+    }
+  },
     {
       path: "/board/view/:id",
       name: "view",
@@ -122,7 +123,7 @@ const router = new Router({
         header: AppHeader,
         default: View,
         footer: AppFooter
-      }      
+      },      
     },
   ],
 });
