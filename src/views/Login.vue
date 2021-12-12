@@ -16,7 +16,7 @@
                     <card type="secondary" shadow
                           header-classes="bg-white pb-5"
                           body-classes="px-lg-5 py-lg-5"
-                          class="border-0">
+                          class="border-0 custom-card">
                         <template>
                             <div class="text-muted text-center mb-3">
                                 <small>Sign in with</small>
