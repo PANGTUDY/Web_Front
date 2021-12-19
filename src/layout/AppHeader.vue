@@ -15,7 +15,10 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
-           <li class="nav-item">
+          <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
+            <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
+          </li>  
+           <!-- <li class="nav-item">
             <img :src="person.src" class="rounded-circle" style="width:20px;height:20px;"></li>
           <li class="nav-item" v-if="!loggedIn"> 
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
@@ -37,12 +40,12 @@
           </li>
           <base-dropdown tag="li" title="Settings">
           
-            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">권한관리</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
-          </base-dropdown>
+          </base-dropdown> -->
          
         </ul>
       </base-nav>
@@ -60,8 +63,14 @@ export default {
     return {
     person:{
       src:require('../../public/img/icons/common/happy.png')
-    }
-    }
+    },
+    menuList:[
+      {name:'Login',path:'login'},
+      {name:'Register',path:'register'},
+      {name:'Profile',path:'profile'},
+      {name:'Board',path:'board/list'}
+    ]
+  }
   },
   components: {
     BaseNav,
@@ -74,6 +83,14 @@ export default {
   methods:{
     logout(){
       this.$store.dispatch('logout')
+    },
+    goTo(path){
+      if(this.$route.path !== '/'){
+         this.$router.push('/',+ path)
+      }else{
+        this.$router.push(path)
+      }
+      
     }
  
   }

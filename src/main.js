@@ -23,7 +23,7 @@ import './registerServiceWorker'
 import store from "./user_store/store";
 import lodash from 'lodash';
 import VeeValidate  from "vee-validate";
-
+//import goTo from './views/mixin/goTo';
 import ko from "vee-validate/dist/locale/ko.js";
 
 import vuetify from './plugins/vuetify'
