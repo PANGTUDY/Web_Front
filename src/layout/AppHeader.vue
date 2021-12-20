@@ -15,7 +15,10 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
-           <li class="nav-item">
+          <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
+            <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
+            </li>
+           <!-- <li class="nav-item">
             <img :src="person.src" class="rounded-circle" style="width:20px;height:20px;"></li>
           <li class="nav-item" v-if="!loggedIn"> 
             <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
@@ -42,8 +45,12 @@
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
-          </base-dropdown>
-         
+          </base-dropdown> -->
+         <base-dropdown tag="li" title="settings">
+          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i">
+            {{sub.name}}
+          </a>
+         </base-dropdown>
         </ul>
       </base-nav>
     </div>
@@ -60,7 +67,18 @@ export default {
     return {
     person:{
       src:require('../../public/img/icons/common/happy.png')
-    }
+    },
+    menuList:[
+      {name:'Login',path:'login'},
+      {name:'Register',path:'register'},
+      {name: 'Profile', path:'profile'},
+      {name:'Calendar',path:'calendar'},
+      {name:'Board',path:'board/list'}
+    ],
+    subList:[
+      {name:'권한관리',path:'grant'},
+      {name:'설정',path:'settings'},
+    ]
     }
   },
   components: {
@@ -74,6 +92,10 @@ export default {
   methods:{
     logout(){
       this.$store.dispatch('logout')
+    },
+    goTo(path){
+      this.$router.push('/'+path);
+
     }
  
   }
