@@ -1,15 +1,15 @@
 <template>
     <v-app>
         <div class="container pt-lg-md" style="min-height: 800px">
-        <div class="row justify-content-center">
-            <div class="col-lg-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-2">
                     <v-select
                         :items="selectItems"
                         label="전체"
                         single-line
                     ></v-select>
-            </div>
-            <div class="col-lg-8">
+                </div>
+                <div class="col-lg-8">
                     <v-text-field
                         v-model="keyword"
                         :append-icon="'fa-search'"
@@ -17,13 +17,14 @@
                         hide-details="auto"
                         type="text"
                         @click:append="searchIcon"
+                        v-on:keyup.enter="searchIcon"
                     >
-                    <v-icon>fas fa-search</v-icon>
+                        <v-icon>fas fa-search</v-icon>
                     </v-text-field>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-2">
                     <v-sheet rounded="lg">
                         <v-list color="transparent">
                             <v-subheader>CATEGORY</v-subheader>
@@ -42,8 +43,8 @@
                             </v-list-item-group>
                         </v-list>
                     </v-sheet>
-            </div>
-            <div class="col-lg-8">
+                </div>
+                <div class="col-lg-8">
                     <div class="row justify-content-right">
                         <div class="col-lg-10">
                             <h4>전체 글</h4>
@@ -53,6 +54,7 @@
                             color="primary"
                             elevation="2"
                             outlined
+                            v-on:click="newPost"
                             >글쓰기</v-btn>
                         </div>
                     </div>
@@ -84,8 +86,8 @@
                             ></v-pagination>
                         </div>
                     </div>                 
+                </div>
             </div>
-        </div>
         </div>
     </v-app>
 </template>
@@ -118,13 +120,20 @@ export default {
         page: 1,
     }),
     methods: {
+        // Search the keyword
         searchIcon() {
             alert(this.keyword)
         },
 
+        // create a new post
+        newPost: function (event) {
+            this.$router.push({path: './new/'});
+        },
+
+        // move to the detail page
         fnView(id){
             console.log(id);
-			this.$router.push({path:'./view/' + id}); //추가한 상세페이지 라우터
+			this.$router.push({path:'./view/' + id});
         },
     },
 }
