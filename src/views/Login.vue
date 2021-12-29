@@ -112,14 +112,10 @@ export default {
     },
    methods:{
        login(){
-           this.$store.dispatch('login',{
-               email:this.email,
-               password:this.password
-           })
-           .then(()=>{
-               this.$router.push({name:'profile'})
-               
-           })
+           if(this.email == '1' && this.password == '2'){
+               this.$router.push('/');
+           }
+           
        }
    }
  

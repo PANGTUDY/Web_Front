@@ -17,11 +17,7 @@
         <ul class="navbar-nav ml-lg-auto flex">
           <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
-<<<<<<< HEAD
-          </li>  
-=======
             </li>
->>>>>>> b81286c52ac2577b772ebbb1c00b0bfb53627b23
            <!-- <li class="nav-item">
             <img :src="person.src" class="rounded-circle" style="width:20px;height:20px;"></li>
           <li class="nav-item" v-if="!loggedIn"> 
@@ -50,15 +46,11 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </base-dropdown> -->
-<<<<<<< HEAD
-         
-=======
          <base-dropdown tag="li" title="settings">
-          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i">
+          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i" @click="goTo(sub.path)">
             {{sub.name}}
           </a>
          </base-dropdown>
->>>>>>> b81286c52ac2577b772ebbb1c00b0bfb53627b23
         </ul>
       </base-nav>
     </div>
@@ -79,12 +71,6 @@ export default {
     menuList:[
       {name:'Login',path:'login'},
       {name:'Register',path:'register'},
-<<<<<<< HEAD
-      {name:'Profile',path:'profile'},
-      {name:'Board',path:'board/list'}
-    ]
-  }
-=======
       {name: 'Profile', path:'profile'},
       {name:'Calendar',path:'calendar'},
       {name:'Board',path:'board/list'}
@@ -94,7 +80,6 @@ export default {
       {name:'설정',path:'settings'},
     ]
     }
->>>>>>> b81286c52ac2577b772ebbb1c00b0bfb53627b23
   },
   components: {
     BaseNav,
@@ -109,17 +94,8 @@ export default {
       this.$store.dispatch('logout')
     },
     goTo(path){
-<<<<<<< HEAD
-      if(this.$route.path !== '/'){
-         this.$router.push('/',+ path)
-      }else{
-        this.$router.push(path)
-      }
-      
-=======
       this.$router.push('/'+path);
 
->>>>>>> b81286c52ac2577b772ebbb1c00b0bfb53627b23
     }
  
   }

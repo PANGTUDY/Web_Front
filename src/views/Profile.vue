@@ -93,7 +93,7 @@
         </template>
         <section class="section section-skew" v-else>
             <p>Loading events</p>
-        </section>
+        </section> 
     </div>
 </template>
 <script>
