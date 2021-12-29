@@ -74,7 +74,7 @@
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-card style="text-align: center; font-size: 20px; margin-left: 10px; margin-right: 10px;" @click="hello()">
+                            <v-card style="text-align: center; font-size: 20px; margin-left: 10px; margin-right: 10px;" @click="add_schedule()">
                                 <b> + </b>
                             </v-card>
                         </v-col>
@@ -94,6 +94,147 @@
                 </v-btn>
             </template>
         </v-snackbar>
+        <v-dialog v-model="dialog"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition">
+            <v-card>
+                <v-toolbar
+                    dark
+                    color="dark"
+                    >
+                    <v-btn icon @click="dialog = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>일정 등록</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                        <v-btn text @click="clear()">
+                            Clear
+                        </v-btn>
+                        <v-btn text @click="dialog = false">
+                            Save
+                        </v-btn>
+                    </v-toolbar-items>
+                </v-toolbar>
+                <v-list three-line subheader>
+                    <v-list-item>
+                        <v-text-field
+                            label="Title"
+                            :rules="rules"
+                            hide-details="auto"
+                            ></v-text-field>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-row>
+                            <v-col>
+                                <v-menu
+                                    ref="menu1"
+                                    v-model="start_time"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    :return-value.sync="start"
+                                    transition="scale-transition"
+                                    offset-y
+                                    max-width="290px"
+                                    min-width="290px">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="start"
+                                            label="Start Time"
+                                            prepend-icon="mdi-clock-time-four-outline"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on" />
+                                    </template>
+                                    <v-time-picker
+                                        v-if="start_time"
+                                        v-model="start"
+                                        format="ampm"
+                                        ampm-in-title
+                                        @click:minute="$refs.menu1.save(start)" />
+                                </v-menu>
+                            </v-col>
+                            <v-col>
+                                <v-menu
+                                    ref="menu2"
+                                    v-model="end_time"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    :return-value.sync="end"
+                                    transition="scale-transition"
+                                    offset-y
+                                    max-width="290px"
+                                    min-width="290px">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="end"
+                                            label="End Time"
+                                            prepend-icon="mdi-clock-time-four-outline"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on" />
+                                    </template>
+                                    <v-time-picker
+                                        v-if="end_time"
+                                        v-model="end"
+                                        format="ampm"
+                                        ampm-in-title
+                                        @click:minute="$refs.menu2.save(end)" />
+                                </v-menu>
+                            </v-col>
+                        </v-row>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-select
+                            v-model="select_members"
+                            :items="members"
+                            label="Participants"
+                            :menu-props="{ offsetY: true }"
+                            clearable
+                            multiple
+                            chips
+                            dense>
+                            <template v-slot:selection="data">
+                                <v-chip
+                                    :key="JSON.stringify(data.item)"
+                                    v-bind="data.attrs"
+                                    :input-value="data.selected"
+                                    @click:close="data.parent.selectItem(data.item)">
+                                    <v-avatar
+                                        class="accent white--text"
+                                        left
+                                        v-text="data.item.slice(0, 1).toUpperCase()"/>
+                                    {{ data.item }}
+                                </v-chip>
+                            </template>
+                        </v-select>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-checkbox v-model="is_alram" 
+                                label="Alram"/>
+                        <v-spacer></v-spacer>
+                        <v-select 
+                                v-if="is_alram"
+                                v-model="select_time"
+                                :items="time_list"
+                                label="Time"
+                                :menu-props="{ offsetY: true }"
+                                dense/>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-textarea
+                            filled
+                            name="input-7-4"
+                            auto-grow
+                            clearable
+                            clear-icon="mdi-close-circle"
+                            label="Comment"
+                            value="Sample Data" />
+                    </v-list-item>
+                </v-list>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -111,11 +252,31 @@
             return {
                 select_date: new Date(),
                 change: false,
+                dialog: false,
                 sse_source: null,
                 icons: {
                     mdiPencil,
                     mdiDelete
-                }
+                },
+                rules: [
+                    value => !!value || 'Required.',
+                    value => (value && value.length >= 3) || 'Min 3 characters',
+                ],
+                start_time: false,
+                end_time: false,
+                select_members: [],
+                // TODO : 회원목록 읽어오기 (User-API)
+                members: [
+                    '박찬준',
+                    '원철황',
+                    '김민주',
+                    '박혜원',
+                    '서진하',
+                    '임재창'
+                ],
+                is_alram: false,
+                time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
+                select_time: [],
             }
         },
         computed: {
@@ -133,8 +294,11 @@
             }
         },
         methods: {
-            hello() {
-                console.log("hihi");
+            add_schedule() {
+                this.dialog = true;
+            },
+            clear() {
+                alert(this.select);
             }
         },
         mounted() {
