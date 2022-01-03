@@ -109,7 +109,7 @@
                     <v-toolbar-title>일정 등록</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
-                        <v-btn text @click="clear()">
+                        <v-btn text @click="schedule_dialog_clear()">
                             Clear
                         </v-btn>
                         <v-btn text @click="dialog = false">
@@ -120,10 +120,11 @@
                 <v-list three-line subheader>
                     <v-list-item>
                         <v-text-field
+                            v-model="schedule_title"
                             label="Title"
-                            :rules="rules"
-                            hide-details="auto"
-                            ></v-text-field>
+                            :rules="schedule_title_rules"
+                            hide-details="auto">
+                        </v-text-field>
                     </v-list-item>
                     <v-list-item>
                         <v-row>
@@ -133,14 +134,14 @@
                                     v-model="start_time"
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    :return-value.sync="start"
+                                    :return-value.sync="schedule_start"
                                     transition="scale-transition"
                                     offset-y
                                     max-width="290px"
                                     min-width="290px">
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
-                                            v-model="start"
+                                            v-model="schedule_start"
                                             label="Start Time"
                                             prepend-icon="mdi-clock-time-four-outline"
                                             readonly
@@ -149,10 +150,10 @@
                                     </template>
                                     <v-time-picker
                                         v-if="start_time"
-                                        v-model="start"
+                                        v-model="schedule_start"
                                         format="ampm"
                                         ampm-in-title
-                                        @click:minute="$refs.menu1.save(start)" />
+                                        @click:minute="$refs.menu1.save(schedule_start)" />
                                 </v-menu>
                             </v-col>
                             <v-col>
@@ -161,14 +162,14 @@
                                     v-model="end_time"
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    :return-value.sync="end"
+                                    :return-value.sync="schedule_end"
                                     transition="scale-transition"
                                     offset-y
                                     max-width="290px"
                                     min-width="290px">
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
-                                            v-model="end"
+                                            v-model="schedule_end"
                                             label="End Time"
                                             prepend-icon="mdi-clock-time-four-outline"
                                             readonly
@@ -177,17 +178,17 @@
                                     </template>
                                     <v-time-picker
                                         v-if="end_time"
-                                        v-model="end"
+                                        v-model="schedule_end"
                                         format="ampm"
                                         ampm-in-title
-                                        @click:minute="$refs.menu2.save(end)" />
+                                        @click:minute="$refs.menu2.save(schedule_end)" />
                                 </v-menu>
                             </v-col>
                         </v-row>
                     </v-list-item>
                     <v-list-item>
                         <v-select
-                            v-model="select_members"
+                            v-model="schedule_select_members"
                             :items="members"
                             label="Participants"
                             :menu-props="{ offsetY: true }"
@@ -211,12 +212,12 @@
                         </v-select>
                     </v-list-item>
                     <v-list-item>
-                        <v-checkbox v-model="is_alram" 
+                        <v-checkbox v-model="schedule_is_alram" 
                                 label="Alram"/>
                         <v-spacer></v-spacer>
                         <v-select 
-                                v-if="is_alram"
-                                v-model="select_time"
+                                v-if="schedule_is_alram"
+                                v-model="schedule_select_time"
                                 :items="time_list"
                                 label="Time"
                                 :menu-props="{ offsetY: true }"
@@ -224,6 +225,7 @@
                     </v-list-item>
                     <v-list-item>
                         <v-textarea
+                            v-model="scehdule_comment"
                             filled
                             name="input-7-4"
                             auto-grow
@@ -260,15 +262,20 @@
                     mdiPencil,
                     mdiDelete
                 },
-                rules: [
+
+                /* 
+                    Schedule Add Dialog 관련 변수
+                */
+                schedule_title: '',
+                schedule_title_rules: [
                     value => !!value || 'Required.',
                     value => (value && value.length >= 3) || 'Min 3 characters',
                 ],
-                start: null,
-                end: null,
+                schedule_start: null,
+                schedule_end: null,
                 start_time: false,
                 end_time: false,
-                select_members: [],
+                schedule_select_members: [],
                 // TODO : 회원목록 읽어오기 (User-API)
                 members: [
                     '박찬준',
@@ -278,9 +285,10 @@
                     '서진하',
                     '임재창'
                 ],
-                is_alram: false,
+                schedule_is_alram: false,
                 time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
-                select_time: [],
+                schedule_select_time: [],
+                scehdule_comment: ''
             }
         },
         computed: {
@@ -299,6 +307,7 @@
         },
         methods: {
             add_schedule() {
+                this.schedule_dialog_clear();
                 this.dialog = true;
             },
             delete_schedule(schedule) {
@@ -334,8 +343,14 @@
             modify_schedule(schedule) {
                 alert("Modify! " + schedule.id);
             },
-            clear() {
-                alert(this.select);
+            schedule_dialog_clear() {
+                this.schedule_title = '';
+                this.schedule_start = null;
+                this.schedule_end = null;
+                this.schedule_select_members = [];
+                this.schedule_is_alram = false;
+                this.schedule_select_time = [];
+                this.scehdule_comment = '';
             },
             time_format(time) {
                 return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
