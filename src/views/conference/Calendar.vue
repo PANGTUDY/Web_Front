@@ -14,7 +14,7 @@
                                     <el-row v-for="item in calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()]" :key="item.id" :gutter="12">
                                         <el-col :span="24">
                                             <div class="grid-content-xs bg-purple-light">
-                                                <b style="font-size: 12px"> {{ item.startTime.slice(0, 5) }} {{ item.comment }} </b> 
+                                                <b style="font-size: 12px"> {{ time_format(item.startTime) }} {{ item.comment }} </b> 
                                             </div>
                                         </el-col>
                                     </el-row>
@@ -24,7 +24,7 @@
                                     <el-row v-for="item in calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()].slice(0, 2)" :key="item.id" :gutter="12">
                                         <el-col :span="24">
                                             <div class="grid-content-xs bg-purple-light">
-                                                <b style="font-size: 12px"> {{ item.startTime.slice(0, 5) }} {{ item.comment }} </b> 
+                                                <b style="font-size: 12px"> {{ time_format(item.startTime) }} {{ item.comment }} </b> 
                                             </div>
                                         </el-col>
                                     </el-row>
@@ -60,13 +60,13 @@
                                     {{ item.title }}
                                 </v-card-title>
                                 <v-card-subtitle>
-                                    <b> {{ item.startTime.slice(0, 5) }} ~ {{ item.endTime.slice(0, 5) }} </b>
+                                    <b> {{ time_format(item.startTime) }} ~ {{ time_format(item.endTime) }} </b>
                                 </v-card-subtitle>
                                 <v-card-text>
                                     {{ item.comment }}
                                     <div style="text-align: right">
-                                        <v-btn icon x-small><v-icon>{{ icons.mdiPencil }}</v-icon></v-btn> &nbsp;
-                                        <v-btn icon x-small><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
+                                        <v-btn icon x-small @click="modify_schedule(item)"><v-icon>{{ icons.mdiPencil }}</v-icon></v-btn> &nbsp;
+                                        <v-btn icon x-small @click="delete_schedule(item)"><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
                                     </div>
                                 </v-card-text>
                             </v-card>
@@ -243,6 +243,8 @@
     import {
         mdiPencil, mdiDelete
     } from '@mdi/js';
+    import * as Api from '@/api/conference';
+    import Swal from 'sweetalert2';
 
     export default {
         components: {
@@ -262,6 +264,8 @@
                     value => !!value || 'Required.',
                     value => (value && value.length >= 3) || 'Min 3 characters',
                 ],
+                start: null,
+                end: null,
                 start_time: false,
                 end_time: false,
                 select_members: [],
@@ -297,8 +301,44 @@
             add_schedule() {
                 this.dialog = true;
             },
+            delete_schedule(schedule) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You won't be able to revert this!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success btn-fill',
+                    cancelButtonClass: 'btn btn-danger btn-fill',
+                    confirmButtonText: 'Yes, delete it!',
+                    buttonsStyling: false
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        Api.delete_schedule(schedule.id)
+                            .then(data => {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'You succeeded in deleting the schedule.',
+                                    icon: 'success',
+                                    confirmButtonClass: 'btn btn-success btn-fill',
+                                    confirmButtonText: 'OK',
+                                    buttonsStyling: false
+                                });
+                            })
+                            .catch(error => {
+                                console.log("Schedule[" + schedule.id + "] Delete Exception!");
+                                console.log(error);
+                            });
+                    }
+                })
+            },
+            modify_schedule(schedule) {
+                alert("Modify! " + schedule.id);
+            },
             clear() {
                 alert(this.select);
+            },
+            time_format(time) {
+                return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
             }
         },
         mounted() {
@@ -306,6 +346,7 @@
             // TODO : EventSource 주소 상수화 필요
             this.sse_source = new EventSource("http://localhost:10831/calendar/schedules/sse");
             this.sse_source.onmessage = (event) => { 
+                console.log('Receive Event : ' + event);
                 var event_data = JSON.parse(event.data);
                 if (event_data.schedule.year === this.year) {
                     if (event_data.schedule.month === this.month && event_data.schedule.day === this.day) {
