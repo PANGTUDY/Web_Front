@@ -112,7 +112,7 @@
                         <v-btn text @click="schedule_dialog_clear()">
                             Clear
                         </v-btn>
-                        <v-btn text @click="dialog = false">
+                        <v-btn text @click="schedule_dialog_save()">
                             Save
                         </v-btn>
                     </v-toolbar-items>
@@ -309,6 +309,26 @@
             add_schedule() {
                 this.schedule_dialog_clear();
                 this.dialog = true;
+            },
+            schedule_dialog_save() {
+                var schedule = {
+                    "year": this.year,
+                    "month": this.month,
+                    "day": this.day,
+                    "title": this.schedule_title,
+                    "startTime": this.schedule_start,
+                    "endTime": this.schedule_end,
+                    "writer": "박찬준",
+                    "alarm": 0,
+                    "comment": this.scehdule_comment
+                };
+                
+                console.log(schedule);
+                Api.create_schedule(schedule).then(data => {
+                    this.$store.dispatch('add_schedule', schedule);
+                    this.schedule_dialog_clear();
+                });
+                this.dialog = false;  
             },
             delete_schedule(schedule) {
                 Swal.fire({

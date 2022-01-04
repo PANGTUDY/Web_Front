@@ -75,6 +75,9 @@ export default new Vuex.Store({
             const calendar = await Api.get_calendar(year);
             commit("LOAD_CALENDAR", { year: year, calendar: calendar.data });
         },
+        add_schedule({commit}, schedule) {
+            commit('CREATE_CALENDAR', { schedule: schedule });
+        },
         call_calendar_event({commit}, event_data) {
             switch (event_data.type) {
                 case 'CREATE':
