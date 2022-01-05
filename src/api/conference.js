@@ -9,8 +9,15 @@ export async function delete_schedule(id) {
 }
 
 export async function create_schedule(schedule) {
-    console.log(schedule)
     return instance.post("/calendar/schedule", schedule, {
+        headers: {
+            'Content-Type': `application/json`,
+        },
+    });
+}
+
+export async function modify_schedule(schedule) {
+    return instance.put("/calendar/schedules/" + schedule.id, schedule, {
         headers: {
             'Content-Type': `application/json`,
         },

@@ -262,6 +262,8 @@
                     mdiPencil,
                     mdiDelete
                 },
+                is_modify: false,
+                modify_id: 0,
 
                 /* 
                     Schedule Add Dialog 관련 변수
@@ -308,6 +310,7 @@
         methods: {
             add_schedule() {
                 this.schedule_dialog_clear();
+                this.modify = false;
                 this.dialog = true;
             },
             schedule_dialog_save() {
@@ -323,11 +326,18 @@
                     "comment": this.scehdule_comment
                 };
                 
-                console.log(schedule);
-                Api.create_schedule(schedule).then(data => {
-                    this.$store.dispatch('add_schedule', schedule);
-                    this.schedule_dialog_clear();
-                });
+                if (this.modify) {
+                    schedule['id'] = this.modify_id;
+                    Api.modify_schedule(schedule).then(data => {
+                        this.$store.dispatch('modify_schedule', data.data);
+                    });
+                } else {
+                    Api.create_schedule(schedule).then(data => {
+                        console.log(data);
+                        this.$store.dispatch('add_schedule', data.data);
+                    });
+                }
+                this.schedule_dialog_clear();
                 this.dialog = false;  
             },
             delete_schedule(schedule) {
@@ -361,7 +371,17 @@
                 })
             },
             modify_schedule(schedule) {
-                alert("Modify! " + schedule.id);
+                this.schedule_title = schedule.title;
+                this.schedule_start = this.time_format(schedule.startTime);
+                this.schedule_end = this.time_format(schedule.endTime);
+                this.schedule_select_members = ['박찬준'];
+                this.schedule_is_alram = schedule.alarm == 0 ? false : true;
+                this.schedule_select_time = ['15분전'];
+                this.scehdule_comment = schedule.comment;
+
+                this.modify = true;
+                this.modify_id = schedule.id;
+                this.dialog = true;
             },
             schedule_dialog_clear() {
                 this.schedule_title = '';
