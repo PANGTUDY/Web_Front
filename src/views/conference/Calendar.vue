@@ -307,6 +307,11 @@
                 return this.$store.state.calendar;
             }
         },
+        watch: {
+            year: function(year) {
+                this.$store.dispatch("load_calendar", year);
+            }
+        },
         methods: {
             add_schedule() {
                 this.schedule_dialog_clear();
