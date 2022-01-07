@@ -4,7 +4,7 @@
             <div class="col-lg-9">
                 <v-sheet height="64">
                     <v-toolbar flat>
-                        <v-btn outlined class="mr-4" color=" darken-2" @click="setToday">
+                        <v-btn outlined class="mr-4" color=" darken-2" @click="set_today">
                             Today
                         </v-btn>
                         <v-spacer />
@@ -27,8 +27,8 @@
                         ref="calendar"
                         v-model="focus"
                         color="primary"
-                        :events="this.events"
-                        :event-color="getEventColor"
+                        :events="this.schedules"
+                        :event-color="get_event_color"
                         type="month"
                         @click:event="show_schedule">
                 </v-calendar>
@@ -63,7 +63,7 @@
             </div>
             <div class="col-lg-3">
                 <div class="row py-3" style="margin-bottom: 10px">
-                    <h5 class="mb-0"> {{ this.year }}.{{ this.month }}.{{ this.day }} </h5>
+                    <h5 class="mb-0"> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} </h5>
                 </div>
                 <v-card elevation="2">
                     <!-- <v-row v-if="this.calendar[this.year + '-' + this.month + '-' + this.day] === undefined">
@@ -322,32 +322,32 @@
         },
         computed: {
             year() {
-                return this.focus !== '' ? this.focus.split('-')[0] : new Date().getFullYear();
+                return this.focus !== '' ? this.focus.split('-')[0].replace(/^0+/,'') : new Date().getFullYear();
             },
             month() {
-                return this.focus !== '' ? this.focus.split('-')[1] : String(new Date().getMonth() + 1).padStart(2, '0');
+                return this.focus !== '' ? this.focus.split('-')[1].replace(/^0+/,'') : new Date().getMonth() + 1;
             },
             day() {
-                return this.focus !== '' ? this.focus.split('-')[2] : String(new Date().getDate()).padStart(2, '0');
+                return this.focus !== '' ? this.focus.split('-')[2].replace(/^0+/,'') : new Date().getDate();
             },
             calendar() {
                 return this.$store.state.calendar;
             },
-            events() {
-                const events = [];
+            schedules() {
+                const schedules = [];
                 for (const key in this.$store.state.calendar) {
                     this.$store.state.calendar[key].forEach(schedule => {
-                        events.push({
+                        schedules.push({
                             name: schedule.title,
                             start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
                             end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
                             color: 'blue',
-                            detail: schedule.comment,
+                            details: schedule.comment,
                             timed: false,
                         });
                     });
                 }
-                return events;
+                return schedules;
             }
         },
         watch: {
@@ -356,10 +356,10 @@
             },
         },
         methods: {
-            getEventColor (event) {
+            get_event_color (event) {
                 return event.color;
             },
-            setToday () {
+            set_today () {
                 this.focus = '';
             },
             prev () {
@@ -369,7 +369,6 @@
                 this.$refs.calendar.next();
             },
             show_schedule ({ nativeEvent, event }) {
-                console.log(event);
                 const open = () => {
                     this.selected_schedule = event
                     this.selected_element = nativeEvent.target
@@ -382,10 +381,8 @@
                 } else {
                     open()
                 }
-
                 nativeEvent.stopPropagation()
             },
-
             add_schedule() {
                 this.schedule_dialog_clear();
                 this.modify = false;
