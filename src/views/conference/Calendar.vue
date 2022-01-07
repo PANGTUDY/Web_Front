@@ -2,42 +2,64 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-9">
-                <el-calendar v-model="select_date">
-                    <template slot="dateCell" slot-scope="{date, data}">
-                        <div>
-                            <p :class="data.isSelected ? 'is-selected' : ''">
-                                {{ date.getDate() }}
-                            </p>
-                            <div v-if="calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()] !== undefined">
-                                <!-- 일정이 2개 이하라면 -->
-                                <div v-if="calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()].length <= 2">
-                                    <el-row v-for="item in calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()]" :key="item.id" :gutter="12">
-                                        <el-col :span="24">
-                                            <div class="grid-content-xs bg-purple-light">
-                                                <b style="font-size: 12px"> {{ time_format(item.startTime) }} {{ item.comment }} </b> 
-                                            </div>
-                                        </el-col>
-                                    </el-row>
-                                </div>
-                                <!-- 아니라면 more 로 표기 -->
-                                <div v-else>
-                                    <el-row v-for="item in calendar[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()].slice(0, 2)" :key="item.id" :gutter="12">
-                                        <el-col :span="24">
-                                            <div class="grid-content-xs bg-purple-light">
-                                                <b style="font-size: 12px"> {{ time_format(item.startTime) }} {{ item.comment }} </b> 
-                                            </div>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col style="text-align: center">
-                                            <b style="font-size: 12px"> more... </b>
-                                        </el-col>
-                                    </el-row>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </el-calendar>
+                <v-sheet height="64">
+                    <v-toolbar flat>
+                        <v-btn outlined class="mr-4" color=" darken-2" @click="setToday">
+                            Today
+                        </v-btn>
+                        <v-spacer />
+                        <v-btn fab text small color="grey darken-2" @click="prev">
+                            <v-icon small>
+                                mdi-chevron-left
+                            </v-icon>
+                        </v-btn>
+                        <v-btn fab text small color="grey darken-2" @click="next">
+                            <v-icon small>
+                                mdi-chevron-right
+                            </v-icon>
+                        </v-btn>
+                        <v-toolbar-title v-if = "$refs.calendar">
+                            {{ $refs.calendar.title }}
+                        </v-toolbar-title>
+                    </v-toolbar>
+                </v-sheet>
+                <v-calendar 
+                        ref="calendar"
+                        v-model="focus"
+                        color="primary"
+                        :events="this.events"
+                        :event-color="getEventColor"
+                        type="month"
+                        @click:event="show_schedule">
+                </v-calendar>
+                <v-menu v-model="selected_open"
+                        :close-on-content-click="false"
+                        :activator="selected_element"
+                        offset-x>
+                    <v-card color="grey lighten-4" min-width="350px" flat>
+                        <v-toolbar :color="selected_schedule.color" dark>
+                            <v-btn icon>
+                                <v-icon> mdi-pencil </v-icon>
+                            </v-btn>
+                            <v-toolbar-title v-html="selected_schedule.name" />
+                            <v-spacer />
+                            <v-btn icon>
+                                <v-icon> mdi-heart </v-icon>
+                            </v-btn>
+                            <v-btn icon>
+                                <v-icon> mdi-dots-vertical </v-icon>
+                            </v-btn>
+                        </v-toolbar>
+                        <v-card-text>
+                            <span v-html="selected_schedule.details" />
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn text color="secondary" @click="selected_open = false">
+                                Cancel
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-menu>
             </div>
             <div class="col-lg-3">
                 <div class="row py-3" style="margin-bottom: 10px">
@@ -254,6 +276,11 @@
         },
         data() {
             return {
+                focus: '',
+                selected_schedule: {},
+                selected_element: null,
+                selected_open: false,
+
                 select_date: new Date(),
                 change: false,
                 dialog: false,
@@ -295,24 +322,70 @@
         },
         computed: {
             year() {
-                return this.select_date.getFullYear();
+                return this.focus !== '' ? this.focus.split('-')[0] : new Date().getFullYear();
             },
             month() {
-                return this.select_date.getMonth() + 1;
+                return this.focus !== '' ? this.focus.split('-')[1] : String(new Date().getMonth() + 1).padStart(2, '0');
             },
             day() {
-                return this.select_date.getDate();
+                return this.focus !== '' ? this.focus.split('-')[2] : String(new Date().getDate()).padStart(2, '0');
             },
             calendar() {
                 return this.$store.state.calendar;
+            },
+            events() {
+                const events = [];
+                for (const key in this.$store.state.calendar) {
+                    this.$store.state.calendar[key].forEach(schedule => {
+                        events.push({
+                            name: schedule.title,
+                            start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
+                            end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
+                            color: 'blue',
+                            detail: schedule.comment,
+                            timed: false,
+                        });
+                    });
+                }
+                return events;
             }
         },
         watch: {
             year: function(year) {
                 this.$store.dispatch("load_calendar", year);
-            }
+            },
         },
         methods: {
+            getEventColor (event) {
+                return event.color;
+            },
+            setToday () {
+                this.focus = '';
+            },
+            prev () {
+                this.$refs.calendar.prev();
+            },
+            next () {
+                this.$refs.calendar.next();
+            },
+            show_schedule ({ nativeEvent, event }) {
+                console.log(event);
+                const open = () => {
+                    this.selected_schedule = event
+                    this.selected_element = nativeEvent.target
+                    requestAnimationFrame(() => requestAnimationFrame(() => this.selected_open = true))
+                }
+
+                if (this.selected_open) {
+                    this.selected_open = false
+                    requestAnimationFrame(() => requestAnimationFrame(() => open()))
+                } else {
+                    open()
+                }
+
+                nativeEvent.stopPropagation()
+            },
+
             add_schedule() {
                 this.schedule_dialog_clear();
                 this.modify = false;
@@ -399,6 +472,7 @@
             }
         },
         mounted() {
+            this.$refs.calendar.checkChange();
             this.$store.dispatch("load_calendar", this.year);
             // TODO : EventSource 주소 상수화 필요
             this.sse_source = new EventSource("http://localhost:10831/calendar/schedules/sse");

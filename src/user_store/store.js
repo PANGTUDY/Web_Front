@@ -53,7 +53,6 @@ export default new Vuex.Store({
            state.calendar[date][update_id] = payload.schedule;
         },
         DELETE_SCHEDULE(state, payload) {
-            console.log(state.calendar);
             for (const date in state.calendar) {
                 var delete_index = state.calendar[date].findIndex(schedule => schedule.id === payload.id);
                 if (delete_index !== -1) {
@@ -98,7 +97,6 @@ export default new Vuex.Store({
                     commit('UPDATE_SCHEDULE', { schedule: event_data.schedule });
                     break;
                 case 'DELETE':
-                    console.log('hihi');
                     commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
                     break;
             }
