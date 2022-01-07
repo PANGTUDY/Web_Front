@@ -334,12 +334,9 @@
                 if (this.modify) {
                     schedule['id'] = this.modify_id;
                     Api.modify_schedule(schedule).then(data => {
-                        this.$store.dispatch('modify_schedule', data.data);
                     });
                 } else {
                     Api.create_schedule(schedule).then(data => {
-                        console.log(data);
-                        this.$store.dispatch('add_schedule', data.data);
                     });
                 }
                 this.schedule_dialog_clear();
@@ -406,8 +403,11 @@
             // TODO : EventSource 주소 상수화 필요
             this.sse_source = new EventSource("http://localhost:10831/calendar/schedules/sse");
             this.sse_source.onmessage = (event) => { 
-                console.log('Receive Event : ' + event);
+                console.log(event);
                 var event_data = JSON.parse(event.data);
+                if (event_data.type === 'DELETE') {
+                    this.$store.dispatch("call_calendar_event", event_data);
+                }
                 if (event_data.schedule.year === this.year) {
                     if (event_data.schedule.month === this.month && event_data.schedule.day === this.day) {
                         this.change = true;

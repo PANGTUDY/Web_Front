@@ -51,8 +51,16 @@ export default new Vuex.Store({
            var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
            var update_id = state.calendar[date].findIndex(schedule => schedule.id === payload.schedule.id);
            state.calendar[date][update_id] = payload.schedule;
+        },
+        DELETE_SCHEDULE(state, payload) {
+            console.log(state.calendar);
+            for (const date in state.calendar) {
+                var delete_index = state.calendar[date].findIndex(schedule => schedule.id === payload.id);
+                if (delete_index !== -1) {
+                    state.calendar[date].splice(delete_index, 1);
+                }
+            }
         }
-        
     },
     actions:{
         register({commit},credentials){
@@ -88,6 +96,10 @@ export default new Vuex.Store({
                     break;
                 case 'MODIFY':
                     commit('UPDATE_SCHEDULE', { schedule: event_data.schedule });
+                    break;
+                case 'DELETE':
+                    console.log('hihi');
+                    commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
                     break;
             }
         }
