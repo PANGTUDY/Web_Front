@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const instance = axios.create({
+export const instance = axios.create({
     baseURL: 'http://127.0.0.1:10831'
 });
 
-export default instance;
+export const boardInstance = axios.create({
+    baseURL: 'http://pangtudy.xyz:10831/'
+});

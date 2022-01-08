@@ -91,15 +91,18 @@
 </template>
 
 <script>
+import * as Api from '@/api/board.js';
+
 export default {
     data: () => ({
         keyword: '',
-        list: [
-            { id: '1', subject: '제목1', name: '김민주', regdate: '2021-10-10'},
-            { id: '2', subject: '제목2', name: '김민주', regdate: '2021-10-10'},
-            { id: '3', subject: '제목3', name: '김민주', regdate: '2021-10-10'},
-            { id: '4', subject: '제목4', name: '김민주', regdate: '2021-10-10'},
-        ],
+        list: [],
+        // list: [
+        //     { id: '1', subject: '제목1', name: '김민주', regdate: '2021-10-10'},
+        //     { id: '2', subject: '제목2', name: '김민주', regdate: '2021-10-10'},
+        //     { id: '3', subject: '제목3', name: '김민주', regdate: '2021-10-10'},
+        //     { id: '4', subject: '제목4', name: '김민주', regdate: '2021-10-10'},
+        // ],
         selectedItem: 0,
         hint: '키워드를 입력하세요',
         select: { text:'제목', value: 0 },
@@ -133,6 +136,14 @@ export default {
             console.log(id);
 			this.$router.push({path:'./view/' + id});
         },
+    },
+    mounted() {
+        Api.get_post_list().then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     },
 }
 </script>

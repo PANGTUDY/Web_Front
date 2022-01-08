@@ -1,14 +1,29 @@
 <template>
   <div class="container pt-lg-sd" style="min-height: 800px">
     <div class="row justify-content-center">
-      <div class="col-lg-2">
+      <div class="col-lg-8 pb-0" align="right">
+        <v-btn
+          elevation="2"
+          depressed
+          color="blue"
+          class="mr-2"
+        >취소</v-btn>
+        <v-btn
+          elevation="2"
+          depressed
+          color="blue lighten-4"
+        >저장</v-btn>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-2 pt-0">
         <v-select
           :items="categoryItems"
           label="카테고리"
           single-line
         ></v-select>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6 pt-0">
         <v-text-field
           placeholder="제목을 입력하세요"
           hide-details="auto"
@@ -18,46 +33,55 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-lg-8">
+      <div class="col-lg-8 padding0">
         <TipTap
           :options="options"
-          style="margin-bottom: 0px;"
+          style="margin-bottom: 5px;"
         />
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-lg-8">
+      <div class="col-lg-8 padding0">
         <v-combobox
           v-model="model"
           :search-input.sync="search"
+          dense
+          prepend-icon="mdi-pound"
+          append-icon=""
           placeholder="해시태그"
+          no-data-text="해시태그"
           clearable
           multiple
           deletable-chips
           chips
         >
-           <template v-slot:no-data>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>
-                  No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
         </v-combobox> 
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 padding0">
+        <v-file-input
+          multiple
+          show-size
+          truncate-length="15"
+        ></v-file-input>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.v-input__append-inner {
-  display: none;
+.padding0 {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+.padding0 > .v-input {
+  padding-top: 0px;
 }
 </style>
 
 <script>
+import * as Api from '@/api/board.js';
 import TipTap from '@/components/TipTap'
 export default {
   components: {
