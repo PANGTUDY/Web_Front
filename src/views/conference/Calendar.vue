@@ -30,7 +30,8 @@
                         :events="this.schedules"
                         :event-color="get_event_color"
                         type="month"
-                        @click:event="show_schedule">
+                        @click:event="show_schedule"
+                        style="height: 800px">
                 </v-calendar>
                 <v-menu v-model="selected_open"
                         :close-on-content-click="false"
@@ -280,6 +281,7 @@
                 selected_schedule: {},
                 selected_element: null,
                 selected_open: false,
+                schedules: [],
 
                 select_date: new Date(),
                 change: false,
@@ -332,28 +334,7 @@
             },
             calendar() {
                 return this.$store.state.calendar;
-            },
-            schedules() {
-                const schedules = [];
-                for (const key in this.$store.state.calendar) {
-                    this.$store.state.calendar[key].forEach(schedule => {
-                        schedules.push({
-                            name: schedule.title,
-                            start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
-                            end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
-                            color: 'blue',
-                            details: schedule.comment,
-                            timed: false,
-                        });
-                    });
-                }
-                return schedules;
             }
-        },
-        watch: {
-            year: function(year) {
-                this.$store.dispatch("load_calendar", year);
-            },
         },
         methods: {
             get_event_color (event) {
@@ -410,7 +391,7 @@
                     });
                 }
                 this.schedule_dialog_clear();
-                this.dialog = false;  
+                this.dialog = false;
             },
             delete_schedule(schedule) {
                 Swal.fire({
@@ -468,24 +449,72 @@
                 return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
             }
         },
-        mounted() {
+        async mounted() {
             this.$refs.calendar.checkChange();
-            this.$store.dispatch("load_calendar", this.year);
+
             // TODO : EventSource 주소 상수화 필요
             this.sse_source = new EventSource("http://localhost:10831/calendar/schedules/sse");
             this.sse_source.onmessage = (event) => { 
                 var event_data = JSON.parse(event.data);
                 console.log(event_data);
                 if (event_data.type === 'DELETE') {
-                    this.$store.dispatch("call_calendar_event", event_data);
+                    this.$store.dispatch("change_schedule_event", event_data);
                 }
                 if (event_data.schedule.year === this.year) {
                     if (event_data.schedule.month === this.month && event_data.schedule.day === this.day) {
                         this.change = true;
                     }
-                    this.$store.dispatch("call_calendar_event", event_data);
+                    this.$store.dispatch("change_schedule_event", event_data);
                 }
             }
+
+            // 최초 캘린더(현재날짜기준) 정보 읽어오기
+            await Api.get_calendar(this.year).then(data => {
+                this.$store.dispatch("load_calendar", { year: this.year, calendar: data.data });
+
+                const schedules = [];
+                for (const key in this.$store.state.calendar) {
+                    this.$store.state.calendar[key].forEach(schedule => {
+                        schedules.push({
+                            id: schedule.id,
+                            name: schedule.title,
+                            start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
+                            end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
+                            color: 'blue',
+                            details: schedule.comment,
+                            timed: false,
+                        });
+                    });
+                }
+                this.schedules = schedules;
+            });
+            
+            // Vuex Action 호출시 트리거되는 콜백메소드 설정
+            this.$store.subscribeAction((action, state) => {
+                if (action.type === 'change_schedule_event') {
+                    const schedule = action.payload.schedule;
+                    switch (action.payload.type) {
+                        case 'CREATE':
+                            this.schedules.push({
+                                id: schedule.id,
+                                name: schedule.title,
+                                start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
+                                end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
+                                color: 'blue',
+                                details: schedule.comment,
+                                timed: false,
+                            });
+                            break;
+                        case 'MODIFY':
+                            
+                            break;
+                        case 'DELETE':
+                            const delete_index = this.schedules.findIndex(_schedule => _schedule.id === schedule.id);
+                            this.schedules.splice(delete_index, 1);
+                            break;
+                    }
+                }
+            });
         },
         beforeDestroy() {
             this.sse_source.close();

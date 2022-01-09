@@ -78,9 +78,8 @@ export default new Vuex.Store({
         logout({commit}){
             commit('LOGOUT')
         },
-        async load_calendar({ commit }, year) {
-            const calendar = await Api.get_calendar(year);
-            commit("LOAD_CALENDAR", { year: year, calendar: calendar.data });
+        load_calendar({ commit }, payload) {
+            commit("LOAD_CALENDAR", { year: payload.year, calendar: payload.calendar});
         },
         add_schedule({commit}, schedule) {
             commit('CREATE_SCHEDULE', { schedule: schedule });
@@ -88,7 +87,7 @@ export default new Vuex.Store({
         modify_schedule({commit}, schedule){ 
             commit('UPDATE_SCHEDULE', { schedule: schedule});
         },
-        call_calendar_event({commit}, event_data) {
+        change_schedule_event({commit}, event_data) {
             switch (event_data.type) {
                 case 'CREATE':
                     commit('CREATE_SCHEDULE', { schedule: event_data.schedule });
