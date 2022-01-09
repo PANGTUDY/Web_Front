@@ -51,8 +51,15 @@ export default new Vuex.Store({
            var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
            var update_id = state.calendar[date].findIndex(schedule => schedule.id === payload.schedule.id);
            state.calendar[date][update_id] = payload.schedule;
+        },
+        DELETE_SCHEDULE(state, payload) {
+            for (const date in state.calendar) {
+                var delete_index = state.calendar[date].findIndex(schedule => schedule.id === payload.id);
+                if (delete_index !== -1) {
+                    state.calendar[date].splice(delete_index, 1);
+                }
+            }
         }
-        
     },
     actions:{
         register({commit},credentials){
@@ -71,9 +78,8 @@ export default new Vuex.Store({
         logout({commit}){
             commit('LOGOUT')
         },
-        async load_calendar({ commit }, year) {
-            const calendar = await Api.get_calendar(year);
-            commit("LOAD_CALENDAR", { year: year, calendar: calendar.data });
+        load_calendar({ commit }, payload) {
+            commit("LOAD_CALENDAR", { year: payload.year, calendar: payload.calendar});
         },
         add_schedule({commit}, schedule) {
             commit('CREATE_SCHEDULE', { schedule: schedule });
@@ -81,13 +87,16 @@ export default new Vuex.Store({
         modify_schedule({commit}, schedule){ 
             commit('UPDATE_SCHEDULE', { schedule: schedule});
         },
-        call_calendar_event({commit}, event_data) {
+        change_schedule_event({commit}, event_data) {
             switch (event_data.type) {
                 case 'CREATE':
                     commit('CREATE_SCHEDULE', { schedule: event_data.schedule });
                     break;
                 case 'MODIFY':
                     commit('UPDATE_SCHEDULE', { schedule: event_data.schedule });
+                    break;
+                case 'DELETE':
+                    commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
                     break;
             }
         }
