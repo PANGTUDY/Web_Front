@@ -322,13 +322,13 @@
         },
         computed: {
             year() {
-                return this.focus !== '' ? this.focus.split('-')[0].replace(/^0+/,'') : new Date().getFullYear();
+                return this.focus !== '' ? Number(this.focus.split('-')[0].replace(/^0+/,'')) : new Date().getFullYear();
             },
             month() {
-                return this.focus !== '' ? this.focus.split('-')[1].replace(/^0+/,'') : new Date().getMonth() + 1;
+                return this.focus !== '' ? Number(this.focus.split('-')[1].replace(/^0+/,'')) : new Date().getMonth() + 1;
             },
             day() {
-                return this.focus !== '' ? this.focus.split('-')[2].replace(/^0+/,'') : new Date().getDate();
+                return this.focus !== '' ? Number(this.focus.split('-')[2].replace(/^0+/,'')) : new Date().getDate();
             },
             calendar() {
                 return this.$store.state.calendar;
@@ -474,8 +474,8 @@
             // TODO : EventSource 주소 상수화 필요
             this.sse_source = new EventSource("http://localhost:10831/calendar/schedules/sse");
             this.sse_source.onmessage = (event) => { 
-                console.log(event);
                 var event_data = JSON.parse(event.data);
+                console.log(event_data);
                 if (event_data.type === 'DELETE') {
                     this.$store.dispatch("call_calendar_event", event_data);
                 }
