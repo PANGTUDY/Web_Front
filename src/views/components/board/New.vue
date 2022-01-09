@@ -1,73 +1,77 @@
 <template>
-  <div class="container pt-lg-sd" style="min-height: 800px">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 pb-0" align="right">
-        <v-btn
-          elevation="2"
-          depressed
-          color="blue"
-          class="mr-2"
-        >취소</v-btn>
-        <v-btn
-          elevation="2"
-          depressed
-          color="blue lighten-4"
-        >저장</v-btn>
+  <v-app>
+    <div class="container pt-lg-sd" style="min-height: 800px">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 pb-0" align="right">
+          <v-btn
+            elevation="2"
+            color="primary"
+            depressed
+            outlined
+            class="mr-2"
+          >취소</v-btn>
+          <v-btn
+            elevation="2"
+            color="primary"
+            depressed
+            outlined
+          >저장</v-btn>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-2 pt-0">
+          <v-select
+            :items="categoryItems"
+            label="카테고리"
+            single-line
+          ></v-select>
+        </div>
+        <div class="col-lg-6 pt-0">
+          <v-text-field
+            placeholder="제목을 입력하세요"
+            hide-details="auto"
+            type="text"
+          >
+          </v-text-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 padding0">
+          <TipTap
+            :options="options"
+            style="margin-bottom: 5px;"
+          />
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 padding0">
+          <v-combobox
+            v-model="model"
+            :search-input.sync="search"
+            dense
+            prepend-icon="mdi-pound"
+            append-icon=""
+            placeholder="해시태그"
+            no-data-text="해시태그"
+            clearable
+            multiple
+            deletable-chips
+            chips
+          >
+          </v-combobox> 
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 padding0">
+          <v-file-input
+            multiple
+            show-size
+            truncate-length="15"
+          ></v-file-input>
+        </div>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-2 pt-0">
-        <v-select
-          :items="categoryItems"
-          label="카테고리"
-          single-line
-        ></v-select>
-      </div>
-      <div class="col-lg-6 pt-0">
-        <v-text-field
-          placeholder="제목을 입력하세요"
-          hide-details="auto"
-          type="text"
-        >
-        </v-text-field>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-8 padding0">
-        <TipTap
-          :options="options"
-          style="margin-bottom: 5px;"
-        />
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-8 padding0">
-        <v-combobox
-          v-model="model"
-          :search-input.sync="search"
-          dense
-          prepend-icon="mdi-pound"
-          append-icon=""
-          placeholder="해시태그"
-          no-data-text="해시태그"
-          clearable
-          multiple
-          deletable-chips
-          chips
-        >
-        </v-combobox> 
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-8 padding0">
-        <v-file-input
-          multiple
-          show-size
-          truncate-length="15"
-        ></v-file-input>
-      </div>
-    </div>
-  </div>
+  </v-app>
 </template>
 
 <style scoped>
