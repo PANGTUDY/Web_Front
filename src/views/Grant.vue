@@ -36,8 +36,7 @@
           md="3"
         >
           <v-text-field
-            label="Outlined"
-            placeholder="Placeholder"
+            
             outlined
           ></v-text-field>
         </v-col>
@@ -104,6 +103,10 @@ export default {
 </script>
 
 <style>
+.row + .row {
+    margin-top: 65px;
+    margin-bottom: -99px;
+}
 .custom-background{
     background:#dadada;
 
@@ -120,5 +123,67 @@ button.v-btn.v-btn--has-bg.theme--light.v-size--default.primary {
     position: relative;
     margin-top: 18px;
     height: 40px;
+}
+.v-text-field fieldset, .v-text-field .v-input__control {
+    color: currentColor;
+    height: 48px;
+}
+button.v-btn.v-btn--has-bg.theme--light.v-size--default.primary {
+    position: relative;
+    margin-top: 13px;
+    /* margin-left: -56px; */
+    height: 40px;
+}
+.theme--light.v-input {
+    color: rgba(0, 0, 0, 0.87);
+    margin-left: 70px;
+}
+@media (min-width: 768px){
+.col-md-3 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+    float: right;
+    margin-left: 37%;
+}
+}
+.v-application .d-flex {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    margin-left: 71px;
+}
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details {
+    padding: 0 12px;
+    /* width: 180px; */
+}
+.v-slide-group__content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    position: relative;
+    -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    white-space: nowrap;
+    margin-left: 85px;
+    /* margin-top: -2px; */
+}
+.theme--light.v-tabs > .v-tabs-bar {
+    background-color: #FFFFFF;
+    margin-top: 50px;
+    margin-bottom: -47px;
+}
+.v-banner--single-line .v-banner__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 45px;
+    margin-bottom: 7px;
+    font-size: 20px;
+    margin-top: 10px;
 }
 </style>
