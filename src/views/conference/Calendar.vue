@@ -308,14 +308,7 @@
                 end_time: false,
                 schedule_select_members: [],
                 // TODO : 회원목록 읽어오기 (User-API)
-                members: [
-                    '박찬준',
-                    '원철황',
-                    '김민주',
-                    '박혜원',
-                    '서진하',
-                    '임재창'
-                ],
+                members: ['박찬준', '원철황', '김민주', '박혜원', '서진하', '임재창'],
                 schedule_is_alram: false,
                 time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
                 schedule_select_time: [],
@@ -370,6 +363,7 @@
                 this.dialog = true;
             },
             schedule_dialog_save() {
+                // TODO : writer, alarm 설정 필요
                 var schedule = {
                     "year": this.year,
                     "month": this.month,
@@ -418,12 +412,12 @@
                             })
                             .catch(error => {
                                 console.log("Schedule[" + schedule.id + "] Delete Exception!");
-                                console.log(error);
                             });
                     }
                 })
             },
             modify_schedule(schedule) {
+                // TODO : select_members, select_time 동적으로 수정 필요
                 this.schedule_title = schedule.title;
                 this.schedule_start = this.time_format(schedule.startTime);
                 this.schedule_end = this.time_format(schedule.endTime);
@@ -457,6 +451,7 @@
             this.sse_source.onmessage = (event) => { 
                 var event_data = JSON.parse(event.data);
                 console.log(event_data);
+                // DELETE 는 event_data.schedule 에 id 만 넘어오기 때문에 일단 이렇게 처리... 개선이 필요한 부분
                 if (event_data.type === 'DELETE') {
                     this.$store.dispatch("change_schedule_event", event_data);
                 }
@@ -524,23 +519,4 @@
 </script>
 
 <style>
- .el-row {
-    margin-bottom: 10px;
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-light {
-    background: #DAF1DB;
-  }
-  .grid-content {
-    border-radius: 7px;
-    padding: 10px;
-  }
-  .grid-content-xs {
-    border-radius: 7px;
-    padding-left: 7px;
-    padding-right: 7px;
-    padding-bottom: 2px;
-  }
 </style>
