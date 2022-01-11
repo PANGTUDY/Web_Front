@@ -7239,10 +7239,10 @@
     "prosemirror-state" "^1.0.0"
     "w3c-keyname" "^2.2.0"
 
-"prosemirror-model@^1.0.0", "prosemirror-model@^1.13.1", "prosemirror-model@^1.14.3", "prosemirror-model@^1.8.1":
-  "integrity" "sha512-hQJv7SnIhlAy9ga3lhPPgaufhvCbQB9tHwscJ9E1H1pPHmN8w5V/lURueoYv9Kc3/bpNWoyHa8r3g//m7N0ChQ=="
-  "resolved" "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.15.0.tgz"
-  "version" "1.15.0"
+"prosemirror-model@^1.0.0", "prosemirror-model@^1.13.1", "prosemirror-model@^1.14.3", "prosemirror-model@^1.16.1", "prosemirror-model@^1.8.1":
+  "integrity" "sha512-r1/w0HDU40TtkXp0DyKBnFPYwd8FSlUSJmGCGFv4DeynfeSlyQF2FD0RQbVEMOe6P3PpUSXM6LZBV7W/YNZ4mA=="
+  "resolved" "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.16.1.tgz"
+  "version" "1.16.1"
   dependencies:
     "orderedmap" "^1.1.0"
 

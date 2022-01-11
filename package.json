@@ -21,6 +21,7 @@
     "lodash": "^4.17.21",
     "mdi": "^2.2.43",
     "nouislider": "^11.1.0",
+    "prosemirror-model": "^1.16.1",
     "read-modify-write": "^1.0.5",
     "register-service-worker": "^1.5.2",
     "sweetalert2": "^11.3.3",
