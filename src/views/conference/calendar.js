@@ -91,6 +91,9 @@ export default {
             }
             nativeEvent.stopPropagation()
         },
+        more_schedules({ date }) {
+            this.focus = date;
+        },
         add_schedule() {
             this.schedule_dialog_clear();
             this.modify = false;

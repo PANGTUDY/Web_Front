@@ -31,6 +31,7 @@
                         :event-color="get_event_color"
                         type="month"
                         @click:event="show_schedule"
+                        @click:more="more_schedules"
                         style="height: 800px">
                 </v-calendar>
                 <v-menu v-model="selected_open"
