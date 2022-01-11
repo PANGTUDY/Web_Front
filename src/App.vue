@@ -5,7 +5,7 @@
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>
-      <chat></chat>
+      <chat :open="open" @close="open= false" @open="open=true"></chat>
     </v-main>
     <router-view name="footer"></router-view>
   </div>
@@ -19,6 +19,13 @@ export default {
     FadeTransition,
     chat
   },
+  data(){
+      return{
+          open: false,
+      }
+  },
+  
+  
 };
 </script>
 <style>
