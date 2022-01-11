@@ -82,12 +82,6 @@ export default new Vuex.Store({
         load_calendar({ commit }, payload) {
             commit("LOAD_CALENDAR", { year: payload.year, calendar: payload.calendar});
         },
-        add_schedule({commit}, schedule) {
-            commit('CREATE_SCHEDULE', { schedule: schedule });
-        },
-        modify_schedule({commit}, schedule){ 
-            commit('UPDATE_SCHEDULE', { schedule: schedule});
-        },
         change_schedule_event({commit}, event_data) {
             switch (event_data.type) {
                 case 'CREATE':
