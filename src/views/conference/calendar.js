@@ -60,8 +60,31 @@ export default {
             return this.focus !== '' ? Number(this.focus.split('-')[2].replace(/^0+/,'')) : new Date().getDate();
         },
         calendar() {
-            return this.$store.state.calendar;
+            const calendar = this.$store.getters.get_calendar;
+            const schedules = [];
+            for (const key in calendar) {
+                calendar[key].forEach(schedule => {
+                    schedules.push({
+                        id: schedule.id,
+                        name: schedule.title,
+                        start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
+                        end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
+                        color: 'blue',
+                        details: schedule.comment,
+                        timed: true,
+                    });
+                })
+            }
+            this.schedules = schedules;
+            return calendar;
         }
+    },
+    watch: {
+        year: async function(year) {
+            await Api.get_calendar(this.year).then(data => {
+                this.$store.dispatch("load_calendar", { year: this.year, calendar: data.data });
+            });
+        },
     },
     methods: {
         get_event_color (event) {
@@ -203,49 +226,6 @@ export default {
         // 최초 캘린더(현재날짜기준) 정보 읽어오기
         await Api.get_calendar(this.year).then(data => {
             this.$store.dispatch("load_calendar", { year: this.year, calendar: data.data });
-
-            const schedules = [];
-            for (const key in this.$store.state.calendar) {
-                this.$store.state.calendar[key].forEach(schedule => {
-                    schedules.push({
-                        id: schedule.id,
-                        name: schedule.title,
-                        start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
-                        end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
-                        color: 'blue',
-                        details: schedule.comment,
-                        timed: false,
-                    });
-                });
-            }
-            this.schedules = schedules;
-        });
-        
-        // Vuex Action 호출시 트리거되는 콜백메소드 설정
-        this.$store.subscribeAction((action, state) => {
-            if (action.type === 'change_schedule_event') {
-                const schedule = action.payload.schedule;
-                switch (action.payload.type) {
-                    case 'CREATE':
-                        this.schedules.push({
-                            id: schedule.id,
-                            name: schedule.title,
-                            start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
-                            end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
-                            color: 'blue',
-                            details: schedule.comment,
-                            timed: false,
-                        });
-                        break;
-                    case 'MODIFY':
-                        
-                        break;
-                    case 'DELETE':
-                        const delete_index = this.schedules.findIndex(_schedule => _schedule.id === schedule.id);
-                        this.schedules.splice(delete_index, 1);
-                        break;
-                }
-            }
         });
     },
     beforeDestroy() {
