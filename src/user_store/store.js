@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Vue from 'vue';
 import Vuex from 'vuex';
-import * as Api from '@/api/conference';
 
 Vue.use(Vuex);
 
