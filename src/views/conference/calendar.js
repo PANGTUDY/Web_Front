@@ -19,7 +19,8 @@ export default {
 
             select_date: new Date(),
             change: false,
-            dialog: false,
+            create_dialog: false,
+            detail_dialog: false,
             sse_source: null,
             icons: {
                 mdiPencil,
@@ -120,7 +121,7 @@ export default {
         add_schedule() {
             this.schedule_dialog_clear();
             this.modify = false;
-            this.dialog = true;
+            this.create_dialog = true;
         },
         schedule_dialog_save() {
             // TODO : writer, alarm 설정 필요
@@ -145,7 +146,7 @@ export default {
                 });
             }
             this.schedule_dialog_clear();
-            this.dialog = false;
+            this.create_dialog = false;
         },
         delete_schedule(schedule) {
             Swal.fire({
@@ -188,7 +189,7 @@ export default {
 
             this.modify = true;
             this.modify_id = schedule.id;
-            this.dialog = true;
+            this.create_dialog = true;
         },
         schedule_dialog_clear() {
             this.schedule_title = '';

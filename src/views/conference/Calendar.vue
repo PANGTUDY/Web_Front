@@ -40,17 +40,9 @@
                         offset-x>
                     <v-card color="grey lighten-4" min-width="350px" flat>
                         <v-toolbar :color="selected_schedule.color" dark>
-                            <v-btn icon>
-                                <v-icon> mdi-pencil </v-icon>
-                            </v-btn>
+                            <v-icon> mdi-calendar </v-icon>
+                            &nbsp; &nbsp;
                             <v-toolbar-title v-html="selected_schedule.name" />
-                            <v-spacer />
-                            <v-btn icon>
-                                <v-icon> mdi-heart </v-icon>
-                            </v-btn>
-                            <v-btn icon>
-                                <v-icon> mdi-dots-vertical </v-icon>
-                            </v-btn>
                         </v-toolbar>
                         <v-card-text>
                             <span v-html="selected_schedule.details" />
@@ -118,7 +110,7 @@
                 </v-btn>
             </template>
         </v-snackbar>
-        <v-dialog v-model="dialog"
+        <v-dialog v-model="create_dialog"
                 fullscreen
                 hide-overlay
                 transition="dialog-bottom-transition">
@@ -127,7 +119,7 @@
                     dark
                     color="dark"
                     >
-                    <v-btn icon @click="dialog = false">
+                    <v-btn icon @click="create_dialog = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} 일정 등록</v-toolbar-title>
@@ -260,6 +252,8 @@
                     </v-list-item>
                 </v-list>
             </v-card>
+        </v-dialog>
+        <v-dialog v-model="detail_dialog">
         </v-dialog>
     </div>
 </template>
