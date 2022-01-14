@@ -253,8 +253,7 @@
                 </v-list>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="detail_dialog">
-        </v-dialog>
+        <DetailDialog :is_dialog="detail_dialog" :schedule="current_schedule" @close="close_detail_dialog"></DetailDialog>
     </div>
 </template>
 

@@ -4,10 +4,11 @@ import {
 } from '@mdi/js';
 import * as Api from '@/api/conference';
 import Swal from 'sweetalert2';
+import DetailDialog from './DetailDialog.vue';
 
 export default {
     components: {
-        Modal
+        Modal, DetailDialog
     },
     data() {
         return {
@@ -17,6 +18,8 @@ export default {
             selected_open: false,
             schedules: [],
 
+            current_schedule: null,
+            
             select_date: new Date(),
             change: false,
             create_dialog: false,
@@ -85,9 +88,14 @@ export default {
             await Api.get_calendar(this.year).then(data => {
                 this.$store.dispatch("load_calendar", { year: this.year, calendar: data.data });
             });
+            this.detail_dialog = true;
         },
     },
     methods: {
+        close_detail_dialog() {
+            this.detail_dialog = false;
+            this.current_schedule = null;
+        },
         get_event_color (event) {
             return event.color;
         },
