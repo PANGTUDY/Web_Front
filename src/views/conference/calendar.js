@@ -4,11 +4,13 @@ import {
 } from '@mdi/js';
 import * as Api from '@/api/conference';
 import Swal from 'sweetalert2';
-import DetailDialog from './DetailDialog.vue';
+import CreateDialog from './ScheduleCreateDialog.vue';
+import DetailDialog from './ScheduleDetailDialog.vue';
+import Vue from "vue";
 
 export default {
     components: {
-        Modal, DetailDialog
+        Modal, CreateDialog, DetailDialog
     },
     data() {
         return {
@@ -31,26 +33,6 @@ export default {
             },
             is_modify: false,
             modify_id: 0,
-
-            /* 
-                Schedule Add Dialog 관련 변수
-            */
-            schedule_title: '',
-            schedule_title_rules: [
-                value => !!value || 'Required.',
-                value => (value && value.length >= 3) || 'Min 3 characters',
-            ],
-            schedule_start: null,
-            schedule_end: null,
-            start_time: false,
-            end_time: false,
-            schedule_select_members: [],
-            // TODO : 회원목록 읽어오기 (User-API)
-            members: ['박찬준', '원철황', '김민주', '박혜원', '서진하', '임재창'],
-            schedule_is_alram: false,
-            time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
-            schedule_select_time: [],
-            scehdule_comment: ''
         }
     },
     computed: {
@@ -92,6 +74,10 @@ export default {
         },
     },
     methods: {
+        close_create_dialog() {
+            this.create_dialog = false;
+            this.current_schedule = null;
+        },
         close_detail_dialog() {
             this.detail_dialog = false;
             this.current_schedule = null;
@@ -126,35 +112,32 @@ export default {
         more_schedules({ date }) {
             this.focus = date;
         },
-        add_schedule() {
-            this.schedule_dialog_clear();
+        create_schedule() {
             this.modify = false;
             this.create_dialog = true;
         },
-        schedule_dialog_save() {
-            // TODO : writer, alarm 설정 필요
-            var schedule = {
-                "year": this.year,
-                "month": this.month,
-                "day": this.day,
-                "title": this.schedule_title,
-                "startTime": this.schedule_start,
-                "endTime": this.schedule_end,
-                "writer": "박찬준",
-                "alarm": 0,
-                "comment": this.scehdule_comment
-            };
+        commit_create_dialog(schedule) {
+            Vue.set(schedule, 'year', this.year);
+            Vue.set(schedule, 'month', this.month);
+            Vue.set(schedule, 'day', this.day);
             
             if (this.modify) {
-                schedule['id'] = this.modify_id;
+                Vue.set(schedule, 'id', this.modify_id);
                 Api.modify_schedule(schedule).then(data => {
                 });
             } else {
+                console.log(schedule);
                 Api.create_schedule(schedule).then(data => {
                 });
             }
-            this.schedule_dialog_clear();
+            this.current_schedule = null;
             this.create_dialog = false;
+        },
+        modify_schedule(schedule) {
+            this.current_schedule = schedule;
+            this.modify = true;
+            this.modify_id = schedule.id;
+            this.create_dialog = true;
         },
         delete_schedule(schedule) {
             Swal.fire({
@@ -184,29 +167,6 @@ export default {
                         });
                 }
             })
-        },
-        modify_schedule(schedule) {
-            // TODO : select_members, select_time 동적으로 수정 필요
-            this.schedule_title = schedule.title;
-            this.schedule_start = this.time_format(schedule.startTime);
-            this.schedule_end = this.time_format(schedule.endTime);
-            this.schedule_select_members = ['박찬준'];
-            this.schedule_is_alram = schedule.alarm == 0 ? false : true;
-            this.schedule_select_time = ['15분전'];
-            this.scehdule_comment = schedule.comment;
-
-            this.modify = true;
-            this.modify_id = schedule.id;
-            this.create_dialog = true;
-        },
-        schedule_dialog_clear() {
-            this.schedule_title = '';
-            this.schedule_start = null;
-            this.schedule_end = null;
-            this.schedule_select_members = [];
-            this.schedule_is_alram = false;
-            this.schedule_select_time = [];
-            this.scehdule_comment = '';
         },
         time_format(time) {
             return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
