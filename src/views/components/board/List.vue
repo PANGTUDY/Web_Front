@@ -72,7 +72,6 @@
                                 </colgroup>
                                 <tr v-for="(row, idx) in posts.data" :key="idx">
                                     <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.postId}`)">{{row.title}}
-                                        <div class="hash">해시태그</div>
                                     </td>
                                     <td>{{row.writer}}</td>
                                     <td style="text-align: right; padding-right: 5px;">{{row.date}}</td>
