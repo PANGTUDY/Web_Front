@@ -71,7 +71,9 @@
                                     <col width="10%" />
                                 </colgroup>
                                 <tr v-for="(row, idx) in posts.data" :key="idx">
-                                    <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.postId}`)">{{row.title}}</td>
+                                    <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.postId}`)">{{row.title}}
+                                        <div class="hash">해시태그</div>
+                                    </td>
                                     <td>{{row.writer}}</td>
                                     <td style="text-align: right; padding-right: 5px;">{{row.date}}</td>
                                 </tr>
@@ -190,4 +192,5 @@ export default {
 	.first, .prev, .next, .last{border:1px solid #666; margin:0 5px;}
 	.pagination span{display:inline-block; padding:0 5px; color:#333;}
 	.pagination a{text-decoration:none; display:inline-blcok; padding:0 5px; color:#666;}
+    .hash{font-size: 10px;}
 </style>
