@@ -61,25 +61,24 @@
                             v-on:click="newPost"
                             >글쓰기</v-btn>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <table class="tbList">
-                                <colgroup>
-                                    <col width="80%" />
-                                    <col width="10%" />
-                                    <col width="10%" />
-                                </colgroup>
-
-                                 <tr v-for="(row, idx) in list" :key="idx">
+                   </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="tbList">
+                            <colgroup>
+                                <col width="80%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                            </colgroup>
+                            <tr v-for="(row, idx) in list" :key="idx">
                                 <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}</td>
                                 <td>{{row.name}}</td>
                                 <td style="text-align: right; padding-right: 5px;">{{row.regdate.substring(0,10)}}</td>
-                                </tr>
-                                <tr v-if="posts.length == 0">
-                                    <td colspan="4">데이터가 없습니다.</td>
-                                </tr>
-                            </table>
+                            </tr>
+                            <tr v-if="list.length == 0">
+                                <td colspan="4">데이터가 없습니다.</td>
+                            </tr>
+                        </table>
                         </div>
                     </div>
                     <div>
