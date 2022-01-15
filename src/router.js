@@ -12,6 +12,7 @@ import pwinquiry from "./views/pwinquiry.vue";
 import Delete from "./views/delete.vue";
 import practice from "./views/practice.vue";
 import Calendar from "./views/conference/Calendar.vue"
+import Grant from "./views/Grant.vue";
 import { Store } from "vuex";
 
 import List from "./views/components/board/List";
@@ -141,8 +142,18 @@ const router = new Router({
         header: AppHeader,
         default: View,
         footer: AppFooter
-      }      
+      },      
     },
+    {
+      path:'/grant',
+      name:'grant',
+      components:{
+        header: AppHeader,
+        default: Grant,
+        footer: AppFooter
+
+      }
+    }
   ],
 });
 
