@@ -4,10 +4,7 @@
             hide-overlay
             transition="dialog-bottom-transition">
         <v-card>
-            <v-toolbar
-                dark
-                color="dark"
-                >
+            <v-toolbar dark>
                 <v-btn icon @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -22,6 +19,7 @@
                     </v-btn>
                 </v-toolbar-items>
             </v-toolbar>
+            
             <v-list three-line subheader>
                 <v-list-item>
                     <v-text-field
@@ -143,6 +141,7 @@
         </v-card>
     </v-dialog>
 </template>
+
 <script>
 export default {
     props: {
@@ -164,6 +163,7 @@ export default {
             members: ['박찬준', '원철황', '김민주', '박혜원', '서진하', '임재창'],
             time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
 
+            // 각 Input 에 바인딩될 변수
             schedule_title: '',
             schedule_start: null,
             schedule_end: null,
@@ -175,6 +175,7 @@ export default {
     },
     watch: {
         is_dialog: function(is_dialog) {
+            // Create Dialog 가 열렸는데 선택된 Schedule 이 있다면 수정임으로 값 세팅
             if (is_dialog && this.schedule !== null) {
                 this.schedule_title = this.schedule.title;
                 this.schedule_start = this.time_format(this.schedule.startTime);

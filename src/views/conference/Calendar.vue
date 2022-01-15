@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-9">
+        <v-row class="justify-content-center">
+            <v-col cols="9">
                 <v-sheet height="64">
                     <v-toolbar flat>
                         <v-btn outlined class="mr-4" color=" darken-2" @click="set_today">
@@ -25,13 +25,12 @@
                 </v-sheet>
                 <v-calendar 
                         ref="calendar"
-                        v-model="focus"
+                        v-model="focus_date"
                         color="primary"
                         :events="this.schedules"
-                        :event-color="get_event_color"
                         type="month"
                         @click:event="show_schedule"
-                        @click:more="more_schedules"
+                        @click:more="set_date"
                         style="height: 800px">
                 </v-calendar>
                 <v-menu v-model="selected_open"
@@ -54,9 +53,9 @@
                         </v-card-actions>
                     </v-card>
                 </v-menu>
-            </div>
-            <div class="col-lg-3">
-                <div class="row py-3" style="margin-bottom: 10px">
+            </v-col>
+            <v-col cols="3">
+                <div class="py-3" style="margin-bottom: 10px">
                     <h5 class="mb-0"> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} </h5>
                 </div>
                 <v-card elevation="2">
@@ -98,8 +97,8 @@
                         </v-col>
                     </v-row>
                 </v-card>
-            </div>
-        </div>
+            </v-col>
+        </v-row>
         <v-snackbar v-model="change">
             데이터 변경이 감지되었습니다.
 

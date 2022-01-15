@@ -3,10 +3,7 @@
                 persistent
                 max-width="1000">
         <v-card>
-            <v-toolbar
-                dark
-                color="dark"
-                >
+            <v-toolbar dark>
                 <v-btn icon @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -25,6 +22,7 @@
                     </v-btn>
                 </v-toolbar-items>
             </v-toolbar>
+            
             <v-card-title class="text-h5"> </v-card-title>
             <v-card-text>
                 {{ this.schedule_comment }}
@@ -33,7 +31,7 @@
                 <v-btn text color="green darken-1" @click="close">
                     Close
                 </v-btn>
-                <v-btn text color="green darken-1" @click="test">
+                <v-btn text color="green darken-1" @click="data_check">
                     Data Check!
                 </v-btn>
             </v-card-actions>
@@ -77,7 +75,7 @@ export default {
         }
     },
     methods: {
-        test() {
+        data_check() {
             console.log(this.schedule);
         },
         close() {
