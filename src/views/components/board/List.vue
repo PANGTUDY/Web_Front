@@ -71,6 +71,7 @@
                                     <col width="10%" />
                                 </colgroup>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <tr v-for="(row, idx) in list" :key="idx">
                                     <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}
                                         <div class="hash">해시태그</div>
@@ -78,13 +79,18 @@
                                     <td>{{row.name}}</td>
                                     <td style="text-align: right; padding-right: 5px;">{{row.regdate.substring(0,10)}}</td>
 =======
+=======
+>>>>>>> main
                                 <tr v-for="(row, idx) in posts.data" :key="idx">
                                     <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.postId}`)">{{row.title}}
                                         <div class="hash">해시태그</div>
                                     </td>
                                     <td>{{row.writer}}</td>
                                     <td style="text-align: right; padding-right: 5px;">{{row.date}}</td>
+<<<<<<< HEAD
 >>>>>>> 38a1549f5dc2c24957a2e51ae920a1e7e61bb98a
+=======
+>>>>>>> main
                                 </tr>
                                 <tr v-if="posts.length == 0">
                                     <td colspan="4">데이터가 없습니다.</td>
