@@ -3,6 +3,16 @@
                 persistent
                 max-width="500">
         <v-card>
+            <v-toolbar
+                dark
+                color="dark"
+                >
+                <v-btn icon @click="close">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} 
+                    {{ this.schedule === null ? '' : this.schedule.title }}</v-toolbar-title>
+            </v-toolbar>
             <v-card-title class="text-h5">
                 Test Title!
             </v-card-title>
@@ -24,12 +34,23 @@
 <script>
 export default {
     props: {
+        year: Number,
+        month: Number,
+        day: Number,
         is_dialog: Boolean,
         schedule: Object
     },
     data() {
         return {
-            dialog: this.is_dialog
+            dialog: this.is_dialog,
+            schedule_title: ''
+        }
+    },
+    watch: {
+        is_dialog: function(is_dialog) {
+            if (is_dialog) {
+                this.schedule_title = this.schedule.title;
+            }
         }
     },
     methods: {

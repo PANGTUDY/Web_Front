@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal.vue";
 import {
-    mdiPencil, mdiDelete
+    mdiPencil, mdiDelete, mdiStickerText
 } from '@mdi/js';
 import * as Api from '@/api/conference';
 import Swal from 'sweetalert2';
@@ -29,7 +29,8 @@ export default {
             sse_source: null,
             icons: {
                 mdiPencil,
-                mdiDelete
+                mdiDelete,
+                mdiStickerText
             },
             is_modify: false,
             modify_id: 0,
@@ -111,6 +112,10 @@ export default {
         },
         more_schedules({ date }) {
             this.focus = date;
+        },
+        detail_schedule(schedule) {
+            this.detail_dialog = true;
+            this.current_schedule = schedule;
         },
         create_schedule() {
             this.modify = false;

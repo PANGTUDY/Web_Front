@@ -68,10 +68,21 @@
                                 </v-card-title>
                                 <v-card-subtitle>
                                     <b> {{ time_format(item.startTime) }} ~ {{ time_format(item.endTime) }} </b>
+                                    <div>
+                                        <!-- item.startTime 이 아니라 참여자 목록으로 수정 필요 -->
+                                        <v-chip v-for="user in item.startTime" :key="user"
+                                                class="mr-1"
+                                                color="gray"
+                                                small
+                                                label>
+                                            {{ user }}
+                                        </v-chip>
+                                    </div>
                                 </v-card-subtitle>
                                 <v-card-text>
                                     {{ item.comment }}
                                     <div style="text-align: right">
+                                        <v-btn icon x-small @click="detail_schedule(item)"><v-icon>{{ icons.mdiStickerText }}</v-icon></v-btn> &nbsp;
                                         <v-btn icon x-small @click="modify_schedule(item)"><v-icon>{{ icons.mdiPencil }}</v-icon></v-btn> &nbsp;
                                         <v-btn icon x-small @click="delete_schedule(item)"><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
                                     </div>
@@ -108,7 +119,12 @@
                     :day="day"
                     @close="close_create_dialog"
                     @commit="commit_create_dialog"> </CreateDialog>
-        <DetailDialog :is_dialog="detail_dialog" :schedule="current_schedule" @close="close_detail_dialog"></DetailDialog>
+        <DetailDialog :is_dialog="detail_dialog" 
+                    :schedule="current_schedule"
+                    :year="year"
+                    :month="month"
+                    :day="day"
+                    @close="close_detail_dialog"></DetailDialog>
     </div>
 </template>
 

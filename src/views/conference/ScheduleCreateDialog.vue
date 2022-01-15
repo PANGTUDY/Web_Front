@@ -175,7 +175,6 @@ export default {
     },
     watch: {
         is_dialog: function(is_dialog) {
-            console.log(this.schedule);
             if (is_dialog && this.schedule !== null) {
                 this.schedule_title = this.schedule.title;
                 this.schedule_start = this.time_format(this.schedule.startTime);
@@ -206,6 +205,7 @@ export default {
                 "title": this.schedule_title,
                 "startTime": this.schedule_start,
                 "endTime": this.schedule_end,
+                // TODO : Writer 현재 로그인된 사용자로 수정
                 "writer": "박찬준",
                 "alarm": 0,
                 "comment": this.schedule_comment
