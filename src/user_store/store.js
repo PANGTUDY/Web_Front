@@ -14,6 +14,9 @@ export default new Vuex.Store({
     getters:{
         loggedIn(state){
             return !!state.user
+        },
+        get_calendar(state) {
+            return state.calendar;
         }
     },
     mutations:{
@@ -29,6 +32,7 @@ export default new Vuex.Store({
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장
+            state.calendar = {};
             payload.calendar.forEach(element => {
                 var date = element.year + '-' + element.month + '-' + element.day;
                 if (date in state.calendar) 
@@ -36,22 +40,41 @@ export default new Vuex.Store({
                 else
                     state.calendar[date] = [element];
             });
-            console.log(state.calendar);
             state.current_year = payload.year;
         },
-        CREATE_CALENDAR(state, payload) {
+        CREATE_SCHEDULE(state, payload) { 
             var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
-            if (date in state.calendar) 
-                state.calendar[date].push(payload.schedule);
-            else
-                state.calendar[date] = [payload.schedule];
+            if (date in state.calendar) {
+                var temp_schedules = state.calendar[date];
+                for (var index = 0; index < state.calendar[date].length; ++index) {
+                    if ((state.calendar[date][index]['startTime'][0] * 60) + state.calendar[date][index]['startTime'][1]
+                             > (payload.schedule.startTime[0] * 60) + payload.schedule.startTime[1]) {
+                        temp_schedules.splice(index, 0, payload.schedule);
+                        break;
+                    }
+                    if (index === state.calendar[date].length - 1) {
+                        temp_schedules.push(payload.schedule);
+                        break;
+                    }
+                }
+                Vue.delete(state.calendar, date);
+                Vue.set(state.calendar, date, temp_schedules);
+            } else {
+                Vue.set(state.calendar, date, [payload.schedule]);
+            }
         },
-        UPDATE_CALENDAR(state, payload) {
-           var date = payload.schedule.year + '-' + payload.schedule.month + '-' + payload.schedule.day;
-           var update_id = state.calendar[date].findIndex(schedule => schedule.id === payload.schedule.id);
-           state.calendar[date][update_id] = payload.schedule;
+        DELETE_SCHEDULE(state, payload) {
+            for (const date in state.calendar) {
+                var delete_index = state.calendar[date].findIndex(schedule => schedule.id === payload.id);
+                if (delete_index !== -1) {
+                    var temp_schedules = state.calendar[date];
+                    temp_schedules.splice(delete_index, 1);
+                    Vue.delete(state.calendar, date);
+                    Vue.set(state.calendar, date, temp_schedules);
+                    break;
+                }
+            }
         }
-        
     },
     actions:{
         register({commit},credentials){
@@ -70,17 +93,20 @@ export default new Vuex.Store({
         logout({commit}){
             commit('LOGOUT')
         },
-        async load_calendar({ commit }, year) {
-            const calendar = await Api.get_calendar(year);
-            commit("LOAD_CALENDAR", { year: year, calendar: calendar.data });
+        load_calendar({ commit }, payload) {
+            commit("LOAD_CALENDAR", { year: payload.year, calendar: payload.calendar});
         },
-        call_calendar_event({commit}, event_data) {
+        change_schedule_event({ commit }, event_data) {
             switch (event_data.type) {
                 case 'CREATE':
-                    commit('CREATE_CALENDAR', { schedule: event_data.schedule });
+                    commit('CREATE_SCHEDULE', { schedule: event_data.schedule });
                     break;
                 case 'MODIFY':
-                    commit('UPDATE_CALENDAR', { schedule: event_data.schedule });
+                    commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
+                    commit('CREATE_SCHEDULE', { schedule: event_data.schedule });
+                    break;
+                case 'DELETE':
+                    commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
                     break;
             }
         }

@@ -3,7 +3,7 @@
     <div style="position: relative">
       <base-nav type="honeydew" effect="light" expand>
       <img src="../../public/img/icons/common/pangtudy_logo.jpg.png" width="40px" height="40px"/>
-        <a class="navbar-brand fa-2x">Pangtudy</a>
+        <a class="navbar-brand fa-2x" @click="goTo('')">Pangtudy</a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
           <div class="col-6 collapse-brand">
@@ -96,9 +96,12 @@ export default {
     goTo(path){
       if(path){
       this.$router.push('/'+path);
+<<<<<<< HEAD
       }else{
         this.$router.push('/');
       }
+=======
+>>>>>>> cfbf94563b2a42621e5ca496be0fc745b5c48415
     }
  
   }
