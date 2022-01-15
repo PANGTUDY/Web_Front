@@ -198,7 +198,7 @@
 
       </div>
     </editor-menu-bar>
-    <editor-content class="overflow-auto editor__content" :editor="editor" />
+    <editor-content @keydown="onKeyDown" class="overflow-auto editor__content" :editor="editor" />
   </div>
 </template>
 
@@ -306,6 +306,10 @@ export default {
     this.editor.destroy()
   },
   methods: {
+    onKeyDown(event, view) {
+      console.log('event', event.key)
+    },
+
     shouldDisableButton: function (isActive) {
       return !isActive & window.getSelection().isCollapsed
     },

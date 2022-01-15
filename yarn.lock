@@ -735,6 +735,11 @@
     "cssnano-preset-default" "^4.0.0"
     "postcss" "^7.0.0"
 
+"@mdi/js@^6.5.95":
+  "integrity" "sha512-x/bwEoAGP+Mo10Dfk5audNIPi7Yz8ZBrILcbXLW3ShOI/njpgodzpgpC2WYK3D2ZSC392peRRemIFb/JsyzzYQ=="
+  "resolved" "https://registry.npmjs.org/@mdi/js/-/js-6.5.95.tgz"
+  "version" "6.5.95"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   "integrity" "sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g=="
   "resolved" "https://registry.npmjs.org/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz"
@@ -5720,6 +5725,11 @@
     "inherits" "^2.0.1"
     "safe-buffer" "^5.1.2"
 
+"mdi@^2.2.43":
+  "integrity" "sha512-g3m6z4303qieltUM20JL2gdsJZvoVzIzO74qa2XxZ2kg9JPwrPEAgooVhRDHZi1vvRh0gB8Dg+c9XqNdz4jcIg=="
+  "resolved" "https://registry.npmjs.org/mdi/-/mdi-2.2.43.tgz"
+  "version" "2.2.43"
+
 "mdn-data@2.0.14":
   "integrity" "sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow=="
   "resolved" "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"
@@ -7254,10 +7264,10 @@
     "prosemirror-state" "^1.0.0"
     "w3c-keyname" "^2.2.0"
 
-"prosemirror-model@^1.0.0", "prosemirror-model@^1.13.1", "prosemirror-model@^1.14.3", "prosemirror-model@^1.8.1":
-  "integrity" "sha512-hQJv7SnIhlAy9ga3lhPPgaufhvCbQB9tHwscJ9E1H1pPHmN8w5V/lURueoYv9Kc3/bpNWoyHa8r3g//m7N0ChQ=="
-  "resolved" "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.15.0.tgz"
-  "version" "1.15.0"
+"prosemirror-model@^1.0.0", "prosemirror-model@^1.13.1", "prosemirror-model@^1.14.3", "prosemirror-model@^1.16.1", "prosemirror-model@^1.8.1":
+  "integrity" "sha512-r1/w0HDU40TtkXp0DyKBnFPYwd8FSlUSJmGCGFv4DeynfeSlyQF2FD0RQbVEMOe6P3PpUSXM6LZBV7W/YNZ4mA=="
+  "resolved" "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.16.1.tgz"
+  "version" "1.16.1"
   dependencies:
     "orderedmap" "^1.1.0"
 
@@ -8686,6 +8696,11 @@
     "stable" "^0.1.8"
     "unquote" "~1.1.1"
     "util.promisify" "~1.0.0"
+
+"sweetalert2@^11.3.5":
+  "integrity" "sha512-0NlqxsMvoTpVrLD9bQN/aN2JleuaXLLiBDvG/kYWHzjeOmDp8Yn7AEOcUnyCHDf9jT7w7BeziSX8mnijg0mDJw=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.3.5.tgz"
+  "version" "11.3.5"
 
 "table@4.0.2":
   "integrity" "sha512-UUkEAPdSGxtRpiV9ozJ5cMTtYiqz7Ni1OGqLXRCynrvzdtR1p+cfOWe2RJLwvUG8hNanaSRjecIqwOjqeatDsA=="

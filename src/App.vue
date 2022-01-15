@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <router-view name="header"></router-view>
     <v-main>
       <fade-transition origin="center" mode="out-in" :duration="250">
@@ -8,7 +8,7 @@
     </v-main>
     <chat :open="open" @closeit="close" @openit="openModal"></chat>
     <router-view name="footer"></router-view>
-  </div>
+  </v-app>
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
