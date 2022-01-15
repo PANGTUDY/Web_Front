@@ -96,12 +96,9 @@ export default {
     goTo(path){
       if(path){
       this.$router.push('/'+path);
-<<<<<<< HEAD
       }else{
         this.$router.push('/');
       }
-=======
->>>>>>> cfbf94563b2a42621e5ca496be0fc745b5c48415
     }
  
   }
