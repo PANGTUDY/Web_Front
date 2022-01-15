@@ -142,9 +142,11 @@ export default {
             this.current_schedule = schedule;
             this.modify = true;
             this.modify_id = schedule.id;
+            
+            this.detail_dialog = false;
             this.create_dialog = true;
         },
-        delete_schedule(schedule) {
+        delete_schedule(id) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: `You won't be able to revert this!`,
@@ -156,7 +158,7 @@ export default {
                 buttonsStyling: false
             }).then(function (result) {
                 if (result.isConfirmed) {
-                    Api.delete_schedule(schedule.id)
+                    Api.delete_schedule(id)
                         .then(data => {
                             Swal.fire({
                                 title: 'Success!',
@@ -168,7 +170,7 @@ export default {
                             });
                         })
                         .catch(error => {
-                            console.log("Schedule[" + schedule.id + "] Delete Exception!");
+                            console.log("Schedule[" + id + "] Delete Exception!");
                         });
                 }
             })

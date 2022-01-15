@@ -84,7 +84,7 @@
                                     <div style="text-align: right">
                                         <v-btn icon x-small @click="detail_schedule(item)"><v-icon>{{ icons.mdiStickerText }}</v-icon></v-btn> &nbsp;
                                         <v-btn icon x-small @click="modify_schedule(item)"><v-icon>{{ icons.mdiPencil }}</v-icon></v-btn> &nbsp;
-                                        <v-btn icon x-small @click="delete_schedule(item)"><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
+                                        <v-btn icon x-small @click="delete_schedule(item.id)"><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
                                     </div>
                                 </v-card-text>
                             </v-card>
@@ -124,7 +124,9 @@
                     :year="year"
                     :month="month"
                     :day="day"
-                    @close="close_detail_dialog"></DetailDialog>
+                    @close="close_detail_dialog"
+                    @delete="delete_schedule"
+                    @edit="modify_schedule"></DetailDialog>
     </div>
 </template>
 
