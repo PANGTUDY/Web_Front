@@ -60,15 +60,6 @@
                     <h5 class="mb-0"> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} </h5>
                 </div>
                 <v-card elevation="2">
-                    <!-- <v-row v-if="this.calendar[this.year + '-' + this.month + '-' + this.day] === undefined">
-                        <v-col>
-                            <v-card style="margin-left: 10px; margin-right: 10px;">
-                                <v-card-text>
-                                    Empty Schedule!
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row> -->
                     <v-row v-for="item in this.calendar[this.year + '-' + this.month + '-' + this.day]" :key="item.id">
                         <v-col>
                             <v-card color="#DAF1DB" style="margin-left: 10px; margin-right: 10px;">
