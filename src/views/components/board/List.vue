@@ -67,7 +67,9 @@
                                     <col width="10%" />
                                 </colgroup>
                                 <tr v-for="(row, idx) in list" :key="idx">
-                                    <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}</td>
+                                    <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.id}`)">{{row.subject}}
+                                        <div class="hash">해시태그</div>
+                                    </td>
                                     <td>{{row.name}}</td>
                                     <td style="text-align: right; padding-right: 5px;">{{row.regdate.substring(0,10)}}</td>
                                 </tr>
@@ -150,4 +152,5 @@ export default {
 	.first, .prev, .next, .last{border:1px solid #666; margin:0 5px;}
 	.pagination span{display:inline-block; padding:0 5px; color:#333;}
 	.pagination a{text-decoration:none; display:inline-blcok; padding:0 5px; color:#666;}
+    .hash{font-size: 10px;}
 </style>

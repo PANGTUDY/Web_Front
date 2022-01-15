@@ -5,8 +5,8 @@
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>
-      <chat :open="open" @close="open= false" @open="open=true"></chat>
     </v-main>
+    <chat :open="open" @closeit="close" @openit="openModal"></chat>
     <router-view name="footer"></router-view>
   </div>
 </template>
@@ -24,6 +24,18 @@ export default {
           open: false,
       }
   },
+  computed:{
+      
+  },
+  methods:{
+      close(){
+          this.open = false;
+      },
+      openModal(){
+          this.open = true;
+      }
+
+  }
   
   
 };
