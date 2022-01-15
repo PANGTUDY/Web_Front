@@ -94,8 +94,11 @@ export default {
       this.$store.dispatch('logout')
     },
     goTo(path){
+      if(path){
       this.$router.push('/'+path);
-
+      }else{
+        this.$router.push('/');
+      }
     }
  
   }
