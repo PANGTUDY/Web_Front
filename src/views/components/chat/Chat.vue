@@ -171,7 +171,7 @@
 
 <script>
 export default {
-    name:'cha',
+    name:'chat',
     data(){
       return {
         flag:'',
