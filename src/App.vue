@@ -12,7 +12,7 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
-import chat from '@/views/Chat.vue'
+import chat from '@/views/chat.vue'
 
 export default {
   components: {
