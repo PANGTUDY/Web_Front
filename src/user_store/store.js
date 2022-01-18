@@ -12,18 +12,21 @@ export default new Vuex.Store({
         current_year: null,
     },
     getters:{
-        loggedIn(state){
-            return !!state.user
-        },
+       loggedIn(state){
+           return !!state.user
+       },
+       loginInfo(state){
+           return state.user.name
+       },
         get_calendar(state) {
             return state.calendar;
         }
     },
     mutations:{
-        SET_USER_DATA(state, userData){
+        SET_USER_DATA(state,userData){
             state.user = userData;
             localStorage.setItem('user',JSON.stringify(userData));
-            axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
+            axios.defaults.headers.common['Authorization']=`Bearer${userData.salt}`
         },
         LOGOUT(state){
             state.user = null;
@@ -78,17 +81,19 @@ export default new Vuex.Store({
     },
     actions:{
         register({commit},credentials){
-            return axios.post('//localhost:3000/register',credentials)
+            return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',credentials)
             .then(({data})=>{
-                console.log('user data is', data)
+                console.log(data);
                 commit('SET_USER_DATA',data)
+                
             })
         },
         login({commit},credentials){
-            return axios.post('//localhost:3000/login',credentials)
-            .then(({data})=>{
+            return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login',credentials)
+            .then(({data})=>{ 
                 commit('SET_USER_DATA',data)
             })
+
         },
         logout({commit}){
             commit('LOGOUT')

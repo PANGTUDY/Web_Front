@@ -41,30 +41,18 @@
                                 <base-input alternative
                                             class="mb-3"
                                             name="email"
-                                            v-validate="'email'" 
-                                            data-vv-as="email"
-                                            placeholder="Email"
+                                            
                                             v-model="email"
                                             addon-left-icon="ni ni-email-83">
                                 </base-input>
-                                <p class="error" v-show="errors.has('email')">
-                                    {{errors.first('email')}}
-                                    {{errorBag}}
-                                </p>
                                 <base-input alternative
                                             type="password"
                                             name="password"
-                                            data-vv-as="password"
-                                            v-istrue = "'required'"
-                                            placeholder="Password"
-                                            v-validate="'numeric'"
+                                            
                                             v-model="password"
                                             addon-left-icon="ni ni-lock-circle-open">
                                 </base-input>
-                                 <!-- <p class="error" v-show="errors.has('password')">
-                                    {{errors.first('password')}}
-                                </p> -->
-                                 <p v-if="errorBag.email">{{errorBag.email[0]}}</p>
+                              
                                 <base-checkbox>
                                     Remember me
                                 </base-checkbox>
@@ -107,15 +95,17 @@ export default {
             email:'',
             password:'',
 
-            errorBag:{}
+          
         }
     },
    methods:{
        login(){
-           if(this.email == '1' && this.password == '2'){
-               this.$router.push('/');
-           }
-           
+           this.$store.dispatch('login',{
+               email: this.email,
+               password: this.password
+           }).then(()=>{
+               this.$router.push({name:'components'})
+           })
        }
    }
  

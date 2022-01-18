@@ -6,7 +6,22 @@
 .card.border-0.shadow.bg-secondary {
     top: -13%;
 }
-
+.left_bar {
+    position: absolute;
+    left: 89%;
+}
+.circle{
+    background-color: #114be9;
+    width: 53px;
+    height: 53px;
+    border-radius: 75px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 15px;
+    vertical-align: middle;
+    line-height: 59px;
+    color: white;
+}
 /* chat */ 
 .sidebar_rptb {
     position: sticky;

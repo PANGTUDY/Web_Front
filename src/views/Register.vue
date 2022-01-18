@@ -55,7 +55,7 @@
                                   <base-input alternative
                                             class="mb-3 loose"
                                             placeholder="Email 인증"
-                                            v-model="email_confirm">
+                                            >
                                 </base-input>
                                 <div>
                                     <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
@@ -73,7 +73,7 @@
                                             type="password"
                                             placeholder="Password 재확인"
                                             addon-left-icon="ni ni-lock-circle-open"
-                                            v-model="password_confirm">
+                                            >
                                 </base-input>
                                 <div class="text-muted font-italic">
                                     <small>password strength:
@@ -106,10 +106,16 @@ export default {
            name:'',
            email:'',
            password:'',
-           password_confirm:'',
         }
     },
     methods:{
+        register(){
+            this.$store.dispatch('register',{
+                name: this.name, email: this.email, password: this.password
+            }).then(()=>{
+                this.$router.push({name:'components'})
+            })
+        }
        
     }
 };
