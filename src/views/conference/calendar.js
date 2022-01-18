@@ -103,10 +103,15 @@ export default {
             this.$refs.calendar.next();
         },
         show_schedule({ nativeEvent, event }) {
+            const event_date = event.start.getFullYear() + '-' + (event.start.getMonth() + 1) + '-' + event.start.getDate();
             const open = () => {
+                this.focus_date = event_date;
                 this.selected_schedule = event
                 this.selected_element = nativeEvent.target
-                requestAnimationFrame(() => requestAnimationFrame(() => this.selected_open = true))
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => this.selected_open = true)
+                    this.focus_date = event_date;
+                })
             }
 
             if (this.selected_open) {
