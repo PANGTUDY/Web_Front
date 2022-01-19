@@ -18,6 +18,9 @@ export default new Vuex.Store({
        loginInfo(state){
            return state.user.name
        },
+       userInfo(state){
+            return state.user
+       },
         get_calendar(state) {
             return state.calendar;
         }
@@ -97,6 +100,14 @@ export default new Vuex.Store({
         },
         logout({commit}){
             commit('LOGOUT')
+        },
+        memberInfo({commit},payload){
+                return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{
+                    params:{email: payload}
+                })
+                .then(({data})=>{
+                    console.log(data);
+                })
         },
         load_calendar({ commit }, payload) {
             commit("LOAD_CALENDAR", { year: payload.year, calendar: payload.calendar});

@@ -15,6 +15,15 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
+          <li class="nav-item" v-if="!loggedIn">
+            <a class="nav-link nav-link-icon"><router-link to="/login"></router-link></a>
+          </li>
+           <li class="nav-item" v-if="!loggedIn">
+            <a class="nav-link nav-link-icon"><router-link to="/register"></router-link></a>
+          </li>
+          <li class="nav-item" v-else>
+            <a class="nav-link nav-link-icon">Logout</a>
+          </li>
           <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
             </li>
@@ -72,8 +81,8 @@ export default {
       src:require('../../public/img/icons/common/happy.png')
     },
     menuList:[
-      {name:'Login',path:'login'},
-      {name:'Register',path:'register'},
+      // {name:'Login',path:'login'},
+      // {name:'Register',path:'register'},
       {name: 'Profile', path:'profile'},
       {name:'Calendar',path:'calendar'},
       {name:'Board',path:'board/list'}
