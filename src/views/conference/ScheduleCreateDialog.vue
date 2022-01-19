@@ -4,10 +4,7 @@
             hide-overlay
             transition="dialog-bottom-transition">
         <v-card>
-            <v-toolbar
-                dark
-                color="dark"
-                >
+            <v-toolbar dark>
                 <v-btn icon @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -22,6 +19,7 @@
                     </v-btn>
                 </v-toolbar-items>
             </v-toolbar>
+            
             <v-list three-line subheader>
                 <v-list-item>
                     <v-text-field
@@ -143,7 +141,10 @@
         </v-card>
     </v-dialog>
 </template>
+
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     props: {
         year: Number,
@@ -164,6 +165,7 @@ export default {
             members: ['박찬준', '원철황', '김민주', '박혜원', '서진하', '임재창'],
             time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
 
+            // 각 Input 에 바인딩될 변수
             schedule_title: '',
             schedule_start: null,
             schedule_end: null,
@@ -175,7 +177,7 @@ export default {
     },
     watch: {
         is_dialog: function(is_dialog) {
-            console.log(this.schedule);
+            // Create Dialog 가 열렸는데 선택된 Schedule 이 있다면 수정임으로 값 세팅
             if (is_dialog && this.schedule !== null) {
                 this.schedule_title = this.schedule.title;
                 this.schedule_start = this.time_format(this.schedule.startTime);
@@ -201,20 +203,47 @@ export default {
             this.clear();
             this.$emit('close');
         },
+        data_valid_check() {
+            if (this.schedule_title === '') {
+                return this.valid_alert('일정 이름을 반드시 입력해야합니다.');
+            }
+            if (this.schedule_title.length < 3) {
+                return this.valid_alert('일정 이름이 너무 짧습니다..');
+            }
+            if (this.schedule_start === null || this.schedule_end === null) {
+                return this.valid_alert('일정의 시작시간과 종료시간을 반드리 입력해야합니다.');
+            }
+            if (!this.compare_time(this.schedule_start, this.schedule_end)) {
+                return this.valid_alert('일정 시작, 종료시간이 잘못 입력되었습니다.');
+            }
+            return true;
+        },
+        valid_alert(message) {
+            alert(message);
+            return false;
+        },
         commit() {
-            var schedule = {
-                "title": this.schedule_title,
-                "startTime": this.schedule_start,
-                "endTime": this.schedule_end,
-                "writer": "박찬준",
-                "alarm": 0,
-                "comment": this.schedule_comment
-            };
-            this.clear();
-            this.$emit('commit', schedule);
+            if (this.data_valid_check()) {
+                var schedule = {
+                    "title": this.schedule_title,
+                    "startTime": this.schedule_start,
+                    "endTime": this.schedule_end,
+                    // TODO : Writer 현재 로그인된 사용자로 수정
+                    "writer": "박찬준",
+                    "alarm": 0,
+                    "comment": this.schedule_comment
+                };
+                this.clear();
+                this.$emit('commit', schedule);
+            }
         },
         time_format(time) {
             return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
+        },
+        compare_time(time1, time2) {
+            const parse_time1 = (time1.split(':')[0] * 60) + time1.split(':')[1];
+            const parse_time2 = (time2.split(':')[0] * 60) + time2.split(':')[1];
+            return parse_time1 <= parse_time2;
         }
     }
 }
