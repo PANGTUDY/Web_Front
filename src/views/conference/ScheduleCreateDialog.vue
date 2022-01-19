@@ -143,6 +143,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     props: {
         year: Number,
@@ -201,21 +203,47 @@ export default {
             this.clear();
             this.$emit('close');
         },
+        data_valid_check() {
+            if (this.schedule_title === '') {
+                return this.valid_alert('일정 이름을 반드시 입력해야합니다.');
+            }
+            if (this.schedule_title.length < 3) {
+                return this.valid_alert('일정 이름이 너무 짧습니다..');
+            }
+            if (this.schedule_start === null || this.schedule_end === null) {
+                return this.valid_alert('일정의 시작시간과 종료시간을 반드리 입력해야합니다.');
+            }
+            if (!this.compare_time(this.schedule_start, this.schedule_end)) {
+                return this.valid_alert('일정 시작, 종료시간이 잘못 입력되었습니다.');
+            }
+            return true;
+        },
+        valid_alert(message) {
+            alert(message);
+            return false;
+        },
         commit() {
-            var schedule = {
-                "title": this.schedule_title,
-                "startTime": this.schedule_start,
-                "endTime": this.schedule_end,
-                // TODO : Writer 현재 로그인된 사용자로 수정
-                "writer": "박찬준",
-                "alarm": 0,
-                "comment": this.schedule_comment
-            };
-            this.clear();
-            this.$emit('commit', schedule);
+            if (this.data_valid_check()) {
+                var schedule = {
+                    "title": this.schedule_title,
+                    "startTime": this.schedule_start,
+                    "endTime": this.schedule_end,
+                    // TODO : Writer 현재 로그인된 사용자로 수정
+                    "writer": "박찬준",
+                    "alarm": 0,
+                    "comment": this.schedule_comment
+                };
+                this.clear();
+                this.$emit('commit', schedule);
+            }
         },
         time_format(time) {
             return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
+        },
+        compare_time(time1, time2) {
+            const parse_time1 = (time1.split(':')[0] * 60) + time1.split(':')[1];
+            const parse_time2 = (time2.split(':')[0] * 60) + time2.split(':')[1];
+            return parse_time1 <= parse_time2;
         }
     }
 }

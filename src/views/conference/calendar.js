@@ -106,21 +106,18 @@ export default {
             const event_date = event.start.getFullYear() + '-' + (event.start.getMonth() + 1) + '-' + event.start.getDate();
             const open = () => {
                 this.focus_date = event_date;
-                this.selected_schedule = event
-                this.selected_element = nativeEvent.target
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => this.selected_open = true)
-                    this.focus_date = event_date;
-                })
+                this.selected_schedule = event;
+                this.selected_element = nativeEvent.target;
+                requestAnimationFrame(() => requestAnimationFrame(() => this.selected_open = true));
             }
 
             if (this.selected_open) {
-                this.selected_open = false
-                requestAnimationFrame(() => requestAnimationFrame(() => open()))
+                this.selected_open = false;
+                requestAnimationFrame(() => requestAnimationFrame(() => open()));
             } else {
-                open()
+                open();
             }
-            nativeEvent.stopPropagation()
+            nativeEvent.stopPropagation();
         },
         detail_schedule(schedule) {
             this.detail_dialog = true;
