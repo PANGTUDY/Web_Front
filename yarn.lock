@@ -8209,17 +8209,17 @@
     "source-map-resolve" "^0.5.0"
     "use" "^3.1.0"
 
-"sockjs-client@^1.5.0":
-  "integrity" "sha512-VnVAb663fosipI/m6pqRXakEOw7nvd7TUgdr3PlR/8V2I95QIdwT8L4nMxhyU8SmDBHYXU1TOElaKOmKLfYzeQ=="
-  "resolved" "https://registry.npmjs.org/sockjs-client/-/sockjs-client-1.5.1.tgz"
-  "version" "1.5.1"
+"sockjs-client@^1.5.0", "sockjs-client@^1.5.2":
+  "integrity" "sha512-ZzRxPBISQE7RpzlH4tKJMQbHM9pabHluk0WBaxAQ+wm/UieeBVBou0p4wVnSQGN9QmpAZygQ0cDIypWuqOFmFQ=="
+  "resolved" "https://registry.npmjs.org/sockjs-client/-/sockjs-client-1.5.2.tgz"
+  "version" "1.5.2"
   dependencies:
     "debug" "^3.2.6"
     "eventsource" "^1.0.7"
     "faye-websocket" "^0.11.3"
     "inherits" "^2.0.4"
     "json3" "^3.3.3"
-    "url-parse" "^1.5.1"
+    "url-parse" "^1.5.3"
 
 "sockjs@^0.3.21":
   "integrity" "sha512-DhbPFGpxjc6Z3I+uX07Id5ZO2XwYsWOrYjaSeieES78cq+JaJvVe5q/m1uvjIQhXinhIeCFRH6JgXe+mvVMyXw=="
@@ -8815,6 +8815,11 @@
   "resolved" "https://registry.npmjs.org/timsort/-/timsort-0.3.0.tgz"
   "version" "0.3.0"
 
+"tiny-cookie@^1.0":
+  "integrity" "sha1-dTeGB5xkKjw9CyrMrWAPjeEZrCo="
+  "resolved" "https://registry.npmjs.org/tiny-cookie/-/tiny-cookie-1.0.1.tgz"
+  "version" "1.0.1"
+
 "tiptap-commands@^1.17.1":
   "integrity" "sha512-CyGvMD/c6fNer5LThWGtrVMXHAqHn93ivGQpqJ58x3HNZFuoIiF9QTWXAiWbY/4QrG0ANYHKCSe9n5afickTqw=="
   "resolved" "https://registry.npmjs.org/tiptap-commands/-/tiptap-commands-1.17.1.tgz"
@@ -9139,7 +9144,7 @@
     "mime" "^2.0.3"
     "schema-utils" "^1.0.0"
 
-"url-parse@^1.4.3", "url-parse@^1.5.1":
+"url-parse@^1.4.3", "url-parse@^1.5.3":
   "integrity" "sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ=="
   "resolved" "https://registry.npmjs.org/url-parse/-/url-parse-1.5.3.tgz"
   "version" "1.5.3"
@@ -9257,6 +9262,13 @@
     "null-loader" "^3.0.0"
     "semver" "^7.1.2"
     "shelljs" "^0.8.3"
+
+"vue-cookie@^1.1.4":
+  "integrity" "sha1-uLRtESvan5Oi9HAXwu1SgtIGT9o="
+  "resolved" "https://registry.npmjs.org/vue-cookie/-/vue-cookie-1.1.4.tgz"
+  "version" "1.1.4"
+  dependencies:
+    "tiny-cookie" "^1.0"
 
 "vue-eslint-parser@^2.0.3":
   "integrity" "sha512-ZezcU71Owm84xVF6gfurBQUGg8WQ+WZGxgDEQu1IHFBZNx7BFZg3L1yHxrCBNNwbwFtE1GuvfJKMtb6Xuwc/Bw=="
@@ -9537,6 +9549,11 @@
   "integrity" "sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg=="
   "resolved" "https://registry.npmjs.org/websocket-extensions/-/websocket-extensions-0.1.4.tgz"
   "version" "0.1.4"
+
+"webstomp-client@^1.2.6":
+  "integrity" "sha512-9HajO6Ki2ViEGIusLZtjM2lcO2VaQUvtXhLQQ4Cm543RLjfTCEgI3sFaiXts3TvfZgrtY/vI/+qUkm2qWD/NVg=="
+  "resolved" "https://registry.npmjs.org/webstomp-client/-/webstomp-client-1.2.6.tgz"
+  "version" "1.2.6"
 
 "which-boxed-primitive@^1.0.2":
   "integrity" "sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg=="

@@ -61,11 +61,13 @@
                           </div>
                           <form method="post" action="/comment/add/256" onsubmit="return false" style="margin: 0">
                             <div id="reply_write" class="reply_write">
-                                <textarea id="comment" name="comment" class="input_comment comment_textarea" placeholder="입력해주세요." tabindex="1"></textarea>
+                                
                               <div class="form_reg">
                                 
                                   
-                                    <div class="form_guest"><input name="name" value="" title="이름" placeholder="이름" class="input_comment comment_name" tabindex="2"> <input type="password" name="password" value="" title="비밀번호" maxlength="12" placeholder="비밀번호" class="input_comment comment_password" tabindex="3"></div>
+                                    <div class="form_guest">
+                                      <input name="name" v-model="userName" title="이름" placeholder="이름" class="input_comment comment_name" tabindex="2"> 
+                                      <textarea id="comment" name="comment" class="input_comment comment_textarea" placeholder="입력해주세요." tabindex="1"></textarea>
                                   
                                   <div class="input_comment_checkbox"><input id="comment_secret" class="comment_secret" name="secret" type="checkbox" tabindex="4"> <label for="comment_secret"></label></div>
                                 <button type="button" onclick="addComment(this, 256); return false;" id="btn_submit" class="btn_submit btn btn-link"><i class="xi-send xi-x"></i></button>
@@ -171,14 +173,20 @@
 
 <script>
 export default {
-    name:'cha',
+    name:'chat',
     data(){
       return {
         flag:'',
+        userName:'',
+        message:''
       }
     },
     props:{
         open: Boolean,
+        userInfo: Object
+    },
+    created(){
+      this.uplodaUser();
     },
     computed:{
 
@@ -190,6 +198,12 @@ export default {
         openModal(){
             this.$emit('openit');
         },
+        uplodaUser(){
+          if(this.userInfo){
+              this.userName = this.userInfo.name;
+          }
+          
+        }
         
     }
 }

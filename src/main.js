@@ -24,7 +24,7 @@ import store from "./user_store/store";
 import lodash from 'lodash';
 import ko from "vee-validate/dist/locale/ko.js";
 import VeeValidate from "vee-validate";
-
+import VueCookie from 'vue-cookie';
 import vuetify from './plugins/vuetify'
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
@@ -51,8 +51,8 @@ Vue.config.productionTip = false;
 Vue.use(Argon);
 Vue.use(VeeValidate, config);
 Vue.use(ElementUI, { locale });
+Vue.use(VueCookie)
 
-//veevalidate와 관련하여 모든 rule을 쓰겠다 
 
 new Vue({
   router,

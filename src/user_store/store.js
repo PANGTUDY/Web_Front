@@ -16,7 +16,12 @@ export default new Vuex.Store({
            return !!state.user
        },
        loginInfo(state){
-           return state.user.name
+           if(state.user){
+               return state.user.name
+           }else{
+                return ''
+           }
+           
        },
        userInfo(state){
             return state.user
@@ -86,17 +91,18 @@ export default new Vuex.Store({
         register({commit},credentials){
             return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',credentials)
             .then(({data})=>{
-                console.log(data);
                 commit('SET_USER_DATA',data)
                 
             })
         },
         login({commit},credentials){
             return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login',credentials)
-            .then(({data})=>{ 
-                commit('SET_USER_DATA',data)
+            .then((response)=>{
+                console.log(response.headers);
+                commit('SET_USER_DATA',response.data);
+                console.log('response.data',response.data);
             })
-
+           
         },
         logout({commit}){
             commit('LOGOUT')

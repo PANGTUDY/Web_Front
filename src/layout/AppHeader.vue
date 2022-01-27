@@ -15,13 +15,8 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
-          <li class="nav-item" v-if="!loggedIn">
-            <a class="nav-link nav-link-icon"><router-link to="/login"></router-link></a>
-          </li>
-           <li class="nav-item" v-if="!loggedIn">
-            <a class="nav-link nav-link-icon"><router-link to="/register"></router-link></a>
-          </li>
-          <li class="nav-item" v-else>
+          
+          <li class="nav-item">
             <a class="nav-link nav-link-icon">Logout</a>
           </li>
           <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
@@ -56,7 +51,7 @@
             <a class="dropdown-item" href="#">Separated link</a>
           </base-dropdown> -->
          <base-dropdown tag="li" title="settings">
-          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i">
+          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i" @click="goTo(sub.path)">
             {{sub.name}}
           </a>
          </base-dropdown>
@@ -81,15 +76,16 @@ export default {
       src:require('../../public/img/icons/common/happy.png')
     },
     menuList:[
-      // {name:'Login',path:'login'},
-      // {name:'Register',path:'register'},
+      {name:'Login',path:'login'},
+      {name:'Register',path:'register'},
       {name: 'Profile', path:'profile'},
       {name:'Calendar',path:'calendar'},
       {name:'Board',path:'board/list'}
     ],
     subList:[
       {name:'권한관리',path:'grant'},
-      {name:'설정',path:'settings'},
+      {name:'설정',path:'setting'},
+      
     ]
     }
   },

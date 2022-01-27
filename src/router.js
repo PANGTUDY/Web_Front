@@ -13,6 +13,7 @@ import Delete from "./views/delete.vue";
 import practice from "./views/practice.vue";
 import Calendar from "./views/conference/Calendar.vue"
 import Grant from "./views/Grant.vue";
+import Setting from './views/Setting.vue';
 import { Store } from "vuex";
 
 import List from "./views/components/board/List";
@@ -149,6 +150,15 @@ const router = new Router({
         default: Grant,
         footer: AppFooter
 
+      }
+    },
+    {
+      path:'/setting',
+      name: Setting,
+      components:{
+        header: AppHeader,
+        default: Setting,
+        footer: AppFooter
       }
     }
   ],
