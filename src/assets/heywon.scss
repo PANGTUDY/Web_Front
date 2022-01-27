@@ -1,3 +1,10 @@
+.v-main__wrap {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    max-width: 95%;
+    position: relative;
+}
 /*로그인 양식 수정 */
 .card.border-0.custom-card.shadow.bg-secondary {
     top: -13%;
