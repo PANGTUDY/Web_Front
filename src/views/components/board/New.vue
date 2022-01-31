@@ -9,28 +9,30 @@
             depressed
             outlined
             class="mr-2"
+            @click="cancel()"
           >취소</v-btn>
           <v-btn
             elevation="2"
             color="primary"
             depressed
             outlined
+            @click="save()"
           >저장</v-btn>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-2 pt-0">
+      <div class="row justify-content-center" style="margin-top: auto;">
+        <div class="col-lg-8 pt-0" style="margin-bottom: 30px;">
           <v-select
             :items="categoryItems"
             label="카테고리"
             single-line
+            class="category"
           ></v-select>
-        </div>
-        <div class="col-lg-6 pt-0">
           <v-text-field
             placeholder="제목을 입력하세요"
             hide-details="auto"
             type="text"
+            class="input_title"
           >
           </v-text-field>
         </div>
@@ -93,12 +95,9 @@ export default {
   },
   
   data: () => ({
-    categoryItems: [
-      { text: '선택 없음' },
-      { text: 'Book Study' },
-      { text: 'Team Project' },
-      { text: '공유 북마크' },
-    ],
+    category_list: [],
+    category: '',
+    categoryItems: [],
 
     options: {
       content: '',
@@ -109,5 +108,59 @@ export default {
     search: null,
   }),
 
+  mounted() {
+    // 카테고리 전체 목록 불러오는 Api
+    Api.get_category_list().then(data => {
+        this.category_list = data.data;
+
+        this.category_list.sort(function(a, b) {
+            return a.categoryId - b.categoryId;
+        });
+        this.category = this.category_list[0];
+        console.log(this.category_list);
+
+        this.category_list.map(item => {
+          let category = {};
+
+          category['value'] = item['categoryId'];
+          category['text'] = item['categoryName'];
+
+          this.categoryItems.push(category);
+        })
+
+        console.log(this.categoryItems);
+    })
+    .catch(error => {
+        console.log("error occured!: ", error);
+    });
+  },
+
+  methods: {
+    // save the post
+    save() {
+
+    },
+
+    // cancel to create a post
+    cancel() {
+      this.$router.go(-1); // go back to list
+    },
+  },
 }
 </script>
+
+<style scoped>
+  .category {
+    width: 20%;
+    display: flex;
+    float: left;
+    margin-left: 0px;
+  }
+
+  .input_title {
+    width: 75%;
+    display: flex;
+    float: right;
+    margin-left: 0px;
+  }
+</style>

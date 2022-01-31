@@ -35,11 +35,11 @@
                                 <v-list-item
                                     v-for="(item, idx) in category_list"
                                     :key="idx"
+                                    @change="categoryChange(idx)"
                                 >
                                     <v-list-item-content>
                                         <v-list-item-title 
                                             v-text="item.categoryName"
-                                            @click="categoryChange(idx)"
                                         >
                                         </v-list-item-title>
                                     </v-list-item-content>
@@ -51,7 +51,7 @@
                 <div class="col-lg-8">
                     <div class="row justify-content-right">
                         <div class="col-lg-10">
-                            <h4>{{category}}</h4>
+                            <h4>{{ categroy_name }}</h4>
                         </div>
                         <div class="col-lg-2 text-right">
                             <v-btn
@@ -62,7 +62,7 @@
                             >글쓰기</v-btn>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <table class="tbList">
                                 <colgroup>
@@ -71,9 +71,23 @@
                                     <col width="10%" />
                                 </colgroup>
                                 <tr v-for="(row, idx) in posts.data" :key="idx">
-                                    <td class="text-left" style="cursor:pointer;" @click="fnView(`${row.postId}`)">{{row.title}}</td>
+                                    <td class="text-left" @click="fnView(`${row.postId}`)">
+                                        <span class="title">{{row.title}}</span>
+                                        <span class="hashtag">
+                                            <v-chip
+                                                class="ma-1"
+                                                color="blue lighten-1"
+                                                small
+                                                outlined
+                                                v-for="(tag, index) in row.tags.split(',')"
+                                                :key="index"
+                                            >
+                                                {{ tag }}
+                                            </v-chip>
+                                        </span>
+                                    </td>
                                     <td>{{row.writer}}</td>
-                                    <td style="text-align: right; padding-right: 5px;">{{row.date}}</td>
+                                    <td style="text-align: right; padding-right: 5px;">{{row.date.substr(0,10)}}</td>
                                 </tr>
                                 <tr v-if="posts.length == 0">
                                     <td colspan="4">데이터가 없습니다.</td>
@@ -81,15 +95,17 @@
                             </table>
                         </div>
                     </div>
-                    <div>
-                        <div class="text-center">
+                    <!--
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
                             <v-pagination
                             v-model="page"
                             :length="6"
                             color="#0D47A1"
                             ></v-pagination>
                         </div>
-                    </div>                 
+                    </div> 
+                    -->                
                 </div>
             </div>
         </div>
@@ -104,6 +120,7 @@ export default {
         keyword: '',
         category_list: [],
         category: '',
+        category_name: '',
         posts: [],
         selectedItem: 0,
         hint: '키워드를 입력하세요',
@@ -114,14 +131,42 @@ export default {
             { text:'해시태그', value: 2 },
             { text:'작성자', value: 3 },
         ],
-        categoryItems: [
-            { text: '전체 글' },
-            { text: 'Book Study' },
-            { text: 'Team Project' },
-            { text: '공유 북마크' },
-        ],
         page: 1,
     }),
+
+    mounted() {
+        // 전체 글 목록 불러오는 Api
+        Api.get_post_list().then(data => {
+            this.posts = data;
+        })
+        .catch(error => {
+            console.log("error occured!: ", error);
+        });
+
+        // 카테고리 전체 목록 불러오는 Api
+        Api.get_category_list().then(data => {
+            this.category_list = data.data;
+            this.category_list.push({categoryId: 0, categoryName: "전체"});
+
+            this.category_list.sort(function(a, b) {
+                return a.categoryId - b.categoryId;
+            });
+            this.category = this.category_list[0];
+            //this.category_name = this.category_list[0].categoryName;
+        })
+        .catch(error => {
+            console.log("error occured!: ", error);
+        });
+    },
+
+    watch: {
+        category: function(val) {
+            console.log("watch");
+            console.log(val);
+            this.categroy_name = val.categoryName;
+        }
+    },
+
     methods: {
         // Search the keyword
         searchIcon() {
@@ -146,35 +191,12 @@ export default {
 
         // change the category
         categoryChange(idx) {
-            console.log(this.category_list[idx]);
-            this.category = this.category_list[idx].categoryName;
+            console.log("click: ", this.category_list[idx]);
+            this.category = this.category_list[idx];
+
+            // Search in this category
+
         },
-    },
-    mounted() {
-        // 전체 글 목록 불러오는 Api
-        Api.get_post_list().then(data => {
-            console.log(data);
-            this.posts = data;
-        })
-        .catch(error => {
-            console.log("error occured!: ", error);
-        });
-
-        // 카테고리 전체 목록 불러오는 Api
-        Api.get_category_list().then(data => {
-            console.log(data.data);
-            this.category_list = data.data;
-            this.category_list.push({categoryId: 0, categoryName: "전체"});
-            console.log('category: ', this.category_list);
-
-            this.category_list.sort(function(a, b) {
-                return a.categoryId - b.categoryId;
-            });
-            this.category = this.category_list[0].categoryName;
-        })
-        .catch(error => {
-            console.log("error occured!: ", error);
-        });
     },
 }
 </script>
@@ -190,4 +212,23 @@ export default {
 	.first, .prev, .next, .last{border:1px solid #666; margin:0 5px;}
 	.pagination span{display:inline-block; padding:0 5px; color:#333;}
 	.pagination a{text-decoration:none; display:inline-blcok; padding:0 5px; color:#666;}
+
+    .row + .row {
+        margin-top: 10px;
+    }
+
+    .theme--light.v-input {
+        margin-left: 0px;
+    }
+
+    .title {
+        display: flex;
+        font-size: 1rem !important;
+        cursor: pointer;
+    }
+
+    .hashtag {
+        display: flex;
+        font-size: smaller;
+    }
 </style>
