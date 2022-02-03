@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 padding0">
+        <div class="col-lg-8 pt-0">
           <TipTap
             :options="options"
             style="margin-bottom: 5px;"
@@ -46,10 +46,11 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 padding0">
+        <div class="col-lg-8 pt-0 mt-5">
           <v-combobox
             v-model="model"
             :search-input.sync="search"
+            style="margin-left: 0px; vertical-align: baseline;"
             dense
             prepend-icon="mdi-pound"
             append-icon=""
@@ -64,8 +65,9 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 padding0">
+        <div class="col-lg-8 pt-0 mt-3">
           <v-file-input
+            style="margin-left: 0px;"
             multiple
             show-size
             truncate-length="15"
