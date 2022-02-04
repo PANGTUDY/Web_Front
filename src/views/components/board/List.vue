@@ -136,7 +136,7 @@ export default {
     mounted() {
         // 전체 글 목록 불러오는 Api
         Api.get_post_list().then(res => {
-            this.posts[0] = res.data;
+            this.$set(this.posts, 0, res.data);
         })
         .catch(error => {
             console.log("error occured!: ", error);
@@ -151,8 +151,6 @@ export default {
                 return a.categoryId - b.categoryId;
             });
             this.category = this.category_list[0];
-            console.log("category: ", this.category);
-            //this.category_name = this.category_list[0].categoryName;
         })
         .catch(error => {
             console.log("error occured!: ", error);
@@ -177,14 +175,14 @@ export default {
         },
 
         // create a new post
-        newPost: function (event) {
-            this.$router.push({path: './new/'});
+        newPost(event) {
+            this.$router.push({path: '/board/new/'});
         },
 
         // move to the detail page
-        fnView(id){
+        fnView(id) {
             console.log(id);
-			this.$router.push({path:'./view/' + id});
+			this.$router.push({path:'/board/view/' + id});
         },
 
         // change the category

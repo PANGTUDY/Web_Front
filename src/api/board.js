@@ -13,7 +13,7 @@ export async function get_category_list() {
 }
 
 export async function create_post(post) {
-    return instance.post("/board/posts", post, {
+    return boardInstance.post("/board/posts", post, {
         headers: {
             'Content-Type': `application/json`,
         },
