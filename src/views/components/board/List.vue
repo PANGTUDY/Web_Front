@@ -51,7 +51,7 @@
                 <div class="col-lg-8">
                     <div class="row justify-content-right">
                         <div class="col-lg-10">
-                            <h4>{{ categroy_name }}</h4>
+                            <h4>{{ category.categoryName }}</h4>
                         </div>
                         <div class="col-lg-2 text-right">
                             <v-btn
@@ -70,7 +70,7 @@
                                     <col width="10%" />
                                     <col width="10%" />
                                 </colgroup>
-                                <tr v-for="(row, idx) in posts.data" :key="idx">
+                                <tr v-for="(row, idx) in posts[category.categoryId]" :key="idx">
                                     <td class="text-left" @click="fnView(`${row.postId}`)">
                                         <span class="title">{{row.title}}</span>
                                         <span class="hashtag">
@@ -119,8 +119,7 @@ export default {
     data: () => ({
         keyword: '',
         category_list: [],
-        category: '',
-        category_name: '',
+        category: {},
         posts: [],
         selectedItem: 0,
         hint: '키워드를 입력하세요',
@@ -136,23 +135,22 @@ export default {
 
     mounted() {
         // 전체 글 목록 불러오는 Api
-        Api.get_post_list().then(data => {
-            this.posts = data;
+        Api.get_post_list().then(res => {
+            this.$set(this.posts, 0, res.data);
         })
         .catch(error => {
             console.log("error occured!: ", error);
         });
 
         // 카테고리 전체 목록 불러오는 Api
-        Api.get_category_list().then(data => {
-            this.category_list = data.data;
+        Api.get_category_list().then(res => {
+            this.category_list = res.data;
             this.category_list.push({categoryId: 0, categoryName: "전체"});
 
             this.category_list.sort(function(a, b) {
                 return a.categoryId - b.categoryId;
             });
             this.category = this.category_list[0];
-            //this.category_name = this.category_list[0].categoryName;
         })
         .catch(error => {
             console.log("error occured!: ", error);
@@ -161,8 +159,6 @@ export default {
 
     watch: {
         category: function(val) {
-            console.log("watch");
-            console.log(val);
             this.categroy_name = val.categoryName;
         }
     },
@@ -179,23 +175,29 @@ export default {
         },
 
         // create a new post
-        newPost: function (event) {
-            this.$router.push({path: './new/'});
+        newPost(event) {
+            this.$router.push({path: '/board/new/'});
         },
 
         // move to the detail page
-        fnView(id){
+        fnView(id) {
             console.log(id);
-			this.$router.push({path:'./view/' + id});
+			this.$router.push({path:'/board/view/' + id});
         },
 
         // change the category
         categoryChange(idx) {
-            console.log("click: ", this.category_list[idx]);
             this.category = this.category_list[idx];
 
-            // Search in this category
-
+            // Search in this category if the post in idex is empty
+            if(!this.posts[idx]) {
+                Api.get_category_post_list(idx).then(res => {
+                    this.$set(this.posts, idx, res.data);
+                })
+                .catch(error => {
+                    console.log("error occured!: ", error);
+                });
+            }
         },
     },
 }

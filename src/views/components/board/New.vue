@@ -16,7 +16,7 @@
             color="primary"
             depressed
             outlined
-            @click="save()"
+            @click="submit"
           >저장</v-btn>
         </div>
       </div>
@@ -24,11 +24,13 @@
         <div class="col-lg-8 pt-0" style="margin-bottom: 30px;">
           <v-select
             :items="categoryItems"
+            v-model="category"
             label="카테고리"
             single-line
             class="category"
           ></v-select>
           <v-text-field
+            v-model="title"
             placeholder="제목을 입력하세요"
             hide-details="auto"
             type="text"
@@ -38,7 +40,7 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 padding0">
+        <div class="col-lg-8 pt-0">
           <TipTap
             :options="options"
             style="margin-bottom: 5px;"
@@ -46,10 +48,11 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 padding0">
+        <div class="col-lg-8 pt-0 mt-5">
           <v-combobox
-            v-model="model"
+            v-model="hashtag"
             :search-input.sync="search"
+            style="margin-left: 0px; vertical-align: baseline;"
             dense
             prepend-icon="mdi-pound"
             append-icon=""
@@ -64,8 +67,9 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 padding0">
+        <div class="col-lg-8 pt-0 mt-3">
           <v-file-input
+            style="margin-left: 0px;"
             multiple
             show-size
             truncate-length="15"
@@ -95,6 +99,8 @@ export default {
   },
   
   data: () => ({
+    title: '',
+    
     category_list: [],
     category: '',
     categoryItems: [],
@@ -104,7 +110,7 @@ export default {
       editable: true,
     },
 
-    model: [],
+    hashtag: [],
     search: null,
   }),
 
@@ -116,8 +122,6 @@ export default {
         this.category_list.sort(function(a, b) {
             return a.categoryId - b.categoryId;
         });
-        this.category = this.category_list[0];
-        console.log(this.category_list);
 
         this.category_list.map(item => {
           let category = {};
@@ -127,8 +131,6 @@ export default {
 
           this.categoryItems.push(category);
         })
-
-        console.log(this.categoryItems);
     })
     .catch(error => {
         console.log("error occured!: ", error);
@@ -136,9 +138,28 @@ export default {
   },
 
   methods: {
-    // save the post
-    save() {
+    // submit the post
+    submit() {
+      var post = {
+        "categoryId": this.category,
+        "tags": this.hashtag.join(),
+        "title": this.title,
+        "date": new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + ' ' + new Date().toTimeString().split(" ")[0],
+        "writer": "minjuyoubin@naver.com", // TODO: Chang to user email
+      };
 
+      console.log(post);
+      // Submit the post
+      Api.create_post(post).then(res => {
+        // Check the success
+        alert("저장되었습니다");
+        this.$router.push({path: '/board/list/'});
+      })
+      .catch(error => {
+          console.log("error occured!: ", error);
+      });
+      console.log(this.title);
+      console.log(this.options.content);
     },
 
     // cancel to create a post

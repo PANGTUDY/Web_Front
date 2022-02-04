@@ -3,7 +3,7 @@
     <div style="position: relative">
       <base-nav type="honeydew" effect="light" expand>
       <img src="../../public/img/icons/common/pangtudy_logo.jpg.png" width="40px" height="40px"/>
-        <a class="navbar-brand fa-2x" @click="goTo('')">Pangtudy</a>
+        <a class="navbar-brand fa-2x" @click="goTo('')" style="font-weight: 400; margin-left: 0.5rem;">Pangtudy</a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
           <div class="col-6 collapse-brand">
