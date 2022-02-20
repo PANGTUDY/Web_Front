@@ -1,10 +1,19 @@
 <template>
   <v-app>
-    <div class="container pt-lg-md" style="min-height: 800px">
-      <div class="row justify-content-center vertical-center">
-        <div class="col-lg-1">Book Study</div>
+    <div class="container pt-lg-sd" style="min-height: 800px">
+      <div class="row justify-content-center vertical-center mt-5">
+        <div class="col-lg-1">
+            Book Study
+          <span class="txt_bar"></span>
+        </div>
+        
         <div class="col-lg-4 text-left">Modern Java in Action Chapter3</div>
-        <div class="col-lg-1 text-right">김민주</div>
+        <div class="col-lg-1 text-right">
+          <span>
+            김민주
+            <span class="txt_bar"></span>
+          </span>
+        </div>
         <div class="col-lg-1">2021-11-17</div>
 
         <div class="col-lg-1 text-right">
@@ -17,7 +26,7 @@
           <template>
             <v-menu offset-y left bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn text v-bind="attrs" v-on="on">
+                <v-btn text v-bind="attrs" v-on="on" style="padding: 0px;">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
@@ -34,12 +43,22 @@
           </template>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-center" style="margin-top: 0px;">
         <div class="col-lg-8 AddWrap">
           <form>
             <table class="tbAdd" width="100%">
               <tr>
                 <td colspan="2" class="txt_cont" v-html="post.content"></td>
+              </tr>
+              <tr style="border-top-style: hidden;">
+                <th width="15%">공감</th>
+                <td width="85%">
+                  <HeartButton></HeartButton>
+                  <!-- <v-btn text>
+                    <v-icon right color="pink">mdi-heart</v-icon>
+                    <span class="subheading mr-2">{{ post.heart }}</span>
+                  </v-btn> -->
+                </td>
               </tr>
               <tr class="attach">
                 <th width="15%">첨부파일</th>
@@ -49,11 +68,11 @@
                 <th width="15%">태그</th>
                 <td width="85%">
                   <v-chip
-                    class="ma-2"
                     color="blue lighten-4"
                     outlined
                     v-for="(tag, index) in post.tags"
                     :key="index"
+                    style="margin-right: 10px;"
                   >
                     {{ tag }}
                   </v-chip>
@@ -61,15 +80,6 @@
               </tr>
             </table>
           </form>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-8 text-left like">
-          <span class="mr-2">공감</span>
-          <v-btn text>
-            <v-icon right color="pink">mdi-heart</v-icon>
-            <span class="subheading mr-2">{{ post.heart }}</span>
-          </v-btn>
         </div>
       </div>
 
@@ -92,7 +102,7 @@
                       <v-list-item-title>{{ item.name }}</v-list-item-title>
                     </v-list-item-content>
 
-                    <v-row class="comment_date" align="left" justify="end">
+                    <v-row class="comment_date" text-left justify="end">
                       {{ item.date }}
                     </v-row>
                   </v-list-item>
@@ -113,7 +123,10 @@
 </template>
 
 <script>
+import HeartButton from '@/components/HeartButton';
+
 export default {
+  components: { HeartButton },
   data: () => ({
     //body: this.$route.query,
     subject: "",
@@ -180,62 +193,76 @@ export default {
 </script>
 
 <style scoped>
-.tbAdd {
-  border-top: 1px solid #888;
-}
-.tbAdd th,
-.tbAdd td {
-  border-bottom: 1px solid #eee;
-  padding: 5px 0;
-}
-.tbAdd td {
-  padding: 10px 10px;
-  box-sizing: border-box;
-  text-align: left;
-}
-.tbAdd td.txt_cont {
-  height: 300px;
-  vertical-align: top;
-}
-.tbAdd tr.attach {
-  min-height: 50px;
-  vertical-align: center;
-}
-.tbAdd tr.tag {
-  min-height: 50px;
-  vertical-align: center;
-}
-.btnWrap {
-  text-align: center;
-  margin: 20px 0 0 0;
-}
-.btnWrap a {
-  margin: 0 10px;
-}
-.btnAdd {
-  background: #43b984;
-}
-.btnDelete {
-  background: #f00;
-}
+  .row + .row {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
 
-.comment_date {
-  font-size: 14px;
-  font: initial;
-}
+  .txt_bar {
+    vertical-align: text-bottom;
+    display: inline-block;
+    width: 1.5px;
+    height: 23px;
+    margin: 0 7px 0 15px;
+    background-color: #d3d3d3;
+  }
 
-.ma-2 {
-  margin-right: 5px;
-  border-color: #bbdefb;
-}
+  .tbAdd {
+    border-top: 1px solid #888;
+  }
+  .tbAdd th,
+  .tbAdd td {
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+  }
+  .tbAdd td {
+    padding: 10px 10px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+  .tbAdd td.txt_cont {
+    height: 300px;
+    vertical-align: top;
+  }
+  .tbAdd tr.attach {
+    min-height: 50px;
+    vertical-align: center;
+  }
+  .tbAdd tr.tag {
+    min-height: 50px;
+    vertical-align: center;
+  }
+  .btnWrap {
+    text-align: center;
+    margin: 20px 0 0 0;
+  }
+  .btnWrap a {
+    margin: 0 10px;
+  }
+  .btnAdd {
+    background: #43b984;
+  }
+  .btnDelete {
+    background: #f00;
+  }
 
-.like {
-  padding: 0px 12px;
-}
+  .comment_date {
+    font-size: 14px;
+    font: initial;
+  }
 
-.vertical-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .ma-2 {
+    margin-right: 5px;
+    border-color: #bbdefb;
+  }
+
+  .like {
+    padding: 0px 12px;
+  }
+
+  .vertical-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>

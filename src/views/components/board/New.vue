@@ -2,7 +2,7 @@
   <v-app>
     <div class="container pt-lg-sd" style="min-height: 800px">
       <div class="row justify-content-center">
-        <div class="col-lg-8 pb-0" align="right">
+        <div class="col-lg-8 pb-0 text-right">
           <v-btn
             elevation="2"
             color="primary"
@@ -20,8 +20,8 @@
           >저장</v-btn>
         </div>
       </div>
-      <div class="row justify-content-center" style="margin-top: auto;">
-        <div class="col-lg-8 pt-0" style="margin-bottom: 30px;">
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-8 pt-0 mb-8">
           <v-select
             :items="categoryItems"
             v-model="category"
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 pt-0">
+        <div class="col-lg-8 pt-0 mb-0">
           <TipTap
             :options="options"
             style="margin-bottom: 5px;"
@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-8 pt-0 mt-3">
+        <div class="col-lg-8 pt-0 mt-2">
           <v-file-input
             style="margin-left: 0px;"
             multiple
@@ -79,16 +79,6 @@
     </div>
   </v-app>
 </template>
-
-<style scoped>
-.padding0 {
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-}
-.padding0 > .v-input {
-  padding-top: 0px;
-}
-</style>
 
 <script>
 import * as Api from '@/api/board.js';
@@ -184,4 +174,12 @@ export default {
     float: right;
     margin-left: 0px;
   }
+
+  /* .padding0 {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  .padding0 > .v-input {
+    padding-top: 0px;
+  } */
 </style>
