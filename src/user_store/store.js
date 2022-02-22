@@ -1,7 +1,9 @@
 import axios from 'axios'
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueCookies from 'vue-cookies';
 import * as Api from '@/api/conference';
+import { reject } from 'lodash';
 
 Vue.use(Vuex);
 
@@ -10,6 +12,9 @@ export default new Vuex.Store({
         user: null,
         calendar: {},
         current_year: null,
+        accessToken: null,
+        refreshToken: null
+        
     },
     getters:{
        loggedIn(state){
@@ -23,6 +28,14 @@ export default new Vuex.Store({
            }
            
        },
+       getToken(state){
+            let ac = VueCookies.get('accessToken');
+            let rf = VueCookies.get('refreshToken');
+            return {
+                access: ac,
+                refresh: rf
+            }
+       },
        userInfo(state){
             return state.user
        },
@@ -31,15 +44,27 @@ export default new Vuex.Store({
         }
     },
     mutations:{
+        LOGIN_TOKEN(state,payload){
+            // console.log(payload);
+            VueCookies.set('accessToekn',payload.accessToekn);
+            VueCookies.set('refreshToken',payload.refreshToken);
+            state.accessToken = payload.accessToken;
+            state.refreshToken = payload.refreshToken;
+        },
+        REFRESH_TOKEN(state,payload){ // accessToken 재셋팅
+            VueCookies.set('accessToken',payload.accessToken);
+            VueCookies.set('refreshToken', payload.refreshToken);
+            state.accessToken = payload;
+        },
         SET_USER_DATA(state,userData){
             state.user = userData;
             localStorage.setItem('user',JSON.stringify(userData));
             axios.defaults.headers.common['Authorization']=`Bearer${userData.salt}`
         },
-        LOGOUT(state){
-            state.user = null;
-            localStorage.removeItem('user')
-            location.reload();
+        LOGOUT(){
+            VueCookies.remove('accessToken');
+            VueCookies.remove('refreshToken');
+           
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장
@@ -99,13 +124,24 @@ export default new Vuex.Store({
             return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login',credentials)
             .then((response)=>{
                 console.log(response.headers);
-                commit('SET_USER_DATA',response.data);
-                console.log('response.data',response.data);
+                commit('LOGIN_TOKEN',response.data);
+                
             })
            
         },
+        refreshToken: ({commit},credentials)=>{
+            return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token',credentials).
+            then(({response})=>{
+                console.log(response.data);
+                commit('REFRESH_TOKEN',response.data);
+            }).catch(err =>{
+                // console.log('refreshToken error:', err.config);
+                // reject(err.config.data);
+            })
+        },
         logout({commit}){
             commit('LOGOUT')
+            location.reload();
         },
         memberInfo({commit},payload){
                 return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{

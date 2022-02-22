@@ -56,9 +56,7 @@
           </a>
          </base-dropdown>
         </ul>
-        <div class="left_bar">
-          <div class="circle">{{loginInfo}}</div>
-        </div>
+        
       </base-nav>
     </div>
   </header>

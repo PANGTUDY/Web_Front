@@ -15,10 +15,11 @@ import Calendar from "./views/conference/Calendar.vue"
 import Grant from "./views/Grant.vue";
 import Setting from './views/Setting.vue';
 import { Store } from "vuex";
-
+import VueCookies from 'vue-cookies';
 import List from "./views/components/board/List";
 import View from "./views/components/board/View";
 import New from "./views/components/board/New";
+import store from "./user_store/store";
 
 Vue.use(Router);
 
@@ -163,7 +164,19 @@ const router = new Router({
     }
   ],
 });
-
-
+// 네비게이션 가드 ( 뷰 라우터로 URL 접근에 대해서 처리할 수 있다)
+router.beforeEach(async(to,from,next) =>{
+  if(VueCookies.get('accessToken') === null && VueCookies.get('refreshToken')!= null){
+    await store.dispatch('refreshToken',VueCookies.get('refreshToken'));
+  }
+  if(VueCookies.get('accessToken')){
+    // accessToken이 있을때 진행
+    return next();
+  }
+  if(VueCookies.get('accessToken') == null && VueCookies.get('refreshToken')==null){
+    return next({name:'login'});
+  }
+  return next();
+})
 
 export default router

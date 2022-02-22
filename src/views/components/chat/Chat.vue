@@ -16,7 +16,7 @@
                                 <i class="xi-2x xi-arrow-right" ></i>
                             </button>
                             <span id="rptb_cnt" class="rptb_cnt">
-                            <span id="commentCount256_1">3</span></span></div>
+                            <span id="commentCount256_1">{{this.recvList.length}}</span></span></div>
                         <div id="entry256Comment">
                           <div id="reply_list" class="reply_list" data-content="댓글 부탁드려요" style="min-height: 551px;">
                               <ul id="reply_container" class="reply_container">
@@ -100,7 +100,7 @@
                                 <i class="xi-2x xi-message" ></i>
                             </button>
                             <span id="rptb_cnt" class="rptb_cnt">
-                            <span id="commentCount256_1">3</span></span></div>
+                            <span id="commentCount256_1">{{this.recvList.length}}</span></span></div>
                         <div id="entry256Comment">
                           <div id="reply_list" class="reply_list" data-content="댓글 부탁드려요" style="min-height: 551px;">
                               <ul id="reply_container" class="reply_container">
