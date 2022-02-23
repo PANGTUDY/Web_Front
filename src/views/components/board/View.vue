@@ -2,19 +2,15 @@
   <v-app>
     <div class="container pt-lg-sd" style="min-height: 800px">
       <div class="row justify-content-center vertical-center mt-5">
-        <div class="col-lg-1">
-            Book Study
-          <span class="txt_bar"></span>
+        <div class="col-lg-1 txt_bar">
+            {{ post.categoryId }}
         </div>
         
-        <div class="col-lg-4 text-left">Modern Java in Action Chapter3</div>
-        <div class="col-lg-1 text-right">
-          <span>
-            김민주
-            <span class="txt_bar"></span>
-          </span>
+        <div class="col-lg-4 text-left">{{ post.title }}</div>
+        <div class="col-lg-1 text-center txt_bar">
+          {{ post.writer }}
         </div>
-        <div class="col-lg-1">2021-11-17</div>
+        <div class="col-lg-1">{{ post.date.substr(0,10) }}</div>
 
         <div class="col-lg-1 text-right">
           <!-- <ul class="navbar-nav ml-lg-auto flex">
@@ -26,7 +22,7 @@
           <template>
             <v-menu offset-y left bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn text v-bind="attrs" v-on="on" style="padding: 0px;">
+                <v-btn text v-bind="attrs" v-on="on" style="padding: 0px; outline: none; width: initial;">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
@@ -48,16 +44,13 @@
           <form>
             <table class="tbAdd" width="100%">
               <tr>
-                <td colspan="2" class="txt_cont" v-html="post.content"></td>
+                <td colspan="2" class="txt_cont" v-html="post.contents"></td>
               </tr>
               <tr style="border-top-style: hidden;">
                 <th width="15%">공감</th>
                 <td width="85%">
                   <HeartButton></HeartButton>
-                  <!-- <v-btn text>
-                    <v-icon right color="pink">mdi-heart</v-icon>
-                    <span class="subheading mr-2">{{ post.heart }}</span>
-                  </v-btn> -->
+                  <span class="subheading ml-2">{{ post.likes }}</span>
                 </td>
               </tr>
               <tr class="attach">
@@ -70,7 +63,7 @@
                   <v-chip
                     color="blue lighten-4"
                     outlined
-                    v-for="(tag, index) in post.tags"
+                    v-for="(tag, index) in post.tags.split(',')"
                     :key="index"
                     style="margin-right: 10px;"
                   >
@@ -123,21 +116,24 @@
 </template>
 
 <script>
+import * as Api from '@/api/board.js';
 import HeartButton from '@/components/HeartButton';
 
 export default {
   components: { HeartButton },
   data: () => ({
+    postId: "",
     //body: this.$route.query,
     subject: "",
     view: "",
     //num:this.$route.query.num,
 
-    post: {
-      content: "Pangtudy 게시글 부분입니다~",
-      tags: ["test", "pangtudy", "fighting"],
-      heart: 456,
-    },
+    post: {},
+    // post: {
+    //   content: "Pangtudy 게시글 부분입니다~",
+    //   tags: ["test", "pangtudy", "fighting"],
+    //   heart: 456,
+    // },
 
     comments: [
       {
@@ -156,7 +152,15 @@ export default {
   }),
 
   mounted() {
-    //this.fnGetView();
+    this.postId = this.$route.params.id;
+    // 특정 글 정보 불러오는 Api
+    Api.get_post_list(this.postId).then(res => {
+        console.log(res.data);
+        this.post = res.data[0];
+    })
+    .catch(error => {
+        console.log("error occured!: ", error);
+    });
   },
 
   methods: {
@@ -199,12 +203,10 @@ export default {
   }
 
   .txt_bar {
-    vertical-align: text-bottom;
-    display: inline-block;
-    width: 1.5px;
-    height: 23px;
-    margin: 0 7px 0 15px;
-    background-color: #d3d3d3;
+    margin-bottom: 0px;
+    border-right: solid 2px lightgray;
+    padding: 0px;
+    text-align: center;
   }
 
   .tbAdd {

@@ -134,8 +134,9 @@ export default {
         "categoryId": this.category,
         "tags": this.hashtag.join(),
         "title": this.title,
+        "contents": this.options.content,
         "date": new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + ' ' + new Date().toTimeString().split(" ")[0],
-        "writer": "minjuyoubin@naver.com", // TODO: Chang to user email
+        "writer": "minjuyoubin@naver.com", // TODO: Change to user email
       };
 
       console.log(post);

@@ -138,6 +138,7 @@ const router = new Router({
     {
       path: "/board/view/:id",
       name: "view",
+      props: true,
       components: {
         header: AppHeader,
         default: View,
