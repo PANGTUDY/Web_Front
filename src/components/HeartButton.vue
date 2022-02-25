@@ -9,24 +9,28 @@
 
 <script>
 export default {
+    props: {
+        likes: Number,
+    },
     data: () => ({
         liked: false,
+        count: 0,
+        likes_num: 0,
     }),
     
     methods: {
         heartit: function (e) {
             e.preventDefault();
+
             this.liked = !this.liked;
+            this.liked ? this.likes_num += 1 : this.likes_num -= 1;
+
+            this.$emit("setInput", this.likes_num);
         }
     },
-    // mounted(){
-    //     document.body.addEventListener('mousedown', function() {
-    //         document.body.classList.add('using-mouse');
-    //     });
-    //     document.body.addEventListener('keydown', function() {
-    //         document.body.classList.remove('using-mouse');
-    //     });
-    // }
+    mounted(){
+        this.likes_num = this.likes;
+    }
 }
 
 </script>

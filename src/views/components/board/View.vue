@@ -49,8 +49,8 @@
               <tr style="border-top-style: hidden;">
                 <th width="15%">공감</th>
                 <td width="85%">
-                  <HeartButton></HeartButton>
-                  <span class="subheading ml-2">{{ post.likes }}</span>
+                  <HeartButton :likes="this.likes" @setInput="setLike"></HeartButton>
+                  <span class="subheading ml-2">{{ likes }}</span>
                 </td>
               </tr>
               <tr class="attach">
@@ -92,11 +92,11 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                      <v-list-item-title>{{ item.name }}</v-list-item-title>
+                      <v-list-item-title>{{ item.writer }}</v-list-item-title>
                     </v-list-item-content>
 
                     <v-row class="comment_date" text-left justify="end">
-                      {{ item.date }}
+                      {{ item.date.substr(0,10) }}
                     </v-row>
                   </v-list-item>
                 </v-list>
@@ -104,7 +104,7 @@
 
               <v-card-subtitle :key="index">
                 <span class="subheading ml-3 mr-2">
-                  {{ item.comment }}
+                  {{ item.contents }}
                 </span>
               </v-card-subtitle>
             </template>
@@ -129,34 +129,19 @@ export default {
     //num:this.$route.query.num,
 
     post: {},
-    // post: {
-    //   content: "Pangtudy 게시글 부분입니다~",
-    //   tags: ["test", "pangtudy", "fighting"],
-    //   heart: 456,
-    // },
-
-    comments: [
-      {
-        name: "김민주",
-        title: "title",
-        date: "2021-11-20",
-        comment: "comment1",
-      },
-      {
-        name: "서진하",
-        title: "title",
-        date: "2021-11-21",
-        comment: "comment2",
-      },
-    ],
+    comments: {},
+    likes: 0,
   }),
 
   mounted() {
     this.postId = this.$route.params.id;
     // 특정 글 정보 불러오는 Api
     Api.get_post_list(this.postId).then(res => {
-        console.log(res.data);
-        this.post = res.data[0];
+        this.post = res.data;
+        this.comments = res.data.comments;
+
+        this.likes = this.post.likes;
+        console.log(this.comments);
     })
     .catch(error => {
         console.log("error occured!: ", error);
@@ -191,6 +176,10 @@ export default {
       } else if (kind === "pwdchg") {
         this.dialog.pwdchg = true;
       }
+    },
+    setLike(likes) {
+      console.log(likes);
+      this.likes = likes;
     },
   },
 };
