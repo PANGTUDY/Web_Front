@@ -25,3 +25,11 @@ export async function create_post(post) {
         },
     });
 }
+
+export async function create_comment(comment) {
+    return boardInstance.post("/board/posts/" + comment.postId + "/comments", comment, {
+        headers: {
+            'Content-Type': `application/json`,
+        },
+    });
+}
