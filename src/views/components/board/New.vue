@@ -147,10 +147,8 @@ export default {
         this.$router.push({path: '/board/list/'});
       })
       .catch(error => {
-          console.log("error occured!: ", error);
+        console.log("error occured!: ", error);
       });
-      console.log(this.title);
-      console.log(this.options.content);
     },
 
     // cancel to create a post

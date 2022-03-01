@@ -111,6 +111,30 @@
           </v-card>
         </div>
       </div>
+      <div class="row justify-content-center mt-0">
+        <div class="col-lg-8 pt-0">
+          <v-textarea
+            placeholder="댓글을 입력해주세요."
+            no-resize
+            rows="3"
+            background-color="grey lighten-4"
+            color="black"
+            class="comment"
+            style="line-height: normal; display: contents; height: auto;"
+            v-model="comment"
+          ></v-textarea>
+          <div style="float: right;">
+            <v-btn
+              outlined
+              depressed
+              color="primary"
+              @click="submit"
+            >
+              등록
+            </v-btn>
+          </div>
+        </div>
+      </div>
     </div>
   </v-app>
 </template>
@@ -131,6 +155,8 @@ export default {
     post: {},
     comments: {},
     likes: 0,
+
+    comment: "",
   }),
 
   mounted() {
@@ -180,6 +206,21 @@ export default {
     setLike(likes) {
       console.log(likes);
       this.likes = likes;
+    },
+    submit() {
+      var comment = {
+        "writer": "minju", // TODO: change to the user info
+        "contents": this.comment,
+        "date": new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + ' ' + new Date().toTimeString().split(" ")[0],
+        "postId": this.postId,
+      };
+
+      Api.create_comment(comment).then(res => {
+        alert("저장되었습니다");
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
     },
   },
 };
@@ -255,5 +296,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .v-text-field__details {
+    display: none;
+  }
+
+  .comment .v-input__control {
+    height: auto !important;
   }
 </style>
