@@ -26,6 +26,14 @@ export async function create_post(post) {
     });
 }
 
+export async function delete_post(id) {
+     return boardInstance.delete("/board/posts/" + id);
+}
+
+export async function get_comments(id) {
+    return boardInstance.get("/board/posts/" + id + "/comments");
+}
+
 export async function create_comment(comment) {
     return boardInstance.post("/board/posts/" + comment.postId + "/comments", comment, {
         headers: {

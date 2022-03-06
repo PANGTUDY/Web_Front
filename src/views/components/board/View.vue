@@ -3,7 +3,7 @@
     <div class="container pt-lg-sd" style="min-height: 800px">
       <div class="row justify-content-center vertical-center mt-5">
         <div class="col-lg-1 txt_bar">
-            {{ post.categoryId }}
+            {{ post.category.categoryName }}
         </div>
         
         <div class="col-lg-4 text-left">{{ post.title }}</div>
@@ -28,10 +28,10 @@
               </template>
 
               <v-list>
-                <v-list-item>
+                <v-list-item @click="editPost">
                   <v-list-item-title>수정</v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item  @click="deleteDialog = true">
                   <v-list-item-title>삭제</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -39,6 +39,39 @@
           </template>
         </div>
       </div>
+
+      <v-dialog
+        v-model="deleteDialog"
+        max-width="300"
+        min-height="200"
+      >
+        <v-card>
+          <v-card-title class="text-h6">
+            삭제하시겠습니까?
+          </v-card-title>
+  
+          <v-card-actions>
+            <v-spacer></v-spacer>
+  
+            <v-btn
+              color="green darken-1"
+              text
+              @click="deleteDialog = false"
+            >
+              아니오
+            </v-btn>
+  
+            <v-btn
+              color="green darken-1"
+              text
+              @click="deletePost"
+            >
+              네
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
       <div class="row justify-content-center" style="margin-top: 0px;">
         <div class="col-lg-8 AddWrap">
           <form>
@@ -61,7 +94,7 @@
                 <th width="15%">태그</th>
                 <td width="85%">
                   <v-chip
-                    color="blue lighten-4"
+                    color="blue lighten-2"
                     outlined
                     v-for="(tag, index) in post.tags.split(',')"
                     :key="index"
@@ -120,10 +153,10 @@
             background-color="grey lighten-4"
             color="black"
             class="comment"
-            style="line-height: normal; display: contents; height: auto;"
+            style="line-height: normal; display: contents;"
             v-model="comment"
           ></v-textarea>
-          <div style="float: right;">
+          <div style="display: block; float: right;">
             <v-btn
               outlined
               depressed
@@ -153,10 +186,13 @@ export default {
     //num:this.$route.query.num,
 
     post: {},
-    comments: {},
+    comments: [],
     likes: 0,
 
     comment: "",
+
+    deleteDialog: false,
+    editDialog: false,
   }),
 
   mounted() {
@@ -189,10 +225,12 @@ export default {
           console.log(err);
         });
     },
+
     fnList() {
       delete this.body.num;
       this.$router.push({ path: "./list", query: this.body });
     },
+
     dialogOpen(kind) {
       console.log("dialogOpen()...", kind);
       if (kind === "login") {
@@ -203,10 +241,12 @@ export default {
         this.dialog.pwdchg = true;
       }
     },
+
     setLike(likes) {
       console.log(likes);
       this.likes = likes;
     },
+
     submit() {
       var comment = {
         "writer": "minju", // TODO: change to the user info
@@ -216,7 +256,30 @@ export default {
       };
 
       Api.create_comment(comment).then(res => {
-        alert("저장되었습니다");
+        console.log("저장되었습니다");
+        Api.get_comments(this.postId).then(result => {
+          console.log(this.postId);
+          console.log(result.data);
+          this.comments = result.data;
+        })
+        .catch(error => {
+          console.log("error occured!: ", error);
+        });
+        this.comment = "";
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
+    },
+
+    editPost() {
+      alert("Clicked the edit button");
+    },
+
+    deletePost() {
+      Api.delete_post(this.postId).then(res => {
+        console.log("삭제되었습니다");
+        this.$router.push({path: '/board/list/'});
       })
       .catch(error => {
         console.log("error occured!: ", error);
@@ -230,6 +293,10 @@ export default {
   .row + .row {
     margin-top: 10px;
     margin-bottom: 0px;
+  }
+
+  textarea {
+    padding: 0 10px !important;
   }
 
   .txt_bar {
@@ -299,10 +366,6 @@ export default {
   }
 
   .v-text-field__details {
-    display: none;
-  }
-
-  .comment .v-input__control {
-    height: auto !important;
+    display: none !important;
   }
 </style>

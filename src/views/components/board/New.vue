@@ -136,7 +136,7 @@ export default {
         "title": this.title,
         "contents": this.options.content,
         "date": new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + ' ' + new Date().toTimeString().split(" ")[0],
-        "writer": "minjuyoubin@naver.com", // TODO: Change to user email
+        "writer": "김민주", // TODO: Change to real user
       };
 
       console.log(post);
