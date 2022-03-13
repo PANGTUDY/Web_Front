@@ -3,7 +3,7 @@
     <div class="container pt-lg-sd" style="min-height: 800px">
       <div class="row justify-content-center vertical-center mt-5">
         <div class="col-lg-1 txt_bar">
-            {{ post.category.categoryName }}
+            {{ category }}
         </div>
         
         <div class="col-lg-4 text-left">{{ post.title }}</div>
@@ -13,12 +13,6 @@
         <div class="col-lg-1">{{ post.date.substr(0,10) }}</div>
 
         <div class="col-lg-1 text-right">
-          <!-- <ul class="navbar-nav ml-lg-auto flex">
-            <base-dropdown tag="li" title="Settings">
-              <a class="dropdown-item" href="#">수정</a>
-              <a class="dropdown-item" href="#">삭제</a>
-            </base-dropdown>
-          </ul> -->
           <template>
             <v-menu offset-y left bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -117,7 +111,7 @@
                 <v-list two-line width="100%">
                   <v-list-item class="vertical-center">
                     <v-list-item-avatar color="grey darken-3">
-                      <v-img
+                      <v-img 
                         class="elevation-6"
                         alt=""
                         src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
@@ -128,9 +122,31 @@
                       <v-list-item-title>{{ item.writer }}</v-list-item-title>
                     </v-list-item-content>
 
-                    <v-row class="comment_date" text-left justify="end">
-                      {{ item.date.substr(0,10) }}
-                    </v-row>
+                    <v-list-item-content>
+                      <v-row class="comment_date" text-left justify="end">
+                        <div style="padding: 7px;">
+                          {{ item.date.substr(0,10) }}
+                        </div>
+
+                          <v-menu offset-y left bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn text v-bind="attrs" v-on="on" style="padding: 0px; outline: none; width: initial;">
+                                <v-icon>mdi-dots-vertical</v-icon>
+                              </v-btn>
+                            </template>
+
+                            <v-list>
+                              <v-list-item @click="editComment(item.commentId)">
+                                <v-list-item-title>수정</v-list-item-title>
+                              </v-list-item>
+                              <v-list-item  @click="deleteComment(item.commentId)">
+                                <v-list-item-title>삭제</v-list-item-title>
+                              </v-list-item>
+                            </v-list>
+                          </v-menu>
+                      </v-row>
+                    </v-list-item-content>
+
                   </v-list-item>
                 </v-list>
               </v-card-title>
@@ -180,10 +196,9 @@ export default {
   components: { HeartButton },
   data: () => ({
     postId: "",
-    //body: this.$route.query,
+    category: "",
     subject: "",
     view: "",
-    //num:this.$route.query.num,
 
     post: {},
     comments: [],
@@ -200,10 +215,10 @@ export default {
     // 특정 글 정보 불러오는 Api
     Api.get_post_list(this.postId).then(res => {
         this.post = res.data;
+        this.category = this.post.category.categoryName;
         this.comments = res.data.comments;
 
         this.likes = this.post.likes;
-        console.log(this.comments);
     })
     .catch(error => {
         console.log("error occured!: ", error);
@@ -280,6 +295,26 @@ export default {
       Api.delete_post(this.postId).then(res => {
         console.log("삭제되었습니다");
         this.$router.push({path: '/board/list/'});
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
+    },
+
+    editComment() {
+      alert("Clicked the edit button");
+    },
+
+    deleteComment(commentId) {
+      Api.delete_comment(this.postId, commentId).then(res => {
+        Api.get_comments(this.postId).then(result => {
+          console.log(this.postId);
+          console.log(result.data);
+          this.comments = result.data;
+        })
+        .catch(error => {
+          console.log("error occured!: ", error);
+        });
       })
       .catch(error => {
         console.log("error occured!: ", error);

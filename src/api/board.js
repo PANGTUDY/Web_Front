@@ -41,3 +41,7 @@ export async function create_comment(comment) {
         },
     });
 }
+
+export async function delete_comment(postId, commentId) {
+    return boardInstance.delete("/board/posts/" + postId + "/comments/" + commentId);
+}
