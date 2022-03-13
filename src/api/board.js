@@ -18,6 +18,10 @@ export async function get_category_list() {
     return boardInstance.get("/board/categories");
 }
 
+export async function get_search_post_list(item, keyword) {
+    return boardInstance.get("/board/posts?" + item + '=' + keyword);
+}
+
 export async function create_post(post) {
     return boardInstance.post("/board/posts", post, {
         headers: {
