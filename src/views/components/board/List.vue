@@ -4,8 +4,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-2">
                     <v-select
+                        v-model="selectedItem"
                         :items="selectItems"
-                        label="전체"
+                        label="제목"
                         single-line
                     ></v-select>
                 </div>
@@ -121,15 +122,15 @@ export default {
         category_list: [],
         category: {},
         posts: [],
-        selectedItem: 0,
+        
         hint: '키워드를 입력하세요',
-        select: { text:'제목', value: 0 },
         selectItems: [
-            { text:'제목', value: 0 },
-            { text:'제목+내용', value: 1 },
-            { text:'해시태그', value: 2 },
-            { text:'작성자', value: 3 },
+            { text:'제목', value: 'title' },
+            { text:'제목+내용', value: 'contents' },
+            { text:'해시태그', value: 'tags' },
+            { text:'작성자', value: 'writer' },
         ],
+        selectedItem: 'title',
         page: 1,
     }),
 
@@ -167,7 +168,12 @@ export default {
         // Search the keyword
         searchIcon() {
             if(this.keyword.length > 0) {
-                alert(this.keyword);
+                Api.get_search_post_list(this.selectedItem, this.keyword).then(res => {
+                    this.$set(this.posts, 0, res.data);
+                })
+                .catch(error => {
+                    console.log("error occured!: ", error);
+                });
             }
             else {
                 alert("검색된 키워드가 없습니다!");

@@ -69,6 +69,7 @@
       <div class="row justify-content-center">
         <div class="col-lg-8 pt-0 mt-2">
           <v-file-input
+            v-model="files"
             style="margin-left: 0px;"
             multiple
             show-size
@@ -99,6 +100,8 @@ export default {
       content: '',
       editable: true,
     },
+
+    files: null,
 
     hashtag: [],
     search: null,
@@ -140,6 +143,7 @@ export default {
       };
 
       console.log(post);
+
       // Submit the post
       Api.create_post(post).then(res => {
         // Check the success
@@ -149,6 +153,14 @@ export default {
       .catch(error => {
         console.log("error occured!: ", error);
       });
+
+      let formData = new FormData();
+      //formData.append('files', this.files);
+      for (let i in this.files) {
+        formData.append('files', this.files[i]);
+      }
+
+      // Submit the files
     },
 
     // cancel to create a post
