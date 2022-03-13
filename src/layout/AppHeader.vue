@@ -17,7 +17,7 @@
         <ul class="navbar-nav ml-lg-auto flex">
           
           <li class="nav-item">
-            <a class="nav-link nav-link-icon">Logout</a>
+            <a class="nav-link nav-link-icon" @click.stop="logout">Logout</a>
           </li>
           <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
@@ -55,6 +55,9 @@
             {{sub.name}}
           </a>
          </base-dropdown>
+         <div class="header-left" v-if="userInfo">
+          {{userInfo.name}}님
+         </div> 
         </ul>
         
       </base-nav>
@@ -66,7 +69,7 @@ import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 import {authComputed} from "../user_store/helper.js";
-
+import {mapGetters} from "vuex";
 export default {
   data(){
     return {
@@ -93,7 +96,8 @@ export default {
     BaseDropdown,
   },
   computed:{
-    ...authComputed
+    ...authComputed,
+    ...mapGetters['userInfo']
   },
   methods:{
     logout(){

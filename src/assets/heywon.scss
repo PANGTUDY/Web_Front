@@ -874,3 +874,16 @@ label {
     width: 100%;
     pointer-events: none;
 }
+// header 오른쪽에 넣기
+.header-left{
+    position: absolute;
+    right: 5%;
+    margin-top: 5px;
+    color: #8e8e8e;
+}
+span.no-icon{
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'NanumSquareRoundExtraBold';
+    margin-left: -10px;
+}

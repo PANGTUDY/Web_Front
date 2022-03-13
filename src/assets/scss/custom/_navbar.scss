@@ -43,6 +43,7 @@
   .nav-item {
     .media:not(:last-child) {
       margin-bottom: 1.5rem;
+      
     }
   }
 }
@@ -55,6 +56,7 @@
   .navbar-nav {
     .nav-item {
       margin-right: 0.5rem;
+      font-family: 'NanumSquareRoundBold';
 
       [data-toggle="dropdown"]::after {
         transition: $transition-base;
@@ -81,7 +83,8 @@
       padding-right: 0.5rem !important;
       font-size: 14.4px;
       border-radius: $navbar-nav-link-border-radius;
-
+      font-size: 18px;
+      font-weight: 500;
       i {
         margin-right: 0;
       }

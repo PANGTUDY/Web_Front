@@ -41,19 +41,22 @@ export default new Vuex.Store({
        },
         get_calendar(state) {
             return state.calendar;
+        },
+        loggedout(state){
+            return state.user = null;
         }
     },
     mutations:{
         LOGIN_TOKEN(state,payload){
             // console.log(payload);
-            VueCookies.set('accessToekn',payload.accessToekn);
-            VueCookies.set('refreshToken',payload.refreshToken);
+            VueCookies.set('accessToken',payload.accessToken,'60s');
+            VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
             state.refreshToken = payload.refreshToken;
         },
         REFRESH_TOKEN(state,payload){ // accessToken 재셋팅
-            VueCookies.set('accessToken',payload.accessToken);
-            VueCookies.set('refreshToken', payload.refreshToken);
+            VueCookies.set('accessToken',payload.accessToken,'60s');
+            VueCookies.set('refreshToken', payload.refreshToken,'1h');
             state.accessToken = payload;
         },
         SET_USER_DATA(state,userData){
@@ -61,10 +64,10 @@ export default new Vuex.Store({
             localStorage.setItem('user',JSON.stringify(userData));
             axios.defaults.headers.common['Authorization']=`Bearer${userData.salt}`
         },
-        LOGOUT(){
+        LOGOUT(state){
             VueCookies.remove('accessToken');
             VueCookies.remove('refreshToken');
-           
+            state.user = null;
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장
@@ -121,27 +124,36 @@ export default new Vuex.Store({
             })
         },
         login({commit},credentials){
-            return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login',credentials)
+            return new Promise((resolve,reject) => {
+                axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login',credentials)
             .then((response)=>{
                 console.log(response.headers);
                 commit('LOGIN_TOKEN',response.data);
-                
+                resolve(response);
+            }).catch(err=>{
+                console.log(err.message);
+                reject(err.message);
+            });
             })
            
         },
         refreshToken: ({commit},credentials)=>{
-            return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token',credentials).
+            return new Promise((resolve,reject)=>{
+                axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token',credentials).
             then(({response})=>{
                 console.log(response.data);
                 commit('REFRESH_TOKEN',response.data);
+                resolve(response);
             }).catch(err =>{
+                console.log(err);
                 // console.log('refreshToken error:', err.config);
                 // reject(err.config.data);
+            })
             })
         },
         logout({commit}){
             commit('LOGOUT')
-            location.reload();
+            // location.reload();
         },
         memberInfo({commit},payload){
                 return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{
