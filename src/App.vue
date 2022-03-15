@@ -6,7 +6,7 @@
         <router-view />
       </fade-transition>
     </v-main>
-    <chat :open="open" @closeit="close" @openit="openModal"></chat>
+    <chat :open="open" @closeit="close" @openit="openModal" v-if="this.$route.name == 'components'"></chat>
     <router-view name="footer"></router-view>
   </v-app>
 </template>
