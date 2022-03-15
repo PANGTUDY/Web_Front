@@ -16,44 +16,42 @@
                                 <i class="xi-2x xi-arrow-right" ></i>
                             </button>
                             <span id="rptb_cnt" class="rptb_cnt">
-                            <span id="commentCount256_1">3</span></span></div>
+                            <span id="commentCount256_1">{{this.recvList.length}}</span></span></div>
                         <div id="entry256Comment">
                           <div id="reply_list" class="reply_list" data-content="댓글 부탁드려요" style="min-height: 551px;">
                               <ul id="reply_container" class="reply_container">
                                 
-                                  <li id="comment13743589" class="rp_general">
+                                  <li id="comment" class="rp_general" v-for="(item,i) in list" :key="i">
                                     <div class="info_custom">
                                       <div class="writer"><img src="//i1.daumcdn.net/thumb/C50x50/?fname=https://img1.daumcdn.net/thumb/C100x100/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Ftistory_admin%2Fstatic%2Fmanage%2Fimages%2Fr3%2Fdefault_S.png" class="img_profile" alt="프로필사진"> <span class="edit" onclick="open_edit_window(&quot;edit_comment13743589&quot;)"><i class="xi-plus-circle"></i></span>
-                                        <div id="edit_comment13743589" class="edit_window" style="display:none"><a href="#" onclick="commentRequireLogin(); return false;commentComment(13743589); return false" class="link_re">댓글 </a><a href="#" onclick="deleteComment(13743589);return false" class="link_edit">수정/삭제</a></div><span class="nickname"><img src="https://lullu-lalla.tistory.com/favicon.ico" width="16" height="16" alt="Favicon of https://lullu-lalla.tistory.com" onerror="this.onerror=null;this.parentNode.removeChild(this)">  <a href="https://lullu-lalla.tistory.com" onclick="return openLinkInNewWindow(this)">binbing</a><span class="tistoryProfileLayerTrigger" onclick="TistoryProfile.show(event, this, {&quot;blogId&quot;:&quot;2773470&quot;,&quot;title&quot;:&quot;Bing's&quot;,&quot;url&quot;:&quot;https:\/\/lullu-lalla.tistory.com&quot;,&quot;nickname&quot;:&quot;binbing&quot;,&quot;items&quot;:[],&quot;isSubscriber&quot;:false,&quot;device&quot;:&quot;web_pc&quot;}); return false;"></span></span> <span class="date">2021.02.25 09:49 <a href="/toolbar/popup/abuseReport/?entryId=256&amp;commentId=13743589" onclick="window.open(this.href, 'ThisBlogReportPopup', 'width=550, height=510, toolbar=no, menubar=no, status=no, scrollbars=no'); return false;">신고</a></span>
+                                        <div id="edit_comment13743589" class="edit_window" style="display:none">
+                                          <a href="#" onclick="commentRequireLogin(); return false;commentComment(13743589); return false" class="link_re">댓글 </a><a href="#" onclick="deleteComment(13743589);return false" class="link_edit">수정/삭제</a></div><span class="nickname">
+                                            <img src="https://lullu-lalla.tistory.com/favicon.ico" width="16" height="16" alt="Favicon of https://lullu-lalla.tistory.com" onerror="this.onerror=null;this.parentNode.removeChild(this)">  
+                                            <a href="https://lullu-lalla.tistory.com" onclick="return openLinkInNewWindow(this)">{{item[0].userName}}</a><span class="tistoryProfileLayerTrigger" onclick="TistoryProfile.show(event, this, {&quot;blogId&quot;:&quot;2773470&quot;,&quot;title&quot;:&quot;Bing's&quot;,&quot;url&quot;:&quot;https:\/\/lullu-lalla.tistory.com&quot;,&quot;nickname&quot;:&quot;binbing&quot;,&quot;items&quot;:[],&quot;isSubscriber&quot;:false,&quot;device&quot;:&quot;web_pc&quot;}); return false;"></span></span> <span class="date">2021.02.25 09:49 <a href="/toolbar/popup/abuseReport/?entryId=256&amp;commentId=13743589" onclick="window.open(this.href, 'ThisBlogReportPopup', 'width=550, height=510, toolbar=no, menubar=no, status=no, scrollbars=no'); return false;">신고</a></span>
                                       </div>
                                     </div>
-                                    <div class="desc"><span class="txt_reply">댓글창 싱기방기~~ <br>
-안그래도 궁금했던 내용이었어용~</span></div>
+                                    <div class="desc"><span class="txt_reply">{{item[0].content}}</span></div>
                                     
-                                      <ul id="re_reply_container" class="re_reply_container">
+                                      <ul id="re_reply_container" class="re_reply_container" v-if="item[1]">
                                         
                                           <li id="comment13743716" class="re_reply rp_admin">
                                             <div class="info_custom">
                                               <div class="writer"><img src="//i1.daumcdn.net/thumb/C50x50/?fname=https://img1.daumcdn.net/thumb/C100x100/?scode=mtistory2&amp;fname=https%3A%2F%2Ftistory2.daumcdn.net%2Ftistory%2F2115043%2Fattach%2F3f35c988f50c4cdbb87d46663913d91b" class="img_profile" alt="프로필사진"> <span class="edit" onclick="open_edit_window(&quot;edit_comment13743716&quot;)"><i class="xi-plus-circle-o"></i></span>
-                                                <div id="edit_comment13743716" class="edit_window" style="display:none"><a href="#" onclick="deleteComment(13743716); return false;" class="link_edit">수정/삭제</a></div><span class="nickname"><img src="https://ux.stories.pe.kr/favicon.ico" width="16" height="16" alt="Favicon of https://ux.stories.pe.kr" onerror="this.onerror=null;this.parentNode.removeChild(this)">  <a href="https://ux.stories.pe.kr" onclick="return openLinkInNewWindow(this)">어쩌다보니여기까지</a><span class="tistoryProfileLayerTrigger" onclick="TistoryProfile.show(event, this, {&quot;blogId&quot;:&quot;2115043&quot;,&quot;title&quot;:&quot;UX \uacf5\uc791\uc18c&quot;,&quot;url&quot;:&quot;https:\/\/uxgjs.tistory.com&quot;,&quot;nickname&quot;:&quot;\uc5b4\uca4c\ub2e4\ubcf4\ub2c8\uc5ec\uae30\uae4c\uc9c0&quot;,&quot;items&quot;:[],&quot;isSubscriber&quot;:false,&quot;device&quot;:&quot;web_pc&quot;}); return false;"></span></span> <span class="date">2021.02.25 12:52 <a href="/toolbar/popup/abuseReport/?entryId=256&amp;commentId=13743716" onclick="window.open(this.href, 'ThisBlogReportPopup', 'width=550, height=510, toolbar=no, menubar=no, status=no, scrollbars=no'); return false;">신고</a></span>
+                                                <div id="edit_comment13743716" class="edit_window" style="display:none">
+                                                  <a href="#" onclick="deleteComment(13743716); return false;" class="link_edit">수정/삭제</a></div>
+                                                  <span class="nickname">
+                                                    <img src="https://ux.stories.pe.kr/favicon.ico" width="16" height="16" alt="Favicon of https://ux.stories.pe.kr" onerror="this.onerror=null;this.parentNode.removeChild(this)">  
+                                                    <a href="https://ux.stories.pe.kr" onclick="return openLinkInNewWindow(this)">{{item[1].userName}}</a><span class="tistoryProfileLayerTrigger" onclick="TistoryProfile.show(event, this, {&quot;blogId&quot;:&quot;2115043&quot;,&quot;title&quot;:&quot;UX \uacf5\uc791\uc18c&quot;,&quot;url&quot;:&quot;https:\/\/uxgjs.tistory.com&quot;,&quot;nickname&quot;:&quot;\uc5b4\uca4c\ub2e4\ubcf4\ub2c8\uc5ec\uae30\uae4c\uc9c0&quot;,&quot;items&quot;:[],&quot;isSubscriber&quot;:false,&quot;device&quot;:&quot;web_pc&quot;}); return false;"></span></span> <span class="date">2021.02.25 12:52 <a href="/toolbar/popup/abuseReport/?entryId=256&amp;commentId=13743716" onclick="window.open(this.href, 'ThisBlogReportPopup', 'width=550, height=510, toolbar=no, menubar=no, status=no, scrollbars=no'); return false;">신고</a></span>
                                               </div>
                                             </div>
-                                            <div class="desc"><span class="txt_reply">감사합니다 ~~</span></div>
+                                            <div class="desc"><span class="txt_reply">{{item[1].content}}</span></div>
                                           </li>
                                         
                                       </ul>
                                     
                                   </li>
                                 
-                                  <li id="comment13786969" class="rp_general">
-                                    <div class="info_custom">
-                                      <div class="writer"><img src="//i1.daumcdn.net/thumb/C50x50/?fname=https://img1.daumcdn.net/thumb/C100x100/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Ftistory_admin%2Fstatic%2Fmanage%2Fimages%2Fr3%2Fdefault_S.png" class="img_profile" alt="프로필사진"> <span class="edit" onclick="open_edit_window(&quot;edit_comment13786969&quot;)"><i class="xi-plus-circle"></i></span>
-                                        <div id="edit_comment13786969" class="edit_window" style="display:none"><a href="#" onclick="commentRequireLogin(); return false;commentComment(13786969); return false" class="link_re">댓글 </a><a href="#" onclick="deleteComment(13786969);return false" class="link_edit">수정/삭제</a></div><span class="nickname"><img src="https://h2ksp2.tistory.com/favicon.ico" width="16" height="16" alt="Favicon of https://h2ksp2.tistory.com" onerror="this.onerror=null;this.parentNode.removeChild(this)">  <a href="https://h2ksp2.tistory.com" onclick="return openLinkInNewWindow(this)">금실장</a></span> <span class="date">2021.04.25 19:16 <a href="/toolbar/popup/abuseReport/?entryId=256&amp;commentId=13786969" onclick="window.open(this.href, 'ThisBlogReportPopup', 'width=550, height=510, toolbar=no, menubar=no, status=no, scrollbars=no'); return false;">신고</a></span>
-                                      </div>
-                                    </div>
-                                    <div class="desc"><span class="txt_reply">ㄴㄹㄴㅇㄹㅇㄴㄹ</span></div>
-                                    
-                                  </li>
+                                
                                 
                                 <div id="edit_dummy" class="edit_dummy" onclick="close_edit_window()"></div>
                               </ul>
@@ -66,8 +64,9 @@
                                 
                                   
                                     <div class="form_guest">
-                                      <input name="name" v-model="userName" title="이름" placeholder="이름" class="input_comment comment_name" tabindex="2"> 
-                                      <textarea id="comment" name="comment" class="input_comment comment_textarea" placeholder="입력해주세요." tabindex="1"></textarea>
+                                      <input name="name" v-model="userName" title="이름" placeholder="이름" class="input_comment comment_name" tabindex="2">
+                                      <textarea id="comment" v-model="message" name="comment" class="input_comment comment_textarea" placeholder="입력해주세요." tabindex="1" @keyup="sendMessage"></textarea> 
+                                    </div>
                                   
                                   <div class="input_comment_checkbox"><input id="comment_secret" class="comment_secret" name="secret" type="checkbox" tabindex="4"> <label for="comment_secret"></label></div>
                                 <button type="button" onclick="addComment(this, 256); return false;" id="btn_submit" class="btn_submit btn btn-link"><i class="xi-send xi-x"></i></button>
@@ -101,7 +100,7 @@
                                 <i class="xi-2x xi-message" ></i>
                             </button>
                             <span id="rptb_cnt" class="rptb_cnt">
-                            <span id="commentCount256_1">3</span></span></div>
+                            <span id="commentCount256_1">{{this.recvList.length}}</span></span></div>
                         <div id="entry256Comment">
                           <div id="reply_list" class="reply_list" data-content="댓글 부탁드려요" style="min-height: 551px;">
                               <ul id="reply_container" class="reply_container">
@@ -173,22 +172,30 @@
 
 <script>
 export default {
-    name:'chat',
+     name:'chat',
     data(){
       return {
         flag:'',
         userName:'',
-        message:''
+        message:'',
+        recvList:[],
+        count:1,
+        connected:false,
+        list:[]
       }
     },
     props:{
         open: Boolean,
-        userInfo: Object
+        //userInfo: Object
     },
     created(){
       this.uplodaUser();
     },
     computed:{
+
+    },
+    updated(){
+        this.changeList();
 
     },
     methods:{
@@ -202,10 +209,64 @@ export default {
           if(this.userInfo != null){
               this.userName = this.userInfo.name;
           }
-          
+        },
+        sendMessage(e){
+          if(e.keyCode=== 13 && this.userName !== '' && this.message !== ''){
+            this.send();
+            this.message=''
+          }
+        },
+        send(){
+          console.log("send message:"+ this.message);
+          if(this.stompClient && this.stompClient.conntecd){
+            const msg = {
+              userName: this.userName,
+              content: this.message,
+              }
+            };
+            this.stompClient.send("/receive",JSON.stringify(msg),{});
+  
+          },
+          changeList(){
+            for(var i=0; i< this.recvList.length; i+= 2){
+              this.list.push(this.recvList.slice(i,i+2));
+              }
+          },
+          connect(){
+            const serverURL = 'http://pangtudy.xyz:8000/chat-api';
+            let socket = new SockJs(serverUrl);
+            this.stompClient = Stomp.over(socket);
+            console.log('소켓 연결을 시도합니다. 서버주소: ${serverURL}')
+            this.stompClient.connect(
+              {},
+              frame => {
+                // 소켓 연결 성공
+                this.connected = true;
+                console.log('소켓 연결 성공', frame);
+                // 서버의 메시지 전송 endpoint를 구독합니다.
+                // 이런형태를 pub sub 구조라고 한다.
+                this.stompClient.subscribe("/send",res=>{
+                  console.log('구독으로 받은 메시지 입니다.',res.body);
+                  res.body[count] = this.count;
+                  // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+                  this.recvList.push(JSON.parse(res.body))
+                 
+                });
+              },
+              error=> {
+                // 소켓 연결 실패
+                console.log('소켓 연결 실패', error);
+                this.connected = false;
+              }
+             
+            )
+              if(this.count == '2'){
+                      this.count = this.count - 1;
+                  }
+          }
         }
         
-    }
+    
 }
 // var rptb_right_loading_false = document.getElementsByClassName("rptb_right_loading_false"),
 //                               edit_date = document.getElementsByClassName("date"),

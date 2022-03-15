@@ -15,6 +15,10 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
+          
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" @click.stop="logout">Logout</a>
+          </li>
           <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
             </li>
@@ -47,11 +51,15 @@
             <a class="dropdown-item" href="#">Separated link</a>
           </base-dropdown> -->
          <base-dropdown tag="li" title="settings">
-          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i">
+          <a class="dropdown-item" v-for="(sub,i) in subList" :key="i" @click="goTo(sub.path)">
             {{sub.name}}
           </a>
          </base-dropdown>
+         <div class="header-left" v-if="userInfo">
+          {{userInfo.name}}님
+         </div> 
         </ul>
+        
       </base-nav>
     </div>
   </header>
@@ -61,7 +69,7 @@ import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 import {authComputed} from "../user_store/helper.js";
-
+import {mapGetters} from "vuex";
 export default {
   data(){
     return {
@@ -77,7 +85,8 @@ export default {
     ],
     subList:[
       {name:'권한관리',path:'grant'},
-      {name:'설정',path:'settings'},
+      {name:'설정',path:'setting'},
+      
     ]
     }
   },
@@ -87,7 +96,8 @@ export default {
     BaseDropdown,
   },
   computed:{
-    ...authComputed
+    ...authComputed,
+    ...mapGetters['userInfo']
   },
   methods:{
     logout(){
