@@ -6,7 +6,6 @@
         <router-view />
       </fade-transition>
     </v-main>
-    <chat :open="open" @closeit="open = false" @openit="open = true" :userInfo="userInfo"/>
     <router-view name="footer"></router-view>
   </v-app>
 </template>
