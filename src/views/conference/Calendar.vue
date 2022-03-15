@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-9">
+        <v-row class="justify-content-center">
+            <v-col cols="9">
                 <v-sheet height="64">
                     <v-toolbar flat>
                         <v-btn outlined class="mr-4" color=" darken-2" @click="set_today">
@@ -25,13 +25,12 @@
                 </v-sheet>
                 <v-calendar 
                         ref="calendar"
-                        v-model="focus"
+                        v-model="focus_date"
                         color="primary"
                         :events="this.schedules"
-                        :event-color="get_event_color"
                         type="month"
                         @click:event="show_schedule"
-                        @click:more="more_schedules"
+                        @click:more="set_date"
                         style="height: 800px">
                 </v-calendar>
                 <v-menu v-model="selected_open"
@@ -40,17 +39,9 @@
                         offset-x>
                     <v-card color="grey lighten-4" min-width="350px" flat>
                         <v-toolbar :color="selected_schedule.color" dark>
-                            <v-btn icon>
-                                <v-icon> mdi-pencil </v-icon>
-                            </v-btn>
+                            <v-icon> mdi-calendar </v-icon>
+                            &nbsp; &nbsp;
                             <v-toolbar-title v-html="selected_schedule.name" />
-                            <v-spacer />
-                            <v-btn icon>
-                                <v-icon> mdi-heart </v-icon>
-                            </v-btn>
-                            <v-btn icon>
-                                <v-icon> mdi-dots-vertical </v-icon>
-                            </v-btn>
                         </v-toolbar>
                         <v-card-text>
                             <span v-html="selected_schedule.details" />
@@ -62,21 +53,12 @@
                         </v-card-actions>
                     </v-card>
                 </v-menu>
-            </div>
-            <div class="col-lg-3">
-                <div class="row py-3" style="margin-bottom: 10px">
+            </v-col>
+            <v-col cols="3">
+                <div class="py-3" style="margin-bottom: 10px">
                     <h5 class="mb-0"> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} </h5>
                 </div>
                 <v-card elevation="2">
-                    <!-- <v-row v-if="this.calendar[this.year + '-' + this.month + '-' + this.day] === undefined">
-                        <v-col>
-                            <v-card style="margin-left: 10px; margin-right: 10px;">
-                                <v-card-text>
-                                    Empty Schedule!
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row> -->
                     <v-row v-for="item in this.calendar[this.year + '-' + this.month + '-' + this.day]" :key="item.id">
                         <v-col>
                             <v-card color="#DAF1DB" style="margin-left: 10px; margin-right: 10px;">
@@ -85,12 +67,23 @@
                                 </v-card-title>
                                 <v-card-subtitle>
                                     <b> {{ time_format(item.startTime) }} ~ {{ time_format(item.endTime) }} </b>
+                                    <div>
+                                        <!-- item.startTime 이 아니라 참여자 목록으로 수정 필요 -->
+                                        <v-chip v-for="user in item.startTime" :key="user"
+                                                class="mr-1"
+                                                color="gray"
+                                                small
+                                                label>
+                                            {{ user }}
+                                        </v-chip>
+                                    </div>
                                 </v-card-subtitle>
                                 <v-card-text>
                                     {{ item.comment }}
                                     <div style="text-align: right">
+                                        <v-btn icon x-small @click="detail_schedule(item)"><v-icon>{{ icons.mdiStickerText }}</v-icon></v-btn> &nbsp;
                                         <v-btn icon x-small @click="modify_schedule(item)"><v-icon>{{ icons.mdiPencil }}</v-icon></v-btn> &nbsp;
-                                        <v-btn icon x-small @click="delete_schedule(item)"><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
+                                        <v-btn icon x-small @click="delete_schedule(item.id)"><v-icon>{{ icons.mdiDelete }}</v-icon></v-btn> 
                                     </div>
                                 </v-card-text>
                             </v-card>
@@ -98,14 +91,14 @@
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-card style="text-align: center; font-size: 20px; margin-left: 10px; margin-right: 10px;" @click="add_schedule()">
+                            <v-card style="text-align: center; font-size: 20px; margin-left: 10px; margin-right: 10px;" @click="create_schedule()">
                                 <b> + </b>
                             </v-card>
                         </v-col>
                     </v-row>
                 </v-card>
-            </div>
-        </div>
+            </v-col>
+        </v-row>
         <v-snackbar v-model="change">
             데이터 변경이 감지되었습니다.
 
@@ -118,149 +111,21 @@
                 </v-btn>
             </template>
         </v-snackbar>
-        <v-dialog v-model="dialog"
-                fullscreen
-                hide-overlay
-                transition="dialog-bottom-transition">
-            <v-card>
-                <v-toolbar
-                    dark
-                    color="dark"
-                    >
-                    <v-btn icon @click="dialog = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title> {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{ String(this.day).padStart(2, '0') }} 일정 등록</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                        <v-btn text @click="schedule_dialog_clear()">
-                            Clear
-                        </v-btn>
-                        <v-btn text @click="schedule_dialog_save()">
-                            Save
-                        </v-btn>
-                    </v-toolbar-items>
-                </v-toolbar>
-                <v-list three-line subheader>
-                    <v-list-item>
-                        <v-text-field
-                            v-model="schedule_title"
-                            label="Title"
-                            :rules="schedule_title_rules"
-                            hide-details="auto">
-                        </v-text-field>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-row>
-                            <v-col>
-                                <v-menu
-                                    ref="menu1"
-                                    v-model="start_time"
-                                    :close-on-content-click="false"
-                                    :nudge-right="40"
-                                    :return-value.sync="schedule_start"
-                                    transition="scale-transition"
-                                    offset-y
-                                    max-width="290px"
-                                    min-width="290px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="schedule_start"
-                                            label="Start Time"
-                                            prepend-icon="mdi-clock-time-four-outline"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on" />
-                                    </template>
-                                    <v-time-picker
-                                        v-if="start_time"
-                                        v-model="schedule_start"
-                                        format="ampm"
-                                        ampm-in-title
-                                        @click:minute="$refs.menu1.save(schedule_start)" />
-                                </v-menu>
-                            </v-col>
-                            <v-col>
-                                <v-menu
-                                    ref="menu2"
-                                    v-model="end_time"
-                                    :close-on-content-click="false"
-                                    :nudge-right="40"
-                                    :return-value.sync="schedule_end"
-                                    transition="scale-transition"
-                                    offset-y
-                                    max-width="290px"
-                                    min-width="290px">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="schedule_end"
-                                            label="End Time"
-                                            prepend-icon="mdi-clock-time-four-outline"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on" />
-                                    </template>
-                                    <v-time-picker
-                                        v-if="end_time"
-                                        v-model="schedule_end"
-                                        format="ampm"
-                                        ampm-in-title
-                                        @click:minute="$refs.menu2.save(schedule_end)" />
-                                </v-menu>
-                            </v-col>
-                        </v-row>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-select
-                            v-model="schedule_select_members"
-                            :items="members"
-                            label="Participants"
-                            :menu-props="{ offsetY: true }"
-                            clearable
-                            multiple
-                            chips
-                            dense>
-                            <template v-slot:selection="data">
-                                <v-chip
-                                    :key="JSON.stringify(data.item)"
-                                    v-bind="data.attrs"
-                                    :input-value="data.selected"
-                                    @click:close="data.parent.selectItem(data.item)">
-                                    <v-avatar
-                                        class="accent white--text"
-                                        left
-                                        v-text="data.item.slice(0, 1).toUpperCase()"/>
-                                    {{ data.item }}
-                                </v-chip>
-                            </template>
-                        </v-select>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-checkbox v-model="schedule_is_alram" 
-                                label="Alram"/>
-                        <v-spacer></v-spacer>
-                        <v-select 
-                                v-if="schedule_is_alram"
-                                v-model="schedule_select_time"
-                                :items="time_list"
-                                label="Time"
-                                :menu-props="{ offsetY: true }"
-                                dense/>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-textarea
-                            v-model="scehdule_comment"
-                            filled
-                            name="input-7-4"
-                            auto-grow
-                            clearable
-                            clear-icon="mdi-close-circle"
-                            label="Comment"
-                            value="Sample Data" />
-                    </v-list-item>
-                </v-list>
-            </v-card>
-        </v-dialog>
+        <CreateDialog :is_dialog="create_dialog"
+                    :schedule="current_schedule"
+                    :year="year"
+                    :month="month"
+                    :day="day"
+                    @close="close_create_dialog"
+                    @commit="commit_create_dialog"> </CreateDialog>
+        <DetailDialog :is_dialog="detail_dialog" 
+                    :schedule="current_schedule"
+                    :year="year"
+                    :month="month"
+                    :day="day"
+                    @close="close_detail_dialog"
+                    @delete="delete_schedule"
+                    @edit="modify_schedule"></DetailDialog>
     </div>
 </template>
 

@@ -5,7 +5,6 @@
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>
-     
     </v-main>
      <chat :open="open" @closeit="open = false" @openit="open = true" :userInfo="userInfo"/>
     <router-view name="footer"></router-view>
@@ -15,7 +14,6 @@
 import { FadeTransition } from "vue2-transitions";
 import chat from '@/views/components/chat/Chat.vue'
 import { mapGetters } from 'vuex';
-
 export default {
   components: {
     FadeTransition,
@@ -36,7 +34,6 @@ export default {
   },
   computed:{
     ...mapGetters(['userInfo'])
-      
   },
   methods:{
       

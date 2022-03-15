@@ -5,6 +5,7 @@ import VueCookies from 'vue-cookies';
 import * as Api from '@/api/conference';
 import { reject } from 'lodash';
 
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({

@@ -1,63 +1,58 @@
 import Modal from "@/components/Modal.vue";
 import {
-    mdiPencil, mdiDelete
+    mdiPencil,
+    mdiDelete,
+    mdiStickerText
 } from '@mdi/js';
 import * as Api from '@/api/conference';
 import Swal from 'sweetalert2';
+import CreateDialog from './ScheduleCreateDialog.vue';
+import DetailDialog from './ScheduleDetailDialog.vue';
+import Vue from "vue";
 
 export default {
     components: {
-        Modal
+        Modal,
+        CreateDialog,
+        DetailDialog
     },
     data() {
         return {
-            focus: '',
+            icons: {
+                mdiPencil,
+                mdiDelete,
+                mdiStickerText
+            },
+
+            // v-calendar 관련 변수
+            focus_date: '',
             selected_schedule: {},
             selected_element: null,
             selected_open: false,
             schedules: [],
 
-            select_date: new Date(),
+            // Create Dialog, Detail Dialog 표시될 정보
+            current_schedule: null,
+            create_dialog: false,
+            detail_dialog: false,
+
             change: false,
-            dialog: false,
             sse_source: null,
-            icons: {
-                mdiPencil,
-                mdiDelete
-            },
+
+            // Create, Modify 구분용 변수
             is_modify: false,
             modify_id: 0,
-
-            /* 
-                Schedule Add Dialog 관련 변수
-            */
-            schedule_title: '',
-            schedule_title_rules: [
-                value => !!value || 'Required.',
-                value => (value && value.length >= 3) || 'Min 3 characters',
-            ],
-            schedule_start: null,
-            schedule_end: null,
-            start_time: false,
-            end_time: false,
-            schedule_select_members: [],
-            // TODO : 회원목록 읽어오기 (User-API)
-            members: ['박찬준', '원철황', '김민주', '박혜원', '서진하', '임재창'],
-            schedule_is_alram: false,
-            time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
-            schedule_select_time: [],
-            scehdule_comment: ''
         }
     },
     computed: {
         year() {
-            return this.focus !== '' ? Number(this.focus.split('-')[0].replace(/^0+/,'')) : new Date().getFullYear();
+            return this.focus_date !== '' ? Number(this.focus_date.split('-')[0].replace(/^0+/, '')) : new Date().getFullYear();
         },
         month() {
-            return this.focus !== '' ? Number(this.focus.split('-')[1].replace(/^0+/,'')) : new Date().getMonth() + 1;
+            return this.focus_date !== '' ? Number(this.focus_date.split('-')[1].replace(/^0+/, '')) : new Date().getMonth() + 1;
         },
         day() {
-            return this.focus !== '' ? Number(this.focus.split('-')[2].replace(/^0+/,'')) : new Date().getDate();
+            return this.focus_date !== '' ? Number(this.focus_date.split('-')[2].replace(/^0+/, '')) : new Date().getDate();
         },
         calendar() {
             const calendar = this.$store.getters.get_calendar;
@@ -69,7 +64,7 @@ export default {
                         name: schedule.title,
                         start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
                         end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
-                        color: 'blue',
+                        color: 'pink',
                         details: schedule.comment,
                         timed: true,
                     });
@@ -87,67 +82,76 @@ export default {
         },
     },
     methods: {
-        get_event_color (event) {
-            return event.color;
+        close_create_dialog() {
+            this.create_dialog = false;
+            this.current_schedule = null;
         },
-        set_today () {
-            this.focus = '';
+        close_detail_dialog() {
+            this.detail_dialog = false;
+            this.current_schedule = null;
         },
-        prev () {
+        set_today() {
+            this.focus_date = '';
+        },
+        set_date({ date }) {
+            this.focus_date = date;
+        },
+        prev() {
             this.$refs.calendar.prev();
         },
-        next () {
+        next() {
             this.$refs.calendar.next();
         },
-        show_schedule ({ nativeEvent, event }) {
+        show_schedule({ nativeEvent, event }) {
+            const event_date = event.start.getFullYear() + '-' + (event.start.getMonth() + 1) + '-' + event.start.getDate();
             const open = () => {
-                this.selected_schedule = event
-                this.selected_element = nativeEvent.target
-                requestAnimationFrame(() => requestAnimationFrame(() => this.selected_open = true))
+                this.focus_date = event_date;
+                this.selected_schedule = event;
+                this.selected_element = nativeEvent.target;
+                requestAnimationFrame(() => requestAnimationFrame(() => this.selected_open = true));
             }
 
             if (this.selected_open) {
-                this.selected_open = false
-                requestAnimationFrame(() => requestAnimationFrame(() => open()))
+                this.selected_open = false;
+                requestAnimationFrame(() => requestAnimationFrame(() => open()));
             } else {
-                open()
+                open();
             }
-            nativeEvent.stopPropagation()
+            nativeEvent.stopPropagation();
         },
-        more_schedules({ date }) {
-            this.focus = date;
+        detail_schedule(schedule) {
+            this.detail_dialog = true;
+            this.current_schedule = schedule;
         },
-        add_schedule() {
-            this.schedule_dialog_clear();
-            this.modify = false;
-            this.dialog = true;
+        create_schedule() {
+            this.create_dialog = true;
         },
-        schedule_dialog_save() {
-            // TODO : writer, alarm 설정 필요
-            var schedule = {
-                "year": this.year,
-                "month": this.month,
-                "day": this.day,
-                "title": this.schedule_title,
-                "startTime": this.schedule_start,
-                "endTime": this.schedule_end,
-                "writer": "박찬준",
-                "alarm": 0,
-                "comment": this.scehdule_comment
-            };
-            
+        modify_schedule(schedule) {
+            this.current_schedule = schedule;
+            this.modify = true;
+            this.modify_id = schedule.id;
+
+            this.detail_dialog = false;
+            this.create_dialog = true;
+        },
+        commit_create_dialog(schedule) {
+            Vue.set(schedule, 'year', this.year);
+            Vue.set(schedule, 'month', this.month);
+            Vue.set(schedule, 'day', this.day);
+
             if (this.modify) {
-                schedule['id'] = this.modify_id;
-                Api.modify_schedule(schedule).then(data => {
-                });
+                Vue.set(schedule, 'id', this.modify_id);
+                Api.modify_schedule(schedule).then(data => {});
             } else {
-                Api.create_schedule(schedule).then(data => {
-                });
+                Api.create_schedule(schedule).then(data => {});
             }
-            this.schedule_dialog_clear();
-            this.dialog = false;
+
+            this.modify = false;
+            this.modify_id = 0;
+            this.current_schedule = null;
+            this.create_dialog = false;
         },
-        delete_schedule(schedule) {
+        delete_schedule(id) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: `You won't be able to revert this!`,
@@ -157,9 +161,9 @@ export default {
                 cancelButtonClass: 'btn btn-danger btn-fill',
                 confirmButtonText: 'Yes, delete it!',
                 buttonsStyling: false
-            }).then(function (result) {
+            }).then(function(result) {
                 if (result.isConfirmed) {
-                    Api.delete_schedule(schedule.id)
+                    Api.delete_schedule(id)
                         .then(data => {
                             Swal.fire({
                                 title: 'Success!',
@@ -169,46 +173,18 @@ export default {
                                 confirmButtonText: 'OK',
                                 buttonsStyling: false
                             });
-                        })
-                        .catch(error => {
-                            console.log("Schedule[" + schedule.id + "] Delete Exception!");
                         });
                 }
-            })
-        },
-        modify_schedule(schedule) {
-            // TODO : select_members, select_time 동적으로 수정 필요
-            this.schedule_title = schedule.title;
-            this.schedule_start = this.time_format(schedule.startTime);
-            this.schedule_end = this.time_format(schedule.endTime);
-            this.schedule_select_members = ['박찬준'];
-            this.schedule_is_alram = schedule.alarm == 0 ? false : true;
-            this.schedule_select_time = ['15분전'];
-            this.scehdule_comment = schedule.comment;
-
-            this.modify = true;
-            this.modify_id = schedule.id;
-            this.dialog = true;
-        },
-        schedule_dialog_clear() {
-            this.schedule_title = '';
-            this.schedule_start = null;
-            this.schedule_end = null;
-            this.schedule_select_members = [];
-            this.schedule_is_alram = false;
-            this.schedule_select_time = [];
-            this.scehdule_comment = '';
+            });
         },
         time_format(time) {
             return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
         }
     },
     async mounted() {
-        this.$refs.calendar.checkChange();
-
         // TODO : EventSource 주소 상수화 필요
         this.sse_source = new EventSource("http://localhost:10831/calendar/schedules/sse");
-        this.sse_source.onmessage = (event) => { 
+        this.sse_source.onmessage = (event) => {
             var event_data = JSON.parse(event.data);
             console.log(event_data);
             // DELETE 는 event_data.schedule 에 id 만 넘어오기 때문에 일단 이렇게 처리... 개선이 필요한 부분
