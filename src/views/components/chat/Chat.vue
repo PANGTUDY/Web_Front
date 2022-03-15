@@ -186,7 +186,7 @@ export default {
     },
     props:{
         open: Boolean,
-        userInfo: Object
+        //userInfo: Object
     },
     created(){
       this.uplodaUser();
@@ -206,7 +206,7 @@ export default {
             this.$emit('openit');
         },
         uplodaUser(){
-          if(this.userInfo){
+          if(this.userInfo != null){
               this.userName = this.userInfo.name;
           }
         },

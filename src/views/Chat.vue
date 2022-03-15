@@ -199,7 +199,7 @@ export default {
             this.$emit('openit');
         },
         uplodaUser(){
-          if(this.userInfo){
+          if(this.userInfo != null){
               this.userName = this.userInfo.name;
           }
           

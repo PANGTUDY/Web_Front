@@ -37,7 +37,6 @@
                             <div class="text-center text-muted mb-4">
                                 <small>Or sign up with credentials</small>
                             </div>
-                            <form role="form" @submit.prevent="register">
                                 <label class="ni ni-hat-3" for="name"> name</label>
                                 <base-input alternative
                                             class="mb-3"
@@ -50,6 +49,9 @@
                                             placeholder="Email"
                                             v-model="email">
                                 </base-input>
+                                 <div>
+                                    <base-button btn_type="primary" type="submit" @click.stop="confirmEmail">이메일 인증</base-button>
+                                </div>
                                 <label class="fa fa-check" for="comfirm_email"> confirm email</label>
                                 <span id="onlyemail">
                                   <base-input alternative
@@ -91,7 +93,6 @@
                                 <div class="text-center">
                                     <base-button btn_type="primary" class="my-4" type="submit">Create account</base-button>
                                 </div>
-                            </form>
                         </template>
                     </card>
                 </div>
@@ -100,6 +101,7 @@
     </section>
 </template>
 <script>
+import {mapActions} from 'vuex';
 export default {
     data(){
         return {
@@ -109,12 +111,20 @@ export default {
         }
     },
     methods:{
+        ...mapActions(['verifyEmail']),
         register(){
+            if(this.password == null){
+                alert('비밀번호를 입력해주세요');
+            }
             this.$store.dispatch('register',{
                 name: this.name, email: this.email, password: this.password
             }).then(()=>{
                 this.$router.push({name:'components'})
             })
+        },
+        confirmEmail(){
+                this.verifyEmail({'email':this.email});
+            
         }
        
     }

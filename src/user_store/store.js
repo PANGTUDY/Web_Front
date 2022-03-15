@@ -155,6 +155,18 @@ export default new Vuex.Store({
             commit('LOGOUT')
             // location.reload();
         },
+        allMembers(payload){
+            return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users',payload).
+            then(({response}) =>{
+                console.log(response);
+            })
+        },
+        verifyEmail(payload){
+            return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/verify',payload).
+            then(({response})=>{
+                console.log(response);
+            })
+        },
         memberInfo({commit},payload){
                 return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{
                     params:{email: payload}

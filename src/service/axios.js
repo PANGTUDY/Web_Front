@@ -1,6 +1,6 @@
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
-import {refreshToken} from './user_store/store.js';
+import store from './user_store/store.js';
 
 axios.defaults.baseUrl = 'http://localhost:3000';
 
@@ -33,7 +33,8 @@ axios.interceptors.response.use(
             const errorAPI = error.response.config;// 요청했던 request 정보가 담겨있음
             if(error.response.status == 401 && errorAPI.retry == undefined && VueCookies.get('refreshToken') !=null){
                 errorAPI.retry = true;
-                await StorageEvent.dispatch('refreshToken');
+                const cookies = {"refreshToken":VueCookies.get('refreshToken') };
+                await store.dispatch('refreshToken',{refreshToken:VueCookies.get('refreshToken')});
                 return await axios(errAPI);
             }
             } catch(err){
