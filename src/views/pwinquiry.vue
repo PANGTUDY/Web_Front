@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template v-if="!isLoading">
+        <template>
         <div class="profile-page">
         <section class="section-profile-cover section-shaped my-0">
             <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
@@ -40,7 +40,6 @@
                                 
                                  <base-input alternative
                                             type="password"
-                                            placeholder="Password"
                                             addon-left-icon="ni ni-lock-circle-open"
                                             
                                             name="password">
@@ -57,9 +56,9 @@
                                                 placeholder="Password"
                                                 addon-left-icon="ni ni-lock-circle-open"
                                                 name="password"
-                                                v-model="password">
+                                               >
                                     </base-input>
-                                    <span v-show="errors.has('password')">{{errors.first('password')}}</span>
+                                    
                                     </div>
                                     <label class="fa fa-check custom-password" for="password">새로운 password 확인</label>
                                     <div class="custom-layout">
@@ -92,21 +91,20 @@
         </section>
         </div>
         </template>
-        <section class="section section-skew" v-else>
-            <p>Loading events</p>
-        </section>
+       
     </div>
 </template>
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import { authComputed } from '../user_store/helper.js';
 
 
 export default {
     data(){
         return {
-            isLoading: true,
-            password:''
+            
+           
             
         };
     },
@@ -118,6 +116,9 @@ export default {
               }
           })
       }
+    },
+    computed:{
+        ...authComputed
     },
     created(){
         axios.get('//localhost:3000/profile').then(({data})=>{

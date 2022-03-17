@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template v-if="!isLoading">
+        <template>
         <div class="profile-page">
         <section class="section-profile-cover section-shaped my-0">
             <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
@@ -50,9 +50,9 @@
                             </div>
                         </div>
                         <div class="text-center mt-5">
-                            <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:</label>{{event[0].email}}</div>
+                            <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:</label></div>
                                <div class="h6 font-weight-300"> 
-                                   <label class="relocation_heywon" for="email">password:</label>{{event[0].password}}
+                                   <label class="relocation_heywon" for="email">password:</label>
                                     <base-button type="info" size="sm" class="mr-4" @click="pageMove">비밀번호 변경</base-button>
                                </div>
                             <div class="together_heywon">
@@ -60,26 +60,27 @@
                                 <base-input alternative
                                             class="width_heywon"
                                             v-model="name"
-                                            :placeholder="[[event[0].name]]"
+                                            :placeholder="userInfo.name"
                                             @change="func">
                                 </base-input>
                             </div>
-                               <div class="together_heywon">
+                               <!-- <div class="together_heywon">
                                 <label class="relocation_heywon" for="name"> 상태메시지</label>
                                 <base-input alternative
                                             class="width_heywon"
-                                            :placeholder="[[event[0].title]]"
+                                            
                                             v-model="title"
                                             @change="func">
                                             
                                 </base-input>
-                            </div>
+                            </div> -->
                               
                             
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
+                                    {{userInfo}}
                                     <base-button type="info" size="sm" class="mr-4" @click="memberReset()">회원탈퇴</base-button>
                                     <base-button type="info" size="sm" class="mr-4" v-on:click="subumit()">저장</base-button>
                                 </div>
@@ -91,20 +92,17 @@
         </section>
         </div>
         </template>
-        <section class="section section-skew" v-else>
-            <p>Loading events</p>
-        </section> 
     </div>
 </template>
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { authComputed } from '../user_store/helper.js';
 
 
 export default {
     data(){
         return {
-            isLoading: true,
+            
             person:
                 {
                     name:'',
@@ -118,6 +116,9 @@ export default {
             event:'',
             title:''
         };
+    },
+    computed:{
+      ...authComputed  
     },
     methods:{
         func:()=>{
@@ -163,15 +164,7 @@ export default {
         }
         
     },
-    created(){
-        axios.get('//localhost:3000/profile').then(({data})=>{
-            this.isLoading =  false;
-            this.event = data.events.events;
-            console.log(this.event)
-            
-
-        });
-    },
+    
 };
 </script>
 <style>

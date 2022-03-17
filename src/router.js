@@ -13,11 +13,13 @@ import Delete from "./views/delete.vue";
 import practice from "./views/practice.vue";
 import Calendar from "./views/conference/Calendar.vue"
 import Grant from "./views/Grant.vue";
+import Setting from './views/Setting.vue';
 import { Store } from "vuex";
-
+import VueCookies from 'vue-cookies';
 import List from "./views/components/board/List";
 import View from "./views/components/board/View";
 import New from "./views/components/board/New";
+import store from "./user_store/store";
 
 Vue.use(Router);
 
@@ -76,9 +78,6 @@ const router = new Router({
         header: AppHeader,
         default: Profile,
         footer: AppFooter
-      },
-      meta:{
-        requiresAuth: true
       }
     },
     {
@@ -154,18 +153,34 @@ const router = new Router({
         footer: AppFooter
 
       }
+    },
+    {
+      path:'/setting',
+      name: Setting,
+      components:{
+        header: AppHeader,
+        default: Setting,
+        footer: AppFooter
+      }
     }
   ],
 });
-
-router.beforeEach((to,from,next)=>{
-  const loggedIn = localStorage.getItem('user')
-
-  console.log(to);
-  if(to.matched.some(record=>record.meta.requiresAuth)&&!loggedIn){
-    next('/')
-  }
-  next()
-});
+// 네비게이션 가드 ( 뷰 라우터로 URL 접근에 대해서 처리할 수 있다)
+  router.beforeEach(async(to,from,next) =>{
+   if(VueCookies.get('accessToken') === null && VueCookies.get('refreshToken')!= null){
+     var cookies = {refreshToken:VueCookies.get('refreshToken')}
+     //await store.dispatch('refreshToken',JSON.stringify(cookies));
+   }
+   if(VueCookies.get('accessToken')){
+     // accessToken이 있을때 진행
+     return next();
+   }
+   if(VueCookies.get('accessToken') == null && VueCookies.get('refreshToken')==null){
+    //   if(to.path !=='/login'){ 
+    //       return next({name:'login'});
+    // }
+   }
+   return next();
+ })
 
 export default router
