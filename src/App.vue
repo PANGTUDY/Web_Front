@@ -12,12 +12,12 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
-// import chat from '@/views/components/chat/Chat.vue'
+import chat from '@/views/components/chat/Chat.vue'
 import { mapGetters } from 'vuex';
 export default {
   components: {
     FadeTransition,
-    // chat
+    chat
   },
   data(){
       return{
