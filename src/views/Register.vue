@@ -49,7 +49,7 @@
                                             placeholder="Email"
                                             v-model="email">
                                 </base-input>
-                                 <div>
+                                 <!-- <div>
                                     <base-button btn_type="primary" type="submit" @click.stop="confirmEmail">이메일 인증</base-button>
                                 </div>
                                 <label class="fa fa-check" for="comfirm_email"> confirm email</label>
@@ -61,7 +61,7 @@
                                 </base-input>
                                 <div>
                                     <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
-                                </div>
+                                </div> -->
                                 </span>
                                 <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
                                 <base-input alternative
@@ -91,16 +91,19 @@
                                     <span class="text-success font-weight-700"><router-link to="/login">Already have an account? Login</router-link></span>
                                 </div>
                                 <div class="text-center">
-                                    <base-button btn_type="primary" class="my-4" type="submit">Create account</base-button>
+                                    <base-button btn_type="primary" class="my-4" type="submit" @click.stop="registerInfo">Create account</base-button>
                                 </div>
                         </template>
                     </card>
                 </div>
             </div>
+           
         </div>
+         <confrim-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)"></confrim-popup>
     </section>
 </template>
 <script>
+import confrimPopup  from './mixin/confirmPopup.vue'
 import {mapActions} from 'vuex';
 export default {
     data(){
@@ -108,19 +111,29 @@ export default {
            name:'',
            email:'',
            password:'',
+           popupSetting:false
         }
     },
+    components:{
+        confrimPopup
+    },
     methods:{
-        ...mapActions(['verifyEmail']),
-        register(){
+        ...mapActions(['verifyEmail','register']),
+        registerInfo(){
             if(this.password == null){
                 alert('비밀번호를 입력해주세요');
             }
-            this.$store.dispatch('register',{
+            this.register({
                 name: this.name, email: this.email, password: this.password
-            }).then(()=>{
-                this.$router.push({name:'components'})
-            })
+            }).then(()=>{ 
+                this.popupSetting = true
+                //  this.$router.push({name:'components'});     
+                
+            });
+        },
+        checkPopup($event){
+            this.popupSetting = $event;
+            return this.popupSetting;
         },
         confirmEmail(){
                 this.verifyEmail({'email':this.email});

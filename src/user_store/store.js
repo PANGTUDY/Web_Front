@@ -121,7 +121,7 @@ export default new Vuex.Store({
             return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',credentials)
             .then(({data})=>{
                 commit('SET_USER_DATA',data)
-                
+              return data;  
             })
         },
         login({commit},credentials){
