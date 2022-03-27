@@ -221,10 +221,10 @@ export default {
                 this.schedule_end = this.time_format(this.schedule.endTime);
 
                 this.schedule_select_members = [];
-                this.schedule.participants.foreach(element => {
+                this.schedule.participants.forEach(element => {
                     this.schedule_select_members.push({
-                        'name': element.userName,
-                        'email': element.userEmail
+                        'name': element.name,
+                        'email': element.email
                     });
                 });
 
@@ -232,7 +232,7 @@ export default {
                 this.schedule_select_time = ['15분전'];
                 this.schedule_comment = this.schedule.comment;
             }
-        }
+        },
     },
     methods: {
         test(member) {
