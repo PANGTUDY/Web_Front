@@ -67,7 +67,7 @@
                                 <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
                                 <base-input alternative
                                             type="password"
-                                            placeholder="비밀번호는 8~16자리로 숫자,영문,특수문자 혼합입니다. "
+                                            placeholder="비밀번호는 6~16자리로 숫자,영문,특수문자 혼합입니다. "
                                             addon-left-icon="ni ni-lock-circle-open"
                                             v-model="password"
                                             @blur.stop="validationCheck('password')">
@@ -82,7 +82,7 @@
                                 </base-input>
                                 <div class="text-muted font-italic">
                                     <small>password strength:
-                                        <span class="text-success font-weight-700">strong</span>
+                                        <span class="font-weight-700" :class="changeStrength">{{passwordValidation}}</span>
                                         <p>{{msg}}</p>
                                     </small>
                                 </div>
@@ -118,16 +118,42 @@ export default {
            password_confirm:'',
            email:'',
            registerMsg:[{name:'비밀번호가 일치하지 않습니다.'},{name:'비밀번호가 일치합니다.'}],
-           msg:''
+           msg:'',
+           passwordValidation:''
         }
     },
     components:{
         confrimPopup
     },
+    computed:{
+        changeStrength: function(){
+                return this.passwordValidation == 'strong'? 'text-success':'text-warning';
+
+        }
+    },
     watch:{
+        password(){
+            //숫자6자리
+            let weak=/^[0-9]{1,5}$/g;
+            if(this.password.match(weak)!=null){
+                this.passwordValidation = 'weak';
+                
+            }
+            // 영어 소문자,대문자,숫자 모두6자리
+            let medium=/^\w{6}$/;
+            if(this.password.match(medium)!=null){
+                this.passwordValidation = 'medium';
+            }
+            let strong=/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
+            if(this.password.match(strong) !=null){
+                this.passwordValidation = 'strong';
+            }
+            
+        },
         password_confirm(){
             if(this.password_confirm.match(this.password) != null){
                     this.msg ='비밀번호가 일치합니다.';
+                    
             }else{
                  this.msg ='비밀번호가 일치하지 않습니다.';
             }
@@ -175,7 +201,7 @@ export default {
                 alert('비밀번호를 입력해주세요');
                 return false;
             }else{
-                let regExp =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+                let regExp =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
                 if(this.password.match(regExp) != null){
                     return true;
                 }else{
