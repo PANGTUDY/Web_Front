@@ -127,7 +127,7 @@ export default {
         selectItems: [
             { text:'제목', value: 'title' },
             { text:'제목+내용', value: 'contents' },
-            { text:'해시태그', value: 'tags' },
+            { text:'해시태그', value: 'tag' },
             { text:'작성자', value: 'writer' },
         ],
         selectedItem: 'title',
@@ -176,7 +176,12 @@ export default {
                 });
             }
             else {
-                alert("검색된 키워드가 없습니다!");
+                Api.get_post_list().then(res => {
+                    this.$set(this.posts, 0, res.data);
+                })
+                .catch(error => {
+                    console.log("error occured!: ", error);
+                });
             }
         },
 
