@@ -30,7 +30,7 @@
                         <v-list color="transparent">
                             <v-subheader>CATEGORY</v-subheader>
                             <v-list-item-group
-                                v-model="selectedItem"
+                                v-model="selectedCategory"
                                 color="primary"
                             >
                                 <v-list-item
@@ -72,7 +72,7 @@
                                     <col width="10%" />
                                 </colgroup>
                                 <tr v-for="(row, idx) in posts[category.categoryId]" :key="idx">
-                                    <td class="text-left" @click="fnView(`${row.postId}`)">
+                                    <td class="text-left" @click="fnView(`${row.postId}`, `${row.categoryId}`)">
                                         <span class="title">{{row.title}}</span>
                                         <span class="hashtag">
                                             <v-chip
@@ -131,6 +131,7 @@ export default {
             { text:'작성자', value: 'writer' },
         ],
         selectedItem: 'title',
+        selectedCategory: 0,
         page: 1,
     }),
 
@@ -191,9 +192,9 @@ export default {
         },
 
         // move to the detail page
-        fnView(id) {
-            console.log(id);
-			this.$router.push({path:'/board/view/' + id});
+        fnView(postId, categoryId) {
+            console.log(postId);
+			this.$router.push({path:'/board/view/' + postId + '?categoryId=' + categoryId});
         },
 
         // change the category
