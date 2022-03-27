@@ -1,12 +1,12 @@
 <template>
   <v-row justify="center" v-if="usingPopup == true">
-    <v-btn
+    <!-- <v-btn
       color="primary"
       dark
       @click.stop="$emit('settingFalse', false)"
     >
       Open Dialog
-    </v-btn>
+    </v-btn> -->
 
     <v-dialog
       v-model="usingPopup"
@@ -23,7 +23,17 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
+          <template v-if="this.$route.name == 'register'">
+          
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('settingFalse',false)"
+          >
+            확인
+          </v-btn>
+          </template>
+           <template v-else>
           <v-btn
             color="green darken-1"
             text
@@ -39,6 +49,7 @@
           >
             확인
           </v-btn>
+          </template>
         </v-card-actions>
       </v-card>
     </v-dialog>

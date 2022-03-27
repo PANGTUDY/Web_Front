@@ -47,7 +47,8 @@
                                 <base-input alternative
                                             class="mb-3"
                                             placeholder="Email"
-                                            v-model="email">
+                                            v-model="email"
+                                            @blur.stop="validationCheck('email')">
                                 </base-input>
                                  <!-- <div>
                                     <base-button btn_type="primary" type="submit" @click.stop="confirmEmail">이메일 인증</base-button>
@@ -66,13 +67,15 @@
                                 <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
                                 <base-input alternative
                                             type="password"
-                                            placeholder="Password"
+                                            placeholder="비밀번호는 8~16자리로 숫자,영문,특수문자 혼합입니다. "
                                             addon-left-icon="ni ni-lock-circle-open"
-                                            v-model="password">
+                                            v-model="password"
+                                            @blur.stop="validationCheck('password')">
                                 </base-input>
                                 <label class="fa fa-check" for="password">confirm password</label>
                                 <base-input alternative
                                             type="password"
+                                            v-model="password_confirm"
                                             placeholder="Password 재확인"
                                             addon-left-icon="ni ni-lock-circle-open"
                                             >
@@ -80,13 +83,14 @@
                                 <div class="text-muted font-italic">
                                     <small>password strength:
                                         <span class="text-success font-weight-700">strong</span>
+                                        <p>{{msg}}</p>
                                     </small>
                                 </div>
-                                <base-checkbox>
+                                <!-- <base-checkbox>
                                     <span>I agree with the
                                         <a href="#">Privacy Policy</a>
                                     </span>
-                                </base-checkbox>
+                                </base-checkbox> -->
                                 <div class="text-center">
                                     <span class="text-success font-weight-700"><router-link to="/login">Already have an account? Login</router-link></span>
                                 </div>
@@ -109,25 +113,38 @@ export default {
     data(){
         return {
            name:'',
-           email:'',
            password:'',
-           popupSetting:false
+           popupSetting:false,
+           password_confirm:'',
+           email:'',
+           registerMsg:[{name:'비밀번호가 일치하지 않습니다.'},{name:'비밀번호가 일치합니다.'}],
+           msg:''
         }
     },
     components:{
         confrimPopup
     },
+    watch:{
+        password_confirm(){
+            if(this.password_confirm.match(this.password) != null){
+                    this.msg ='비밀번호가 일치합니다.';
+            }else{
+                 this.msg ='비밀번호가 일치하지 않습니다.';
+            }
+        }
+    },
     methods:{
         ...mapActions(['verifyEmail','register']),
-        registerInfo(){
+         registerInfo(){
             if(this.password == null){
                 alert('비밀번호를 입력해주세요');
             }
             this.register({
                 name: this.name, email: this.email, password: this.password
-            }).then(()=>{ 
-                this.popupSetting = true
-                //  this.$router.push({name:'components'});     
+            }).then(()=>{
+                 
+                this.popupSetting = true;
+                setTimeout(() => this.$router.push({name:'components'}),5000);     
                 
             });
         },
@@ -138,6 +155,34 @@ export default {
         confirmEmail(){
                 this.verifyEmail({'email':this.email});
             
+        },
+        validationCheck(type){
+            if(type== 'email'){
+           
+            if(_.isEmpty(this.email)){
+                alert('이메일을 입력해주세요');
+                return false;
+            }else{
+                let regExp =/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                if(this.email.match(regExp) !== null){
+                    return true;
+                }else{
+                    alert('이메일을 올바르게 입력해주세요');
+                }
+            }
+        }else if (type == 'password'){
+            if(_.isEmpty(this.password)){
+                alert('비밀번호를 입력해주세요');
+                return false;
+            }else{
+                let regExp =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+                if(this.password.match(regExp) != null){
+                    return true;
+                }else{
+                    alert('비밀번호를 올바르게 입력해주세요');
+                }
+            }
+        }
         }
        
     }
