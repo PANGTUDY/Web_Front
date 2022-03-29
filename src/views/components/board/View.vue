@@ -115,7 +115,9 @@
                 :key="idx"
               >
                 <th>
-                  <a href="">{{ post.title }}</a>
+                  <router-link tag="a" :to="{path: `/board/view/${post.postId}`, query: {categoryId: `${post.categoryId}`}}">
+                    {{ post.title }}
+                  </router-link>
                 </th>
                 <td>
                   {{ post.date.substr(0,10) }}
@@ -240,28 +242,45 @@ export default {
   mounted() {
     this.postId = this.$route.params.id;
     this.categoryId = this.$route.query.categoryId;
-    // 특정 글 정보 불러오는 Api
-    Api.get_post_list(this.postId).then(res => {
-        this.post = res.data;
-        this.category = this.post.category.categoryName;
-        this.comments = res.data.comments;
+    
+    this.fnInint();
+  },
 
-        this.likes = this.post.likes;
-        console.log(this.post.categoryId);
-    })
-    .catch(error => {
-      console.log("error occured!: ", error);
-    });
+  watch: {
+    $route(to, from) {
+      if (to.path != from.path) {
+        console.log(this.$route);
+        this.postId = this.$route.params.id;
+        this.categoryId = this.$route.query.categoryId;
 
-    Api.get_adjacent_list(this.categoryId, this.postId).then(res => {
-      this.postList = res.data;
-    })
-    .catch(error => {
-      console.log("error occured!: ", error);
-    });
+        this.fnInint();
+      }
+    }
   },
 
   methods: {
+    fnInint() {
+      // 특정 글 정보 불러오는 Api
+      Api.get_post_list(this.postId).then(res => {
+          this.post = res.data;
+          this.category = this.post.category.categoryName;
+          this.comments = res.data.comments;
+
+          this.likes = this.post.likes;
+          console.log(this.post.categoryId);
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
+
+      Api.get_adjacent_list(this.categoryId, this.postId).then(res => {
+        this.postList = res.data;
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
+    },
+
     fnGetView() {
       this.$axios
         .get("http://localhost:3000/api/board/" + this.body.num, {

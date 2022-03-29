@@ -4,11 +4,11 @@
 	padding: 16px 20px 14px;
     width: 100%;
 }
-.another_category h4 {
+.categoryTitle {
 	margin: 0 0 13px !important;;
 	padding: 0 !important;
 	border-bottom: 0 !important;
-	font-size: 0.875em !important;
+	font-size: 1em !important;
 }
 .another_category table {
 	margin: 0 !important;
@@ -20,8 +20,11 @@
 }
 .postList th {
 	padding: 2px 0 !important;
-	font-size: 0.875rem !important;
+	font-size: 13px !important;
     width: 80%;
+}
+.postList th a {
+	color: #909090 !important;
 }
 .postList th a.current {
 	text-decoration: underline !important;
