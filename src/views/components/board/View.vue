@@ -1,4 +1,4 @@
-<template>
+ <template>
   <v-app>
     <div class="container pt-lg-sd" style="min-height: 800px">
       <div class="row justify-content-center vertical-center mt-5">
@@ -104,6 +104,31 @@
       </div>
 
       <div class="row justify-content-center">
+        <div class="another-category col-lg-8">
+          <h4 class="categoryTitle">
+            <span>{{ category }}</span> 카테고리의 다른 글
+          </h4>
+          <table class="postList">
+            <tbody>
+              <tr
+                v-for="(post, idx) in postList"
+                :key="idx"
+              >
+                <th>
+                  <router-link tag="a" :to="{path: `/board/view/${post.postId}`, query: {categoryId: `${post.categoryId}`}}">
+                    {{ post.title }}
+                  </router-link>
+                </th>
+                <td>
+                  {{ post.date.substr(0,10) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
         <div class="col-lg-8">
           <v-card class="mx-auto">
             <template v-for="(item, index) in comments">
@@ -196,6 +221,7 @@ export default {
   components: { HeartButton },
   data: () => ({
     postId: "",
+    categoryId: "",
     category: "",
     subject: "",
     view: "",
@@ -208,24 +234,53 @@ export default {
 
     deleteDialog: false,
     editDialog: false,
+
+    // temp
+    postList: [],
   }),
 
   mounted() {
     this.postId = this.$route.params.id;
-    // 특정 글 정보 불러오는 Api
-    Api.get_post_list(this.postId).then(res => {
-        this.post = res.data;
-        this.category = this.post.category.categoryName;
-        this.comments = res.data.comments;
+    this.categoryId = this.$route.query.categoryId;
+    
+    this.fnInint();
+  },
 
-        this.likes = this.post.likes;
-    })
-    .catch(error => {
-        console.log("error occured!: ", error);
-    });
+  watch: {
+    $route(to, from) {
+      if (to.path != from.path) {
+        console.log(this.$route);
+        this.postId = this.$route.params.id;
+        this.categoryId = this.$route.query.categoryId;
+
+        this.fnInint();
+      }
+    }
   },
 
   methods: {
+    fnInint() {
+      // 특정 글 정보 불러오는 Api
+      Api.get_post_list(this.postId).then(res => {
+          this.post = res.data;
+          this.category = this.post.category.categoryName;
+          this.comments = res.data.comments;
+
+          this.likes = this.post.likes;
+          console.log(this.post.categoryId);
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
+
+      Api.get_adjacent_list(this.categoryId, this.postId).then(res => {
+        this.postList = res.data;
+      })
+      .catch(error => {
+        console.log("error occured!: ", error);
+      });
+    },
+
     fnGetView() {
       this.$axios
         .get("http://localhost:3000/api/board/" + this.body.num, {
@@ -324,7 +379,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import "@/assets/scss/minju";
+
   .row + .row {
     margin-top: 10px;
     margin-bottom: 0px;
