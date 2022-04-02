@@ -4,7 +4,8 @@ import  VueCookies  from 'vue-cookies';
 
 import {
     LOGIN_TOKEN,
-    AUTH_EMAIL
+    AUTH_EMAIL,
+    REFRESH_TOKEN
 } from './types.js';
 export default{
      [LOGIN_TOKEN]:(state,payload) =>{
@@ -15,16 +16,19 @@ export default{
             
             
             console.log(state.accessToken);
-            VueCookies.set('accessToken',payload.accessToken,'10m');
+            VueCookies.set('accessToken',payload.accessToken,'60s');
             VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
             state.refreshToken = payload.refreshToken;
+            state.isLogin = true;
+           
         },
         [AUTH_EMAIL]:(state,payload) =>{
             state.authEmailInfo=payload;
         },
-        REFRESH_TOKEN(state,payload){ // accessToken 재셋팅
+        [REFRESH_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
             state.accessToken = payload;
+            VueCookies.set('accessToken',payload,'1m');
         },
         LOGOUT(state){
             state.user = null;

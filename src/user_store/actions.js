@@ -1,7 +1,9 @@
 import axios from 'axios';
+import vueCookies from 'vue-cookies';
 import {
     LOGIN_TOKEN,
-    AUTH_EMAIL
+    AUTH_EMAIL,
+    REFRESH_TOKEN
 } from './types';
 export default{
     register({commit},payload){
@@ -26,11 +28,13 @@ export default{
          }
     },
     refreshToken: async ({},payload) => {
-       let resut ={};
+       let result ={};
        try{
+           console.log('payload',payload);
            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token';
            const headers = {'Authorization':`Bearer ${payload}`};
-           const {result} = await axios.post(url,headers,payload);
+           const {data} = await axios.post(url,{headers},payload);
+           result =data;
            console.log(result);
        }catch(error){
            console.warn(error.message,error);
@@ -38,6 +42,22 @@ export default{
 
        }
     },
+    // refreshToken: ({},payload) => {
+    //     const headers = {'Authorization':`Bearer ${payload}`};
+    //     return new Promise((resolve,reject) =>{
+    //         axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token',
+    //         {headers},
+    //         payload).then(res =>{
+    //             console.log('결과',res);    
+    //             commit(REFRESH_TOKEN,res);
+    //         }).catch(error=>{
+    //             console.log(error.config);
+    //             reject(error.config.data);
+    //         })
+        
+    //     })
+           
+    //  },
     logout({commit}){
         commit('LOGOUT')
         // location.reload();

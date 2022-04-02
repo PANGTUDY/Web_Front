@@ -4,5 +4,6 @@ export default{
     current_year: null,
     accessToken: '',
     refreshToken: '',
-    authEmailInfo:''
+    authEmailInfo:'',
+    isLogin: false
 };

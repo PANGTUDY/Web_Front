@@ -1,15 +1,17 @@
 import axios from 'axios';
+import Vue from 'vue';
+import VueCookies from 'vue-cookies';
+import store from '@/user_store/index.js';
 
-const instance = axios.create({
-    baseUrl:'http://localhost:3000/',
-    timeout: 1000
-});
+axios.defaults.baseURL='http://localhost:3000';
 
-instance.interceptors.request.use(
-    function(config){
-        config.headers["content-Type"] = "application/json; charset=utf-8";
+
+axios.interceptors.request.use(
+   async function(config){
         const token = VueCookies.get('accessToken');
-        config.headers['Authorization'] = `Bearer ${token}`;
+        console.log('axios interceptor');
+        
+        config.headers.Authorization = 'Bearer '+ token;
         return config;
     },
     function(error){
@@ -18,17 +20,30 @@ instance.interceptors.request.use(
     }
 )
 
-instance.interceptors.response.use(
+axios.interceptors.response.use(
     function(response){
-        try{
-            return response;
-        }catch(error){
-            console.error('[axios.interceptors.response] response', error.message);
-        }
+        return response;
     },
-    async function(error){
-        console.log(error);
+     async function(error){
+        try{
+        const errorAPI = error.response.config;
+        let Token = VueCookies.get('refreshToken');
+        
+        let accessToken = VueCookies.get('accessToken');
+        if(Token !== null && accessToken === null){
+            let params ={
+                refreshToken :Token
+            }
+           await store.dispatch('refreshToken',params);
+            //return await axios(errorAPI);
+            }
+            // error.headers.Authorization = `Bearer ${token}`;
+        
+        
+    }catch(error){
+        console.error('[axios.interceptors.response] error',error.message);
     }
-)
+    return Promise.reject(error);
+    })
 
-export default instance;
+export default axios;
