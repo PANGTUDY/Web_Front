@@ -1,39 +1,42 @@
 import axios from 'axios';
+import {
+    LOGIN_TOKEN,
+    AUTH_EMAIL
+} from './types';
 export default{
-    register({commit},credentials){
-        return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',credentials)
+    register({commit},payload){
+        return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',payload)
         .then(({data})=>{
-            commit('SET_USER_DATA',data)
-          
+            // commit('SET_USER_DATA',data)
+          return data;
         })
     },
-    login({commit},credentials){
-        return new Promise((resolve,reject) => {
-            axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login',credentials)
-        .then((response)=>{
-            console.log(response.headers);
-            commit('LOGIN_TOKEN',response.data);
-            resolve(response);
-        }).catch(err=>{
-            console.log(err.message);
-            reject(err.message);
-        });
-        })
-       
+     async login({commit},payload){
+         let result ={};
+         const {email,password} = payload;
+         try{
+             const url = 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login';
+             const result =await axios.post(url,{email,password});
+             console.log(result.data);
+             commit(LOGIN_TOKEN,result.data);
+         }catch(error){
+             console.warn(error.message,error);
+         }finally{
+            
+         }
     },
-    refreshToken: ({commit},credentials)=>{
-        return new Promise((resolve,reject)=>{
-            axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token',credentials).
-        then(({response})=>{
-            console.log(response.data);
-            commit('REFRESH_TOKEN',response.data);
-            resolve(response);
-        }).catch(err =>{
-            console.log(err);
-            // console.log('refreshToken error:', err.config);
-            // reject(err.config.data);
-        })
-        })
+    refreshToken: async ({},payload) => {
+       let resut ={};
+       try{
+           const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token';
+           const headers = {'Authorization':`Bearer ${payload}`};
+           const {result} = await axios.post(url,headers,payload);
+           console.log(result);
+       }catch(error){
+           console.warn(error.message,error);
+       }finally{
+
+       }
     },
     logout({commit}){
         commit('LOGOUT')
@@ -50,6 +53,21 @@ export default{
         then(({response})=>{
             console.log(response);
         })
+    },
+    authEmail: async ({commit},payload) =>{
+        let result ={};
+        console.log('payload',payload);
+        try{
+            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/me';
+            const headers =  {'Authorization':`Bearer ${payload}`};
+            const {data} = await axios.get(url,{headers},payload);
+            result = data;
+            console.log(result);
+        }catch(error){
+            console.warn(error.message,error);
+        }finally{
+            commit(AUTH_EMAIL,result);
+        }
     },
     memberInfo({commit},payload){
             return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{
@@ -76,4 +94,4 @@ export default{
                 break;
         }
     }
-}
+};

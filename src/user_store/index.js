@@ -4,13 +4,14 @@ import Vuex from 'vuex';
 import VueCookies from 'vue-cookies';
 import * as Api from '@/api/conference';
 import { reject } from 'lodash';
-import state from './state';
+import state from './state.js';
 import getters from './getters';
 import mutations from './mutations';
 import actions from './actions';
 
 Vue.use(Vuex);
 
+export * from './types';
 export default new Vuex.Store({
     state,
     getters,

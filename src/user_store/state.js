@@ -3,5 +3,6 @@ export default{
     calendar: {},
     current_year: null,
     accessToken: '',
-    refreshToken: ''
-}
+    refreshToken: '',
+    authEmailInfo:''
+};

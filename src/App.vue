@@ -13,7 +13,7 @@
 <script>
 import { FadeTransition } from "vue2-transitions";
 import chat from '@/views/components/chat/Chat.vue'
-import { mapGetters } from 'vuex';
+import { mapGetters,mapState } from 'vuex';
 export default {
   components: {
     FadeTransition,
@@ -33,7 +33,11 @@ export default {
      }
   },
   computed:{
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo']),
+    ...mapState({
+            accessToken:({accessToken}) => accessToken,
+            refreshToken:({refreshToken}) => refreshToken
+        })
   },
   methods:{
       

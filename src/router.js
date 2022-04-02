@@ -165,22 +165,6 @@ const router = new Router({
     }
   ],
 });
-// 네비게이션 가드 ( 뷰 라우터로 URL 접근에 대해서 처리할 수 있다)
-  router.beforeEach(async(to,from,next) =>{
-   if(VueCookies.get('accessToken') === null && VueCookies.get('refreshToken')!= null){
-     var cookies = {refreshToken:VueCookies.get('refreshToken')}
-     //await store.dispatch('refreshToken',JSON.stringify(cookies));
-   }
-   if(VueCookies.get('accessToken')){
-     // accessToken이 있을때 진행
-     return next();
-   }
-   if(VueCookies.get('accessToken') == null && VueCookies.get('refreshToken')==null){
-    //   if(to.path !=='/login'){ 
-    //       return next({name:'login'});
-    // }
-   }
-   return next();
- })
+
 
 export default router

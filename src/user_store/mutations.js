@@ -1,26 +1,35 @@
 import axios from 'axios';
+import  VueCookies  from 'vue-cookies';
+
+
+import {
+    LOGIN_TOKEN,
+    AUTH_EMAIL
+} from './types.js';
 export default{
-     LOGIN_TOKEN(state,payload){
-            // console.log(payload);
-            VueCookies.set('accessToken',payload.accessToken,'60s');
+     [LOGIN_TOKEN]:(state,payload) =>{
+            // state의 accessToken 과 refreshToken 값을 넣어준다.
+            let base64Access = payload.accessToken.split('.')[1];
+            let value = Buffer.from(base64Access,'base64');
+            console.log('accessToken',value);
+            
+            
+            console.log(state.accessToken);
+            VueCookies.set('accessToken',payload.accessToken,'10m');
             VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
             state.refreshToken = payload.refreshToken;
         },
+        [AUTH_EMAIL]:(state,payload) =>{
+            state.authEmailInfo=payload;
+        },
         REFRESH_TOKEN(state,payload){ // accessToken 재셋팅
-            VueCookies.set('accessToken',payload.accessToken,'60s');
-            VueCookies.set('refreshToken', payload.refreshToken,'1h');
             state.accessToken = payload;
         },
-        SET_USER_DATA(state,userData){
-            state.user = userData;
-            localStorage.setItem('user',JSON.stringify(userData));
-            axios.defaults.headers.common['Authorization']=`Bearer${userData.salt}`
-        },
         LOGOUT(state){
+            state.user = null;
             VueCookies.remove('accessToken');
             VueCookies.remove('refreshToken');
-            state.user = null;
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장

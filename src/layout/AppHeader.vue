@@ -69,7 +69,7 @@ import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 import {authComputed} from "../user_store/helper.js";
-import {mapGetters} from "vuex";
+import {mapGetters,mapState} from "vuex";
 export default {
   data(){
     return {

@@ -27,9 +27,9 @@
                                         <div class="image-upload">
                                             <div class="file-input">
                                                   <label for="mainImage">
-                                                      <base-button  @click="$refs.memberImage.click()" type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
+                                                      <base-button  type="info" size="sm" class="mr-4 reset"><i class="fa fa-plus-square" aria-hidden="true"></i></base-button>
                                                   </label>
-                                                 <input type="file" style="display:none;" @change="fileSelect()" ref="memberImage" id="mainImage" accept='image/*'/>
+                                                 <input type="file" style="display:none;"  ref="memberImage" id="mainImage" accept='image/*'/>
                                             </div>    
                                         
                                         </div>
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="text-center mt-5">
-                            <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:</label></div>
+                            <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:{{authEmailInfo}}</label></div>
                                <div class="h6 font-weight-300"> 
                                    <label class="relocation_heywon" for="email">password:</label>
                                     <base-button type="info" size="sm" class="mr-4" @click="pageMove">비밀번호 변경</base-button>
@@ -59,9 +59,9 @@
                                 <label class="relocation_heywon" for="name"> name</label>
                                 <base-input alternative
                                             class="width_heywon"
-                                            v-model="name"
-                                            :placeholder="userInfo.name"
-                                            @change="func">
+                                            
+                                            
+                                            >
                                 </base-input>
                             </div>
                                <!-- <div class="together_heywon">
@@ -80,7 +80,6 @@
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
-                                    {{userInfo}}
                                     <base-button type="info" size="sm" class="mr-4" @click="memberReset()">회원탈퇴</base-button>
                                     <base-button type="info" size="sm" class="mr-4" v-on:click="subumit()">저장</base-button>
                                 </div>
@@ -96,8 +95,8 @@
 </template>
 <script>
 import axios from 'axios';
-import { authComputed } from '../user_store/helper.js';
-
+import {mapActions,mapState} from 'vuex';
+import VueCookies from 'vue-cookies';
 
 export default {
     data(){
@@ -117,10 +116,21 @@ export default {
             title:''
         };
     },
+    created(){
+        let token = VueCookies.get('accessToken');
+        let params={
+            accessToken: token
+        };
+        console.log('token',token);
+        this.authEmail(token);
+    },
     computed:{
-      ...authComputed  
+        ...mapState({
+        authEmailInfo: ({authEmailInfo}) => authEmailInfo
+        })
     },
     methods:{
+        ...mapActions(['authEmail']),
         func:()=>{
             if(this.name){
                 this.event.name = this.name;

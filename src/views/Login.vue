@@ -37,7 +37,6 @@
                             <div class="text-center text-muted mb-4">
                                 <small>Or sign in with credentials</small>
                             </div>
-                            <form v-on:submit.prevent="login">
                                 <base-input alternative
                                             class="mb-3"
                                             name="email"
@@ -60,9 +59,8 @@
                                     <p></p>
                                 </div>
                                 <div class="text-center">
-                                    <base-button btn_type="primary" class="my-4" type="submit">login</base-button>
+                                    <base-button btn_type="primary" class="my-4" type="submit" @click="getUser">login</base-button>
                                 </div>
-                            </form>
                         </template>
                     </card>
                     <div class="row mt-3">
@@ -84,23 +82,29 @@
     </section>
 </template>
 <script>
-import {mapActions,mapGetters} from 'vuex'
+
+
 import validator from './mixin/validator'
 import directives from './mixin/myDirectives'
+import {mapState,mapActions} from 'vuex';
 export default {
+    components:{
     directives,
-    name:'Login',
-    data(){
-        return {
-            email:'',
-            password:'',
-
-          
-        }
+    },
+    data:()=>({
+        email:'',
+        password:''
+    }),
+    computed:{
+        ...mapState({
+            accessToken:({accessToken}) => accessToken,
+            refreshToken:({refreshToken}) => refreshToken
+        })
     },
    methods:{
-       login(){
-           this.$store.dispatch('login',{
+       ...mapActions(['login']),
+       getUser(){
+           this.login({
                email: this.email,
                password: this.password
            }).then(()=>{
@@ -108,8 +112,6 @@ export default {
            })
        }
    }
- 
-
 };
 </script>
 <style>
