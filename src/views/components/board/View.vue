@@ -7,10 +7,10 @@
         </div>
         
         <div class="col-lg-4 text-left">{{ post.title }}</div>
-        <div class="col-lg-1 text-center txt_bar">
+        <div class="col-lg-1 text-center txt_bar" style="font-size: 0.9em;">
           {{ post.writer }}
         </div>
-        <div class="col-lg-1">{{ post.date.substr(0,10) }}</div>
+        <div class="col-lg-1" style="font-size: 0.9em;">{{ post.date.substr(0,10) }}</div>
 
         <div class="col-lg-1 text-right">
           <template>
@@ -343,7 +343,11 @@ export default {
     },
 
     editPost() {
-      alert("Clicked the edit button");
+      console.log("view ", this.postId);
+      this.$router.push({
+        name: 'new',
+        params: { id: this.postId },
+      });
     },
 
     deletePost() {

@@ -2,7 +2,6 @@ import { boardInstance } from "./http";
 
 export async function get_post_list(id) {
     if(id) {
-        console.log("id: ", id);
         return boardInstance.get("/board/posts/" + id);
     }
     else {
@@ -34,8 +33,16 @@ export async function create_post(post) {
     });
 }
 
+export async function patch_post(id, post) {
+    return boardInstance.patch("/board/posts/" + id, post, {
+        headers: {
+            'Content-Type': `application/json`,
+        },
+    });
+}
+
 export async function delete_post(id) {
-     return boardInstance.delete("/board/posts/" + id);
+    return boardInstance.delete("/board/posts/" + id);
 }
 
 export async function get_comments(id) {
