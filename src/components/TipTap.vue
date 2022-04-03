@@ -243,8 +243,8 @@ export default {
     EditorMenuBar,
   },
   props: {
-    options: Object
-    // content: initial and updated text
+    options: Object,
+    content: String, //initial and updated text
     // readonly: read only if true
     // autoFocus: Focus the editor on init
     // supportImage: upload and link images
@@ -262,7 +262,9 @@ export default {
     }
   },
   mounted () {
+    console.log("options: ", this.options.content);
     this.editor = new Editor ({
+      content: this.options.content,
       editable: !this.options.readonly,
       extensions: [
         new Blockquote(),
@@ -298,9 +300,16 @@ export default {
       onUpdate: ({ getHTML }) => {
         this.options.content = getHTML()
       },
-      content: this.options.content,
       autoFocus: this.options.autoFocus,
     })
+  },
+  watch: {
+    content(val) {
+      this.$set(this.editor, 'content', val);
+      this.editor.content = val;
+      this.editor.options.content = val;
+      this.editor.defaultOptions.content = val;
+    },
   },
   beforeDestroy () {
     this.editor.destroy()

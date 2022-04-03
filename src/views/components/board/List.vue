@@ -88,7 +88,7 @@
                                         </span>
                                     </td>
                                     <td>{{row.writer}}</td>
-                                    <td style="text-align: right; padding-right: 5px;">{{row.date.substr(0,10)}}</td>
+                                    <td style="text-align: right; padding-right: 5px; font-size: 0.85em;">{{row.date.substr(0,10)}}</td>
                                 </tr>
                                 <tr v-if="posts.length == 0">
                                     <td colspan="4">게시글이 없습니다.</td>
