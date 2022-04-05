@@ -7,11 +7,12 @@ axios.defaults.baseURL='http://localhost:3000';
 
 
 axios.interceptors.request.use(
-   async function(config){
-        const token = VueCookies.get('accessToken');
-        console.log('axios interceptor');
-        
-        config.headers.Authorization = 'Bearer '+ token;
+   function(config){
+    console.log('axios interceptor');
+        let access = store.state.accessToken;
+        if(access){
+            config.headers['Authorization'] = 'Bearer '+access;
+        }
         return config;
     },
     function(error){
@@ -24,26 +25,24 @@ axios.interceptors.response.use(
     function(response){
         return response;
     },
-     async function(error){
-        try{
-        const errorAPI = error.response.config;
-        let Token = VueCookies.get('refreshToken');
-        
-        let accessToken = VueCookies.get('accessToken');
-        if(Token !== null && accessToken === null){
-            let params ={
-                refreshToken :Token
-            }
-           await store.dispatch('refreshToken',params);
-            //return await axios(errorAPI);
-            }
-            // error.headers.Authorization = `Bearer ${token}`;
-        
-        
-    }catch(error){
-        console.error('[axios.interceptors.response] error',error.message);
-    }
+    function(error){
+        const originalReq = error.config;
+        let refresh = store.state.refreshToken;
+        let access = store.state.accessToken;
+        if(error.response.status === 401 || (refresh != null && access == null)){
+            return store.dispatch('refreshToken',refresh).then(result =>{
+                if(result.status === 201){
+                    console.log('status',result.status);
+                    store.state.accessToken = result.data;
+                    axios.defaults.headers.common['Authorization'] = 'Bearer '+store.state.accessToken;
+                    // 원래 함수 실행 이거 맞나...?
+                    return axios(originalReq);
+                }
+            })
+        }
     return Promise.reject(error);
     })
+
+    
 
 export default axios;

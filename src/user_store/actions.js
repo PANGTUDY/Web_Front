@@ -13,7 +13,7 @@ export default{
           return data;
         })
     },
-     async login({commit},payload){
+    login: async ({commit},payload) => {
          let result ={};
          const {email,password} = payload;
          try{
@@ -41,6 +41,7 @@ export default{
        }finally{
 
        }
+       return result;
     },
     // refreshToken: ({},payload) => {
     //     const headers = {'Authorization':`Bearer ${payload}`};

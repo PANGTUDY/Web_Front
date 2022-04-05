@@ -35,7 +35,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 
 
-
 // veevalidate 설치 
 const config = {
   locale:'ko',

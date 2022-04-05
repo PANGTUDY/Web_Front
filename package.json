@@ -39,6 +39,7 @@
     "vue2-transitions": "^0.2.3",
     "vuetify": "^2.4.0",
     "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0",
     "webstomp-client": "^1.2.6",
     "write-json-file": "^5.0.0"
   },
