@@ -17,10 +17,16 @@
           <!-- 회원가입을 진행하시겠습니까? -->
         </v-card-title>
 
+        <template v-if="this.$route.name == 'register'">
         <v-card-text>
           회원가입이 완료되었습니다.
         </v-card-text>
-
+        </template>
+         <template v-else>
+        <v-card-text>
+          로그인이 필요한 화면입니다. 로그인하시겠습니까?
+        </v-card-text>
+        </template>
         <v-card-actions>
           <v-spacer></v-spacer>
           <template v-if="this.$route.name == 'register'">
@@ -45,7 +51,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="$emit('settingFalse',false)"
+            @click="$emit('settingTrue',false)"
           >
             확인
           </v-btn>

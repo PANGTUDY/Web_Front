@@ -61,6 +61,7 @@
         </ul>
         
       </base-nav>
+      <confirm-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" @settingTrue="moveTo($event)" ></confirm-popup>
     </div>
   </header>
 </template>
@@ -68,6 +69,7 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import {authComputed} from "../user_store/helper.js";
 import {mapGetters,mapState} from "vuex";
 export default {
@@ -87,28 +89,52 @@ export default {
       {name:'권한관리',path:'grant'},
       {name:'설정',path:'setting'},
       
-    ]
+    ],
+    popupSetting: false
     }
   },
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
+    confirmPopup
   },
   computed:{
     ...authComputed,
-    ...mapGetters['userInfo']
+    ...mapGetters['userInfo'],
+    ...mapState({
+      isLogin: ({isLogin}) => isLogin
+    })
   },
   methods:{
     logout(){
       this.$store.dispatch('logout')
     },
+    checkPopup($event){
+            this.popupSetting = $event;
+            return this.popupSetting;
+        },
     goTo(path){
-      if(path){
-      this.$router.push('/'+path);
-      }else{
-        this.$router.push('/');
+      if(this.isLogin === true){
+        if(path){
+        this.$router.push('/'+path);
+        }else{
+          this.$router.push('/');
+        }
+      }else if(this.isLogin === false){
+        if(path === ''){
+          this.$router.push('/');
+        }else{
+        this.popupSetting = true;
+        }
       }
+      
+    },
+    moveTo($event){
+      this.popupSetting = $event;
+      this.$router.push({name:'login'});
+      return this.popupSetting;
+
     }
   }
 };

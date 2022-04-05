@@ -13,6 +13,7 @@ axios.interceptors.request.use(
         if(access){
             config.headers['Authorization'] = 'Bearer '+access;
         }
+        cofing.headers['content-Type'] = 'application/json';
         return config;
     },
     function(error){
