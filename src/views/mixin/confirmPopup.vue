@@ -17,19 +17,14 @@
           <!-- 회원가입을 진행하시겠습니까? -->
         </v-card-title>
 
-        <template v-if="this.$route.name == 'register'">
+       
         <v-card-text>
-          회원가입이 완료되었습니다.
+         {{popMsg}}
         </v-card-text>
-        </template>
-         <template v-else>
-        <v-card-text>
-          로그인이 필요한 화면입니다. 로그인하시겠습니까?
-        </v-card-text>
-        </template>
+       
         <v-card-actions>
           <v-spacer></v-spacer>
-          <template v-if="this.$route.name == 'register'">
+          <template v-if="this.key === 'register'">
           
           <v-btn
             color="green darken-1"
@@ -63,14 +58,20 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
   props:{
-    popupSetting: Boolean
+    popupSetting: Boolean,
+    popMsg:String,
+    key:String
   },
   data:()=>({
     dialog:''
   }),
   computed:{
+    ...mapState({
+      isLogin: ({isLogin}) => isLogin
+    }),
     usingPopup(){
       return this.popupSetting;
     }

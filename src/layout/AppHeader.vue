@@ -61,7 +61,7 @@
         </ul>
         
       </base-nav>
-      <confirm-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" @settingTrue="moveTo($event)" ></confirm-popup>
+      <confirm-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" @settingTrue="moveTo($event)" :popMsg="popMsg" ></confirm-popup>
     </div>
   </header>
 </template>
@@ -90,7 +90,8 @@ export default {
       {name:'설정',path:'setting'},
       
     ],
-    popupSetting: false
+    popupSetting: false,
+    popMsg:'로그인이 필요한 화면입니다. 로그인하시겠습니까?'
     }
   },
   components: {

@@ -25,16 +25,17 @@ export default {
       }
   },
   created(){
-    // 메인 컴포넌트를 렌더링 하면서 토큰 체크
-     let token = this.$store.getters.getToken;
-     if(token.access == null && token.refresh == null){
-       //현재 경로와 동일한 경로로 화면 이동 시 발생하는 예외 처리 코드
-       this.$router.push({name:'login'}).catch(()=>{});
-     }
+    // // 메인 컴포넌트를 렌더링 하면서 토큰 체크
+    //  let token = this.$store.getters.getToken;
+    //  if(token.access == null && token.refresh == null){
+    //    //현재 경로와 동일한 경로로 화면 이동 시 발생하는 예외 처리 코드
+    //    this.$router.push({name:'login'}).catch(()=>{});
+    //  }
   },
   computed:{
     ...mapGetters(['userInfo']),
     ...mapState({
+            isLogin: ({isLogin}) => isLogin,
             accessToken:({accessToken}) => accessToken,
             refreshToken:({refreshToken}) => refreshToken
         })

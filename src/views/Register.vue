@@ -103,7 +103,7 @@
             </div>
            
         </div>
-         <confrim-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)"></confrim-popup>
+         <confrim-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" :popMsg="popMsg" :key="key"></confrim-popup>
     </section>
 </template>
 <script>
@@ -119,7 +119,9 @@ export default {
            email:'',
            registerMsg:[{name:'비밀번호가 일치하지 않습니다.'},{name:'비밀번호가 일치합니다.'}],
            msg:'',
-           passwordValidation:''
+           passwordValidation:'',
+           popMsg:'회원가입이 완료되었습니다.',
+           key:'register'
         }
     },
     components:{
@@ -162,17 +164,18 @@ export default {
     methods:{
         ...mapActions(['verifyEmail','register']),
          registerInfo(){
-            if(this.password == null){
-                alert('비밀번호를 입력해주세요');
+            if(_.isEmpty(this.password) || _.isEmpty(this.email) || _.isEmpty(this.password_confirm)){
+                alert('입력해야할 항목을 모두 입력해주세요');
             }
-            this.register({
-                name: this.name, email: this.email, password: this.password
-            }).then(()=>{
-                 
-                this.popupSetting = true;
-                setTimeout(() => this.$router.push({name:'components'}),5000);     
+            if(!_.isEmtpy(this.password) && !_.isEmpty(this.email)&& !_.isEmpty(this.password_confirm)){
+                this.register({
+                    name: this.name, email: this.email, password: this.password})
+                    .then(()=>{
+                    this.popupSetting = true;
+                    setTimeout(() => this.$router.push({name:'components'}),5000);     
                 
             });
+            }
         },
         checkPopup($event){
             this.popupSetting = $event;

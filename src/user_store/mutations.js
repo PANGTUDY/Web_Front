@@ -34,6 +34,7 @@ export default{
         },
         [LOGOUT]: (state) => {
             state.user = null;
+            state.isLogin = false;
             state.accessToken="";
             state.refreshToken="";
         },

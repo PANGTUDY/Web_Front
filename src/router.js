@@ -168,15 +168,6 @@ const router = new Router({
 });
 
 
-router.beforeEach(function(to,from,next){
-
-  if(store.state.accessToken == null || store.state.accessToken == 'undefined'){
-      
-  }else{
-    next();
-  }
-});
-
 
 
 export default router
