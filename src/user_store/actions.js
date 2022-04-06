@@ -3,7 +3,8 @@ import vueCookies from 'vue-cookies';
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
-    REFRESH_TOKEN
+    REFRESH_TOKEN,
+    LOGOUT
 } from './types';
 export default{
     register({commit},payload){
@@ -19,6 +20,7 @@ export default{
          try{
              const url = 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login';
              const result =await axios.post(url,{email,password});
+             console.log('들어가니');
              console.log(result.data);
              commit(LOGIN_TOKEN,result.data);
          }catch(error){
@@ -39,7 +41,7 @@ export default{
        }catch(error){
            console.warn(error.message,error);
        }finally{
-
+            commit(REFRESH_TOKEN,result);
        }
        return result;
     },
@@ -60,11 +62,11 @@ export default{
            
     //  },
     logout({commit}){
-        commit('LOGOUT')
+        commit(LOGOUT);
         // location.reload();
     },
     allMembers(payload){
-        return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users',payload).
+        return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users',{parmas:payload}).
         then(({response}) =>{
             console.log(response);
         })

@@ -5,7 +5,8 @@ import  VueCookies  from 'vue-cookies';
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
-    REFRESH_TOKEN
+    REFRESH_TOKEN,
+    LOGOUT
 } from './types.js';
 export default{
      [LOGIN_TOKEN]:(state,payload) =>{
@@ -16,8 +17,8 @@ export default{
             
             
             console.log(state.accessToken);
-            //VueCookies.set('accessToken',payload.accessToken,'60s');
-            //VueCookies.set('refreshToken',payload.refreshToken,'1h');
+            VueCookies.set('accessToken',payload.accessToken,'60s');
+            VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
             state.refreshToken = payload.refreshToken;
             state.isLogin = true;
@@ -30,10 +31,10 @@ export default{
             state.accessToken = payload;
             //VueCookies.set('accessToken',payload,'1m');
         },
-        LOGOUT(state){
+        [LOGOUT]: (state) => {
             state.user = null;
-            VueCookies.remove('accessToken');
-            VueCookies.remove('refreshToken');
+            state.accessToken="";
+            state.refreshToken="";
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장

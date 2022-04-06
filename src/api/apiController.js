@@ -13,7 +13,7 @@ axios.interceptors.request.use(
         if(access){
             config.headers['Authorization'] = 'Bearer '+access;
         }
-        cofing.headers['content-Type'] = 'application/json';
+        config.headers['content-Type'] = 'application/json';
         return config;
     },
     function(error){
@@ -30,15 +30,13 @@ axios.interceptors.response.use(
         const originalReq = error.config;
         let refresh = store.state.refreshToken;
         let access = store.state.accessToken;
-        if(error.response.status === 401 || (refresh != null && access == null)){
+        if(refresh != null && access == null){
             return store.dispatch('refreshToken',refresh).then(result =>{
-                if(result.status === 201){
                     console.log('status',result.status);
                     store.state.accessToken = result.data;
                     axios.defaults.headers.common['Authorization'] = 'Bearer '+store.state.accessToken;
-                    // 원래 함수 실행 이거 맞나...?
                     return axios(originalReq);
-                }
+                
             })
         }
     return Promise.reject(error);

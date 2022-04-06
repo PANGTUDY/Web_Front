@@ -126,7 +126,8 @@ export default {
     },
     computed:{
         ...mapState({
-        authEmailInfo: ({authEmailInfo}) => authEmailInfo
+        authEmailInfo: ({authEmailInfo}) => authEmailInfo,
+        accessToken: ({accessToken}) => accessToken
         })
     },
     methods:{

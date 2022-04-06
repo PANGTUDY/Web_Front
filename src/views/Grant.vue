@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions,mapState} from 'vuex';
 import VueCookies from 'vue-cookies';
 export default {
     data(){
@@ -100,8 +100,15 @@ export default {
             menus:[{admin:'관리자'},{admin:'사용자'}],
         }
     },
+    computed:{
+        ...mapState({
+          accessToken: ({accessToken}) => accessToken
+        })
+    },
     created(){
-      this.allMembers({"accessToken": VueCookies.get('accessToken')})
+      // let token = this.accessToken
+      let token = VueCookies.get('accessToken');
+      this.allMembers(token);
     },
     methods:{
       ...mapActions(['allMembers'])

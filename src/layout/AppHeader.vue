@@ -114,15 +114,23 @@ export default {
             this.popupSetting = $event;
             return this.popupSetting;
         },
+    // 원하는 화면으로 이동시기키
     goTo(path){
+      // 로그인 되어있을때
       if(this.isLogin === true){
+        // path 로 화면을 전환한다.
+        // 단, path와 현재 path가 같을 시에 이동시키지 않는다. 다를 경우만 이동
         if(path){
-        this.$router.push('/'+path);
+          if(this.$route.path !==path){
+              this.$router.push('/'+path);
+          }
         }else{
           this.$router.push('/');
         }
+        // 로그인 되어있지 않을때
       }else if(this.isLogin === false){
         if(path === ''){
+          // 메인으로 이동하고자 하면 이동시킨다.
           this.$router.push('/');
         }else{
         this.popupSetting = true;
@@ -132,7 +140,9 @@ export default {
     },
     moveTo($event){
       this.popupSetting = $event;
+      if(this.$route.name !== 'login'){
       this.$router.push({name:'login'});
+      }
       return this.popupSetting;
 
     }
