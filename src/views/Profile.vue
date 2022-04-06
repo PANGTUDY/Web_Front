@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="text-center mt-5">
-                            <div class="h6 font-weight-300"> <label class="relocation_heywon" for="email">email:{{authEmailInfo}}</label></div>
+                            <div class="h6 font-weight-300 custom-heywon"> <label class="relocation_heywon" for="email">email:{{authEmailInfo}}</label></div>
                                <div class="h6 font-weight-300"> 
                                    <label class="relocation_heywon" for="email">password:</label>
                                     <base-button type="info" size="sm" class="mr-4" @click="pageMove">비밀번호 변경</base-button>

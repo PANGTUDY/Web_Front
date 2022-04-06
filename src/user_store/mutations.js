@@ -6,7 +6,8 @@ import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
     REFRESH_TOKEN,
-    LOGOUT
+    LOGOUT,
+    MODIFY_USER
 } from './types.js';
 export default{
      [LOGIN_TOKEN]:(state,payload) =>{
@@ -35,6 +36,9 @@ export default{
             state.user = null;
             state.accessToken="";
             state.refreshToken="";
+        },
+        [MODIFY_USER]: (state,payload) =>{
+            state.user = payload;
         },
         LOAD_CALENDAR(state, payload) {
             // 백엔드에서 받아온 calendar 를 날짜별로 Dictionary 에 저장

@@ -4,7 +4,8 @@ import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
     REFRESH_TOKEN,
-    LOGOUT
+    LOGOUT,
+    MODIFY_USER
 } from './types';
 export default{
     register({commit},payload){
@@ -90,6 +91,22 @@ export default{
             console.warn(error.message,error);
         }finally{
             commit(AUTH_EMAIL,result);
+        }
+    },
+    modifyUser: async({commit},payload) =>{
+        let result ={};
+        console.log(payload);
+        const {email,name,password,accessToken}=payload;
+        try{
+            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users';
+            const headers = {'Authorization': `Bearer ${accessToken}`};
+            const {data} = await axios.put(url+email,{headers},{params:name,password});
+            result = data;
+            console.log(result);
+        }catch(error){
+            console.warn(error.message,error);
+        }finally{
+            commit(MODIFY_USER,result);
         }
     },
     memberInfo({commit},payload){

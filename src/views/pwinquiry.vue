@@ -41,7 +41,7 @@
                                  <base-input alternative
                                             type="password"
                                             addon-left-icon="ni ni-lock-circle-open"
-                                            
+                                            v-model="password"
                                             name="password">
                                 </base-input>   
                                 
@@ -52,10 +52,11 @@
                                     <div class="custom-layout">
                                     <base-input alternative
                                                 type="password"
-                                                v-validate="'required|password|max:3'"
-                                                placeholder="Password"
+                                                v-model="newPassword"
+                                                placeholder="비밀번호는 6~16자리로 숫자,영문,특수문자 혼합입니다."
                                                 addon-left-icon="ni ni-lock-circle-open"
                                                 name="password"
+                                                @blur.stop="validationCheck('newPassword')"
                                                >
                                     </base-input>
                                     
@@ -64,6 +65,7 @@
                                     <div class="custom-layout">
                                     <base-input alternative
                                                 type="password"
+                                                v-model="confirm_newPassword"
                                                 placeholder="Password 재확인"
                                                 addon-left-icon="ni ni-lock-circle-open"
                                                >
@@ -81,7 +83,7 @@
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
-                                    <base-button btn-type="info" size="sm" class="mr-4"  type="submit" @click="save">수정</base-button>
+                                    <base-button btn-type="info" size="sm" class="mr-4"  type="submit">수정</base-button>
                                 </div>
                             </div>
                         </div>
@@ -103,19 +105,28 @@ import { authComputed } from '../user_store/helper.js';
 export default {
     data(){
         return {
-            
-           
+            newPassword:'',
+            confirm_newPassword:'',
+            password:''
             
         };
     },
     methods:{
-      save(){
-          this.$validator.validateAll().then(success=>{
-              if(success){
-
-              }
-          })
-      }
+      validationCheck(type){
+          if (type == 'newPassword'){
+            if(_.isEmpty(this.newPassword)){
+                alert('비밀번호를 입력해주세요');
+                return false;
+            }else{
+                let regExp =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
+                if(this.password.match(regExp) != null){
+                    return true;
+                }else{
+                    alert('비밀번호를 올바르게 입력해주세요');
+                }
+            }
+        }
+        }
     },
     computed:{
         ...authComputed
