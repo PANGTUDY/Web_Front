@@ -18,8 +18,8 @@ export default{
             
             
             console.log(state.accessToken);
-            VueCookies.set('accessToken',payload.accessToken,'60s');
-            VueCookies.set('refreshToken',payload.refreshToken,'1h');
+            //VueCookies.set('accessToken',payload.accessToken,'60s');
+            //VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
             state.refreshToken = payload.refreshToken;
             state.isLogin = true;

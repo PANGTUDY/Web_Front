@@ -172,8 +172,7 @@ export default {
                     name: this.name, email: this.email, password: this.password})
                     .then(()=>{
                     this.popupSetting = true;
-                    setTimeout(() => this.$router.push({name:'components'}),5000);     
-                
+                    setTimeout(() => this.$router.push({name:'components'}),5000);          
             });
             }
         },
