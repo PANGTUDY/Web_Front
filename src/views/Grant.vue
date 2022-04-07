@@ -68,13 +68,13 @@
       </thead>
       <tbody>
         <tr
-          v-for="(item,index) in allMembers"
+          v-for="(member,index) in allUsers"
           :key="index"
         >
           <td><input type="checkbox"></td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{item.role}}</td>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+          <td>{{member.role}}</td>
         </tr>
       </tbody>
     </template>
