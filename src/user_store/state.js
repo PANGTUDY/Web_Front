@@ -5,5 +5,6 @@ export default{
     accessToken: '',
     refreshToken: '',
     authEmailInfo:'',
-    isLogin: false
+    isLogin: false,
+    allUsers:[]
 };

@@ -68,13 +68,13 @@
       </thead>
       <tbody>
         <tr
-          v-for="(item,i) in items"
-          :key="i"
+          v-for="(item,index) in allMembers"
+          :key="index"
         >
           <td><input type="checkbox"></td>
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
-          <td>{{item.admin}}</td>
+          <td>{{item.role}}</td>
         </tr>
       </tbody>
     </template>
@@ -102,7 +102,8 @@ export default {
     },
     computed:{
         ...mapState({
-          accessToken: ({accessToken}) => accessToken
+          accessToken: ({accessToken}) => accessToken,
+          allUsers: ({allUsers})=> allUsers
         })
     },
     created(){

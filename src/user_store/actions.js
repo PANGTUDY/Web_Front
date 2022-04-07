@@ -5,7 +5,8 @@ import {
     AUTH_EMAIL,
     REFRESH_TOKEN,
     LOGOUT,
-    MODIFY_USER
+    MODIFY_USER,
+    GET_ALL_USERS
 } from './types';
 export default{
     register({commit},payload){
@@ -66,11 +67,19 @@ export default{
         commit(LOGOUT);
         // location.reload();
     },
-    allMembers(payload){
-        return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users',{parmas:payload}).
-        then(({response}) =>{
-            console.log(response);
-        })
+    allMembers: async ({commit},payload)=>{
+        let result= {};
+        try{
+            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users';
+            const headers = {'Authorization': `Bearer ${payload}`};
+            const {data} = await axios.get(url,{headers},payload);
+            result = data;
+            console.log(result);
+        }catch(error){
+            console.warn(error.message,error);
+        }finally{
+            commit(GET_ALL_USERS,result);
+        }
     },
     verifyEmail(payload){
         return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/verify',payload).
