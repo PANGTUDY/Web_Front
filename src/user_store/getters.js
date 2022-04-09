@@ -1,32 +1,27 @@
-import VueCookies from 'vue-cookies';
-
 export default{
     loggedIn(state){
         return !!state.user
     },
     loginInfo(state){
-        if(state.user){
+        if (state.user) {
             return state.user.name
-        }else{
-             return ''
+        } else {
+            return ''
         }
-        
     },
-    getToken(state){
-         let ac = VueCookies.get('accessToken');
-         let rf = VueCookies.get('refreshToken');
-         return {
-             access: ac,
-             refresh: rf
-         }
+    getToken(state) {
+        return {
+            access: state.access,
+            refresh: state.refresh
+        }
     },
     userInfo(state){
-         return state.user
+        return state.user
     },
-     get_calendar(state) {
-         return state.calendar;
-     },
-     loggedout(state){
-         return state.user = null;
-     }
+    get_calendar(state) {
+        return state.calendar;
+    },
+    loggedout(state){
+        return state.user = null;
+    }
 }

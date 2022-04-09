@@ -1,5 +1,6 @@
 import axios from 'axios';
-import vueCookies from 'vue-cookies';
+import * as AuthApi from '@/api/auth';
+import * as UserApi from '@/api/user';
 import { createLogger } from 'vuex';
 import {
     LOGIN_TOKEN,
@@ -9,10 +10,11 @@ import {
     MODIFY_USER,
     GET_ALL_USERS
 } from './types';
+
 export default{
     register({commit},payload){
         return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',payload)
-        .then(({data})=>{
+        .then(({data}) => {
             // commit('SET_USER_DATA',data)
           return data;
         })
@@ -66,12 +68,11 @@ export default{
     //  },
     logout({commit}){
         commit(LOGOUT);
-        // location.reload();
     },
-    allMembers: async ({commit},payload)=>{
+    allMembers: async ({commit}, payload)=>{
         let result= {};
         try{
-            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users';
+            const url= 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users';
             const headers = {'Authorization': `Bearer ${payload}`};
             const {data} = await axios.get(url,{headers},payload);
             result = data;

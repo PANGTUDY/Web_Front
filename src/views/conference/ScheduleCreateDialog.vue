@@ -94,22 +94,35 @@
                         v-model="schedule_select_members"
                         :items="members"
                         label="Participants"
+                        item-text="name"
+                        item-value="email"
                         :menu-props="{ offsetY: true }"
                         clearable
                         multiple
                         chips
-                        dense>
-                        <template v-slot:selection="data">
-                            <v-chip
-                                :key="JSON.stringify(data.item)"
-                                v-bind="data.attrs"
-                                :input-value="data.selected"
-                                @click:close="data.parent.selectItem(data.item)">
+                        dense
+                        return-object>
+                        <template v-slot:item="{ item, attrs, on }">
+                            <v-list-item v-on="on" v-bind="attrs" #default="{ active }">
+                                <v-list-item-action>
+                                    <v-checkbox :input-value="active"></v-checkbox>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                    <v-list-item-title>
+                                        <v-row no-gutters align="center">
+                                            <span>{{ item.name }} ({{ item.email }})</span>
+                                        </v-row>
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </template>
+                        <template v-slot:selection="{ item }">
+                            <v-chip>
                                 <v-avatar
                                     class="accent white--text"
                                     left
-                                    v-text="data.item.slice(0, 1).toUpperCase()"/>
-                                {{ data.item }}
+                                    v-text="item.name.slice(0, 1).toUpperCase()"/>
+                                {{ item.name }}
                             </v-chip>
                         </template>
                     </v-select>
@@ -143,7 +156,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import * as UserApi from '@/api/user';
 
 export default {
     props: {
@@ -161,8 +174,9 @@ export default {
             ],
             start_time: false,
             end_time: false,
+
             // TODO : 회원목록 읽어오기 (User-API)
-            members: ['박찬준', '원철황', '김민주', '박혜원', '서진하', '임재창'],
+            members: [],
             time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
 
             // 각 Input 에 바인딩될 변수
@@ -177,19 +191,43 @@ export default {
     },
     watch: {
         is_dialog: function(is_dialog) {
-            // Create Dialog 가 열렸는데 선택된 Schedule 이 있다면 수정임으로 값 세팅
-            if (is_dialog && this.schedule !== null) {
-                this.schedule_title = this.schedule.title;
-                this.schedule_start = this.time_format(this.schedule.startTime);
-                this.schedule_end = this.time_format(this.schedule.endTime);
-                this.schedule_select_members = ['박찬준'];
-                this.schedule_is_alram = this.schedule.alarm;
-                this.schedule_select_time = ['15분전'];
-                this.schedule_comment = this.schedule.comment;
+            if (is_dialog) {
+                // Create Dialog 가 열렸는데 선택된 Schedule 이 있다면 수정임으로 값 세팅
+                if (this.schedule !== null) {
+                    this.schedule_title = this.schedule.title;
+                    this.schedule_start = this.time_format(this.schedule.startTime);
+                    this.schedule_end = this.time_format(this.schedule.endTime);
+
+                    this.schedule_select_members = [];
+                    this.schedule.participants.forEach(element => {
+                        this.schedule_select_members.push({
+                            'name': element.name,
+                            'email': element.email
+                        });
+                    });
+
+                    this.schedule_is_alram = this.schedule.alarm;
+                    this.schedule_select_time = ['15분전'];
+                    this.schedule_comment = this.schedule.comment;
+                }
+
+                UserApi.get_users().then(response => {
+                    this.members = [];
+                    response.data.forEach(user => {
+                        this.members.push({
+                            'name': user.name,
+                            'email': user.email   
+                        })
+                    });
+                });
             }
-        }
+        },
     },
     methods: {
+        test(member) {
+            console.log(member);
+            return "id";
+        },
         clear() {
             this.schedule_title = '';
             this.schedule_start = null;
@@ -213,9 +251,9 @@ export default {
             if (this.schedule_start === null || this.schedule_end === null) {
                 return this.valid_alert('일정의 시작시간과 종료시간을 반드리 입력해야합니다.');
             }
-            if (!this.compare_time(this.schedule_start, this.schedule_end)) {
-                return this.valid_alert('일정 시작, 종료시간이 잘못 입력되었습니다.');
-            }
+            // if (!this.compare_time(this.schedule_start, this.schedule_end)) {
+            //     return this.valid_alert('일정 시작, 종료시간이 잘못 입력되었습니다.');
+            // }
             return true;
         },
         valid_alert(message) {
@@ -228,6 +266,7 @@ export default {
                     "title": this.schedule_title,
                     "startTime": this.schedule_start,
                     "endTime": this.schedule_end,
+                    "participants": this.schedule_select_members,
                     // TODO : Writer 현재 로그인된 사용자로 수정
                     "writer": "박찬준",
                     "alarm": 0,
@@ -241,6 +280,8 @@ export default {
             return String(time[0]).padStart(2, '0') + ':' + String(time[1]).padStart(2, '0')
         },
         compare_time(time1, time2) {
+            console.log(time1);
+            console.log(time2);
             const parse_time1 = (time1.split(':')[0] * 60) + time1.split(':')[1];
             const parse_time2 = (time2.split(':')[0] * 60) + time2.split(':')[1];
             return parse_time1 <= parse_time2;
