@@ -89,50 +89,10 @@ export default {
         };
     },
     methods:{
-        func:()=>{
-            if(this.name){
-                this.event.name = this.name;
-        }
-            if(this.title){
-                this.event.title = this.title;
-            }
-        },
-        // input안의 이미지 파일 넘겨주기
-        fileSelect(){
-            this.mainImage = this.$refs.memberImage.files[0];
-        },
-        // 등록버튼 
-        submit(){
-            if(this.namve.length <= 0 || this.title.length <= 0){
-                window.alert('모든 내용을 입력하고 시도해주세요. ');
-                return false;
-            }
-
-            const formData = new formData();
-            formData.append('name',this.name);
-            formData.append('title',this.title);
-            formData.append('mainImage',this.mainImage);
-
-            axios.post("https://localhost:3000/:id",formData,{
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res)=>{
-                console.log(res);
-            }).catch((err)=>{
-                console.log(err);
-            });
-        }
+        
         
     },
     created(){
-        axios.get('//localhost:3000/profile').then(({data})=>{
-            this.isLoading =  false;
-            this.event = data.events.events;
-            console.log(this.event)
-            
-
-        });
     },
 };
 </script>

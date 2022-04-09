@@ -68,13 +68,13 @@
       </thead>
       <tbody>
         <tr
-          v-for="(item,i) in items"
-          :key="i"
+          v-for="(member,index) in allUsers"
+          :key="index"
         >
           <td><input type="checkbox"></td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{item.admin}}</td>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+          <td>{{member.role}}</td>
         </tr>
       </tbody>
     </template>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions,mapState} from 'vuex';
 import VueCookies from 'vue-cookies';
 export default {
     data(){
@@ -100,8 +100,16 @@ export default {
             menus:[{admin:'관리자'},{admin:'사용자'}],
         }
     },
+    computed:{
+        ...mapState({
+          accessToken: ({accessToken}) => accessToken,
+          allUsers: ({allUsers})=> allUsers
+        })
+    },
     created(){
-      this.allMembers({"accessToken": VueCookies.get('accessToken')})
+      // let token = this.accessToken
+      let token = VueCookies.get('accessToken');
+      this.allMembers(token);
     },
     methods:{
       ...mapActions(['allMembers'])

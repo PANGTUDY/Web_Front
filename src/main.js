@@ -20,13 +20,14 @@ import App from "./App.vue";
 import router from "./router";
 import Argon from "./plugins/argon-kit";
 import './registerServiceWorker'
-import store from "./user_store/store";
+import store from "./user_store/index";
 import lodash from 'lodash';
 import ko from "vee-validate/dist/locale/ko.js";
 import VeeValidate from "vee-validate";
 import VueCookies from 'vue-cookies';
 import vuetify from './plugins/vuetify'
 import ElementUI from 'element-ui';
+import axios from './api/apiController';
 import locale from 'element-ui/lib/locale/lang/en';
 import './registerServiceWorker';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -61,11 +62,6 @@ new Vue({
   router,
   store,
   created(){
-    const userString = localStorage.getItem('user');
-    if(userString){
-        const userData = JSON.parse(userString);
-        this.$store.commit('SET_USER_DATA',userData)
-    }
    
   },
   lodash,

@@ -7,7 +7,8 @@ module.exports = {
   : '/',
   devServer: {
     port: 3000,
-    overlay: false
+    overlay: false,
+    proxy:'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080'
   },
   configureWebpack: {
     // Set up all the aliases we use in our app.

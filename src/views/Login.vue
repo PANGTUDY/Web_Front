@@ -37,7 +37,6 @@
                             <div class="text-center text-muted mb-4">
                                 <small>Or sign in with credentials</small>
                             </div>
-                            <form v-on:submit.prevent="login">
                                 <base-input alternative
                                             class="mb-3"
                                             name="email"
@@ -60,9 +59,8 @@
                                     <p></p>
                                 </div>
                                 <div class="text-center">
-                                    <base-button btn_type="primary" class="my-4" type="submit">login</base-button>
+                                    <base-button btn_type="primary" class="my-4" type="submit" @click="getUser">login</base-button>
                                 </div>
-                            </form>
                         </template>
                     </card>
                     <div class="row mt-3">
@@ -81,35 +79,53 @@
                 </div>
             </div>
         </div>
+         <confirm-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" :popMsg="popMsg" :menuType="menuType"></confirm-popup>
     </section>
 </template>
 <script>
-import {mapActions,mapGetters} from 'vuex'
+
+    
+import confirmPopup from './mixin/confirmPopup.vue';
 import validator from './mixin/validator'
 import directives from './mixin/myDirectives'
-export default {
-    directives,
-    name:'Login',
-    data(){
-        return {
-            email:'',
-            password:'',
+import {mapState,mapActions} from 'vuex';
 
-          
-        }
+export default {
+    components:{
+    directives,
+    confirmPopup
+    },
+    data:() =>({
+        email:'',
+        password:'',
+        popupSetting:false,
+        popMsg: '로그인이 완료되었습니다.',
+        menuType:'login'
+    }),
+    computed:{
+        ...mapState({
+            accessToken:({accessToken}) => accessToken,
+            refreshToken:({refreshToken}) => refreshToken
+        })
     },
    methods:{
-       login(){
-           this.$store.dispatch('login',{
+       ...mapActions(['login']),
+       getUser(){
+           this.login({
                email: this.email,
                password: this.password
-           }).then(()=>{
-               this.$router.push({name:'components'})
+           }).then((result)=>{
+              if(result === undefined){
+                  this.popupSetting = true
+              }
            })
+       },
+       async checkPopup($event){
+           this.popupSetting = $event;
+           await this.$router.push({path:'/'});
+           return this.popupSetting;
        }
    }
- 
-
 };
 </script>
 <style>

@@ -19,7 +19,8 @@ import VueCookies from 'vue-cookies';
 import List from "./views/components/board/List";
 import View from "./views/components/board/View";
 import New from "./views/components/board/New";
-import store from "./user_store/store";
+import store from "./user_store/index.js";
+import confirmPopup from './views/mixin/confirmPopup'
 
 Vue.use(Router);
 
@@ -165,22 +166,8 @@ const router = new Router({
     }
   ],
 });
-// 네비게이션 가드 ( 뷰 라우터로 URL 접근에 대해서 처리할 수 있다)
-  router.beforeEach(async(to,from,next) =>{
-   if(VueCookies.get('accessToken') === null && VueCookies.get('refreshToken')!= null){
-     var cookies = {refreshToken:VueCookies.get('refreshToken')}
-     //await store.dispatch('refreshToken',JSON.stringify(cookies));
-   }
-   if(VueCookies.get('accessToken')){
-     // accessToken이 있을때 진행
-     return next();
-   }
-   if(VueCookies.get('accessToken') == null && VueCookies.get('refreshToken')==null){
-    //   if(to.path !=='/login'){ 
-    //       return next({name:'login'});
-    // }
-   }
-   return next();
- })
+
+
+
 
 export default router

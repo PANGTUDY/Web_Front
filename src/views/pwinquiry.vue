@@ -41,7 +41,7 @@
                                  <base-input alternative
                                             type="password"
                                             addon-left-icon="ni ni-lock-circle-open"
-                                            
+                                            v-model="password"
                                             name="password">
                                 </base-input>   
                                 
@@ -52,10 +52,11 @@
                                     <div class="custom-layout">
                                     <base-input alternative
                                                 type="password"
-                                                v-validate="'required|password|max:3'"
-                                                placeholder="Password"
+                                                v-model="newPassword"
+                                                placeholder="비밀번호는 6~16자리로 숫자,영문,특수문자 혼합입니다."
                                                 addon-left-icon="ni ni-lock-circle-open"
                                                 name="password"
+                                                @blur.stop="validationCheck('newPassword')"
                                                >
                                     </base-input>
                                     
@@ -64,6 +65,7 @@
                                     <div class="custom-layout">
                                     <base-input alternative
                                                 type="password"
+                                                v-model="confirm_newPassword"
                                                 placeholder="Password 재확인"
                                                 addon-left-icon="ni ni-lock-circle-open"
                                                >
@@ -71,7 +73,8 @@
                                     </div>
                                     <div class="text-muted font-italic">
                                         <small>password strength:
-                                            <span class="text-success font-weight-700">strong</span>
+                                            <span class="font-weight-700" :class="changeStrength">{{passwordValidation}}</span>
+                                            <p>{{msg}}</p>
                                         </small>
                                     </div>   
                                </div>
@@ -81,7 +84,7 @@
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
                                 <div class="col-lg-9">
-                                    <base-button btn-type="info" size="sm" class="mr-4"  type="submit" @click="save">수정</base-button>
+                                    <base-button btn-type="info" size="sm" class="mr-4"  type="submit" @click.stop="changeUserInfo">수정</base-button>
                                 </div>
                             </div>
                         </div>
@@ -96,38 +99,93 @@
 </template>
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
-import { authComputed } from '../user_store/helper.js';
+import { mapState,mapActions } from 'vuex';
+
 
 
 export default {
     data(){
         return {
-            
-           
+            newPassword:'',
+            confirm_newPassword:'',
+            password:'',
+            passwordValidation:'',
+            msg:''
             
         };
     },
     methods:{
-      save(){
-          this.$validator.validateAll().then(success=>{
-              if(success){
-
-              }
-          })
-      }
+        ...mapActions(['modifyUser']),
+      validationCheck(type){
+          if (type == 'newPassword'){
+            if(_.isEmpty(this.newPassword)){
+                alert('비밀번호를 입력해주세요');
+                return false;
+            }else{
+                let regExp =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
+                if(this.password.match(regExp) != null){
+                    return true;
+                }else{
+                    alert('비밀번호를 올바르게 입력해주세요');
+                }
+            }
+        }
+        },
+        changeUserInfo(){
+            if(_.isEmpty(this.newPassword) || _.isEmpty(this.password) || _.isEmpty(this.confirm_newPassword)){
+                alert('입력해야할 필수 항목을 모두 입력해주세요');
+            }
+            if(!_.isEmpty(this.newPassword) && !_.isEmpty(this.password) && !_.isEmpty(this.confirm_newPassword)){
+                let token = this.accessToken;
+                let params ={
+                    email:this.authEmailInfo,
+                    password: this.newPassword,
+                    accessToken: token
+                }
+                this.modifyUser(params);
+            }
+        }
+    },
+    watch:{
+        newPassword(){
+            if(this.newPassword.match(this.password)){
+                alert('현재 비밀번호과 수정할 비밀번호가 일치합니다.');
+            }
+             //숫자6자리
+            let weak=/^[0-9]{1,5}$/g;
+            if(this.newPassword.match(weak)!=null){
+                this.passwordValidation = 'weak';
+                
+            }
+            // 영어 소문자,대문자,숫자 모두6자리
+            let medium=/^\w{6}$/;
+            if(this.newPassword.match(medium)!=null){
+                this.passwordValidation = 'medium';
+            }
+            let strong=/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
+            if(this.newPassword.match(strong) !=null){
+                this.passwordValidation = 'strong';
+            }
+        },
+        confirm_newPassword(){
+            if(this.confirm_newPassword.match(this.newPassword) != null){
+                    this.msg ='비밀번호가 일치합니다.';
+                    
+            }else{
+                 this.msg ='비밀번호가 일치하지 않습니다.';
+            }
+        }
     },
     computed:{
-        ...authComputed
+        ...mapState({
+            accessToken: ({accessToken}) => accessToken,
+            authEmailInfo: ({authEmailInfo})=>authEmailInfo
+        }),
+        changeStrength: function(){
+            return this.passwordValidation === 'strong'? 'text-success':'text-warning';
+        }
     },
     created(){
-        axios.get('//localhost:3000/profile').then(({data})=>{
-            this.isLoading =  false;
-            this.event = data.events.events;
-            console.log(this.event)
-            
-
-        });
     },
 };
 </script>

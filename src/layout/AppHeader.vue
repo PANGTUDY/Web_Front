@@ -61,6 +61,7 @@
         </ul>
         
       </base-nav>
+      <confirm-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" @settingTrue="moveTo($event)" :popMsg="popMsg" :menuType="menuType"></confirm-popup>
     </div>
   </header>
 </template>
@@ -68,8 +69,9 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import {authComputed} from "../user_store/helper.js";
-import {mapGetters} from "vuex";
+import {mapGetters,mapState} from "vuex";
 export default {
   data(){
     return {
@@ -87,28 +89,64 @@ export default {
       {name:'권한관리',path:'grant'},
       {name:'설정',path:'setting'},
       
-    ]
+    ],
+    popupSetting: false,
+    popMsg:'로그인이 필요한 화면입니다. 로그인하시겠습니까?',
+    menuType:'all'
     }
   },
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
+    confirmPopup
   },
   computed:{
     ...authComputed,
-    ...mapGetters['userInfo']
+    ...mapGetters['userInfo'],
+    ...mapState({
+      isLogin: ({isLogin}) => isLogin
+    })
   },
   methods:{
     logout(){
       this.$store.dispatch('logout')
     },
+    checkPopup($event){
+            this.popupSetting = $event;
+            return this.popupSetting;
+        },
+    // 원하는 화면으로 이동시기키
     goTo(path){
-      if(path){
-      this.$router.push('/'+path);
-      }else{
-        this.$router.push('/');
+      // 로그인 되어있을때
+      if(this.isLogin === true){
+        // path 로 화면을 전환한다.
+        // 단, path와 현재 path가 같을 시에 이동시키지 않는다. 다를 경우만 이동
+        if(path){
+          if(this.$route.path !==path){
+              this.$router.push('/'+path);
+          }
+        }else{
+          this.$router.push('/');
+        }
+        // 로그인 되어있지 않을때
+      }else if(this.isLogin === false){
+        if(path === ''){
+          // 메인으로 이동하고자 하면 이동시킨다.
+          this.$router.push('/');
+        }else{
+        this.popupSetting = true;
+        }
       }
+      
+    },
+    moveTo($event){
+      this.popupSetting = $event;
+      if(this.$route.name !== 'login'){
+      this.$router.push({name:'login'});
+      }
+      return this.popupSetting;
+
     }
   }
 };
