@@ -24,7 +24,17 @@
        
         <v-card-actions>
           <v-spacer></v-spacer>
-          <template v-if="this.key === 'register'">
+          <template v-if="this.menuType === 'register'">
+          
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('settingFalse',false)"
+          >
+            확인
+          </v-btn>
+          </template>
+          <template v-else-if="this.menuType === 'login'">
           
           <v-btn
             color="green darken-1"
@@ -63,7 +73,7 @@ export default {
   props:{
     popupSetting: Boolean,
     popMsg:String,
-    key:String
+    menuType:String
   },
   data:()=>({
     dialog:''
@@ -75,7 +85,7 @@ export default {
     usingPopup(){
       return this.popupSetting;
     }
-  }  
+  }
 };
 </script>
 

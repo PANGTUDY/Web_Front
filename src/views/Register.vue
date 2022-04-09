@@ -103,7 +103,7 @@
             </div>
            
         </div>
-         <confrim-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" :popMsg="popMsg" :key="key"></confrim-popup>
+         <confrim-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" :popMsg="popMsg" :menuType="menuType"></confrim-popup>
     </section>
 </template>
 <script>
@@ -121,7 +121,7 @@ export default {
            msg:'',
            passwordValidation:'',
            popMsg:'회원가입이 완료되었습니다.',
-           key:'register'
+           menuType:'register'
         }
     },
     components:{
@@ -129,7 +129,7 @@ export default {
     },
     computed:{
         changeStrength: function(){
-                return this.passwordValidation == 'strong'? 'text-success':'text-warning';
+                return this.passwordValidation === 'strong'? 'text-success':'text-warning';
 
         }
     },
@@ -172,12 +172,13 @@ export default {
                     name: this.name, email: this.email, password: this.password})
                     .then(()=>{
                     this.popupSetting = true;
-                    setTimeout(() => this.$router.push({name:'components'}),5000);          
+                          
             });
             }
         },
-        checkPopup($event){
+        async checkPopup($event){
             this.popupSetting = $event;
+            await this.$router.push({path: '/'});
             return this.popupSetting;
         },
         confirmEmail(){

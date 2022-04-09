@@ -1,5 +1,6 @@
 import axios from 'axios';
 import vueCookies from 'vue-cookies';
+import { createLogger } from 'vuex';
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
@@ -106,10 +107,13 @@ export default{
         let result ={};
         console.log(payload);
         const {email,name,password,accessToken}=payload;
+        console.log('email',email);
+        console.log('password',password);
+        console.log('accessToken',accessToken);
         try{
-            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users';
+            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
             const headers = {'Authorization': `Bearer ${accessToken}`};
-            const {data} = await axios.put(url+email,{headers},{params:name,password});
+            const {data} = await axios.put(url,{headers},{params:name,password});
             result = data;
             console.log(result);
         }catch(error){

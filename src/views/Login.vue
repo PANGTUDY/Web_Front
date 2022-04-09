@@ -79,21 +79,28 @@
                 </div>
             </div>
         </div>
+         <confirm-popup :popupSetting="popupSetting" @settingFalse="checkPopup($event)" :popMsg="popMsg" :menuType="menuType"></confirm-popup>
     </section>
 </template>
 <script>
 
-
+    
+import confirmPopup from './mixin/confirmPopup.vue';
 import validator from './mixin/validator'
 import directives from './mixin/myDirectives'
 import {mapState,mapActions} from 'vuex';
+
 export default {
     components:{
     directives,
+    confirmPopup
     },
-    data:()=>({
+    data:() =>({
         email:'',
-        password:''
+        password:'',
+        popupSetting:false,
+        popMsg: '로그인이 완료되었습니다.',
+        menuType:'login'
     }),
     computed:{
         ...mapState({
@@ -107,9 +114,16 @@ export default {
            this.login({
                email: this.email,
                password: this.password
-           }).then(()=>{
-               //this.$router.push({name:'components'})
+           }).then((result)=>{
+              if(result === undefined){
+                  this.popupSetting = true
+              }
            })
+       },
+       async checkPopup($event){
+           this.popupSetting = $event;
+           await this.$router.push({path:'/'});
+           return this.popupSetting;
        }
    }
 };

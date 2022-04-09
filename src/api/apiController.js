@@ -9,7 +9,8 @@ axios.defaults.baseURL='http://localhost:3000';
 axios.interceptors.request.use(
    function(config){
     console.log('axios interceptor');
-        let access = store.state.accessToken;
+        // let access = store.state.accessToken;
+        let access = VueCookies.get('accessToken');
         // config의 url 정보가 로그인url과 회원가입url 정보와 같으면 header에 authorization 정보를 포함하지 않는다.
         if(config.url ==='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login' || config.url==='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup'){
                 return config;
@@ -37,10 +38,14 @@ axios.interceptors.response.use(
         const originalReq = error.config;
         let refresh = store.state.refreshToken;
         let access = store.state.accessToken;
+
+        // let refresh = VueCookies.get('refreshToken');
+        // let access = VueCookies.get('accessToken');
         if(refresh != null && access == null){
             return store.dispatch('refreshToken',refresh).then(result =>{
                     console.log('status',result.status);
                     store.state.accessToken = result.data;
+                    // VueCookies.set('accessToken',result.data,'60s');
                     axios.defaults.headers.common['Authorization'] = 'Bearer '+store.state.accessToken;
                     return axios(originalReq);
                 
