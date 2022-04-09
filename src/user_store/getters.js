@@ -11,8 +11,8 @@ export default{
     },
     getToken(state) {
         return {
-            access: state.access,
-            refresh: state.refresh
+            access: state.accessToken,
+            refresh: state.refreshToken
         }
     },
     userInfo(state){
