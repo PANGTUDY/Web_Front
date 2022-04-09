@@ -1,7 +1,5 @@
 import axios from 'axios';
 import  VueCookies  from 'vue-cookies';
-
-
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
@@ -10,6 +8,7 @@ import {
     MODIFY_USER,
     GET_ALL_USERS
 } from './types.js';
+
 export default{
      [LOGIN_TOKEN]:(state,payload) =>{
             // state의 accessToken 과 refreshToken 값을 넣어준다.
@@ -19,10 +18,10 @@ export default{
             
             
             console.log(state.accessToken);
-            VueCookies.set('accessToken',payload.accessToken,'60s');
-            VueCookies.set('refreshToken',payload.refreshToken,'1h');
-            // state.accessToken = payload.accessToken;
-            // state.refreshToken = payload.refreshToken;
+            // VueCookies.set('accessToken',payload.accessToken,'60s');
+            // VueCookies.set('refreshToken',payload.refreshToken,'1h');
+            state.accessToken = payload.accessToken;
+            state.refreshToken = payload.refreshToken;
             state.isLogin = true;
            
         },
