@@ -40,12 +40,6 @@ export default {
             refreshToken:({refreshToken}) => refreshToken
         })
   },
-  methods:{
-      
-
-  }
-  
-  
 };
 </script>
 <style>

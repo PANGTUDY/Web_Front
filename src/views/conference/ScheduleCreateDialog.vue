@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import * as UserApi from '@/api/user';
 
 export default {
     props: {
@@ -176,30 +176,7 @@ export default {
             end_time: false,
 
             // TODO : 회원목록 읽어오기 (User-API)
-            members: [{
-                name: '박찬준',
-                email: 'slolee@naver.com'
-            },
-            {
-                name: '원철황',
-                email: 'cjfghkd123@naver.com'
-            },
-            {
-                name: '김민주',
-                email: 'alswn123@naver.com'
-            },
-            {
-                name: '박혜원',
-                email: 'gPdnjs123@naver.com'
-            },
-            {
-                name: '서진하',
-                email: 'wlsgk123@naver.com'
-            },
-            {
-                name: '임재창',
-                email: 'wockd123@naver.com'
-            }],
+            members: [],
             time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
 
             // 각 Input 에 바인딩될 변수
@@ -214,23 +191,35 @@ export default {
     },
     watch: {
         is_dialog: function(is_dialog) {
-            // Create Dialog 가 열렸는데 선택된 Schedule 이 있다면 수정임으로 값 세팅
-            if (is_dialog && this.schedule !== null) {
-                this.schedule_title = this.schedule.title;
-                this.schedule_start = this.time_format(this.schedule.startTime);
-                this.schedule_end = this.time_format(this.schedule.endTime);
+            if (is_dialog) {
+                // Create Dialog 가 열렸는데 선택된 Schedule 이 있다면 수정임으로 값 세팅
+                if (this.schedule !== null) {
+                    this.schedule_title = this.schedule.title;
+                    this.schedule_start = this.time_format(this.schedule.startTime);
+                    this.schedule_end = this.time_format(this.schedule.endTime);
 
-                this.schedule_select_members = [];
-                this.schedule.participants.forEach(element => {
-                    this.schedule_select_members.push({
-                        'name': element.name,
-                        'email': element.email
+                    this.schedule_select_members = [];
+                    this.schedule.participants.forEach(element => {
+                        this.schedule_select_members.push({
+                            'name': element.name,
+                            'email': element.email
+                        });
+                    });
+
+                    this.schedule_is_alram = this.schedule.alarm;
+                    this.schedule_select_time = ['15분전'];
+                    this.schedule_comment = this.schedule.comment;
+                }
+
+                UserApi.get_users().then(response => {
+                    this.members = [];
+                    response.data.forEach(user => {
+                        this.members.push({
+                            'name': user.name,
+                            'email': user.email   
+                        })
                     });
                 });
-
-                this.schedule_is_alram = this.schedule.alarm;
-                this.schedule_select_time = ['15분전'];
-                this.schedule_comment = this.schedule.comment;
             }
         },
     },

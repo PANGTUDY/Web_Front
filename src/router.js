@@ -14,8 +14,6 @@ import practice from "./views/practice.vue";
 import Calendar from "./views/conference/Calendar.vue"
 import Grant from "./views/Grant.vue";
 import Setting from './views/Setting.vue';
-import { Store } from "vuex";
-import VueCookies from 'vue-cookies';
 import List from "./views/components/board/List";
 import View from "./views/components/board/View";
 import New from "./views/components/board/New";
@@ -133,7 +131,7 @@ const router = new Router({
         header: AppHeader,
         default: New,
         footer: AppFooter
-      },
+      }
     },
     {
       path: "/board/view/:id",
@@ -143,7 +141,7 @@ const router = new Router({
         header: AppHeader,
         default: View,
         footer: AppFooter
-      },      
+      } 
     },
     {
       path:'/grant',
@@ -152,7 +150,6 @@ const router = new Router({
         header: AppHeader,
         default: Grant,
         footer: AppFooter
-
       }
     },
     {
@@ -166,8 +163,5 @@ const router = new Router({
     }
   ],
 });
-
-
-
 
 export default router

@@ -61,9 +61,6 @@ Vue.use(VueCookies)
 new Vue({
   router,
   store,
-  created(){
-   
-  },
   lodash,
   vuetify,
   render: h => h(App)

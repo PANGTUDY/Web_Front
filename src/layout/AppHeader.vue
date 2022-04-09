@@ -15,41 +15,20 @@
         </div>
 
         <ul class="navbar-nav ml-lg-auto flex">
-          
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" @click.stop="logout">Logout</a>
-          </li>
-          <li class="nav-item" v-for="(menu,i) in menuList" :key="i">
+          <li class="nav-item" v-for="menu in menuList" :key="menu.path">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
-            </li>
-           <!-- <li class="nav-item">
-            <img :src="person.src" class="rounded-circle" style="width:20px;height:20px;"></li>
-          <li class="nav-item" v-if="!loggedIn"> 
-            <a class="nav-link nav-link-icon"><router-link to="/login">Login</router-link></a>
+          </li>
+          <v-spacer/>
+          <li class="nav-item" v-if="!loggedIn">
+            <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a>
           </li>
           <li class="nav-item" v-if="!loggedIn">
-            <a class="nav-link nav-link-icon"><router-link to="/register">Register</router-link></a>
+            <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
           </li>
           <li class="nav-item" v-else>
-            <a class="nav-link nav-link-icon" @click="logout">Logout</a>
+            <a class="nav-link nav-link-icon" @click.stop="logout">Logout</a>
           </li>
-          <li class="nav-item" v-if="loggedIn">
-            <a class="nav-link nav-link-icon"><router-link to="/profile">Profile</router-link></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon"><router-link to="/calendar">Calendar</router-link></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="#"><router-link to="/board/list">Board</router-link></a>
-          </li>
-          <base-dropdown tag="li" title="Settings">
-          
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </base-dropdown> -->
+        
          <base-dropdown tag="li" title="settings">
           <a class="dropdown-item" v-for="(sub,i) in subList" :key="i" @click="goTo(sub.path)">
             {{sub.name}}
@@ -75,24 +54,24 @@ import {mapGetters,mapState} from "vuex";
 export default {
   data(){
     return {
-    person:{
-      src:require('../../public/img/icons/common/happy.png')
-    },
-    menuList:[
-      {name:'Login',path:'login'},
-      {name:'Register',path:'register'},
-      {name: 'Profile', path:'profile'},
-      {name:'Calendar',path:'calendar'},
-      {name:'Board',path:'board/list'}
-    ],
-    subList:[
-      {name:'권한관리',path:'grant'},
-      {name:'설정',path:'setting'},
-      
-    ],
-    popupSetting: false,
-    popMsg:'로그인이 필요한 화면입니다. 로그인하시겠습니까?',
-    menuType:'all'
+      person:{
+        src: require('../../public/img/icons/common/happy.png')
+      },
+      menuList:[
+        {name:'Login', path:'login'},
+        {name:'Register', path:'register'},
+        {name: 'Profile', path:'profile'},
+        {name:'Calendar', path:'calendar'},
+        {name:'Board', path:'board/list'}
+      ],
+      subList:[
+        {name:'권한관리', path:'grant'},
+        {name:'설정', path:'setting'},
+        
+      ],
+      popupSetting: false,
+      popMsg:'로그인이 필요한 화면입니다. 로그인하시겠습니까?',
+      menuType:'all'
     }
   },
   components: {
@@ -100,6 +79,22 @@ export default {
     CloseButton,
     BaseDropdown,
     confirmPopup
+  },
+  data(){
+    return {
+      person:{
+        src:require('../../public/img/icons/common/happy.png')
+      },
+      menuList:[
+        {name: 'Profile', path:'profile'},
+        {name:'Calendar', path:'calendar'},
+        {name:'Board', path:'board/list'}
+      ],
+      subList:[
+        {name:'권한관리', path:'grant'},
+        {name:'설정', path:'setting'},
+      ]
+    }
   },
   computed:{
     ...authComputed,
@@ -109,33 +104,33 @@ export default {
     })
   },
   methods:{
-    logout(){
-      this.$store.dispatch('logout')
+    logout() {
+      this.$store.dispatch('logout');
     },
-    checkPopup($event){
-            this.popupSetting = $event;
-            return this.popupSetting;
-        },
+    checkPopup($event) {
+      this.popupSetting = $event;
+      return this.popupSetting;
+    },
     // 원하는 화면으로 이동시기키
-    goTo(path){
+    goTo(path) {
       // 로그인 되어있을때
-      if(this.isLogin === true){
+      if (this.isLogin === true) {
         // path 로 화면을 전환한다.
         // 단, path와 현재 path가 같을 시에 이동시키지 않는다. 다를 경우만 이동
-        if(path){
-          if(this.$route.path !==path){
+        if (path) {
+          if (this.$route.path !== path) {
               this.$router.push('/'+path);
           }
-        }else{
+        } else {
           this.$router.push('/');
         }
         // 로그인 되어있지 않을때
-      }else if(this.isLogin === false){
-        if(path === ''){
+      } else if(this.isLogin === false) {
+        if (path === '') {
           // 메인으로 이동하고자 하면 이동시킨다.
           this.$router.push('/');
-        }else{
-        this.popupSetting = true;
+        } else {
+          this.popupSetting = true;
         }
       }
       
