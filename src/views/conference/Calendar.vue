@@ -68,14 +68,20 @@
                                 <v-card-subtitle>
                                     <b> {{ time_format(item.startTime) }} ~ {{ time_format(item.endTime) }} </b>
                                     <div>
-                                        <!-- item.startTime 이 아니라 참여자 목록으로 수정 필요 -->
-                                        <v-chip v-for="user in item.startTime" :key="user"
-                                                class="mr-1"
-                                                color="gray"
-                                                small
-                                                label>
-                                            {{ user }}
-                                        </v-chip>
+                                        <v-tooltip bottom v-for="user in item.participants" :key="user.email">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-chip class="mr-1"
+                                                        color="gray"
+                                                        small
+                                                        label
+                                                        v-bind="attrs"
+                                                        v-on="on">
+                                                    {{ user.name }}
+                                                </v-chip>
+                                            </template>
+                                            <span> {{ user.email }} </span>
+                                        </v-tooltip>
+
                                     </div>
                                 </v-card-subtitle>
                                 <v-card-text>

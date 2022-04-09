@@ -59,11 +59,13 @@ export default {
             const schedules = [];
             for (const key in calendar) {
                 calendar[key].forEach(schedule => {
+                    console.log(schedule);
                     schedules.push({
                         id: schedule.id,
                         name: schedule.title,
                         start: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.startTime[0], schedule.startTime[1], 0, 0),
                         end: new Date(schedule.year, schedule.month - 1, schedule.day, schedule.endTime[0], schedule.endTime[1], 0, 0),
+                        participants: schedule.participants,
                         color: 'pink',
                         details: schedule.comment,
                         timed: true,
@@ -135,6 +137,7 @@ export default {
             this.create_dialog = true;
         },
         commit_create_dialog(schedule) {
+            console.log(schedule);
             Vue.set(schedule, 'year', this.year);
             Vue.set(schedule, 'month', this.month);
             Vue.set(schedule, 'day', this.day);
