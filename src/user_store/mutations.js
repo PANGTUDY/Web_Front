@@ -19,10 +19,10 @@ export default{
             
             
             console.log(state.accessToken);
-            // VueCookies.set('accessToken',payload.accessToken,'60s');
-            // VueCookies.set('refreshToken',payload.refreshToken,'1h');
-            state.accessToken = payload.accessToken;
-            state.refreshToken = payload.refreshToken;
+            VueCookies.set('accessToken',payload.accessToken,'60s');
+            VueCookies.set('refreshToken',payload.refreshToken,'1h');
+            // state.accessToken = payload.accessToken;
+            // state.refreshToken = payload.refreshToken;
             state.isLogin = true;
            
         },
@@ -30,8 +30,8 @@ export default{
             state.authEmailInfo=payload;
         },
         [REFRESH_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
-            state.accessToken = payload;
-            // VueCookies.set('accessToken',payload,'1m');
+            // state.accessToken = payload;
+            VueCookies.set('accessToken',payload,'1m');
         },
         [LOGOUT]: (state) => {
             state.user = null;
