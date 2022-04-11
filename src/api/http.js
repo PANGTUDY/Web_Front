@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "@/user_store/store";
+import store from "@/user_store/index.js";
 
 export const conference_instance = axios.create({
     baseURL: 'http://127.0.0.1:8000/conference/'

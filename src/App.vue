@@ -37,7 +37,8 @@ export default {
     ...mapState({
             isLogin: ({isLogin}) => isLogin,
             accessToken:({accessToken}) => accessToken,
-            refreshToken:({refreshToken}) => refreshToken
+            refreshToken:({refreshToken}) => refreshToken,
+            timeout:({timeout}) => timeout
         })
   },
 };

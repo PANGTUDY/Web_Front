@@ -5,6 +5,7 @@ export default{
     accessToken: '',
     refreshToken: '',
     authEmailInfo:'',
+    timeout:'',
     isLogin: false,
     allUsers:[]
 };

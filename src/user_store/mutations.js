@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { json } from 'body-parser';
 import  VueCookies  from 'vue-cookies';
 import {
     LOGIN_TOKEN,
@@ -11,13 +12,17 @@ import {
 
 export default{
      [LOGIN_TOKEN]:(state,payload) =>{
-            // state의 accessToken 과 refreshToken 값을 넣어준다.
+            // token 복호화
             let base64Access = payload.accessToken.split('.')[1];
-            let value = Buffer.from(base64Access,'base64');
-            console.log('accessToken',value);
+            let base64 = base64Access.replace(/-/g,'+').replace(/_/g,'/');
+            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            const obj = JSON.parse(jsonPayload);
             
+            // 토큰 만료시간을 확인한다.
+            state.timeout = obj.exp;
             
-            console.log(state.accessToken);
             // VueCookies.set('accessToken',payload.accessToken,'60s');
             // VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;

@@ -18,11 +18,10 @@
           <li class="nav-item" v-for="menu in menuList" :key="menu.path">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{menu.name}}</a>
           </li>
-          <v-spacer/>
-          <li class="nav-item" v-if="!loggedIn">
+          <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a>
           </li>
-          <li class="nav-item" v-if="!loggedIn">
+          <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
           </li>
           <li class="nav-item" v-else>
@@ -58,7 +57,7 @@ export default {
         src: require('../../public/img/icons/common/happy.png')
       },
       menuList:[
-        {name:'Login', path:'login'},
+        // {name:'Login', path:'login'},
         {name:'Register', path:'register'},
         {name: 'Profile', path:'profile'},
         {name:'Calendar', path:'calendar'},
@@ -79,22 +78,6 @@ export default {
     CloseButton,
     BaseDropdown,
     confirmPopup
-  },
-  data(){
-    return {
-      person:{
-        src:require('../../public/img/icons/common/happy.png')
-      },
-      menuList:[
-        {name: 'Profile', path:'profile'},
-        {name:'Calendar', path:'calendar'},
-        {name:'Board', path:'board/list'}
-      ],
-      subList:[
-        {name:'권한관리', path:'grant'},
-        {name:'설정', path:'setting'},
-      ]
-    }
   },
   computed:{
     ...authComputed,

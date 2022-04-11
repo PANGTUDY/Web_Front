@@ -161,7 +161,7 @@ aside {
 }
 .sidebar_rptb .rptb .rptb_header {
   position: sticky;
-  top: 0px;
+  top: 60px;
   z-index: 999;
   height: 4rem;
   display: flex;
@@ -264,7 +264,7 @@ button {
 .sidebar_rptb.active .rptb .rptb_header {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 57px;
   z-index: 999;
   height: 4rem;
   display: -webkit-box;
@@ -285,7 +285,7 @@ button {
 .sidebar_rptb .rptb .rptb_header {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 57px;
   z-index: 999;
   height: 4rem;
   display: -webkit-box;

@@ -27,7 +27,6 @@ import VeeValidate from "vee-validate";
 import VueCookies from 'vue-cookies';
 import vuetify from './plugins/vuetify'
 import ElementUI from 'element-ui';
-import axios from './api/apiController';
 import locale from 'element-ui/lib/locale/lang/en';
 import './registerServiceWorker';
 import 'element-ui/lib/theme-chalk/index.css';
