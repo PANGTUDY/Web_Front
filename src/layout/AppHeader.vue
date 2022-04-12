@@ -69,7 +69,7 @@ export default {
         
       ],
       popupSetting: false,
-      popMsg:'로그인이 필요한 화면입니다. 로그인하시겠습니까?',
+      popMsg:'로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?',
       menuType:'all'
     }
   },

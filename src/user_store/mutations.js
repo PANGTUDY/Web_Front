@@ -23,10 +23,10 @@ export default{
             // 토큰 만료시간을 확인한다.
             state.timeout = obj.exp;
             
-            // VueCookies.set('accessToken',payload.accessToken,'60s');
-            // VueCookies.set('refreshToken',payload.refreshToken,'1h');
-            state.accessToken = payload.accessToken;
-            state.refreshToken = payload.refreshToken;
+            VueCookies.set('accessToken',payload.accessToken,'60s');
+            VueCookies.set('refreshToken',payload.refreshToken,'1h');
+            // state.accessToken = payload.accessToken;
+            // state.refreshToken = payload.refreshToken;
             state.isLogin = true;
            
         },
@@ -40,8 +40,11 @@ export default{
         [LOGOUT]: (state) => {
             state.user = null;
             state.isLogin = false;
-            state.accessToken="";
-            state.refreshToken="";
+            // state.accessToken="";
+            // state.refreshToken="";
+            state.timeout="";
+            VueCookies.remove('accessToken');
+            VueCookies.remove('refreshToken');
         },
         [MODIFY_USER]: (state,payload) =>{
             state.user = payload;
