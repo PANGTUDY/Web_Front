@@ -25,7 +25,7 @@
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
           </li>
           <li class="nav-item" v-else>
-            <a class="nav-link nav-link-icon" @click.stop="logout">Logout</a>
+            <a class="nav-link nav-link-icon" @click.stop="memberClear">Logout</a>
           </li>
         
          <base-dropdown tag="li" title="settings">
@@ -49,7 +49,7 @@ import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import {authComputed} from "../user_store/helper.js";
-import {mapGetters,mapState} from "vuex";
+import {mapGetters,mapState,mapMutations} from "vuex";
 export default {
   data(){
     return {
@@ -87,8 +87,9 @@ export default {
     })
   },
   methods:{
-    logout() {
-      this.$store.dispatch('logout');
+    ...mapMutations(['logout']),
+    memberClear() {
+      this.logout();
     },
     checkPopup($event) {
       this.popupSetting = $event;
