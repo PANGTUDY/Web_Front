@@ -99,7 +99,7 @@
 </template>
 <script>
 import axios from 'axios';
-import { mapState,mapActions } from 'vuex';
+import { mapState,mapActions, mapGetters } from 'vuex';
 
 
 
@@ -140,7 +140,8 @@ export default {
                 let params ={
                     email:this.authEmailInfo,
                     password: this.newPassword,
-                    accessToken: token
+                    accessToken: token,
+                    name: this.userInfo.name
                 }
                 this.modifyUser(params);
             }
@@ -179,8 +180,9 @@ export default {
     computed:{
         ...mapState({
             accessToken: ({accessToken}) => accessToken,
-            authEmailInfo: ({authEmailInfo})=>authEmailInfo
+            authEmailInfo: ({authEmailInfo})=>authEmailInfo,
         }),
+        ...mapGetters(['userInfo']),
         changeStrength: function(){
             return this.passwordValidation === 'strong'? 'text-success':'text-warning';
         }

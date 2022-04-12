@@ -112,7 +112,9 @@ export default {
       } else if(this.isLogin === false) {
         if (path === '') {
           // 메인으로 이동하고자 하면 이동시킨다.
-          this.$router.push('/');
+          if(this.$route.path !== '/'){
+            this.$router.push('/');
+          }
         } else {
           this.popupSetting = true;
         }

@@ -112,7 +112,7 @@ export default{
         try{
             const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
             const headers = {'Authorization': `Bearer ${accessToken}`};
-            const {data} = await user_instance.put(url,{headers},{params:name,password});
+            const {data} = await user_instance.put(url,{headers},{name: name,password:password});
             result = data;
             console.log(result);
         }catch(error){

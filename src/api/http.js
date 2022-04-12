@@ -56,7 +56,7 @@ user_instance.interceptors.request.use(
                 store.state.accessToken = result.data.accessToken;
                 // VueCookies.set('accessToken',result.data.accessToken,'60s');
                 user_instance.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.accessToken;
-                return user_instance(originalReq);
+                return axios(originalReq);
             });
         }
         return Promise.reject(error);
