@@ -46,14 +46,15 @@ user_instance.interceptors.request.use(
         
         console.log('token',token);
         console.log('timeout',store.state.timeout * 1000 <= Date.now());
-        let refresh = VueCookies.get('refreshToken');
-        let access = VueCookies.get('accessToken');
+        // let refresh = VueCookies.get('refreshToken');
+        // let access = VueCookies.get('accessToken');
+        
         if (store.state.timeout * 1000 <= Date.now()){
-            return reissue(refresh).then(result => {
+            return reissue(token.refresh).then(result => {
                 console.log('data',result);
                 console.log('status', result.status);
                 store.state.accessToken = result.data.accessToken;
-                VueCookies.set('accessToken',result.data.accessToken,'60s');
+                // VueCookies.set('accessToken',result.data.accessToken,'60s');
                 user_instance.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.accessToken;
                 return user_instance(originalReq);
             });
