@@ -167,7 +167,7 @@ export default {
             if(_.isEmpty(this.password) || _.isEmpty(this.email) || _.isEmpty(this.password_confirm)){
                 alert('입력해야할 항목을 모두 입력해주세요');
             }
-            if(!_.isEmtpy(this.password) && !_.isEmpty(this.email)&& !_.isEmpty(this.password_confirm)){
+            if(!_.isEmpty(this.password) && !_.isEmpty(this.email)&& !_.isEmpty(this.password_confirm)){
                 this.register({
                     name: this.name, email: this.email, password: this.password})
                     .then(()=>{
