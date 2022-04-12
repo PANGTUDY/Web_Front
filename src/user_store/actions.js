@@ -26,7 +26,6 @@ export default{
          try{
              const url = 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login';
              const result =await user_instance.post(url,{email,password});
-             console.log(result.data);
              commit(LOGIN_TOKEN,result.data);
          }catch(error){
              console.warn(error.message,error);

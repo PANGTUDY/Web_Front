@@ -23,7 +23,7 @@ export default{
             
             // 토큰 만료시간을 확인한다.
             state.timeout = obj.exp;
-            
+            state.user = {name:obj.name,email:obj.email};
             // VueCookies.set('accessToken',payload.accessToken,'60s');
             // VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
