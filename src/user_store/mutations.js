@@ -34,14 +34,18 @@ export default{
             state.authEmailInfo=payload;
         },
         [REFRESH_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
-            // state.accessToken = payload;
-            VueCookies.set('accessToken',payload,'1m');
+            state.accessToken = payload;
+            // VueCookies.set('accessToken',payload,'1m');
         },
         [LOGOUT]: (state) => {
+            console.log('탄다');
             state.user = null;
             state.isLogin = false;
             state.accessToken="";
             state.refreshToken="";
+            state.timeout="";
+            // VueCookies.remove('accessToken');
+            // VueCookies.remove('refreshToken');
         },
         [MODIFY_USER]: (state,payload) =>{
             state.user = payload;

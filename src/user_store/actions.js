@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as AuthApi from '@/api/auth';
+import { user_instance } from '../api/http';
 import * as UserApi from '@/api/user';
 import { createLogger } from 'vuex';
 import {
@@ -24,8 +25,7 @@ export default{
          const {email,password} = payload;
          try{
              const url = 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login';
-             const result =await axios.post(url,{email,password});
-             console.log('들어가니');
+             const result =await user_instance.post(url,{email,password});
              console.log(result.data);
              commit(LOGIN_TOKEN,result.data);
          }catch(error){
@@ -42,7 +42,6 @@ export default{
            const headers = {'Authorization':`Bearer ${payload}`};
            const {data} = await axios.post(url,{headers},payload);
            result =data;
-           console.log(result);
        }catch(error){
            console.warn(error.message,error);
        }finally{
@@ -74,7 +73,7 @@ export default{
         try{
             const url= 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users';
             const headers = {'Authorization': `Bearer ${payload}`};
-            const {data} = await axios.get(url,{headers},payload);
+            const {data} = await user_instance.get(url,{headers},payload);
             result = data;
             console.log(result);
         }catch(error){
@@ -95,7 +94,7 @@ export default{
         try{
             const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/me';
             const headers =  {'Authorization':`Bearer ${payload}`};
-            const {data} = await axios.get(url,{headers},payload);
+            const {data} = await user_instance.get(url,{headers},payload);
             result = data;
             console.log(result);
         }catch(error){
@@ -114,7 +113,7 @@ export default{
         try{
             const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
             const headers = {'Authorization': `Bearer ${accessToken}`};
-            const {data} = await axios.put(url,{headers},{params:name,password});
+            const {data} = await user_instance.put(url,{headers},{params:name,password});
             result = data;
             console.log(result);
         }catch(error){
