@@ -83,7 +83,7 @@ export default {
     ...authComputed,
     ...mapGetters['userInfo'],
     ...mapState({
-      isLogin: ({isLogin}) => isLogin
+      isLogin: ({isLogin}) => isLogin,
     })
   },
   methods:{
@@ -115,7 +115,10 @@ export default {
           if(this.$route.path !== '/'){
             this.$router.push('/');
           }
-        } else {
+        } else if(path === 'register'){
+           this.$router.push({path:'/register'});
+        }
+         else {
           this.popupSetting = true;
         }
       }

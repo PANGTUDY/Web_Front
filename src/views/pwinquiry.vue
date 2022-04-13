@@ -181,6 +181,7 @@ export default {
         ...mapState({
             accessToken: ({accessToken}) => accessToken,
             authEmailInfo: ({authEmailInfo})=>authEmailInfo,
+            user:({user}) => user
         }),
         ...mapGetters(['userInfo']),
         changeStrength: function(){

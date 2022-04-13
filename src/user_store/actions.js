@@ -40,7 +40,7 @@ export default{
            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token';
            const headers = {'Authorization':`Bearer ${payload}`};
            const {data} = await axios.post(url,{headers},payload);
-           result =data;
+           result = data;
        }catch(error){
            console.warn(error.message,error);
        }finally{
@@ -111,8 +111,9 @@ export default{
         console.log('accessToken',accessToken);
         try{
             const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
-            const headers = {'Authorization': `Bearer ${accessToken}`};
-            const {data} = await user_instance.put(url,{headers},{name: name,password:password});
+            // const headers = {'Authorization': `Bearer ${accessToken}`};
+            user_instance.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+            const {data} = await user_instance.put(url,{name: name,email:email});
             result = data;
             console.log(result);
         }catch(error){
