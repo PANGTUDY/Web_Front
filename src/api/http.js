@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "@/user_store/index.js";
+import store from "@/store/index.js";
 import { reissue } from "./auth";
 import  VueCookies  from "vue-cookies";
 

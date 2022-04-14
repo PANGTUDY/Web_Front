@@ -21,9 +21,9 @@
           <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a>
           </li>
-          <li class="nav-item" v-if="!isLogin">
+          <!-- <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
-          </li>
+          </li> -->
           <li class="nav-item" v-else>
             <a class="nav-link nav-link-icon" @click.stop="memberClear">Logout</a>
           </li>
@@ -48,7 +48,7 @@ import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 import confirmPopup from "@/views/mixin/confirmPopup.vue";
-import {authComputed} from "../user_store/helper.js";
+import {authComputed} from "../store/helper.js";
 import {mapGetters,mapState,mapMutations} from "vuex";
 export default {
   data(){
@@ -90,6 +90,7 @@ export default {
     ...mapMutations(['logout']),
     memberClear() {
       this.logout();
+      this.$router.push({path:'/login'});
     },
     checkPopup($event) {
       this.popupSetting = $event;

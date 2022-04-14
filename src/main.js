@@ -17,10 +17,10 @@
 */
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
+import router from "./router/router.js";
 import Argon from "./plugins/argon-kit";
 import './registerServiceWorker'
-import store from "./user_store/index";
+import store from "./store/index";
 import lodash from 'lodash';
 import ko from "vee-validate/dist/locale/ko.js";
 import VeeValidate from "vee-validate";

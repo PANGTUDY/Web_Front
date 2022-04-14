@@ -92,6 +92,7 @@
                 </card>
             </div>
         </section>
+        <confirm-popup :popupSetting="popupSetting" :popMsg="popMsg" @settingFalse="checkPopup($event)" :menuType="menuType"></confirm-popup>
         </div>
         </template>
        
@@ -100,7 +101,7 @@
 <script>
 import axios from 'axios';
 import { mapState,mapActions, mapGetters } from 'vuex';
-
+import confirmPopup from './mixin/confirmPopup.vue';
 
 
 export default {
@@ -110,9 +111,15 @@ export default {
             confirm_newPassword:'',
             password:'',
             passwordValidation:'',
-            msg:''
+            msg:'',
+            popupSetting: false,
+            popMsg:'비밀번호 수정이 완료되었습니다.',
+            menuType:'pwinquiry'
             
         };
+    },
+    components:{
+        confirmPopup
     },
     methods:{
         ...mapActions(['modifyUser']),
@@ -131,6 +138,9 @@ export default {
             }
         }
         },
+        checkPopup($event){
+            this.popupSetting = $event;
+        },
         changeUserInfo(){
             if(_.isEmpty(this.newPassword) || _.isEmpty(this.password) || _.isEmpty(this.confirm_newPassword)){
                 alert('입력해야할 필수 항목을 모두 입력해주세요');
@@ -143,7 +153,11 @@ export default {
                     accessToken: token,
                     name: this.userInfo.name
                 }
-                this.modifyUser(params);
+                this.modifyUser(params).then((result)=>{
+                    if(result){
+                       this.popupSetting = true;
+                    }
+                });
             }
         }
     },

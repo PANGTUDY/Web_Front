@@ -95,7 +95,7 @@
 </template>
 <script>
 import axios from 'axios';
-import {mapActions,mapState} from 'vuex';
+import {mapActions,mapMutations,mapState} from 'vuex';
 import VueCookies from 'vue-cookies';
 
 export default {
@@ -132,7 +132,8 @@ export default {
         })
     },
     methods:{
-        ...mapActions(['authEmail']),
+        ...mapActions(['authEmail','leftMember']),
+        ...mapMutations(['logout']),
         func:()=>{
             if(this.name){
                 this.event.name = this.name;
@@ -168,7 +169,16 @@ export default {
             });
         },
         memberReset(){
-            this.$router.push({path:'delete'})
+            let params ={
+                accessToken: this.accessToken,
+                email: this.authEmailInfo
+            };
+            this.leftMember(params).then(result =>{
+                if(!_.isEmpty(result)){
+                    this.logout();
+                    this.$router.push({path:'/'});
+                }
+            });
         },
         pageMove(){
             

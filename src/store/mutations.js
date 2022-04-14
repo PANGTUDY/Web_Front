@@ -35,6 +35,18 @@ export default{
             state.authEmailInfo=payload;
         },
         [REFRESH_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
+            let base64Access = payload.split('.')[1];
+            let base64 = base64Access.replace(/-/g,'+').replace(/_/g,'/');
+            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            console.log('json',jsonPayload);
+            const obj = JSON.parse(jsonPayload);
+            
+            state.timeout = obj.exp;
+            // 토큰 만료시간을 확인한다.
+            state.timeout = obj.exp;
+            
             state.accessToken = payload;
             // VueCookies.set('accessToken',payload,'1m');
         },
