@@ -25,7 +25,7 @@ export default{
          const {email,password} = payload;
          try{
              const url = 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login';
-             const result =await user_instance.post(url,{email,password});
+             const result =await axios.post(url,{email,password});
              commit(LOGIN_TOKEN,result.data);
          }catch(error){
              console.warn(error.message,error);
@@ -48,24 +48,24 @@ export default{
        }
        return result;
     },
-    // refreshToken: ({},payload) => {
-    //     const headers = {'Authorization':`Bearer ${payload}`};
-    //     return new Promise((resolve,reject) =>{
-    //         axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token',
-    //         {headers},
-    //         payload).then(res =>{
-    //             console.log('결과',res);    
-    //             commit(REFRESH_TOKEN,res);
-    //         }).catch(error=>{
-    //             console.log(error.config);
-    //             reject(error.config.data);
-    //         })
-        
-    //     })
-           
-    //  },
     logout({commit}){
         commit(LOGOUT);
+    },
+    leftMember: async ({},payload) =>{
+        let result = {};
+        const {accessToken,email} = payload;
+        try{
+            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
+            const headers ={'Authorization':`Bearer ${accessToken}`};
+            const {data} = await user_instance.delete(url,{headers});
+            result = data;
+            console.log(data);
+        }catch(error){
+            console.warn(error.message,error);
+        }finally{
+
+        }
+        return result;
     },
     allMembers: async ({commit}, payload)=>{
         let result= {};

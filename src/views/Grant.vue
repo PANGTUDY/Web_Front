@@ -107,8 +107,8 @@ export default {
         })
     },
     created(){
-      // let token = this.accessToken
-      let token = VueCookies.get('accessToken');
+      let token = this.accessToken;
+      // let token = VueCookies.get('accessToken');
       this.allMembers(token);
     },
     methods:{
