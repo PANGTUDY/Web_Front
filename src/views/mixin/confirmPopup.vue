@@ -44,6 +44,16 @@
             확인
           </v-btn>
           </template>
+          <template v-else-if="this.menuType === 'pwinquiry'">
+          
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('settingFalse',false)"
+          >
+            확인
+          </v-btn>
+          </template>
            <template v-else>
           <v-btn
             color="green darken-1"

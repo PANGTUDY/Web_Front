@@ -121,6 +121,7 @@ export default{
         }finally{
             commit(MODIFY_USER,result);
         }
+        return result;
     },
     memberInfo({commit},payload){
             return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{

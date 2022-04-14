@@ -90,6 +90,7 @@ export default {
     ...mapMutations(['logout']),
     memberClear() {
       this.logout();
+      this.$router.push({path:'/login'});
     },
     checkPopup($event) {
       this.popupSetting = $event;
