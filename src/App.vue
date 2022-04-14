@@ -38,7 +38,8 @@ export default {
             isLogin: ({isLogin}) => isLogin,
             accessToken:({accessToken}) => accessToken,
             refreshToken:({refreshToken}) => refreshToken,
-            timeout:({timeout}) => timeout
+            timeout:({timeout}) => timeout,
+            user:({user})=>user
         })
   },
 };
