@@ -17,7 +17,7 @@ import Setting from '../views/Setting.vue';
 import List from "../views/components/board/List";
 import View from "../views/components/board/View";
 import New from "../views/components/board/New";
-import store from "../user_store/index.js";
+import store from "../store/index.js";
 import confirmPopup from '../views/mixin/confirmPopup';
 
 Vue.use(Router);

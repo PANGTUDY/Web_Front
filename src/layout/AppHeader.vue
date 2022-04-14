@@ -48,7 +48,7 @@ import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 import confirmPopup from "@/views/mixin/confirmPopup.vue";
-import {authComputed} from "../user_store/helper.js";
+import {authComputed} from "../store/helper.js";
 import {mapGetters,mapState,mapMutations} from "vuex";
 export default {
   data(){
