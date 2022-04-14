@@ -21,9 +21,9 @@
           <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a>
           </li>
-          <li class="nav-item" v-if="!isLogin">
+          <!-- <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
-          </li>
+          </li> -->
           <li class="nav-item" v-else>
             <a class="nav-link nav-link-icon" @click.stop="memberClear">Logout</a>
           </li>
