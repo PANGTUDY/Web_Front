@@ -47,7 +47,7 @@ export default{
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
             }).join(''));
             console.log('json',jsonPayload);
-            const obj = JSON.parse(jsonPayload);
+            const obj = jsonPayload;
             
             state.timeout = obj.exp;
             // 토큰 만료시간을 확인한다.

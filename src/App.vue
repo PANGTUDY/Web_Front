@@ -29,7 +29,12 @@ export default {
       if(!_.isEmpty(this.access)){
           this.setTimeOut();
       }else{
-        this.reissue();
+        if(this.isLogin === true){
+          this.reissue();
+        }else if(this.isLogin === false){
+          this.stopTimer();
+        }
+        
       }
     }
   },
@@ -60,7 +65,7 @@ export default {
     ...mapActions(['reissueToken']),
     ...mapMutations(['setValue']),
     setTimeOut(){
-       
+       console.log('시간 설정');
        let exitTime = sessionStorage.timeout ? JSON.parse(sessionStorage.timeout): (this.timeout * 1000 - Date.now()) / 1000;
       this.interval = setInterval(()=>{
          this.setTimer(exitTime);
@@ -82,6 +87,7 @@ export default {
       sessionStorage.timeout = val;
       },
       stopTimer(){
+        console.log('이게 호출되기는하니');
         clearInterval(this.interval);
         this.interval = null;
         sessionStorage.removeItem('timeout');
