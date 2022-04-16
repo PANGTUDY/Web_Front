@@ -90,6 +90,9 @@ export default {
     ...mapMutations(['logout']),
     memberClear() {
       this.logout();
+      clearInterval(this.interval);
+      this.interval = null;
+      sessionStorage.removeItem("timeout");
       this.$router.push({path:'/login'});
     },
     checkPopup($event) {
