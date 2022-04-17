@@ -21,8 +21,13 @@ export async function get_adjacent_list(categoryId, postId) {
     return boardInstance.get("/board/posts/adjacent/" + categoryId + "/" + postId);
 }
 
-export async function get_search_post_list(item, keyword) {
-    return boardInstance.get("/board/posts?" + item + '=' + keyword);
+export async function get_search_post_list(categoryId, item, keyword) {
+    if(categoryId == 0) {
+        return boardInstance.get("/board/posts?" + item + '=' + keyword);
+    }
+    else { // search with category
+        return boardInstance.get("/board/posts?category_id=" + categoryId + "&" + item + "=" + keyword);
+    }
 }
 
 export async function create_post(post) {

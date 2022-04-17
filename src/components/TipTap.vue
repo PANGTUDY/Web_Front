@@ -244,7 +244,8 @@ export default {
   },
   props: {
     options: Object,
-    content: String, //initial and updated text
+    autoFocus: true,
+    content: String,
     // readonly: read only if true
     // autoFocus: Focus the editor on init
     // supportImage: upload and link images
@@ -259,60 +260,103 @@ export default {
       fileURL: null,
       videoURL: null,
       selectedFile: null,
+
+      id: null,
     }
   },
-  mounted () {
-    console.log("options: ", this.options.content);
-    this.editor = new Editor ({
-      content: this.options.content,
-      editable: !this.options.readonly,
-      extensions: [
-        new Blockquote(),
-        new CodeBlock(),
-        new HardBreak(),
-        new Heading({ levels: [1, 2, 3] }),
-        new HorizontalRule(),
-        new BulletList(),
-        new OrderedList(),
-        new ListItem(),
-        new TodoItem(),
-        new TodoList(),
-        new Bold(),
-        new Italic(),
-        new Link({
-          openOnClick: true,
-          target: '_blank',
-        }),
-        new Image(),
-        new Strike(),
-        new Underline(),
-        new Code(),
-        new Table({
-          resizable: true,
-        }),
-        new TableHeader(),
-        new TableCell(),
-        new TableRow(),
-        new History(),
-        new TrailingNode(),
-        new Iframe()
-      ],
-      onUpdate: ({ getHTML }) => {
-        this.options.content = getHTML()
-      },
-      autoFocus: this.options.autoFocus,
-    })
+  updated () {
+    this.editor.content = this.options.content;
   },
-  watch: {
-    content(val) {
-      this.$set(this.editor, 'content', val);
-      this.editor.content = val;
-      this.editor.options.content = val;
-      this.editor.defaultOptions.content = val;
-    },
+  mounted () {
+    console.log("mounted: ", this.options.content);
+
+    this.id = this.$route.params.id;
+    if(this.id == null || this.id == undefined) {
+      this.editor = new Editor ({
+        editable: !this.options.readonly,
+        extensions: [
+          new Blockquote(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
+          new BulletList(),
+          new OrderedList(),
+          new ListItem(),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Italic(),
+          new Link({
+            openOnClick: true,
+            target: '_blank',
+          }),
+          new Image(),
+          new Strike(),
+          new Underline(),
+          new Code(),
+          new Table({
+            resizable: true,
+          }),
+          new TableHeader(),
+          new TableCell(),
+          new TableRow(),
+          new History(),
+          new TrailingNode(),
+          new Iframe()
+        ],
+        onUpdate: ({ getHTML }) => {
+          this.options.content = getHTML()
+        },
+        autoFocus: this.options.autoFocus,
+      })
+    }
   },
   beforeDestroy () {
     this.editor.destroy()
+  },
+  watch: {
+    content (content) {
+      this.editor = new Editor ({
+        editable: !this.options.readonly,
+        extensions: [
+          new Blockquote(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
+          new BulletList(),
+          new OrderedList(),
+          new ListItem(),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Italic(),
+          new Link({
+            openOnClick: true,
+            target: '_blank',
+          }),
+          new Image(),
+          new Strike(),
+          new Underline(),
+          new Code(),
+          new Table({
+            resizable: true,
+          }),
+          new TableHeader(),
+          new TableCell(),
+          new TableRow(),
+          new History(),
+          new TrailingNode(),
+          new Iframe()
+        ],
+        onUpdate: ({ getHTML }) => {
+          this.options.content = getHTML()
+        },
+        content: content,
+        autoFocus: this.options.autoFocus,
+      })
+    }
   },
   methods: {
     onKeyDown(event, view) {

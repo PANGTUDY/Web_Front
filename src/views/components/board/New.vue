@@ -102,13 +102,33 @@ export default {
       content: '',
       editable: true,
     },
-    contetn: '',
+    content: '',
 
     files: null,
 
     hashtag: [],
     search: null,
   }),
+
+  created() {
+    // 수정 케이스
+    this.postId = this.$route.params.id;
+
+    if(this.postId) {
+      Api.get_post_list(this.postId).then(res => {
+        var post = res.data;
+        this.title = post.title;
+        this.$set(this.options, 'content', post.contents);
+        this.content = post.contents;
+        this.options.content = post.contents;
+
+        console.log("created: ", this.content, this.options);
+
+        this.category = post.category.categoryId;
+        this.hashtag = post.tags.split(',');
+      })
+    }
+  },
 
   mounted() {
     // 카테고리 전체 목록 불러오는 Api
@@ -132,23 +152,20 @@ export default {
         console.log("error occured!: ", error);
     });
 
-    // 수정 케이스
-    this.postId = this.$route.params.id;
+    // // 수정 케이스
+    // this.postId = this.$route.params.id;
 
-    if(this.postId) {
-      Api.get_post_list(this.postId).then(res => {
-        var post = res.data;
-        this.title = post.title;
-        this.$set(this.options, 'content', post.contents);
-        this.content = post.contents;
+    // if(this.postId) {
+    //   Api.get_post_list(this.postId).then(res => {
+    //     var post = res.data;
+    //     this.title = post.title;
+    //     this.$set(this.options, 'content', post.contents);
+    //     this.content = post.contents;
 
-        console.log(post.contents);
-        console.log(this.options);
-
-        this.category = post.category.categoryId;
-        this.hashtag = post.tags.split(',');
-      })
-    }
+    //     this.category = post.category.categoryId;
+    //     this.hashtag = post.tags.split(',');
+    //   })
+    // }
   },
 
   methods: {
