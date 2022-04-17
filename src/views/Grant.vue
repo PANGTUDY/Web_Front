@@ -136,7 +136,6 @@ button.v-btn.v-btn--has-bg.theme--light.v-size--default.primary {
 }
 .v-text-field fieldset, .v-text-field .v-input__control {
     color: currentColor;
-    height: max-content;
 }
 button.v-btn.v-btn--has-bg.theme--light.v-size--default.primary {
     position: relative;

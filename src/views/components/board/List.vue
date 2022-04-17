@@ -71,7 +71,7 @@
                                     <col width="10%" />
                                     <col width="10%" />
                                 </colgroup>
-                                <tr v-for="(row, idx) in posts[category.categoryId]" :key="idx">
+                                <tr v-for="(row, idx) in posts" :key="idx">
                                     <td class="text-left" @click="fnView(`${row.postId}`, `${row.categoryId}`)">
                                         <span class="title">{{row.title}}</span>
                                         <span class="hashtag">
@@ -138,7 +138,8 @@ export default {
     mounted() {
         // 전체 글 목록 불러오는 Api
         Api.get_post_list().then(res => {
-            this.$set(this.posts, 0, res.data);
+            this.posts = res.data;
+            // this.$set(this.posts, 0, res.data);
         })
         .catch(error => {
             console.log("error occured!: ", error);
@@ -169,8 +170,9 @@ export default {
         // Search the keyword
         searchIcon() {
             if(this.keyword.length > 0) {
-                Api.get_search_post_list(this.selectedItem, this.keyword).then(res => {
-                    this.$set(this.posts, 0, res.data);
+                Api.get_search_post_list(this.category.categoryId, this.selectedItem, this.keyword).then(res => {
+                    // this.$set(this.posts, this.category.categoryId, res.data);
+                    this.posts = res.data;
                 })
                 .catch(error => {
                     console.log("error occured!: ", error);
@@ -178,7 +180,8 @@ export default {
             }
             else {
                 Api.get_post_list().then(res => {
-                    this.$set(this.posts, 0, res.data);
+                    // this.$set(this.posts, 0, res.data);
+                    this.posts = res.data;
                 })
                 .catch(error => {
                     console.log("error occured!: ", error);
@@ -200,16 +203,15 @@ export default {
         // change the category
         categoryChange(idx) {
             this.category = this.category_list[idx];
+            this.selectedItem = 'title';
+            this.keyword = '';
 
-            // Search in this category if the post in idex is empty
-            if(!this.posts[idx]) {
-                Api.get_category_post_list(idx).then(res => {
-                    this.$set(this.posts, idx, res.data);
-                })
-                .catch(error => {
-                    console.log("error occured!: ", error);
-                });
-            }
+            Api.get_category_post_list(idx).then(res => {
+                this.posts = res.data;
+            })
+            .catch(error => {
+                console.log("error occured!: ", error);
+            });
         },
     },
 }
