@@ -4,16 +4,21 @@ import  VueCookies  from 'vue-cookies';
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
-    REFRESH_TOKEN,
+    REISSUE_TOKEN,
     LOGOUT,
     MODIFY_USER,
-    GET_ALL_USERS
+    GET_ALL_USERS,
+    SET_VALUE
 } from './types.js';
 
 export default{
+    [SET_VALUE]: (state,payload) =>{
+        Object.entries(payload).forEach(([key,value])=>(state[key] = value));
+    },
      [LOGIN_TOKEN]:(state,payload) =>{
             // token 복호화
-            let base64Access = payload.accessToken.split('.')[1];
+            
+            let base64Access = payload.accessToken? payload.accessToken.split('.')[1]:'';
             let base64 = base64Access.replace(/-/g,'+').replace(/_/g,'/');
             let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -34,8 +39,9 @@ export default{
         [AUTH_EMAIL]:(state,payload) =>{
             state.authEmailInfo=payload;
         },
-        [REFRESH_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
-            let base64Access = payload.split('.')[1];
+        [REISSUE_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
+            console.log('찍혀?',payload);
+            let base64Access = payload.accessToken? payload.accessToken.split('.')[1]: '';
             let base64 = base64Access.replace(/-/g,'+').replace(/_/g,'/');
             let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -45,7 +51,6 @@ export default{
             
             state.timeout = obj.exp;
             // 토큰 만료시간을 확인한다.
-            state.timeout = obj.exp;
             
             state.accessToken = payload;
             // VueCookies.set('accessToken',payload,'1m');

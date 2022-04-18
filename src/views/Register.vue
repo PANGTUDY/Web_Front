@@ -63,7 +63,7 @@
                                 <div>
                                     <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
                                 </div> -->
-                                </span>
+                                <!-- </span> -->
                                 <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
                                 <base-input alternative
                                             type="password"

@@ -107,7 +107,8 @@ export default {
     computed:{
         ...mapState({
             accessToken:({accessToken}) => accessToken,
-            refreshToken:({refreshToken}) => refreshToken
+            refreshToken:({refreshToken}) => refreshToken,
+            timeout:({timeout}) => timeout
         })
     },
     created(){
