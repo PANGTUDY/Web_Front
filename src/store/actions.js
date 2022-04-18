@@ -14,7 +14,7 @@ import {
 
 export default{
     register({commit},payload){
-        return axios.post('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/signup',payload)
+        return axios.post('/auth/signup',payload)
         .then(({data}) => {
             // commit('SET_USER_DATA',data)
           return data;
@@ -24,7 +24,7 @@ export default{
          let result ={};
          const {email,password} = payload;
          try{
-             const url = 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/login';
+             const url = '/auth/login';
              const result =await axios.post(url,{email,password});
              commit(LOGIN_TOKEN,result.data);
          }catch(error){
@@ -37,11 +37,11 @@ export default{
        let result ={};
        try{
            console.log('payload',payload);
-           const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/token';
-        //    const headers = {'Authorization':`Bearer ${payload}`};
-           axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload;
-        //    const {data} = await axios.post(url,{headers},payload);
-           const {data} = await axios.post(url);
+           const url='/auth/token';
+           const headers = {'Authorization':`Bearer ${payload}`};
+        //    axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload;
+           const {data} = await axios.post(url,{headers},payload);
+        //    const {data} = await axios.post(url);
            result = data;
         //    commit(REISSUE_TOKEN,result); 
        }catch(error){
@@ -58,7 +58,7 @@ export default{
         let result = {};
         const {accessToken,email} = payload;
         try{
-            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
+            const url='/users/'+email;
             const headers ={'Authorization':`Bearer ${accessToken}`};
             const {data} = await axios.delete(url,{headers});
             result = data;
@@ -72,8 +72,9 @@ export default{
     },
     allMembers: async ({commit}, payload)=>{
         let result= {};
+        console.log(payload);
         try{
-            const url= '/api/users';
+            const url= '/users';
             const headers = {'Authorization': `Bearer ${payload}`};
             const {data} = await axios.get(url,{headers},payload);
             result = data;
@@ -85,7 +86,7 @@ export default{
         }
     },
     verifyEmail(payload){
-        return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/verify',payload).
+        return axios.get('/auth/verify',payload).
         then(({response})=>{
             console.log(response);
         })
@@ -94,7 +95,7 @@ export default{
         let result ={};
         console.log('payload',payload);
         try{
-            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/me';
+            const url='/auth/me';
             const headers =  {'Authorization':`Bearer ${payload}`};
             const {data} = await axios.get(url,{headers},payload);
             result = data;
@@ -113,7 +114,7 @@ export default{
         console.log('password',password);
         console.log('accessToken',accessToken);
         try{
-            const url='http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/'+email;
+            const url='/users/'+email;
             // const headers = {'Authorization': `Bearer ${accessToken}`};
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
             const {data} = await axios.put(url,{name: name,email:email});
@@ -127,7 +128,7 @@ export default{
         return result;
     },
     memberInfo({commit},payload){
-            return axios.get('http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/users/',{
+            return axios.get('/users',{
                 params:{email: payload}
             })
             .then(({data})=>{

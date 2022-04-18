@@ -12,7 +12,7 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
-import chat from '@/views/components/chat/Chat.vue'
+import chat from '@/views/components/chat/Chat.vue';
 import { mapGetters,mapState,mapActions, mapMutations } from 'vuex';
 export default {
   components: {
@@ -66,11 +66,10 @@ export default {
     ...mapMutations(['setValue']),
     setTimeOut(){
        console.log('시간 설정');
-       let exitTime = sessionStorage.timeout ? JSON.parse(sessionStorage.timeout): (this.timeout * 1000 - Date.now()) / 1000;
+       let exitTime = sessionStorage.timeout ? sessionStorage.timeout: (this.timeout * 1000 - Date.now()) / 1000;
       this.interval = setInterval(()=>{
          this.setTimer(exitTime);
         exitTime = exitTime - 1;
-        console.log(exitTime);
         if(Math.floor(exitTime) === 0){
            this.setValue({accessToken:""});
             sessionStorage.removeItem("timeout");
