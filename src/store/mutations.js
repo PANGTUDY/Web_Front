@@ -40,7 +40,7 @@ export default{
             state.authEmailInfo=payload;
         },
         [REISSUE_TOKEN]:(state,payload)=>{ // accessToken 재셋팅
-            console.log('찍혀?',payload);
+            console.log(payload);
             let base64Access = payload.accessToken? payload.accessToken.split('.')[1]: '';
             let base64 = base64Access.replace(/-/g,'+').replace(/_/g,'/');
             let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
@@ -48,7 +48,7 @@ export default{
             }).join(''));
             console.log('json',jsonPayload);
             const obj = JSON.parse(jsonPayload);
-            
+            // const obj = jsonPayload;
             state.timeout = obj.exp;
             // 토큰 만료시간을 확인한다.
             

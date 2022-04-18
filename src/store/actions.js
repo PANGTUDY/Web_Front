@@ -39,9 +39,9 @@ export default{
            console.log('payload',payload);
            const url='/auth/token';
            const headers = {'Authorization':`Bearer ${payload}`};
-        //    axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload;
-           const {data} = await axios.post(url,{headers},payload);
-        //    const {data} = await axios.post(url);
+           axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload;
+        //    const {data} = await axios.post(url,{headers},payload);
+           const {data} = await axios.post(url);
            result = data;
         //    commit(REISSUE_TOKEN,result); 
        }catch(error){
