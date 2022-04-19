@@ -53,29 +53,54 @@ export default {
             accessToken:({accessToken}) => accessToken,
             refreshToken:({refreshToken}) => refreshToken,
             timeout:({timeout}) => timeout,
-            user:({user})=>user
+            user:({user})=>user,
+            refreshTimeOut: ({refreshTimeOut}) => refreshTimeOut
         }),
         access:{
           get(){
             return this.accessToken;
           }
+        },
+        refresh:{
+          get(){
+            return this.refreshToken;
+          }
         }
   },
   methods:{
     ...mapActions(['reissueToken']),
-    ...mapMutations(['setValue']),
+    ...mapMutations(['setValue','logout']),
     setTimeOut(){
        console.log('시간 설정');
-       let exitTime = sessionStorage.timeout ? sessionStorage.timeout: (this.timeout * 1000 - Date.now()) / 1000;
-      this.interval = setInterval(()=>{
-         this.setTimer(exitTime);
+       const today = new Date();
+       const curTime = today.getTime();
+
+      const loginOut = new Date(this.refreshTimeOut * 1000);
+      const outTime = loginOut.getTime();
+
+        let exitTime = sessionStorage.timeout ? sessionStorage.timeout: (this.timeout * 1000 - Date.now()) / 1000;
+        this.interval = setInterval(()=>{
+        this.setTimer(exitTime);
         exitTime = exitTime - 1;
+        // console.log('timeout',exitTime);
+        // console.log('refresh',this.refreshTimeOut);
+        // console.log('cur', curTime);
+        // console.log('값',curTime - outTime);
+        // console.log('응',outTime - curTime);
+        
+        if(curTime - outTime >= 0){
+          this.logout();
+          sessionStorage.removeItem("timeout");
+          this.stopTimer();
+
+        }
         if(Math.floor(exitTime) === 0){
            this.setValue({accessToken:""});
             sessionStorage.removeItem("timeout");
             this.stopTimer();
         }
       },1000);
+      
     },
     reissue(){
         this.reissueToken(this.refreshToken).then(result =>{
