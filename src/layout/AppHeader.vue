@@ -118,6 +118,11 @@ export default {
           }
         } else if(path === 'register'){
            this.$router.push({path:'/register'});
+        }else if(path === 'login'){
+          if(this.$route.path !=='/login'){
+              this.popupSetting = true;
+              this.$router.push({path:'/login'});
+          }
         }
          else {
           this.popupSetting = true;

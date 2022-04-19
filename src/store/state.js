@@ -7,5 +7,6 @@ export default{
     authEmailInfo:'',
     timeout:'',
     isLogin: false,
-    allUsers:[]
+    allUsers:[],
+    refreshTimeOut:''
 };

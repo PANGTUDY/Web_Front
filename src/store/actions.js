@@ -3,6 +3,7 @@ import * as AuthApi from '@/api/auth';
 import { user_instance } from '../api/http';
 import * as UserApi from '@/api/user';
 import { createLogger } from 'vuex';
+
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
@@ -11,6 +12,7 @@ import {
     MODIFY_USER,
     GET_ALL_USERS
 } from './types';
+
 
 export default{
     register({commit},payload){
@@ -39,11 +41,8 @@ export default{
            console.log('payload',payload);
            const url='/auth/token';
            const headers = {'Authorization':`Bearer ${payload}`};
-        //    axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload;
-           const {data} = await axios.post(url,{headers},payload);
-        //    const {data} = await axios.post(url);
+           const {data} = await axios.post(url,payload,{headers})
            result = data;
-        //    commit(REISSUE_TOKEN,result); 
        }catch(error){
            console.warn(error.message,error);
        }finally{
@@ -57,6 +56,7 @@ export default{
     leftMember: async ({},payload) =>{
         let result = {};
         const {accessToken,email} = payload;
+        console.log(payload);
         try{
             const url='/users/'+email;
             const headers ={'Authorization':`Bearer ${accessToken}`};
@@ -97,7 +97,7 @@ export default{
         try{
             const url='/auth/me';
             const headers =  {'Authorization':`Bearer ${payload}`};
-            const {data} = await axios.get(url,{headers},payload);
+            const {data} = await axios.get(url,{headers});
             result = data;
             console.log(result);
         }catch(error){
