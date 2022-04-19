@@ -50,7 +50,7 @@
                                             v-model="email"
                                             @blur.stop="validationCheck('email')">
                                 </base-input>
-                                 <!-- <div>
+                                 <div>
                                     <base-button btn_type="primary" type="submit" @click.stop="confirmEmail">이메일 인증</base-button>
                                 </div>
                                 <label class="fa fa-check" for="comfirm_email"> confirm email</label>
@@ -62,8 +62,8 @@
                                 </base-input>
                                 <div>
                                     <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
-                                </div> -->
-                                <!-- </span> -->
+                                </div> 
+                                 </span> 
                                 <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
                                 <base-input alternative
                                             type="password"

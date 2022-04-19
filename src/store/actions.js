@@ -86,7 +86,8 @@ export default{
         }
     },
     verifyEmail(payload){
-        return axios.get('/auth/verify',payload).
+        console.log(payload);
+        return axios.get('https://open.kickbox.com/v1/disposable/'+payload+' HTTP/1.1',{disposable:false}).
         then(({response})=>{
             console.log(response);
         })
