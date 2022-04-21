@@ -24,11 +24,15 @@ export default{
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
             }).join(''));
             console.log('json',jsonPayload);
-            const obj = JSON.parse(jsonPayload);
-            
-            // 토큰 만료시간을 확인한다.
-            state.timeout = obj.exp;
+            if(!_.isEmpty(jsonPayload)){
+                const obj = JSON.parse(jsonPayload);
+                state.timeout = obj.exp;
             state.user = {name:obj.name,email:obj.email};
+
+            }
+            
+            // const obj = jsonPayload;
+            // 토큰 만료시간을 확인한다.
             // VueCookies.set('accessToken',payload.accessToken,'60s');
             // VueCookies.set('refreshToken',payload.refreshToken,'1h');
             state.accessToken = payload.accessToken;
