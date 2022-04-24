@@ -112,6 +112,7 @@
                       path: `/board/view/${post.postId}`,
                       query: { categoryId: `${post.categoryId}` },
                     }"
+                    :class="{focus : isFoucs(post.postId)}"
                   >
                     {{ post.title }}
                   </router-link>
@@ -127,7 +128,7 @@
 
       <div v-if="comments != null" class="row justify-content-center">
         <div class="col-lg-8 comment_area">
-          <template v-for="item in comments">
+          <template v-for="(item, index) in comments">
             <v-card
               :key="item.commentId"
               class="mx-auto"
@@ -155,7 +156,12 @@
                             {{ item.date.substr(0, 10) }}
                           </div>
 
-                          <v-menu offset-y left bottom style="display: none">
+                          <v-menu 
+                            offset-y 
+                            left 
+                            bottom 
+                            style="display: none"
+                          >
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
                                 text
@@ -172,7 +178,7 @@
                             </template>
 
                             <v-list>
-                              <v-list-item @click="editComment(item.commentId)">
+                              <v-list-item @click="editComment(index)">
                                 <v-list-item-title>수정</v-list-item-title>
                               </v-list-item>
                               <v-list-item
@@ -189,13 +195,16 @@
                 </v-card-title>
 
                 <v-card-subtitle class="content">
-                  <span class="subheading ml-3 mr-2">
+                  <span v-if="!item.edit" class="subheading ml-3 mr-2">
                     {{ item.contents }}
                   </span>
 
-                  <div class="input_content">
+                  <div 
+                    v-else
+                    class="input_content"
+                  >
                     <v-textarea
-                      :value="item.contents"
+                      v-model="item.contents"
                       hide-details
                       auto-grow
                       outlined
@@ -211,6 +220,7 @@
                         depressed
                         color="gray"
                         style="margin-right: 5px"
+                        @click="cancelEditComment(index)"
                       >
                         취소
                       </v-btn>
@@ -218,6 +228,7 @@
                         outlined
                         depressed 
                         color="primary"
+                        @click="submitComment(index)"
                       > 
                         등록 
                       </v-btn>
@@ -270,7 +281,6 @@ export default {
     comments: [],
     likes: 0,
 
-    input_comment: "",
     comment: "",
 
     deleteDialog: false,
@@ -308,8 +318,12 @@ export default {
           this.category = this.post.category.categoryName;
           this.comments = res.data.comments;
 
+          for (let comment of this.comments) {
+            comment._contents = comment.contents;
+            comment.edit = false
+          }
+
           this.likes = this.post.likes;
-          console.log(this.post.categoryId);
         })
         .catch((error) => {
           console.log("error occured!: ", error);
@@ -322,6 +336,15 @@ export default {
         .catch((error) => {
           console.log("error occured!: ", error);
         });
+    },
+
+    isFoucs(id) {
+      if (this.postId == id.toString()) {
+        return true;
+      }
+      else {
+        return false;
+      }
     },
 
     setLike(likes) {
@@ -345,9 +368,11 @@ export default {
           console.log("저장되었습니다");
           Api.get_comments(this.postId)
             .then((result) => {
-              console.log(this.postId);
-              console.log(result.data);
               this.comments = result.data;
+
+              for (let comment of this.comments) {
+                comment.edit = false
+              }
             })
             .catch((error) => {
               console.log("error occured!: ", error);
@@ -369,7 +394,7 @@ export default {
 
     deletePost() {
       Api.delete_post(this.postId)
-        .then((res) => {
+        .then(() => {
           console.log("삭제되었습니다");
           this.$router.push({ path: "/board/list/" });
         })
@@ -378,18 +403,23 @@ export default {
         });
     },
 
-    editComment() {
-      alert("Clicked the edit button");
+    editComment(index) {
+      this.$set(this.comments[index], "edit", true);
+      this.$forceUpdate();
+      console.log(this.comments);
     },
 
     deleteComment(commentId) {
       Api.delete_comment(this.postId, commentId)
-        .then((res) => {
+        .then(() => {
           Api.get_comments(this.postId)
             .then((result) => {
-              console.log(this.postId);
-              console.log(result.data);
               this.comments = result.data;
+
+              for (let comment of this.comments) {
+                comment._contents = comment.contents;
+                comment.edit = false
+              }
             })
             .catch((error) => {
               console.log("error occured!: ", error);
@@ -397,8 +427,45 @@ export default {
         })
         .catch((error) => {
           console.log("error occured!: ", error);
-        });
+        }
+      );
     },
+
+    cancelEditComment(index) {
+      this.comments[index].contents = this.comments[index]._contents;
+      this.$set(this.comments[index], "edit", false);
+      this.$forceUpdate();
+    },
+
+    submitComment(index) {
+      let content = {
+        writer: "김민주", // TODO: change to the user info
+        contents: this.comments[index].contents,
+        date:
+          new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] +
+          " " +
+          new Date().toTimeString().split(" ")[0],
+        postId: this.postId,
+      };
+
+      Api.patch_comment(this.postId, this.comments[index].commentId, content)
+        .then((res) => {
+          Api.get_comments(this.postId)
+            .then((result) => {
+              this.comments = result.data;
+
+              for (let comment of this.comments) {
+                comment._contents = comment.contents;
+                comment.edit = false
+              }
+            })
+            .catch((error) => {
+              console.log("error occured!: ", error);
+            });
+        }
+      );
+    },
+
   },
 };
 </script>
@@ -484,4 +551,11 @@ textarea {
 .v-text-field__details {
   display: none !important;
 }
+
+.focus {
+  text-decoration : underline !important;
+  color: #6d6969 !important;
+  font-weight: bold;
+}
+
 </style>

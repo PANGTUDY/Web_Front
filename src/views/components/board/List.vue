@@ -31,6 +31,7 @@
                             <v-subheader>CATEGORY</v-subheader>
                             <v-list-item-group
                                 v-model="selectedCategory"
+                                mandatory=true
                                 color="primary"
                             >
                                 <v-list-item
@@ -139,7 +140,6 @@ export default {
         // 전체 글 목록 불러오는 Api
         Api.get_post_list().then(res => {
             this.posts = res.data;
-            // this.$set(this.posts, 0, res.data);
         })
         .catch(error => {
             console.log("error occured!: ", error);
@@ -171,7 +171,6 @@ export default {
         searchIcon() {
             if(this.keyword.length > 0) {
                 Api.get_search_post_list(this.category.categoryId, this.selectedItem, this.keyword).then(res => {
-                    // this.$set(this.posts, this.category.categoryId, res.data);
                     this.posts = res.data;
                 })
                 .catch(error => {
@@ -180,7 +179,6 @@ export default {
             }
             else {
                 Api.get_post_list().then(res => {
-                    // this.$set(this.posts, 0, res.data);
                     this.posts = res.data;
                 })
                 .catch(error => {

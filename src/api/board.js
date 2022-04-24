@@ -65,3 +65,11 @@ export async function create_comment(comment) {
 export async function delete_comment(postId, commentId) {
     return boardInstance.delete("/board/posts/" + postId + "/comments/" + commentId);
 }
+
+export async function patch_comment(postId, commentId, comment) {
+    return boardInstance.patch("/board/posts/" + postId + "/comments/" + commentId, comment, {
+        headers: {
+            'Content-Type': `application/json`,
+        },
+    });
+}
