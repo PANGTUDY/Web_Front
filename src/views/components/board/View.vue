@@ -112,6 +112,7 @@
                       path: `/board/view/${post.postId}`,
                       query: { categoryId: `${post.categoryId}` },
                     }"
+                    :class="{focus : isFoucs(post.postId)}"
                   >
                     {{ post.title }}
                   </router-link>
@@ -337,6 +338,15 @@ export default {
         });
     },
 
+    isFoucs(id) {
+      if (this.postId == id.toString()) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
+
     setLike(likes) {
       console.log(likes);
       this.likes = likes;
@@ -541,4 +551,11 @@ textarea {
 .v-text-field__details {
   display: none !important;
 }
+
+.focus {
+  text-decoration : underline !important;
+  color: #6d6969 !important;
+  font-weight: bold;
+}
+
 </style>
