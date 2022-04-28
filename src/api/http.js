@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "@/store/index.js";
 import { reissue } from "./auth";
-import  VueCookies  from "vue-cookies";
+import VueCookies from "vue-cookies";
 
 export const conference_instance = axios.create({
     baseURL: 'http://127.0.0.1:8000/conference/'
@@ -34,7 +34,7 @@ export const auth_instance = axios.create({
 //         return Promise.reject(error);
 //     }
 // );
- 
+
 //  user_instance.interceptors.response.use(
 //     function(response){
 //         return response;
@@ -43,12 +43,12 @@ export const auth_instance = axios.create({
 //         const originalReq = error.config;
 
 //         let token = store.getters.getToken;
-        
+
 //         console.log('token',token);
 //         console.log('timeout',store.state.timeout * 1000 <= Date.now());
 //         // let refresh = VueCookies.get('refreshToken');
 //         // let access = VueCookies.get('accessToken');
-        
+
 //         if (store.state.timeout * 1000 <= Date.now()){
 //             return reissue(token.refresh).then(result => {
 //                 console.log('data',result);

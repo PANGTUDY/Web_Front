@@ -1,12 +1,12 @@
-export default{
+export default {
     user: {},
     calendar: {},
     current_year: null,
     accessToken: '',
     refreshToken: '',
-    authEmailInfo:'',
-    timeout:'',
+    authEmailInfo: '',
+    timeout: '',
     isLogin: false,
-    allUsers:[],
-    refreshTimeOut:''
+    allUsers: [],
+    refreshTimeOut: ''
 };

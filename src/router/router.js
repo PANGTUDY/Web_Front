@@ -24,7 +24,7 @@ Vue.use(Router);
 
 const router = new Router({
   linkExactActiveClass: "active",
-  mode:'history',
+  mode: 'history',
   routes: [
     {
       path: "/",
@@ -81,38 +81,38 @@ const router = new Router({
     },
     {
       path: "/success", // 로그인 완료
-      name:"success",
-      components:{
-        header:AppHeader,
-        default:Success,
-        footer:AppFooter,
+      name: "success",
+      components: {
+        header: AppHeader,
+        default: Success,
+        footer: AppFooter,
       }
     },
     {
-      path:"/pwinquiry",
-      name:"pwinquiry",
-      components:{
-        header:AppHeader,
-        default:pwinquiry,
-        footer:AppFooter,
+      path: "/pwinquiry",
+      name: "pwinquiry",
+      components: {
+        header: AppHeader,
+        default: pwinquiry,
+        footer: AppFooter,
       }
     },
     {
-      path:"/delete",
-      name:"delete",
-      components:{
-        header:AppHeader,
-        default:Delete,
-        footer:AppFooter,
+      path: "/delete",
+      name: "delete",
+      components: {
+        header: AppHeader,
+        default: Delete,
+        footer: AppFooter,
       }
     },
     {
-      path:"/practice",
-      name:"practice",
-      components:{
-        header:AppHeader,
+      path: "/practice",
+      name: "practice",
+      components: {
+        header: AppHeader,
         default: practice,
-        footer:AppFooter,
+        footer: AppFooter,
       }
     },
     {
@@ -141,21 +141,21 @@ const router = new Router({
         header: AppHeader,
         default: View,
         footer: AppFooter
-      } 
+      }
     },
     {
-      path:'/grant',
-      name:'grant',
-      components:{
+      path: '/grant',
+      name: 'grant',
+      components: {
         header: AppHeader,
         default: Grant,
         footer: AppFooter
       }
     },
     {
-      path:'/setting',
+      path: '/setting',
       name: Setting,
-      components:{
+      components: {
         header: AppHeader,
         default: Setting,
         footer: AppFooter

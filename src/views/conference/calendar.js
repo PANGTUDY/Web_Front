@@ -77,7 +77,7 @@ export default {
         }
     },
     watch: {
-        year: async function(year) {
+        year: async function (year) {
             await Api.get_calendar(this.year).then(data => {
                 this.$store.dispatch("load_calendar", { year: this.year, calendar: data.data });
             });
@@ -144,9 +144,9 @@ export default {
 
             if (this.modify) {
                 Vue.set(schedule, 'id', this.modify_id);
-                Api.modify_schedule(schedule).then(data => {});
+                Api.modify_schedule(schedule).then(data => { });
             } else {
-                Api.create_schedule(schedule).then(data => {});
+                Api.create_schedule(schedule).then(data => { });
             }
 
             this.modify = false;
@@ -164,7 +164,7 @@ export default {
                 cancelButtonClass: 'btn btn-danger btn-fill',
                 confirmButtonText: 'Yes, delete it!',
                 buttonsStyling: false
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.isConfirmed) {
                     Api.delete_schedule(id)
                         .then(data => {

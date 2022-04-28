@@ -1,5 +1,5 @@
 export const LOGIN_TOKEN = 'loginToken';
-export const AUTH_EMAIL ='authEmail';
+export const AUTH_EMAIL = 'authEmail';
 export const REISSUE_TOKEN = 'reissueToken';
 export const LOGOUT = 'logout';
 export const MODIFY_USER = 'modifyUser';
