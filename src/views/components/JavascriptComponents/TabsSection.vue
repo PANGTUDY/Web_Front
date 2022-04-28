@@ -6,7 +6,7 @@
         <small class="text-uppercase font-weight-bold">With icons</small>
       </div>
       <tabs fill class="flex-column flex-md-row">
-        <card shadow slot-scope="{ activeTabIndex }">
+        <card shadow>
           <tab-pane key="tab1">
             <template slot="title">
               <i class="ni ni-cloud-upload-96 mr-2"></i>Home
