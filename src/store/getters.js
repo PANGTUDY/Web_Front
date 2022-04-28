@@ -1,8 +1,8 @@
-export default{
-    loggedIn(state){
+export default {
+    loggedIn(state) {
         return !!state.user
     },
-    loginInfo(state){
+    loginInfo(state) {
         if (state.user) {
             return state.user.name
         } else {
@@ -15,13 +15,13 @@ export default{
             refresh: state.refreshToken
         }
     },
-    userInfo(state){
+    userInfo(state) {
         return state.user
     },
     get_calendar(state) {
         return state.calendar;
     },
-    loggedout(state){
+    loggedout(state) {
         return state.user = null;
     }
 }

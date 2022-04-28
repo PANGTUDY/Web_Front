@@ -112,7 +112,7 @@
                       path: `/board/view/${post.postId}`,
                       query: { categoryId: `${post.categoryId}` },
                     }"
-                    :class="{focus : isFoucs(post.postId)}"
+                    :class="{ focus: isFoucs(post.postId) }"
                   >
                     {{ post.title }}
                   </router-link>
@@ -156,12 +156,7 @@
                             {{ item.date.substr(0, 10) }}
                           </div>
 
-                          <v-menu 
-                            offset-y 
-                            left 
-                            bottom 
-                            style="display: none"
-                          >
+                          <v-menu offset-y left bottom style="display: none">
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
                                 text
@@ -199,10 +194,7 @@
                     {{ item.contents }}
                   </span>
 
-                  <div 
-                    v-else
-                    class="input_content"
-                  >
+                  <div v-else class="input_content">
                     <v-textarea
                       v-model="item.contents"
                       hide-details
@@ -224,13 +216,13 @@
                       >
                         취소
                       </v-btn>
-                      <v-btn 
+                      <v-btn
                         outlined
-                        depressed 
+                        depressed
                         color="primary"
                         @click="submitComment(index)"
-                      > 
-                        등록 
+                      >
+                        등록
                       </v-btn>
                     </div>
                   </div>
@@ -320,7 +312,7 @@ export default {
 
           for (let comment of this.comments) {
             comment._contents = comment.contents;
-            comment.edit = false
+            comment.edit = false;
           }
 
           this.likes = this.post.likes;
@@ -341,8 +333,7 @@ export default {
     isFoucs(id) {
       if (this.postId == id.toString()) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     },
@@ -371,7 +362,7 @@ export default {
               this.comments = result.data;
 
               for (let comment of this.comments) {
-                comment.edit = false
+                comment.edit = false;
               }
             })
             .catch((error) => {
@@ -418,7 +409,7 @@ export default {
 
               for (let comment of this.comments) {
                 comment._contents = comment.contents;
-                comment.edit = false
+                comment.edit = false;
               }
             })
             .catch((error) => {
@@ -427,8 +418,7 @@ export default {
         })
         .catch((error) => {
           console.log("error occured!: ", error);
-        }
-      );
+        });
     },
 
     cancelEditComment(index) {
@@ -448,24 +438,25 @@ export default {
         postId: this.postId,
       };
 
-      Api.patch_comment(this.postId, this.comments[index].commentId, content)
-        .then((res) => {
-          Api.get_comments(this.postId)
-            .then((result) => {
-              this.comments = result.data;
+      Api.patch_comment(
+        this.postId,
+        this.comments[index].commentId,
+        content
+      ).then((res) => {
+        Api.get_comments(this.postId)
+          .then((result) => {
+            this.comments = result.data;
 
-              for (let comment of this.comments) {
-                comment._contents = comment.contents;
-                comment.edit = false
-              }
-            })
-            .catch((error) => {
-              console.log("error occured!: ", error);
-            });
-        }
-      );
+            for (let comment of this.comments) {
+              comment._contents = comment.contents;
+              comment.edit = false;
+            }
+          })
+          .catch((error) => {
+            console.log("error occured!: ", error);
+          });
+      });
     },
-
   },
 };
 </script>
@@ -553,9 +544,8 @@ textarea {
 }
 
 .focus {
-  text-decoration : underline !important;
+  text-decoration: underline !important;
   color: #6d6969 !important;
   font-weight: bold;
 }
-
 </style>

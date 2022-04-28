@@ -14,7 +14,7 @@ Vue.use(Vuex);
 
 export * from './types';
 export default new Vuex.Store({
-    plugins: process.env.NODE_ENV !== 'production' ? [createPersistedstate()]:[createPersistedstate()],
+    plugins: process.env.NODE_ENV !== 'production' ? [createPersistedstate()] : [createPersistedstate()],
     state,
     getters,
     mutations,

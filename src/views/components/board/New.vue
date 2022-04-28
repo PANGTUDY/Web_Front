@@ -10,14 +10,16 @@
             outlined
             class="mr-2"
             @click="cancel()"
-          >취소</v-btn>
+            >취소</v-btn
+          >
           <v-btn
             elevation="2"
             color="primary"
             depressed
             outlined
             @click="submit"
-          >저장</v-btn>
+            >저장</v-btn
+          >
         </div>
       </div>
       <div class="row justify-content-center mt-5">
@@ -44,7 +46,7 @@
           <TipTap
             :options="options"
             :content="content"
-            style="margin-bottom: 5px;"
+            style="margin-bottom: 5px"
           />
         </div>
       </div>
@@ -53,7 +55,7 @@
           <v-combobox
             v-model="hashtag"
             :search-input.sync="search"
-            style="margin-left: 0px; vertical-align: baseline;"
+            style="margin-left: 0px; vertical-align: baseline"
             dense
             prepend-icon="mdi-pound"
             append-icon=""
@@ -64,14 +66,14 @@
             deletable-chips
             chips
           >
-          </v-combobox> 
+          </v-combobox>
         </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-8 pt-0 mt-2">
           <v-file-input
             v-model="files"
-            style="margin-left: 0px;"
+            style="margin-left: 0px"
             multiple
             show-size
             truncate-length="15"
@@ -83,26 +85,26 @@
 </template>
 
 <script>
-import * as Api from '@/api/board.js';
-import TipTap from '@/components/TipTap'
+import * as Api from "@/api/board.js";
+import TipTap from "@/components/TipTap";
 export default {
   components: {
-    TipTap
+    TipTap,
   },
-  
+
   data: () => ({
-    title: '',
-    postId: '',
-    
+    title: "",
+    postId: "",
+
     category_list: [],
-    category: '',
+    category: "",
     categoryItems: [],
 
     options: {
-      content: '',
+      content: "",
       editable: true,
     },
-    content: '',
+    content: "",
 
     files: null,
 
@@ -114,43 +116,44 @@ export default {
     // 수정 케이스
     this.postId = this.$route.params.id;
 
-    if(this.postId) {
-      Api.get_post_list(this.postId).then(res => {
+    if (this.postId) {
+      Api.get_post_list(this.postId).then((res) => {
         var post = res.data;
         this.title = post.title;
-        this.$set(this.options, 'content', post.contents);
+        this.$set(this.options, "content", post.contents);
         this.content = post.contents;
         this.options.content = post.contents;
 
         console.log("created: ", this.content, this.options);
 
         this.category = post.category.categoryId;
-        this.hashtag = post.tags.split(',');
-      })
+        this.hashtag = post.tags.split(",");
+      });
     }
   },
 
   mounted() {
     // 카테고리 전체 목록 불러오는 Api
-    Api.get_category_list().then(res => {
+    Api.get_category_list()
+      .then((res) => {
         this.category_list = res.data;
 
-        this.category_list.sort(function(a, b) {
-            return a.categoryId - b.categoryId;
+        this.category_list.sort(function (a, b) {
+          return a.categoryId - b.categoryId;
         });
 
-        this.category_list.map(item => {
+        this.category_list.map((item) => {
           let category = {};
 
-          category['value'] = item['categoryId'];
-          category['text'] = item['categoryName'];
+          category["value"] = item["categoryId"];
+          category["text"] = item["categoryName"];
 
           this.categoryItems.push(category);
-        })
-    })
-    .catch(error => {
+        });
+      })
+      .catch((error) => {
         console.log("error occured!: ", error);
-    });
+      });
 
     // // 수정 케이스
     // this.postId = this.$route.params.id;
@@ -172,42 +175,48 @@ export default {
     // submit the post
     submit() {
       var post = {
-        "categoryId": this.category,
-        "tags": this.hashtag.join(),
-        "title": this.title,
-        "contents": this.options.content,
-        "date": new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + ' ' + new Date().toTimeString().split(" ")[0],
-        "writer": "김민주", // TODO: Change to real user
+        categoryId: this.category,
+        tags: this.hashtag.join(),
+        title: this.title,
+        contents: this.options.content,
+        date:
+          new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] +
+          " " +
+          new Date().toTimeString().split(" ")[0],
+        writer: "김민주", // TODO: Change to real user
       };
 
       console.log(post);
 
-      if(!this.postId) { // new post
+      if (!this.postId) {
+        // new post
         // Submit the post
-        Api.create_post(post).then(res => {
-          // Check the success
-          alert("저장되었습니다");
-          this.$router.push({path: '/board/list/'});
-        })
-        .catch(error => {
-          console.log("error occured!: ", error);
-        });
+        Api.create_post(post)
+          .then((res) => {
+            // Check the success
+            alert("저장되었습니다");
+            this.$router.push({ path: "/board/list/" });
+          })
+          .catch((error) => {
+            console.log("error occured!: ", error);
+          });
 
         let formData = new FormData();
         //formData.append('files', this.files);
         for (let i in this.files) {
-          formData.append('files', this.files[i]);
+          formData.append("files", this.files[i]);
         }
         // Submit the files
-      }
-      else { // edit post
-        Api.patch_post(this.postId, post).then(res => {
-          alert("수정되었습니다");
-          this.$router.push({path: '/board/list/'});
-        })
-        .catch(error => {
-          console.log("error occured!: ", error);
-        })
+      } else {
+        // edit post
+        Api.patch_post(this.postId, post)
+          .then((res) => {
+            alert("수정되었습니다");
+            this.$router.push({ path: "/board/list/" });
+          })
+          .catch((error) => {
+            console.log("error occured!: ", error);
+          });
       }
     },
 
@@ -216,25 +225,25 @@ export default {
       this.$router.go(-1); // go back to list
     },
   },
-}
+};
 </script>
 
 <style scoped>
-  .category {
-    width: 20%;
-    display: flex;
-    float: left;
-    margin-left: 0px;
-  }
+.category {
+  width: 20%;
+  display: flex;
+  float: left;
+  margin-left: 0px;
+}
 
-  .input_title {
-    width: 75%;
-    display: flex;
-    float: right;
-    margin-left: 0px;
-  }
+.input_title {
+  width: 75%;
+  display: flex;
+  float: right;
+  margin-left: 0px;
+}
 
-  /* .padding0 {
+/* .padding0 {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
   }

@@ -8,68 +8,61 @@
       Open Dialog
     </v-btn> -->
 
-    <v-dialog
-      v-model="usingPopup"
-      max-width="290"
-    >
+    <v-dialog v-model="usingPopup" max-width="290">
       <v-card>
         <v-card-title class="text-h5">
           <!-- 회원가입을 진행하시겠습니까? -->
         </v-card-title>
 
-       
         <v-card-text>
-         {{popMsg}}
+          {{ popMsg }}
         </v-card-text>
-       
+
         <v-card-actions>
           <v-spacer></v-spacer>
           <template v-if="this.menuType === 'register'">
-          
-          <v-btn
-            color="green darken-1"
-            text
-            @click="$emit('settingFalse',false)"
-          >
-            확인
-          </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="$emit('settingFalse', false)"
+            >
+              확인
+            </v-btn>
           </template>
           <template v-else-if="this.menuType === 'login'">
-          
-          <v-btn
-            color="green darken-1"
-            text
-            @click="$emit('settingFalse',false)"
-          >
-            확인
-          </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="$emit('settingFalse', false)"
+            >
+              확인
+            </v-btn>
           </template>
           <template v-else-if="this.menuType === 'pwinquiry'">
-          
-          <v-btn
-            color="green darken-1"
-            text
-            @click="$emit('settingFalse',false)"
-          >
-            확인
-          </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="$emit('settingFalse', false)"
+            >
+              확인
+            </v-btn>
           </template>
-           <template v-else>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="$emit('settingFalse',false)"
-          >
-          취소
-          </v-btn>
+          <template v-else>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="$emit('settingFalse', false)"
+            >
+              취소
+            </v-btn>
 
-          <v-btn
-            color="green darken-1"
-            text
-            @click="$emit('settingTrue',false)"
-          >
-            확인
-          </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="$emit('settingTrue', false)"
+            >
+              확인
+            </v-btn>
           </template>
         </v-card-actions>
       </v-card>
@@ -78,27 +71,26 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 export default {
-  props:{
+  props: {
     popupSetting: Boolean,
-    popMsg:String,
-    menuType:String
+    popMsg: String,
+    menuType: String,
   },
-  data:()=>({
-    dialog:''
+  data: () => ({
+    dialog: "",
   }),
-  computed:{
+  computed: {
     ...mapState({
-      isLogin: ({isLogin}) => isLogin
+      isLogin: ({ isLogin }) => isLogin,
     }),
-    usingPopup(){
+    usingPopup() {
       return this.popupSetting;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
-
 </style>

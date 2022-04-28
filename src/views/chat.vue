@@ -173,40 +173,36 @@
 
 <script>
 export default {
-    name:'chat',
-    data(){
-      return {
-        flag:'',
-        userName:'',
-        message:''
+  name: "chat",
+  data() {
+    return {
+      flag: "",
+      userName: "",
+      message: "",
+    };
+  },
+  props: {
+    open: Boolean,
+    userInfo: Object,
+  },
+  created() {
+    this.uplodaUser();
+  },
+  computed: {},
+  methods: {
+    close() {
+      this.$emit("closeit");
+    },
+    openModal() {
+      this.$emit("openit");
+    },
+    uplodaUser() {
+      if (this.userInfo != null) {
+        this.userName = this.userInfo.name;
       }
     },
-    props:{
-        open: Boolean,
-        userInfo: Object
-    },
-    created(){
-      this.uplodaUser();
-    },
-    computed:{
-
-    },
-    methods:{
-        close(){
-            this.$emit('closeit');
-        },
-        openModal(){
-            this.$emit('openit');
-        },
-        uplodaUser(){
-          if(this.userInfo != null){
-              this.userName = this.userInfo.name;
-          }
-          
-        }
-        
-    }
-}
+  },
+};
 // var rptb_right_loading_false = document.getElementsByClassName("rptb_right_loading_false"),
 //                               edit_date = document.getElementsByClassName("date"),
 //                               edit_window = document.getElementsByClassName("edit_window"),
@@ -367,18 +363,17 @@ export default {
 //                             }), {
 //                               passive: !0
 //                             })
-                          
 </script>
 
 <style>
 .v-application .reply_container .info {
-    background-color: none;
-    border-color: #2196f3 !important;
+  background-color: none;
+  border-color: #2196f3 !important;
 }
 .v-application .reply_container .info {
-    background-color: none;
-    border-color: #2196f3 !important;
-    visibility: hidden;
+  background-color: none;
+  border-color: #2196f3 !important;
+  visibility: hidden;
 }
 </style>
 

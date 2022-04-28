@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <hero></hero>
-    </div>
+  <div>
+    <hero></hero>
+  </div>
 </template>
 <script>
 import Hero from "./components/Hero";
@@ -27,7 +27,7 @@ export default {
     Carousel,
     Icons,
     Examples,
-    DownloadSection
-  }
+    DownloadSection,
+  },
 };
 </script>

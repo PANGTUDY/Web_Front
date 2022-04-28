@@ -37,8 +37,8 @@ import axios from 'axios';
 
 // veevalidate 설치 
 const config = {
-  locale:'ko',
-  dicitionary:{
+  locale: 'ko',
+  dicitionary: {
     ko
   }
 }
@@ -46,7 +46,7 @@ const config = {
 const dictionary = {
   ko: {
     attributes: {
-      passoword:'비밀번호'
+      passoword: '비밀번호'
     }
   }
 }

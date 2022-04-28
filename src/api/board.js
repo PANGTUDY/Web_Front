@@ -1,7 +1,7 @@
 import { boardInstance } from "./http";
 
 export async function get_post_list(id) {
-    if(id) {
+    if (id) {
         return boardInstance.get("/board/posts/" + id);
     }
     else {
@@ -22,7 +22,7 @@ export async function get_adjacent_list(categoryId, postId) {
 }
 
 export async function get_search_post_list(categoryId, item, keyword) {
-    if(categoryId == 0) {
+    if (categoryId == 0) {
         return boardInstance.get("/board/posts?" + item + '=' + keyword);
     }
     else { // search with category

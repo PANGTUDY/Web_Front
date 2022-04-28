@@ -6,27 +6,27 @@ module.exports = {
   // ? '/'
   // : '/',
   devServer: {
-    proxy:{
-      '^/auth/':{
-        target:'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
-        changeOrigin:true
+    proxy: {
+      '^/auth/': {
+        target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
+        changeOrigin: true
       },
-      '^/users':{
-        target:'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
-        changeOrigin:true
+      '^/users': {
+        target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
+        changeOrigin: true
       }
     }
-  
+
   },
   configureWebpack: {
     // Set up all the aliases we use in our app.
-    
+
     plugins: [
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 6
       })
     ],
-   
+
   },
 
   pwa: {
