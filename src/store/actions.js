@@ -30,13 +30,16 @@ export default {
             const { data } = await axios.post(url, { email, password });
             result = data;
         } catch (error) {
+            // 에러 처리
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
-            commit(LOGIN_TOKEN, result.data);
-        }
-       
+            if (result.status !== 'error') {
+              commit(LOGIN_TOKEN, result.data);   
+            }
+        } return result;
     },
-    [REISSUE_TOKEN]: async ({ }, payload) => {
+    [REISSUE_TOKEN]: async ({commit}, payload) => {
         let result = {};
         try {
             console.log('payload', payload);
@@ -44,10 +47,11 @@ export default {
             const headers = { 'Authorization': `Bearer ${payload}` };
             const { data } = await axios.post(url, payload, { headers })
             result = data;
+            console.log('data', data);
         } catch (error) {
             console.warn(error.message, error);
         } finally {
-
+            commit(REISSUE_TOKEN, result.data);
         }
         return result;
     },
@@ -95,8 +99,11 @@ export default {
     authEmail: async ({ commit }, payload) => {
         let result = {};
         console.log('payload', payload);
+        const { accessToken, id } = payload;
+        console.log('accessToken', accessToken);
+        console.log('id',id);
         try {
-            const url = '/auth/me';
+            const url = `/users/${id}`;
             const headers = { 'Authorization': `Bearer ${payload}` };
             const { data } = await axios.get(url, { headers });
             result = data;
@@ -104,7 +111,7 @@ export default {
         } catch (error) {
             console.warn(error.message, error);
         } finally {
-            commit(AUTH_EMAIL, result);
+            commit(AUTH_EMAIL, result.data);
         }
     },
     modifyUser: async ({ commit }, payload) => {

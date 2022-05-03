@@ -89,6 +89,20 @@
         </div>
       </div>
     </div>
+    <popup :popupSetting="openPopup">
+      <template v-slot:msg>
+        {{message}}
+      </template>
+      <template v-slot:button>
+        <v-btn
+              color="green darken-1"
+              text
+              @click="closePopup(false)"
+            >
+              확인
+            </v-btn>
+      </template>
+    </popup>
     <confirm-popup
       :popupSetting="popupSetting"
       @settingFalse="checkPopup($event)"
@@ -98,8 +112,8 @@
   </section>
 </template>
 <script>
+import Popup from './mixin/popUp.vue'
 import confirmPopup from "./mixin/confirmPopup.vue";
-import validator from "./mixin/validator";
 import directives from "./mixin/myDirectives";
 import { mapState, mapActions } from "vuex";
 import VueCookies from "vue-cookies";
@@ -108,6 +122,7 @@ export default {
   components: {
     directives,
     confirmPopup,
+    Popup
   },
   data: () => ({
     email: "",
@@ -116,6 +131,8 @@ export default {
     popMsg: "로그인이 완료되었습니다.",
     menuType: "login",
     isChecked: false,
+    message:'',
+    openPopup:false,
   }),
   computed: {
     ...mapState({
@@ -149,9 +166,15 @@ export default {
       await this.login({
         email: this.email,
         password: this.password,
-      }).then((result) => {
-        if (result === undefined) {
-          this.popupSetting = true;
+      }).then(result=>{
+        if(result.status === 'error'){
+            this.message = result.message;
+            this.openPopup = true;
+        }else{
+          if(result.status === 'success'){
+            this.message = '로그인이 완료되었습니다.';
+            this.openPopup = true;
+          }
         }
       });
     },
@@ -160,6 +183,17 @@ export default {
       await this.$router.push({ path: "/" });
       return this.popupSetting;
     },
+    closePopup(val){
+      if(this.message.includes('로그인') === false){
+        this.openPopup = val;
+      }else if(this.message.includes('로그인') === true){
+        this.openPopup = val;
+        if(this.openPopup === false){
+          this.$router.push({path:'/'});
+      }
+      }
+  
+    }
   },
 };
 </script>

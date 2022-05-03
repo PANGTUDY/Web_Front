@@ -1,10 +1,11 @@
 export default {
     user: {},
+    id:'',
     calendar: {},
     current_year: null,
     accessToken: '',
     refreshToken: '',
-    authEmailInfo: '',
+    authInfo: '',
     timeout: '',
     isLogin: false,
     allUsers: [],

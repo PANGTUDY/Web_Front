@@ -30,7 +30,6 @@
                   Github
                 </base-button>
 
-<<<<<<< HEAD
                                 <base-button type="neutral">
                                     <img slot="icon" src="img/icons/common/google.svg">
                                     Google
@@ -55,36 +54,6 @@
                                             @blur.stop="validationCheck('email')">
                                 </base-input>
                                  <div>
-=======
-                <base-button type="neutral">
-                  <img slot="icon" src="img/icons/common/google.svg" />
-                  Google
-                </base-button>
-              </div>
-            </template>
-            <template>
-              <div class="text-center text-muted mb-4">
-                <small>Or sign up with credentials</small>
-              </div>
-              <label class="ni ni-hat-3" for="name"> name</label>
-              <base-input
-                alternative
-                class="mb-3"
-                placeholder="name "
-                v-model="name"
-              >
-              </base-input>
-              <label class="ni ni-email-83" for="email"> email</label>
-              <base-input
-                alternative
-                class="mb-3"
-                placeholder="Email"
-                v-model="email"
-                @blur.stop="validationCheck('email')"
-              >
-              </base-input>
-              <!-- <div>
->>>>>>> 59e45cc80beb0e4ac5784b9ea5bd4f619e472b2e
                                     <base-button btn_type="primary" type="submit" @click.stop="confirmEmail">이메일 인증</base-button>
                                 </div>
                                 <label class="fa fa-check" for="comfirm_email"> confirm email</label>
@@ -96,7 +65,6 @@
                                 </base-input>
                                 <div>
                                     <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
-<<<<<<< HEAD
                                 </div> 
                                  </span> 
                                 <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
@@ -122,41 +90,6 @@
                                     </small>
                                 </div>
                                 <!-- <base-checkbox>
-=======
-                                </div> -->
-              <!-- </span> -->
-              <label class="ni ni-lock-circle-open" for="confirm_password">
-                password</label
-              >
-              <base-input
-                alternative
-                type="password"
-                placeholder="비밀번호는 6~16자리로 숫자,영문,특수문자 혼합입니다. "
-                addon-left-icon="ni ni-lock-circle-open"
-                v-model="password"
-                @blur.stop="validationCheck('password')"
-              >
-              </base-input>
-              <label class="fa fa-check" for="password">confirm password</label>
-              <base-input
-                alternative
-                type="password"
-                v-model="password_confirm"
-                placeholder="Password 재확인"
-                addon-left-icon="ni ni-lock-circle-open"
-              >
-              </base-input>
-              <div class="text-muted font-italic">
-                <small
-                  >password strength:
-                  <span class="font-weight-700" :class="changeStrength">{{
-                    passwordValidation
-                  }}</span>
-                  <p>{{ msg }}</p>
-                </small>
-              </div>
-              <!-- <base-checkbox>
->>>>>>> 59e45cc80beb0e4ac5784b9ea5bd4f619e472b2e
                                     <span>I agree with the
                                         <a href="#">Privacy Policy</a>
                                     </span>

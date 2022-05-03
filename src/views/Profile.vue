@@ -83,7 +83,7 @@
                 <div class="text-center mt-5">
                   <div class="h6 font-weight-300 custom-heywon">
                     <label class="relocation_heywon" for="email"
-                      >email:{{ authEmailInfo }}</label
+                      >email:{{ authInfo.email }}</label
                     >
                   </div>
                   <div class="h6 font-weight-300">
@@ -161,20 +161,22 @@ export default {
       title: "",
     };
   },
+  computed: {
+    ...mapState({
+      authInfo: ({ authInfo }) => authInfo,
+      accessToken: ({ accessToken }) => accessToken,
+      user: ({user}) => user
+    }),
+  },
   created() {
     let token = this.accessToken;
     // let token = VueCookies.get('accessToken');
     let params = {
       accessToken: token,
+      id:this.user.id
     };
-    console.log("token", token);
-    this.authEmail(token);
-  },
-  computed: {
-    ...mapState({
-      authEmailInfo: ({ authEmailInfo }) => authEmailInfo,
-      accessToken: ({ accessToken }) => accessToken,
-    }),
+    
+    this.authEmail(params);
   },
   methods: {
     ...mapActions(["authEmail", "leftMember"]),
@@ -219,7 +221,7 @@ export default {
     memberReset() {
       let params = {
         accessToken: this.accessToken,
-        email: this.authEmailInfo,
+        id: this.user.id,
       };
       this.leftMember(params).then((result) => {
         if (!_.isEmpty(result)) {
