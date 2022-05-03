@@ -51,7 +51,7 @@ export default {
         } catch (error) {
             console.warn(error.message, error);
         } finally {
-            commit(REISSUE_TOKEN, result.data);
+            commit(REISSUE_TOKEN, payload);
         }
         return result;
     },
@@ -87,7 +87,7 @@ export default {
         } catch (error) {
             console.warn(error.message, error);
         } finally {
-            commit(GET_ALL_USERS, result);
+            commit(GET_ALL_USERS, result.data);
         }
     },
     verifyEmail(payload) {
@@ -107,12 +107,13 @@ export default {
             const headers = { 'Authorization': `Bearer ${payload}` };
             const { data } = await axios.get(url, { headers });
             result = data;
-            console.log(result);
         } catch (error) {
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
             commit(AUTH_EMAIL, result.data);
         }
+        return result;
     },
     modifyUser: async ({ commit }, payload) => {
         let result = {};

@@ -22,9 +22,9 @@ export default {
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-       
+        
         const obj = JSON.parse(jsonPayload);
-
+        console.log('obj', obj);
         // 토큰 만료시간을 확인한다.
         state.timeout = obj.exp;
 
@@ -51,7 +51,7 @@ export default {
 
     },
     [REISSUE_TOKEN]: (state, payload) => { // accessToken 재셋팅
-        console.log(payload);
+       
         let base64Access = payload.accessToken ? payload.accessToken.split('.')[1] : '';
         let base64 = base64Access.replace(/-/g, '+').replace(/_/g, '/');
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {

@@ -176,7 +176,7 @@ export default {
       id:this.user.id
     };
     
-    this.authEmail(params);
+    this.authEmail(params).then();
   },
   methods: {
     ...mapActions(["authEmail", "leftMember"]),
