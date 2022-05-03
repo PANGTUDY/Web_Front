@@ -17,12 +17,14 @@ export default {
     },
     [LOGIN_TOKEN]: (state, payload) => {
         // token 복호화
-
+        console.log('payload', payload);
         let base64Access = payload.accessToken ? payload.accessToken.split('.')[1] : '';
         let base64 = base64Access.replace(/-/g, '+').replace(/_/g, '/');
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
+        console.log('base64Acess', base64Access);
+        console.log('base64', base64);
         console.log('json', jsonPayload);
         const obj = JSON.parse(jsonPayload);
 

@@ -22,18 +22,19 @@ export default {
                 return data;
             })
     },
-    login: async ({ commit }, payload) => {
+    login: async ({commit}, payload) => {
         let result = {};
         const { email, password } = payload;
         try {
             const url = '/auth/login';
-            const result = await axios.post(url, { email, password });
-            commit(LOGIN_TOKEN, result.data);
+            const { data } = await axios.post(url, { email, password });
+            result = data;
         } catch (error) {
             console.warn(error.message, error);
         } finally {
-
+            commit(LOGIN_TOKEN, result.data);
         }
+       
     },
     [REISSUE_TOKEN]: async ({ }, payload) => {
         let result = {};

@@ -141,12 +141,12 @@ export default {
   },
   methods: {
     ...mapActions(["login"]),
-    getUser() {
+    async getUser() {
       // 로그인시 isChecked가 true 라면 쿠키에 이메일 값 넣어주기 / 유효기간으 7일
       if (this.isChecked === true) {
         VueCookies.set("email", this.email, "7d");
       }
-      this.login({
+      await this.login({
         email: this.email,
         password: this.password,
       }).then((result) => {
