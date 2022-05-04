@@ -54,6 +54,7 @@
                 name="password"
                 v-model="password"
                 addon-left-icon="ni ni-lock-circle-open"
+                @keyup.enter="getUser"
               >
               </base-input>
 

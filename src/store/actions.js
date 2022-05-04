@@ -43,15 +43,16 @@ export default {
         let result = {};
         try {
             console.log('payload', payload);
-            const url = '/auth/token';
+            const url = '/auth/refresh';
             const headers = { 'Authorization': `Bearer ${payload}` };
-            const { data } = await axios.post(url, payload, { headers })
+            const { data } = await axios.post(url, payload, { headers });
             result = data;
-            console.log('data', data);
+           
         } catch (error) {
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
-            commit(REISSUE_TOKEN, payload);
+            commit(REISSUE_TOKEN, result);
         }
         return result;
     },
@@ -60,15 +61,16 @@ export default {
     },
     leftMember: async ({ }, payload) => {
         let result = {};
-        const { accessToken, email } = payload;
+        const { accessToken, id } = payload;
         console.log(payload);
         try {
-            const url = '/users/' + email;
+            const url = '/users/' + id;
             const headers = { 'Authorization': `Bearer ${accessToken}` };
             const { data } = await axios.delete(url, { headers });
             result = data;
             console.log(data);
         } catch (error) {
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
 

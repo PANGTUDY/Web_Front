@@ -13,22 +13,38 @@
       :userInfo="userInfo"
     />
     <router-view name="footer"></router-view>
+    <pop-up>
+      <template v-slot:msg>
+        {{message}}
+      </template>
+      <template v-slot:button>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="closePopup(false)"
+            >
+              확인
+            </v-btn>
+      </template>
+    </pop-up>
   </v-app>
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
 import chat from "@/views/components/chat/Chat.vue";
 import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import PopUp from './views/mixin/popUp.vue';
 export default {
   components: {
     FadeTransition,
     chat,
+    PopUp
   },
-  data() {
-    return {
-      open: false,
-    };
-  },
+  data:()=>({
+    open:false,
+    message:'',
+    openPopup: false
+  }),
   watch: {
     access() {
       if (!_.isEmpty(this.access)) {
@@ -108,7 +124,10 @@ export default {
     },
     reissue() {
       this.reissueToken(this.refreshToken).then((result) => {
-        this.$store.commit("reissueToken", result);
+        if(result.status === 'error'){
+          this.message = result.message;
+          this.openPopup = true;
+        }
       });
     },
     setTimer(val) {
