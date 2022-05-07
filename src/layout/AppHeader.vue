@@ -62,15 +62,29 @@
         :menuType="menuType"
       ></confirm-popup>
     </div>
+    <pop-up>
+        <template v-slot:msg>
+          {{message}}
+        </template>
+        <template v-slot:button>
+          <v-btn 
+          color="green darken-1"
+          text
+          @click="closePopup(false)">
+          확인
+          </v-btn>
+        </template>
+      </pop-up>
   </header>
 </template>
 <script>
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import popUp from '../views/mixin/popUp.vue';
 import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import { authComputed } from "../store/helper.js";
-import { mapGetters, mapState, mapMutations } from "vuex";
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -92,6 +106,8 @@ export default {
       popMsg:
         "로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?",
       menuType: "all",
+      message:'',
+      openPopup:false
     };
   },
   components: {
@@ -99,19 +115,43 @@ export default {
     CloseButton,
     BaseDropdown,
     confirmPopup,
+    popUp
   },
   computed: {
     ...authComputed,
     ...mapGetters["userInfo"],
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
+      refreshToken:({refreshToken})=>refreshToken
     }),
   },
   methods: {
-    ...mapMutations(["logout"]),
+    ...mapActions(['logout']),
     memberClear() {
-      this.logout();
-      this.$router.push({ path: "/login" });
+      
+      this.logout({
+        refreshToken : this.refreshToken
+      }).then((result)=> {
+        if(result.status==='error'){
+          this.message = result.message;
+          this.openPopup = true;
+        }else{
+          if(result.status==='success'){
+            this.message='로그아웃이 완료되었습니다.'
+            this.openPopup = true;
+          }
+        }
+      });
+    },
+    closePopup(val){
+      if(this.message.includes('로그아웃') === false){
+        this.openPopup = val;
+      }else if(this.message.includes('로그아웃')=== true){
+        this.openPopup = val;
+        if(this.openPopup === false){
+          this.$router.push({path:'/login'});
+        }
+      }
     },
     checkPopup($event) {
       this.popupSetting = $event;

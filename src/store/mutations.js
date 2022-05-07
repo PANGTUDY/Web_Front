@@ -68,9 +68,9 @@ export default {
 
         // VueCookies.set('accessToken',payload,'1m');
     },
-    [LOGOUT]: (state) => {
-        console.log('탄다');
-        state.user = null;
+    [LOGOUT]: (state,payload) => {
+        console.log('타니');
+        state.user = payload;
         state.isLogin = false;
         state.accessToken = "";
         state.refreshToken = "";

@@ -115,6 +115,18 @@
         </div>
       </div>
     </div>
+    <pop-up>
+      <template v-slot:msg>
+        {{message}}
+      </template>
+      <template v-slot:button>
+        <v-btn color="green darken-1"
+        text 
+        @click="closePopup(false)">
+        확인
+        </v-btn>
+      </template>
+    </pop-up>
     <confrim-popup
       :popupSetting="popupSetting"
       @settingFalse="checkPopup($event)"
@@ -126,6 +138,7 @@
 <script>
 import confrimPopup from "./mixin/confirmPopup.vue";
 import { mapActions } from "vuex";
+import popUp from '../views/mixin/popUp.vue';
 export default {
   data() {
     return {
@@ -133,6 +146,8 @@ export default {
       password: "",
       popupSetting: false,
       password_confirm: "",
+      message:'',
+      openPopup: false,
       email: "",
       registerMsg: [
         { name: "비밀번호가 일치하지 않습니다." },
@@ -145,7 +160,7 @@ export default {
     };
   },
   components: {
-    confrimPopup,
+    confrimPopup,popUp
   },
   computed: {
     changeStrength: function () {
@@ -198,8 +213,17 @@ export default {
           name: this.name,
           email: this.email,
           password: this.password,
-        }).then(() => {
-          this.popupSetting = true;
+        }).then((result) => {
+          if(result.status==='error'){
+            this.message = result.message;
+            this.openPopup = true;
+          }else{
+            if(result.status==='success'){
+              this.message ='회원가입이 완료되었습니다.';
+              this.popupSetting = true;
+            }
+          }
+          
         });
       }
     },

@@ -15,12 +15,20 @@ import {
 
 
 export default {
-    register({ commit }, payload) {
-        return axios.post('/auth/signup', payload)
-            .then(({ data }) => {
-                // commit('SET_USER_DATA',data)
-                return data;
-            })
+    register: async ({}, payload) => {
+        let result = {};
+        try {
+            console.log('payload', payload);
+            const url = '/auth/signup';
+            const { data } = await axios.post(url, payload);
+            result = data;
+        } catch (error) {
+            result = error.response.data;
+            console.warn(error);
+        } finally {
+            
+        }
+        return result;
     },
     login: async ({commit}, payload) => {
         let result = {};
@@ -56,9 +64,23 @@ export default {
         }
         return result;
     },
-    logout({ commit }) {
-        commit(LOGOUT);
-    },
+    [LOGOUT]: async ({commit}, payload) => {
+        let result = {};
+        try {
+            const { refreshToken } = payload;
+            const url = '/auth/logout';
+            const headers = { 'Authorization': `Bearer ${refreshToken}` };
+            const { data } = await axios.post(url,payload,{ headers });
+            result = data;
+        } catch (error) {
+            result = error.response.data;
+            console.log('result', result);
+            console.warn(error.message, error);
+        } finally {
+            commit(LOGOUT,result.data);
+        }
+        return result;
+   },
     leftMember: async ({ }, payload) => {
         let result = {};
         const { accessToken, id } = payload;
