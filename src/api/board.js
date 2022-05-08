@@ -21,6 +21,18 @@ export async function get_adjacent_list(categoryId, postId) {
     return boardInstance.get("/board/posts/adjacent/" + categoryId + "/" + postId);
 }
 
+export async function get_likes_user_list(postId) {
+    return boardInstance.get("/board/posts/" + postId + "/like");
+}
+
+export async function change_like(postId, userId) {
+    return boardInstance.post("/board/posts/" + postId + "/like", userId, {
+        headers: {
+            'Content-Type': `application/json`,
+        },
+    });
+}
+
 export async function get_search_post_list(categoryId, item, keyword) {
     if (categoryId == 0) {
         return boardInstance.get("/board/posts?" + item + '=' + keyword);
