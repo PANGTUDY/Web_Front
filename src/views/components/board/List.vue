@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="container pt-lg-md" style="min-height: 800px">
+    <div class="container pt-lg-md" style="min-height: 1200px">
       <div class="row justify-content-center">
         <div class="col-lg-2">
           <v-select
@@ -103,17 +103,17 @@
               </table>
             </div>
           </div>
-          <!--
-                    <div class="row justify-content-center">
+          
+                    <!-- <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <v-pagination
-                            v-model="page"
-                            :length="6"
+                            v-model="page.currPageNum"
+                            :length="page.totalPageNum"
                             color="#0D47A1"
                             ></v-pagination>
                         </div>
-                    </div> 
-                    -->
+                    </div>  -->
+                   
         </div>
       </div>
     </div>
@@ -129,6 +129,7 @@ export default {
     category_list: [],
     category: {},
     posts: [],
+    page: {},
 
     hint: "키워드를 입력하세요",
     selectItems: [
@@ -146,7 +147,9 @@ export default {
     // 전체 글 목록 불러오는 Api
     Api.get_post_list()
       .then((res) => {
+        this.page = res.data.pop();
         this.posts = res.data;
+        console.log(this.page);
       })
       .catch((error) => {
         console.log("error occured!: ", error);
@@ -201,7 +204,7 @@ export default {
     },
 
     // create a new post
-    newPost(event) {
+    newPost() {
       this.$router.push({ path: "/board/new/" });
     },
 
