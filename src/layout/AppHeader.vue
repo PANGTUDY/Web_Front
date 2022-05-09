@@ -8,9 +8,9 @@
           height="40px"
         />
         <a
-          class="navbar-brand fa-2x"
+          class="navbar-brand fa-2x custom-fa"
           @click="goTo('')"
-          style="font-weight: 400; margin-left: 0.5rem"
+          style="font-weight: 600; margin-left: 0.5rem; font-size:33px;"
           >Pangtudy</a
         >
 
@@ -23,14 +23,15 @@
           </div>
         </div>
 
-        <ul class="navbar-nav ml-lg-auto flex">
+        <ul class="navbar-nav ml-lg-auto flex custom-flex">
           <li class="nav-item" v-for="menu in menuList" :key="menu.path">
             <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{
               menu.name
             }}</a>
           </li>
           <li class="nav-item" v-if="!isLogin">
-            <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a>
+            <v-btn elevation="2" rounded @click="goTo('login')">Login</v-btn>
+            <!-- <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a> -->
           </li>
           <!-- <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
