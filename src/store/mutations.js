@@ -17,18 +17,19 @@ export default {
     },
     [LOGIN_TOKEN]: (state, payload) => {
         // token 복호화
-
         let base64Access = payload.accessToken ? payload.accessToken.split('.')[1] : '';
         let base64 = base64Access.replace(/-/g, '+').replace(/_/g, '/');
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-        console.log('json', jsonPayload);
+        
         const obj = JSON.parse(jsonPayload);
-
+        console.log('obj', obj);
         // 토큰 만료시간을 확인한다.
         state.timeout = obj.exp;
-        state.user = { name: obj.name, email: obj.email };
+
+
+        state.user = { name: obj.name, email: obj.email,id:obj.id};
         // VueCookies.set('accessToken',payload.accessToken,'60s');
         // VueCookies.set('refreshToken',payload.refreshToken,'1h');
         state.accessToken = payload.accessToken;
@@ -46,11 +47,12 @@ export default {
         //    state.refreshTimeOut =1650347494984;
     },
     [AUTH_EMAIL]: (state, payload) => {
-        state.authEmailInfo = payload;
+        state.authInfo = payload;
+
     },
     [REISSUE_TOKEN]: (state, payload) => { // accessToken 재셋팅
-        console.log(payload);
-        let base64Access = payload.accessToken ? payload.accessToken.split('.')[1] : '';
+       
+        let base64Access = payload.data.accessToken ? payload.data.accessToken.split('.')[1] : '';
         let base64 = base64Access.replace(/-/g, '+').replace(/_/g, '/');
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -60,14 +62,15 @@ export default {
         // const obj = jsonPayload;
         state.timeout = obj.exp;
         // 토큰 만료시간을 확인한다.
+        console.log('obj', obj);
 
-        state.accessToken = payload.accessToken;
+        state.accessToken = payload.data.accessToken;
 
         // VueCookies.set('accessToken',payload,'1m');
     },
-    [LOGOUT]: (state) => {
-        console.log('탄다');
-        state.user = null;
+    [LOGOUT]: (state,payload) => {
+        console.log('타니');
+        state.user = payload;
         state.isLogin = false;
         state.accessToken = "";
         state.refreshToken = "";

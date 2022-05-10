@@ -15,55 +15,84 @@ import {
 
 
 export default {
-    register({ commit }, payload) {
-        return axios.post('/auth/signup', payload)
-            .then(({ data }) => {
-                // commit('SET_USER_DATA',data)
-                return data;
-            })
+    register: async ({}, payload) => {
+        let result = {};
+        try {
+            console.log('payload', payload);
+            const url = '/auth/signup';
+            const { data } = await axios.post(url, payload);
+            result = data;
+        } catch (error) {
+            result = error.response.data;
+            console.warn(error);
+        } finally {
+            
+        }
+        return result;
     },
-    login: async ({ commit }, payload) => {
+    login: async ({commit}, payload) => {
         let result = {};
         const { email, password } = payload;
         try {
             const url = '/auth/login';
-            const result = await axios.post(url, { email, password });
-            commit(LOGIN_TOKEN, result.data);
+            const { data } = await axios.post(url, { email, password });
+            result = data;
         } catch (error) {
+            // 에러 처리
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
-
-        }
+            if (result.status !== 'error') {
+              commit(LOGIN_TOKEN, result.data);   
+            }
+        } return result;
     },
-    [REISSUE_TOKEN]: async ({ }, payload) => {
+    [REISSUE_TOKEN]: async ({commit}, payload) => {
         let result = {};
         try {
             console.log('payload', payload);
-            const url = '/auth/token';
+            const url = '/auth/refresh';
             const headers = { 'Authorization': `Bearer ${payload}` };
-            const { data } = await axios.post(url, payload, { headers })
+            const { data } = await axios.post(url, payload, { headers });
             result = data;
+           
         } catch (error) {
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
-
+            commit(REISSUE_TOKEN, result);
         }
         return result;
     },
-    logout({ commit }) {
-        commit(LOGOUT);
-    },
+    [LOGOUT]: async ({commit}, payload) => {
+        let result = {};
+        try {
+            const { refreshToken } = payload;
+            const url = '/auth/logout';
+            const headers = { 'Authorization': `Bearer ${refreshToken}` };
+            const { data } = await axios.post(url,payload,{ headers });
+            result = data;
+        } catch (error) {
+            result = error.response.data;
+            console.log('result', result);
+            console.warn(error.message, error);
+        } finally {
+            commit(LOGOUT,result.data);
+        }
+        return result;
+   },
     leftMember: async ({ }, payload) => {
         let result = {};
-        const { accessToken, email } = payload;
+        const { accessToken, id } = payload;
         console.log(payload);
         try {
-            const url = '/users/' + email;
+            const url = '/users/' + id;
             const headers = { 'Authorization': `Bearer ${accessToken}` };
             const { data } = await axios.delete(url, { headers });
             result = data;
             console.log(data);
         } catch (error) {
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
 
@@ -82,7 +111,7 @@ export default {
         } catch (error) {
             console.warn(error.message, error);
         } finally {
-            commit(GET_ALL_USERS, result);
+            commit(GET_ALL_USERS, result.data);
         }
     },
     verifyEmail(payload) {
@@ -94,17 +123,21 @@ export default {
     authEmail: async ({ commit }, payload) => {
         let result = {};
         console.log('payload', payload);
+        const { accessToken, id } = payload;
+        console.log('accessToken', accessToken);
+        console.log('id',id);
         try {
-            const url = '/auth/me';
+            const url = `/users/${id}`;
             const headers = { 'Authorization': `Bearer ${payload}` };
             const { data } = await axios.get(url, { headers });
             result = data;
-            console.log(result);
         } catch (error) {
+            result = error.response.data;
             console.warn(error.message, error);
         } finally {
-            commit(AUTH_EMAIL, result);
+            commit(AUTH_EMAIL, result.data);
         }
+        return result;
     },
     modifyUser: async ({ commit }, payload) => {
         let result = {};

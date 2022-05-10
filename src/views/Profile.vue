@@ -83,7 +83,7 @@
                 <div class="text-center mt-5">
                   <div class="h6 font-weight-300 custom-heywon">
                     <label class="relocation_heywon" for="email"
-                      >email:{{ authEmailInfo }}</label
+                      >email:{{ authInfo.email }}</label
                     >
                   </div>
                   <div class="h6 font-weight-300">
@@ -139,14 +139,31 @@
         </section>
       </div>
     </template>
+    <pop-up>
+      <template v-slot:msg>
+        {{message}}
+      </template>
+      <template v-slot:button>
+          <v-btn
+              color="green darken-1"
+              text
+              @click="closePopup(false)"
+            >
+              확인
+            </v-btn>
+      </template>
+    </pop-up>
   </div>
 </template>
 <script>
 import axios from "axios";
 import { mapActions, mapMutations, mapState } from "vuex";
-import VueCookies from "vue-cookies";
+import popUp from '../views/mixin/popUp.vue'
 
 export default {
+  components:{
+    popUp
+  },
   data() {
     return {
       person: {
@@ -161,24 +178,37 @@ export default {
       title: "",
     };
   },
+  computed: {
+    ...mapState({
+      authInfo: ({ authInfo }) => authInfo,
+      accessToken: ({ accessToken }) => accessToken,
+      user: ({user}) => user
+    }),
+  },
   created() {
     let token = this.accessToken;
     // let token = VueCookies.get('accessToken');
     let params = {
       accessToken: token,
+      id:this.user.id
     };
-    console.log("token", token);
-    this.authEmail(token);
-  },
-  computed: {
-    ...mapState({
-      authEmailInfo: ({ authEmailInfo }) => authEmailInfo,
-      accessToken: ({ accessToken }) => accessToken,
-    }),
+    
+    this.authEmail(params).then();
   },
   methods: {
     ...mapActions(["authEmail", "leftMember"]),
     ...mapMutations(["logout"]),
+    closePopup(val){
+      if(this.message.includes('회원탈퇴') === false){
+        this.openPoup = val;
+      }else if(this.message.includes('회원탈퇴') === true){
+        this.openPoup = val;
+        if(this.openPoup === false){
+            this.logout();
+            this.$router.push({path:'/'})
+        }
+      }
+    },
     func: () => {
       if (this.name) {
         this.event.name = this.name;
@@ -219,12 +249,18 @@ export default {
     memberReset() {
       let params = {
         accessToken: this.accessToken,
-        email: this.authEmailInfo,
+        id: this.user.id,
       };
       this.leftMember(params).then((result) => {
-        if (!_.isEmpty(result)) {
-          this.logout();
-          this.$router.push({ path: "/" });
+          if(result.status ==='error'){
+          this.message = result.message;
+          this.openPopup = true;
+        }else{
+          if(result.status === 'success'){
+            this.message= '회원탈퇴가 완료되었습니다.'
+            this.openPopup = true;
+          
+          }
         }
       });
     },

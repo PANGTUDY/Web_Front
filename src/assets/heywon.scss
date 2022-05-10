@@ -1202,3 +1202,18 @@ section.section.section-shaped.section-lg.my-0 {
 section.section-profile-cover.section-shaped.my-0 {
   width: 1900px;
 }
+.top {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  /* display: flex; */
+  left: 13%;
+  margin-top: 101px;
+  margin-bottom: -50px;
+}
+.navbar-brand.fa-2x.custom-fa{
+  font-family: 'NanumYeBbeunMinGyeongCe';
+}
+.navbar-nav.ml-lg-auto.flex.custom-flex{
+  padding-left: 20%;
+}

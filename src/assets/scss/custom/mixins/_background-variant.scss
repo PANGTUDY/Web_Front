@@ -1,7 +1,8 @@
 // Contextual backgrounds
 @mixin bg-variant($parent, $color) {
     #{$parent} {
-        background-color: $color !important;
+        // background-color: $color !important;
+        background-color: transparent;
     }
     a#{$parent},
     button#{$parent} {
