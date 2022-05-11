@@ -107,7 +107,7 @@ export default {
         { name: "권한관리", path: "grant" },
         { name: "설정", path: "setting" },
       ],
-      popupSetting: false,
+      // popupSetting: false,
       popMsg:
         "로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?",
       menuType: "all",
@@ -128,11 +128,13 @@ export default {
     ...mapGetters["userInfo"],
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
-      refreshToken:({refreshToken})=>refreshToken
+      refreshToken:({refreshToken})=>refreshToken,
+      popupSetting:({popupSetting})=> popupSetting
     }),
   },
   methods: {
     ...mapActions(['logout']),
+    ...mapMutations(['setValue']),
     memberClear() {
       
       this.logout({
@@ -163,47 +165,49 @@ export default {
       }
     },
     checkPopup($event) {
-      this.popupSetting = $event;
+      this.setValue({popupSetting: $event});
+      
       return this.popupSetting;
     },
     // 원하는 화면으로 이동시기키
     goTo(path) {
-      // 로그인 되어있을때
-      if (this.isLogin === true) {
-        // path 로 화면을 전환한다.
-        // 단, path와 현재 path가 같을 시에 이동시키지 않는다. 다를 경우만 이동
-        if (path) {
-          if (this.$route.path !== path) {
-            this.$router.push("/" + path);
-          }
-        } else {
-          this.$router.push("/");
-        }
-        // 로그인 되어있지 않을때
-      } else if (this.isLogin === false) {
-        if (path === "") {
-          // 메인으로 이동하고자 하면 이동시킨다.
-          if (this.$route.path !== "/") {
-            this.$router.push("/");
-          }
-        } else if (path === "register") {
-          this.$router.push({ path: "/register" });
-        } else if (path === "login") {
-          if (this.$route.path !== "/login") {
-            this.popupSetting = true;
-            this.$router.push({ path: "/login" });
-          }
-        } else {
-          this.popupSetting = true;
-        }
-      }
+      this.$router.push({path:'/'+path});
+      // // 로그인 되어있을때
+      // if (this.isLogin === true) {
+      //   // path 로 화면을 전환한다.
+      //   // 단, path와 현재 path가 같을 시에 이동시키지 않는다. 다를 경우만 이동
+      //   if (path) {
+      //     if (this.$route.path !== path) {
+      //       this.$router.push("/" + path);
+      //     }
+      //   } else {
+      //     this.$router.push("/");
+      //   }
+      //   // 로그인 되어있지 않을때
+      // } else if (this.isLogin === false) {
+      //   if (path === "") {
+      //     // 메인으로 이동하고자 하면 이동시킨다.
+      //     if (this.$route.path !== "/") {
+      //       this.$router.push("/");
+      //     }
+      //   } else if (path === "register") {
+      //     this.$router.push({ path: "/register" });
+      //   } else if (path === "login") {
+      //     if (this.$route.path !== "/login") {
+      //       this.popupSetting = true;
+      //       this.$router.push({ path: "/login" });
+      //     }
+      //   } else {
+      //     this.popupSetting = true;
+      //   }
+      // }
     },
     moveTo($event) {
-      this.popupSetting = $event;
+      this.setValue({popupSetting: $event});
+    
       if (this.$route.name !== "login") {
         this.$router.push({ name: "login" });
       }
-      return this.popupSetting;
     },
   },
 };
