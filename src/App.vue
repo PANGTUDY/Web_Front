@@ -6,12 +6,12 @@
         <router-view />
       </fade-transition>
     </v-main>
-    <chat
+    <!-- <chat
       :open="open"
       @closeit="open = false"
       @openit="open = true"
       :userInfo="userInfo"
-    />
+    /> -->
     <router-view name="footer"></router-view>
     <pop-up>
       <template v-slot:msg>
@@ -31,13 +31,13 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
-import chat from "@/views/components/chat/Chat.vue";
+// import chat from "@/views/components/chat/Chat.vue";
 import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
 import PopUp from './views/mixin/popUp.vue';
 export default {
   components: {
     FadeTransition,
-    chat,
+    // chat,
     PopUp
   },
   data:()=>({

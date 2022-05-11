@@ -25,22 +25,11 @@
 
         <ul class="navbar-nav ml-lg-auto flex custom-flex">
           <li class="nav-item" v-for="menu in menuList" :key="menu.path">
-            <a class="nav-link nav-link-icon" @click="goTo(menu.path)">{{
+            <a class="nav-link nav-link-icon" @click="goTo(menu.path),changeMenu(menu.path)" :class="selectedMenu === menu.path ? 'on':''">{{
               menu.name
             }}</a>
           </li>
-          <li class="nav-item" v-if="!isLogin">
-            <v-btn elevation="2" rounded @click="goTo('login')">Login</v-btn>
-            <!-- <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a> -->
-          </li>
-          <!-- <li class="nav-item" v-if="!isLogin">
-            <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
-          </li> -->
-          <li class="nav-item" v-else>
-            <a class="nav-link nav-link-icon" @click.stop="memberClear"
-              >Logout</a
-            >
-          </li>
+
 
           <base-dropdown tag="li" title="settings">
             <a
@@ -53,6 +42,21 @@
             </a>
           </base-dropdown>
           <div class="header-left" v-if="userInfo">{{ userInfo.name }}님</div>
+          <div class="left_menu">
+             <li class="nav-item" v-if="!isLogin">
+            <v-btn elevation="2" @click="goTo('login')">Login</v-btn>
+            <!-- <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a> -->
+          </li>
+          <!-- <li class="nav-item" v-if="!isLogin">
+            <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
+          </li> -->
+          <li class="nav-item" v-else>
+            <a class="nav-link nav-link-icon" @click.stop="memberClear"
+              >Logout</a
+            >
+          </li>
+        </div>
+
         </ul>
       </base-nav>
       <confirm-popup
@@ -108,7 +112,8 @@ export default {
         "로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?",
       menuType: "all",
       message:'',
-      openPopup:false
+      openPopup:false,
+      selectedMenu:''
     };
   },
   components: {
@@ -143,6 +148,9 @@ export default {
           }
         }
       });
+    },
+    changeMenu(path){
+      this.selectedMenu = path;
     },
     closePopup(val){
       if(this.message.includes('로그아웃') === false){
