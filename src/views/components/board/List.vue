@@ -107,8 +107,8 @@
                     <!-- <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <v-pagination
-                            v-model="page.currPageNum"
-                            :length="page.totalPageNum"
+                            v-model="currPageNum"
+                            :length="totalPageNum"
                             color="#0D47A1"
                             ></v-pagination>
                         </div>
@@ -129,7 +129,8 @@ export default {
     category_list: [],
     category: {},
     posts: [],
-    page: {},
+    currPage: "",
+    totalPage: "",
 
     hint: "키워드를 입력하세요",
     selectItems: [
@@ -140,16 +141,16 @@ export default {
     ],
     selectedItem: "title",
     selectedCategory: 0,
-    page: 1,
   }),
 
   mounted() {
     // 전체 글 목록 불러오는 Api
     Api.get_post_list()
       .then((res) => {
-        this.page = res.data.pop();
-        this.posts = res.data;
-        console.log(this.page);
+        this.currPage = res.data.currPageNum;
+        this.totalPage = res.data.totalPageNum;
+        this.posts = res.data.posts;
+        console.log(this.posts);
       })
       .catch((error) => {
         console.log("error occured!: ", error);
