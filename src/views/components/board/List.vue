@@ -30,8 +30,8 @@
             <v-list color="transparent">
               <v-subheader>CATEGORY</v-subheader>
               <v-list-item-group
+                mandatory
                 v-model="selectedCategory"
-                mandatory="true"
                 color="primary"
               >
                 <v-list-item
@@ -102,17 +102,16 @@
                 </tr>
               </table>
             </div>
+
+            <div class="col-lg-10">
+                  <v-pagination
+                  v-model="currPage"
+                  :length="totalPage"
+                  light
+                  color="#b1e399"
+                  ></v-pagination>
+              </div>
           </div>
-          
-                    <!-- <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <v-pagination
-                            v-model="currPageNum"
-                            :length="totalPageNum"
-                            color="#0D47A1"
-                            ></v-pagination>
-                        </div>
-                    </div>  -->
                    
         </div>
       </div>
@@ -145,12 +144,11 @@ export default {
 
   mounted() {
     // 전체 글 목록 불러오는 Api
-    Api.get_post_list()
+    Api.get_post_list(1)
       .then((res) => {
         this.currPage = res.data.currPageNum;
         this.totalPage = res.data.totalPageNum;
         this.posts = res.data.posts;
-        console.log(this.posts);
       })
       .catch((error) => {
         console.log("error occured!: ", error);
@@ -173,8 +171,20 @@ export default {
   },
 
   watch: {
-    category: function (val) {
+    category: function(val) {
       this.categroy_name = val.categoryName;
+    },
+
+    currPage: function(page) {
+      Api.get_post_list(page)
+      .then((res) => {
+        this.currPage = res.data.currPageNum;
+        this.totalPage = res.data.totalPageNum;
+        this.posts = res.data.posts;
+      })
+      .catch((error) => {
+        console.log("error occured!: ", error);
+      });
     },
   },
 
@@ -188,7 +198,9 @@ export default {
           this.keyword
         )
           .then((res) => {
-            this.posts = res.data;
+            this.posts = res.data.posts;
+            this.currPage = res.data.currPageNum;
+            this.totalPage = res.data.totalPageNum;
           })
           .catch((error) => {
             console.log("error occured!: ", error);
@@ -196,7 +208,9 @@ export default {
       } else {
         Api.get_post_list()
           .then((res) => {
-            this.posts = res.data;
+            this.posts = res.data.posts;
+            this.currPage = res.data.currPageNum;
+            this.totalPage = res.data.totalPageNum;
           })
           .catch((error) => {
             console.log("error occured!: ", error);
@@ -225,12 +239,15 @@ export default {
 
       Api.get_category_post_list(idx)
         .then((res) => {
-          this.posts = res.data;
+          this.posts = res.data.posts;
+          this.currPage = res.data.currPageNum;
+          this.totalPage = res.data.totalPageNum;
         })
         .catch((error) => {
           console.log("error occured!: ", error);
         });
     },
+
   },
 };
 </script>
