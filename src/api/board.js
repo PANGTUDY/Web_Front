@@ -1,16 +1,19 @@
 import { boardInstance } from "./http";
 
-export async function get_post_list(id) {
-    if (id) {
-        return boardInstance.get("/board/posts/" + id);
+export async function get_post_list(page, postId) {
+    if (postId) {
+        return boardInstance.get("/board/posts/" + postId);
+    }
+    else if (page) {
+        return boardInstance.get("/board/posts?page_num=" + page);
     }
     else {
         return boardInstance.get("/board/posts");
     }
 }
 
-export async function get_category_post_list(id) {
-    return boardInstance.get("/board/posts?category_id=" + id);
+export async function get_category_post_list(page, categoryId) {
+    return boardInstance.get("/board/posts?page_num=" + page + "&category_id=" + categoryId);
 }
 
 export async function get_category_list() {
