@@ -32,12 +32,15 @@ export default {
     mounted() {
         this.likes_num = this.likes;
         this.like_check = this.liked;
-        console.log(this.like_check);
     },
 
     watch: {
-        liked(liked) {
+        liked (liked) {
             this.like_check = liked;
+        },
+
+        likes (likes) {
+            this.likes_num = likes;
         },
     },
 }
