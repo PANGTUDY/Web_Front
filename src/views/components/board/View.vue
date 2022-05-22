@@ -131,7 +131,7 @@
         <div class="col-lg-8 comment_area">
           <template v-for="(item, index) in comments">
             <v-card
-              :key="item.commentId"
+              :key="index"
               class="mx-auto"
               style="box-shadow: none"
             >

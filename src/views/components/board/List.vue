@@ -105,10 +105,10 @@
 
             <div class="col-lg-10">
                   <v-pagination
-                  v-model="currPage"
-                  :length="totalPage"
-                  light
-                  color="#b1e399"
+                    v-model="currPage"
+                    :length="totalPage"
+                    light
+                    color="#b1e399"
                   ></v-pagination>
               </div>
           </div>
@@ -176,15 +176,15 @@ export default {
     },
 
     currPage: function(page) {
-      Api.get_post_list(page)
-      .then((res) => {
-        this.currPage = res.data.currPageNum;
-        this.totalPage = res.data.totalPageNum;
-        this.posts = res.data.posts;
-      })
-      .catch((error) => {
-        console.log("error occured!: ", error);
-      });
+      Api.get_category_post_list(page, this.category.categoryId)
+        .then((res) => {
+          this.posts = res.data.posts;
+          this.currPage = res.data.currPageNum;
+          this.totalPage = res.data.totalPageNum;
+        })
+        .catch((error) => {
+          console.log("error occured!: ", error);
+        });
     },
   },
 
@@ -237,7 +237,7 @@ export default {
       this.selectedItem = "title";
       this.keyword = "";
 
-      Api.get_category_post_list(idx)
+      Api.get_category_post_list(1, idx)
         .then((res) => {
           this.posts = res.data.posts;
           this.currPage = res.data.currPageNum;
