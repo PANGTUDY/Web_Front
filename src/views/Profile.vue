@@ -193,7 +193,7 @@ export default {
       id:this.user.id
     };
     
-    this.authEmail(params).then();
+    this.authEmail(params).then(result => console.log(result));
   },
   methods: {
     ...mapActions(["authEmail", "leftMember"]),

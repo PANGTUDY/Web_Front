@@ -140,6 +140,7 @@ export default {
       accessToken: ({ accessToken }) => accessToken,
       refreshToken: ({ refreshToken }) => refreshToken,
       timeout: ({ timeout }) => timeout,
+      user:({user}) => user
     }),
   },
   created() {
@@ -158,7 +159,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["login"]),
+    ...mapActions(["login","authEmail"]),
     async getUser() {
       // 로그인시 isChecked가 true 라면 쿠키에 이메일 값 넣어주기 / 유효기간으 7일
       if (this.isChecked === true) {
@@ -175,6 +176,7 @@ export default {
           if(result.status === 'success'){
             this.message = '로그인이 완료되었습니다.';
             this.openPopup = true;
+            
           }
         }
       });
@@ -184,12 +186,14 @@ export default {
       await this.$router.push({ path: "/" });
       return this.popupSetting;
     },
-    closePopup(val){
+    async closePopup(val){
       if(this.message.includes('로그인') === false){
         this.openPopup = val;
       }else if(this.message.includes('로그인') === true){
         this.openPopup = val;
         if(this.openPopup === false){
+          console.log('타니');
+          await this.authEmail({accessToken:this.accessToken,id:this.user.id});
           this.$router.push({path:'/'});
       }
       }

@@ -75,6 +75,7 @@ export default {
       timeout: ({ timeout }) => timeout,
       user: ({ user }) => user,
       refreshTimeOut: ({ refreshTimeOut }) => refreshTimeOut,
+      authInfo :({authInfo}) => authInfo
     }),
     access: {
       get() {

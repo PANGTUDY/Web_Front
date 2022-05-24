@@ -171,7 +171,8 @@ export default {
     },
     // 원하는 화면으로 이동시기키
     goTo(path) {
-      this.$router.push({path:'/'+path});
+      console.log('path',path);
+      this.$router.push('/'+path);
       // // 로그인 되어있을때
       // if (this.isLogin === true) {
       //   // path 로 화면을 전환한다.
