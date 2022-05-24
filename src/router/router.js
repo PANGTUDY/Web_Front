@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import beforeEach from './beforeEach.js'
 import AppHeader from "../layout/AppHeader";
 import AppFooter from "../layout/AppFooter";
 import Components from "../views/Components.vue";
@@ -19,6 +20,7 @@ import View from "../views/components/board/View";
 import New from "../views/components/board/New";
 import store from "../store/index.js";
 import confirmPopup from '../views/mixin/confirmPopup';
+
 
 Vue.use(Router);
 
@@ -164,5 +166,8 @@ const router = new Router({
   ],
 });
 
+
+
+router.beforeEach(beforeEach);
 
 export default router

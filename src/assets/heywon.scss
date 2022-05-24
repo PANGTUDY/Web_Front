@@ -1214,6 +1214,11 @@ section.section-profile-cover.section-shaped.my-0 {
 .navbar-brand.fa-2x.custom-fa{
   font-family: 'NanumYeBbeunMinGyeongCe';
 }
-.navbar-nav.ml-lg-auto.flex.custom-flex{
-  padding-left: 20%;
+.navbar-nav.ml-lg-auto.flex.custom-flex {
+    padding-left: 25%;
+}
+.left_menu {
+    position: relative;
+    margin-left: 51%;
+    /* right: -43%; */
 }

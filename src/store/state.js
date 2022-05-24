@@ -9,5 +9,6 @@ export default {
     timeout: '',
     isLogin: false,
     allUsers: [],
-    refreshTimeOut: ''
+    refreshTimeOut: '',
+    popupSetting:false
 };
