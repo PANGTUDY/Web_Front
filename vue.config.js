@@ -8,11 +8,13 @@ module.exports = {
   devServer: {
     proxy: {
       '^/auth/': {
-        target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
+        // target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
+        target:'http://pangtudy.xyz:8000',
         changeOrigin: true
       },
       '^/users': {
-        target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
+        // target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
+        target: 'http://pangtudy.xyz:8000/user',
         changeOrigin: true
       }
     }

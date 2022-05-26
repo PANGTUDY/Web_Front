@@ -192,15 +192,22 @@ export default {
       }else if(this.message.includes('로그인') === true){
         this.openPopup = val;
         if(this.openPopup === false){
-          console.log('타니');
-          await this.authEmail({accessToken:this.accessToken,id:this.user.id});
-          this.$router.push({path:'/'});
+          await this.authEmail({accessToken:this.accessToken,id:this.user.id})
+          .then(result => {
+            if(result.message==='ok'){
+              this.$router.push({path:'/'});
+            }else{
+              this.message = result.message;
+              this.openPopup = true;
+            }
+          });
+         
       }
       }
   
     }
   },
-};
+}
 </script>
 <style>
 .alert-danger p {
