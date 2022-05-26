@@ -122,15 +122,15 @@ export default {
     },
     authEmail: async ({ commit }, payload) => {
         let result = {};
-        console.log('payload', payload);
+       
         const { accessToken, id } = payload;
-        console.log('accessToken', accessToken);
-        console.log('id',id);
+       
         try {
             const url = `/users/${id}`;
-            const headers = { 'Authorization': `Bearer ${payload}` };
+            const headers = { 'Authorization': `Bearer ${accessToken}` };
             const { data } = await axios.get(url, { headers });
             result = data;
+           
         } catch (error) {
             result = error.response.data;
             console.warn(error.message, error);
@@ -185,4 +185,4 @@ export default {
                 break;
         }
     }
-};
+}
