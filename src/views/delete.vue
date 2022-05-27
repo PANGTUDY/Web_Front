@@ -87,15 +87,15 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
+import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
   data() {
     return {
       isLoading: true,
-      password: "",
-      password_confirm: "",
+      password: '',
+      password_confirm: '',
     };
   },
   methods: {},

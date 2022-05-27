@@ -20,12 +20,7 @@
                 <div class="row justify-content-center">
                   <div class="col-lg-3 order-lg-2"></div>
                   <div
-                    class="
-                      col-lg-4
-                      order-lg-3
-                      text-lg-right
-                      align-self-lg-center
-                    "
+                    class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center"
                   >
                     <div class="card-profile-actions py-4 mt-lg-0"></div>
                   </div>
@@ -123,39 +118,39 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import { mapState, mapActions, mapGetters } from "vuex";
-import confirmPopup from "./mixin/confirmPopup.vue";
+import axios from 'axios';
+import { mapState, mapActions, mapGetters } from 'vuex';
+import confirmPopup from './mixin/confirmPopup.vue';
 
 export default {
   data() {
     return {
-      newPassword: "",
-      confirm_newPassword: "",
-      password: "",
-      passwordValidation: "",
-      msg: "",
+      newPassword: '',
+      confirm_newPassword: '',
+      password: '',
+      passwordValidation: '',
+      msg: '',
       popupSetting: false,
-      popMsg: "비밀번호 수정이 완료되었습니다.",
-      menuType: "pwinquiry",
+      popMsg: '비밀번호 수정이 완료되었습니다.',
+      menuType: 'pwinquiry',
     };
   },
   components: {
     confirmPopup,
   },
   methods: {
-    ...mapActions(["modifyUser"]),
+    ...mapActions(['modifyUser']),
     validationCheck(type) {
-      if (type == "newPassword") {
+      if (type == 'newPassword') {
         if (_.isEmpty(this.newPassword)) {
-          alert("비밀번호를 입력해주세요");
+          alert('비밀번호를 입력해주세요');
           return false;
         } else {
           let regExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
           if (this.password.match(regExp) != null) {
             return true;
           } else {
-            alert("비밀번호를 올바르게 입력해주세요");
+            alert('비밀번호를 올바르게 입력해주세요');
           }
         }
       }
@@ -169,7 +164,7 @@ export default {
         _.isEmpty(this.password) ||
         _.isEmpty(this.confirm_newPassword)
       ) {
-        alert("입력해야할 필수 항목을 모두 입력해주세요");
+        alert('입력해야할 필수 항목을 모두 입력해주세요');
       }
       if (
         !_.isEmpty(this.newPassword) &&
@@ -183,7 +178,7 @@ export default {
           accessToken: token,
           name: this.userInfo.name,
         };
-        this.modifyUser(params).then((result) => {
+        this.modifyUser(params).then(result => {
           if (result) {
             this.popupSetting = true;
           }
@@ -194,28 +189,28 @@ export default {
   watch: {
     newPassword() {
       if (this.newPassword.match(this.password)) {
-        alert("현재 비밀번호과 수정할 비밀번호가 일치합니다.");
+        alert('현재 비밀번호과 수정할 비밀번호가 일치합니다.');
       }
       //숫자6자리
       let weak = /^[0-9]{1,5}$/g;
       if (this.newPassword.match(weak) != null) {
-        this.passwordValidation = "weak";
+        this.passwordValidation = 'weak';
       }
       // 영어 소문자,대문자,숫자 모두6자리
       let medium = /^\w{6}$/;
       if (this.newPassword.match(medium) != null) {
-        this.passwordValidation = "medium";
+        this.passwordValidation = 'medium';
       }
       let strong = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
       if (this.newPassword.match(strong) != null) {
-        this.passwordValidation = "strong";
+        this.passwordValidation = 'strong';
       }
     },
     confirm_newPassword() {
       if (this.confirm_newPassword.match(this.newPassword) != null) {
-        this.msg = "비밀번호가 일치합니다.";
+        this.msg = '비밀번호가 일치합니다.';
       } else {
-        this.msg = "비밀번호가 일치하지 않습니다.";
+        this.msg = '비밀번호가 일치하지 않습니다.';
       }
     },
   },
@@ -225,11 +220,11 @@ export default {
       authEmailInfo: ({ authEmailInfo }) => authEmailInfo,
       user: ({ user }) => user,
     }),
-    ...mapGetters(["userInfo"]),
+    ...mapGetters(['userInfo']),
     changeStrength: function () {
-      return this.passwordValidation === "strong"
-        ? "text-success"
-        : "text-warning";
+      return this.passwordValidation === 'strong'
+        ? 'text-success'
+        : 'text-warning';
     },
   },
   created() {},

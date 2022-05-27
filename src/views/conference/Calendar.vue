@@ -56,8 +56,8 @@
       <v-col cols="3">
         <div class="py-3" style="margin-bottom: 10px">
           <h5 class="mb-0">
-            {{ this.year }}.{{ String(this.month).padStart(2, "0") }}.{{
-              String(this.day).padStart(2, "0")
+            {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{
+              String(this.day).padStart(2, '0')
             }}
           </h5>
         </div>
@@ -172,5 +172,4 @@
   </div>
 </template>
 
-<script src="./calendar.js">
-</script>
+<script src="./calendar.js"></script>

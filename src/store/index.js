@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueCookies from 'vue-cookies';
@@ -14,9 +14,12 @@ Vue.use(Vuex);
 
 export * from './types';
 export default new Vuex.Store({
-    plugins: process.env.NODE_ENV !== 'production' ? [createPersistedstate()] : [createPersistedstate()],
-    state,
-    getters,
-    mutations,
-    actions
+  plugins:
+    process.env.NODE_ENV !== 'production'
+      ? [createPersistedstate()]
+      : [createPersistedstate()],
+  state,
+  getters,
+  mutations,
+  actions,
 });

@@ -367,12 +367,7 @@
             <div class="px-4">
               <img
                 v-lazy="'img/theme/team-1-800x800.jpg'"
-                class="
-                  rounded-circle
-                  img-center img-fluid
-                  shadow
-                  shadow-lg--hover
-                "
+                class="rounded-circle img-center img-fluid shadow shadow-lg--hover"
                 style="width: 200px"
               />
               <div class="pt-4 text-center">
@@ -413,12 +408,7 @@
             <div class="px-4">
               <img
                 v-lazy="'img/theme/team-2-800x800.jpg'"
-                class="
-                  rounded-circle
-                  img-center img-fluid
-                  shadow
-                  shadow-lg--hover
-                "
+                class="rounded-circle img-center img-fluid shadow shadow-lg--hover"
                 style="width: 200px"
               />
               <div class="pt-4 text-center">
@@ -459,12 +449,7 @@
             <div class="px-4">
               <img
                 v-lazy="'img/theme/team-3-800x800.jpg'"
-                class="
-                  rounded-circle
-                  img-center img-fluid
-                  shadow
-                  shadow-lg--hover
-                "
+                class="rounded-circle img-center img-fluid shadow shadow-lg--hover"
                 style="width: 200px"
               />
               <div class="pt-4 text-center">
@@ -505,12 +490,7 @@
             <div class="px-4">
               <img
                 v-lazy="'img/theme/team-4-800x800.jpg'"
-                class="
-                  rounded-circle
-                  img-center img-fluid
-                  shadow
-                  shadow-lg--hover
-                "
+                class="rounded-circle img-center img-fluid shadow shadow-lg--hover"
                 style="width: 200px"
               />
               <div class="pt-4 text-center">
@@ -811,7 +791,7 @@
 
 <script>
 export default {
-  name: "home",
+  name: 'home',
   components: {},
 };
 </script>

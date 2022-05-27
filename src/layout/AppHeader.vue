@@ -10,7 +10,7 @@
         <a
           class="navbar-brand fa-2x custom-fa"
           @click="goTo('')"
-          style="font-weight: 600; margin-left: 0.5rem; font-size:33px;"
+          style="font-weight: 600; margin-left: 0.5rem; font-size: 33px"
           >Pangtudy</a
         >
 
@@ -25,11 +25,13 @@
 
         <ul class="navbar-nav ml-lg-auto flex custom-flex">
           <li class="nav-item" v-for="menu in menuList" :key="menu.path">
-            <a class="nav-link nav-link-icon" @click="goTo(menu.path),changeMenu(menu.path)" :class="selectedMenu === menu.path ? 'on':''">{{
-              menu.name
-            }}</a>
+            <a
+              class="nav-link nav-link-icon"
+              @click="goTo(menu.path), changeMenu(menu.path)"
+              :class="selectedMenu === menu.path ? 'on' : ''"
+              >{{ menu.name }}</a
+            >
           </li>
-
 
           <base-dropdown tag="li" title="settings">
             <a
@@ -43,20 +45,19 @@
           </base-dropdown>
           <div class="header-left" v-if="userInfo">{{ userInfo.name }}님</div>
           <div class="left_menu">
-             <li class="nav-item" v-if="!isLogin">
-            <v-btn elevation="2" @click="goTo('login')">Login</v-btn>
-            <!-- <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a> -->
-          </li>
-          <!-- <li class="nav-item" v-if="!isLogin">
+            <li class="nav-item" v-if="!isLogin">
+              <v-btn elevation="2" @click="goTo('login')">Login</v-btn>
+              <!-- <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a> -->
+            </li>
+            <!-- <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
           </li> -->
-          <li class="nav-item" v-else>
-            <a class="nav-link nav-link-icon" @click.stop="memberClear"
-              >Logout</a
-            >
-          </li>
-        </div>
-
+            <li class="nav-item" v-else>
+              <a class="nav-link nav-link-icon" @click.stop="memberClear"
+                >Logout</a
+              >
+            </li>
+          </div>
         </ul>
       </base-nav>
       <confirm-popup
@@ -68,52 +69,49 @@
       ></confirm-popup>
     </div>
     <pop-up>
-        <template v-slot:msg>
-          {{message}}
-        </template>
-        <template v-slot:button>
-          <v-btn 
-          color="green darken-1"
-          text
-          @click="closePopup(false)">
+      <template v-slot:msg>
+        {{ message }}
+      </template>
+      <template v-slot:button>
+        <v-btn color="green darken-1" text @click="closePopup(false)">
           확인
-          </v-btn>
-        </template>
-      </pop-up>
+        </v-btn>
+      </template>
+    </pop-up>
   </header>
 </template>
 <script>
-import BaseNav from "@/components/BaseNav";
-import BaseDropdown from "@/components/BaseDropdown";
-import CloseButton from "@/components/CloseButton";
+import BaseNav from '@/components/BaseNav';
+import BaseDropdown from '@/components/BaseDropdown';
+import CloseButton from '@/components/CloseButton';
 import popUp from '../views/mixin/popUp.vue';
-import confirmPopup from "@/views/mixin/confirmPopup.vue";
-import { authComputed } from "../store/helper.js";
-import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
+import confirmPopup from '@/views/mixin/confirmPopup.vue';
+import { authComputed } from '../store/helper.js';
+import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
 export default {
   data() {
     return {
       person: {
-        src: require("../../public/img/icons/common/happy.png"),
+        src: require('../../public/img/icons/common/happy.png'),
       },
       menuList: [
         // {name:'Login', path:'login'},
-        { name: "Register", path: "register" },
-        { name: "Profile", path: "profile" },
-        { name: "Calendar", path: "calendar" },
-        { name: "Board", path: "board/list" },
+        { name: 'Register', path: 'register' },
+        { name: 'Profile', path: 'profile' },
+        { name: 'Calendar', path: 'calendar' },
+        { name: 'Board', path: 'board/list' },
       ],
       subList: [
-        { name: "권한관리", path: "grant" },
-        { name: "설정", path: "setting" },
+        { name: '권한관리', path: 'grant' },
+        { name: '설정', path: 'setting' },
       ],
       // popupSetting: false,
       popMsg:
-        "로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?",
-      menuType: "all",
-      message:'',
-      openPopup:false,
-      selectedMenu:''
+        '로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?',
+      menuType: 'all',
+      message: '',
+      openPopup: false,
+      selectedMenu: '',
     };
   },
   components: {
@@ -121,58 +119,57 @@ export default {
     CloseButton,
     BaseDropdown,
     confirmPopup,
-    popUp
+    popUp,
   },
   computed: {
     ...authComputed,
-    ...mapGetters["userInfo"],
+    ...mapGetters['userInfo'],
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
-      refreshToken:({refreshToken})=>refreshToken,
-      popupSetting:({popupSetting})=> popupSetting
+      refreshToken: ({ refreshToken }) => refreshToken,
+      popupSetting: ({ popupSetting }) => popupSetting,
     }),
   },
   methods: {
     ...mapActions(['logout']),
     ...mapMutations(['setValue']),
     memberClear() {
-      
       this.logout({
-        refreshToken : this.refreshToken
-      }).then((result)=> {
-        if(result.status==='error'){
+        refreshToken: this.refreshToken,
+      }).then(result => {
+        if (result.status === 'error') {
           this.message = result.message;
           this.openPopup = true;
-        }else{
-          if(result.status==='success'){
-            this.message='로그아웃이 완료되었습니다.'
+        } else {
+          if (result.status === 'success') {
+            this.message = '로그아웃이 완료되었습니다.';
             this.openPopup = true;
           }
         }
       });
     },
-    changeMenu(path){
+    changeMenu(path) {
       this.selectedMenu = path;
     },
-    closePopup(val){
-      if(this.message.includes('로그아웃') === false){
+    closePopup(val) {
+      if (this.message.includes('로그아웃') === false) {
         this.openPopup = val;
-      }else if(this.message.includes('로그아웃')=== true){
+      } else if (this.message.includes('로그아웃') === true) {
         this.openPopup = val;
-        if(this.openPopup === false){
-          this.$router.push({path:'/login'});
+        if (this.openPopup === false) {
+          this.$router.push({ path: '/login' });
         }
       }
     },
     checkPopup($event) {
-      this.setValue({popupSetting: $event});
-      
+      this.setValue({ popupSetting: $event });
+
       return this.popupSetting;
     },
     // 원하는 화면으로 이동시기키
     goTo(path) {
-      console.log('path',path);
-      this.$router.push('/'+path);
+      console.log('path', path);
+      this.$router.push('/' + path);
       // // 로그인 되어있을때
       // if (this.isLogin === true) {
       //   // path 로 화면을 전환한다.
@@ -204,10 +201,10 @@ export default {
       // }
     },
     moveTo($event) {
-      this.setValue({popupSetting: $event});
-    
-      if (this.$route.name !== "login") {
-        this.$router.push({ name: "login" });
+      this.setValue({ popupSetting: $event });
+
+      if (this.$route.name !== 'login') {
+        this.$router.push({ name: 'login' });
       }
     },
   },

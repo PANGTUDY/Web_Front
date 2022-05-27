@@ -126,7 +126,7 @@
 </template>
 <script>
 export default {
-  name: "starter-footer",
+  name: 'starter-footer',
   data() {
     return {
       year: new Date().getFullYear(),
@@ -134,5 +134,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>

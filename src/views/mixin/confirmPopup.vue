@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
   props: {
     popupSetting: Boolean,
@@ -79,7 +79,7 @@ export default {
     menuType: String,
   },
   data: () => ({
-    dialog: "",
+    dialog: '',
   }),
   computed: {
     ...mapState({
@@ -92,5 +92,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

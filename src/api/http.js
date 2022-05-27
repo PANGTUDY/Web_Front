@@ -1,14 +1,14 @@
-import axios from "axios";
-import store from "@/store/index.js";
-import { reissue } from "./auth";
-import VueCookies from "vue-cookies";
+import axios from 'axios';
+import store from '@/store/index.js';
+import { reissue } from './auth';
+import VueCookies from 'vue-cookies';
 
 export const conference_instance = axios.create({
-    baseURL: 'http://127.0.0.1:8000/conference/'
+  baseURL: 'http://127.0.0.1:8000/conference/',
 });
 
 export const auth_instance = axios.create({
-    baseURL: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/'
+  baseURL: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080/auth/',
 });
 
 // export const user_instance = axios.create({
@@ -64,5 +64,5 @@ export const auth_instance = axios.create({
 // );
 
 export const boardInstance = axios.create({
-    baseURL: 'http://127.0.0.1:10831'
+  baseURL: 'http://127.0.0.1:10831',
 });

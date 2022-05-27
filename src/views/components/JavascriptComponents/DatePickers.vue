@@ -40,8 +40,8 @@
   </div>
 </template>
 <script>
-import flatPicker from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
+import flatPicker from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 export default {
   components: {
     flatPicker,
@@ -49,8 +49,8 @@ export default {
   data() {
     return {
       dates: {
-        simple: "2018-07-17",
-        range: "2018-07-17 to 2018-07-19",
+        simple: '2018-07-17',
+        range: '2018-07-17 to 2018-07-19',
       },
     };
   },

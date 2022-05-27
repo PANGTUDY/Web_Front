@@ -58,12 +58,7 @@
                     </div>
                   </div>
                   <div
-                    class="
-                      col-lg-4
-                      order-lg-3
-                      text-lg-right
-                      align-self-lg-center
-                    "
+                    class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center"
                   >
                     <div class="card-profile-actions py-4 mt-lg-0">
                       <base-button type="info" size="sm" class="mr-4"
@@ -141,48 +136,44 @@
     </template>
     <pop-up>
       <template v-slot:msg>
-        {{message}}
+        {{ message }}
       </template>
       <template v-slot:button>
-          <v-btn
-              color="green darken-1"
-              text
-              @click="closePopup(false)"
-            >
-              확인
-            </v-btn>
+        <v-btn color="green darken-1" text @click="closePopup(false)">
+          확인
+        </v-btn>
       </template>
     </pop-up>
   </div>
 </template>
 <script>
-import axios from "axios";
-import { mapActions, mapMutations, mapState } from "vuex";
-import popUp from '../views/mixin/popUp.vue'
+import axios from 'axios';
+import { mapActions, mapMutations, mapState } from 'vuex';
+import popUp from '../views/mixin/popUp.vue';
 
 export default {
-  components:{
-    popUp
+  components: {
+    popUp,
   },
   data() {
     return {
       person: {
-        name: "",
-        title: "",
-        src: require("../../public/img/icons/common/happy.png"),
+        name: '',
+        title: '',
+        src: require('../../public/img/icons/common/happy.png'),
       },
 
-      mainImage: "",
-      name: "",
-      event: "",
-      title: "",
+      mainImage: '',
+      name: '',
+      event: '',
+      title: '',
     };
   },
   computed: {
     ...mapState({
       authInfo: ({ authInfo }) => authInfo,
       accessToken: ({ accessToken }) => accessToken,
-      user: ({user}) => user
+      user: ({ user }) => user,
     }),
   },
   created() {
@@ -190,22 +181,22 @@ export default {
     // let token = VueCookies.get('accessToken');
     let params = {
       accessToken: token,
-      id:this.user.id
+      id: this.user.id,
     };
-    
+
     this.authEmail(params).then(result => console.log(result));
   },
   methods: {
-    ...mapActions(["authEmail", "leftMember"]),
-    ...mapMutations(["logout"]),
-    closePopup(val){
-      if(this.message.includes('회원탈퇴') === false){
+    ...mapActions(['authEmail', 'leftMember']),
+    ...mapMutations(['logout']),
+    closePopup(val) {
+      if (this.message.includes('회원탈퇴') === false) {
         this.openPoup = val;
-      }else if(this.message.includes('회원탈퇴') === true){
+      } else if (this.message.includes('회원탈퇴') === true) {
         this.openPoup = val;
-        if(this.openPoup === false){
-            this.logout();
-            this.$router.push({path:'/'})
+        if (this.openPoup === false) {
+          this.logout();
+          this.$router.push({ path: '/' });
         }
       }
     },
@@ -224,25 +215,25 @@ export default {
     // 등록버튼
     submit() {
       if (this.namve.length <= 0 || this.title.length <= 0) {
-        window.alert("모든 내용을 입력하고 시도해주세요. ");
+        window.alert('모든 내용을 입력하고 시도해주세요. ');
         return false;
       }
 
       const formData = new formData();
-      formData.append("name", this.name);
-      formData.append("title", this.title);
-      formData.append("mainImage", this.mainImage);
+      formData.append('name', this.name);
+      formData.append('title', this.title);
+      formData.append('mainImage', this.mainImage);
 
       axios
-        .post("https://localhost:3000/:id", formData, {
+        .post('https://localhost:3000/:id', formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -251,21 +242,20 @@ export default {
         accessToken: this.accessToken,
         id: this.user.id,
       };
-      this.leftMember(params).then((result) => {
-          if(result.status ==='error'){
+      this.leftMember(params).then(result => {
+        if (result.status === 'error') {
           this.message = result.message;
           this.openPopup = true;
-        }else{
-          if(result.status === 'success'){
-            this.message= '회원탈퇴가 완료되었습니다.'
+        } else {
+          if (result.status === 'success') {
+            this.message = '회원탈퇴가 완료되었습니다.';
             this.openPopup = true;
-          
           }
         }
       });
     },
     pageMove() {
-      this.$router.push({ path: "pwinquiry" });
+      this.$router.push({ path: 'pwinquiry' });
     },
   },
 };

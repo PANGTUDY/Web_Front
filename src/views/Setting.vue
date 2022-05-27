@@ -10,14 +10,14 @@
 
 <script>
 export default {
-  name: "setting",
+  name: 'setting',
   data() {
     return {
       data: [
-        { count: 1, text: "안녕" },
-        { count: 2, text: "하세연" },
-        { count: 1, text: "만나서" },
-        { count: 2, text: "방가방가" },
+        { count: 1, text: '안녕' },
+        { count: 2, text: '하세연' },
+        { count: 1, text: '만나서' },
+        { count: 2, text: '방가방가' },
       ],
       list: [],
     };
@@ -31,5 +31,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

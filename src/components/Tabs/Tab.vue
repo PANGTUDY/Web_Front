@@ -1,30 +1,32 @@
 <template>
-  <div class="tab-pane"
-       v-show="active"
-       :id="id || title"
-       :class="{active: active}">
+  <div
+    class="tab-pane"
+    v-show="active"
+    :id="id || title"
+    :class="{ active: active }"
+  >
     <slot></slot>
   </div>
 </template>
 <script>
 export default {
-  name: "tab-pane",
+  name: 'tab-pane',
   props: {
     title: {
       type: String,
-      default: "",
-      description: "Tab pane title"
+      default: '',
+      description: 'Tab pane title',
     },
     id: {
       type: String,
       default: null,
-      description: "Tab pane id"
-    }
+      description: 'Tab pane id',
+    },
   },
-  inject: ["addTab", "removeTab"],
+  inject: ['addTab', 'removeTab'],
   data() {
     return {
-      active: false
+      active: false,
     };
   },
   mounted() {
@@ -35,8 +37,7 @@ export default {
       this.$el.parentNode.removeChild(this.$el);
     }
     this.removeTab(this);
-  }
+  },
 };
 </script>
-<style>
-</style>
+<style></style>

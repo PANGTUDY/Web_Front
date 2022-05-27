@@ -1,24 +1,16 @@
 <template>
   <div class="editor">
-
     <editor-menu-bar
       :editor="editor"
       v-slot="{ commands, isActive, getMarkAttrs }"
       v-if="!options.readonly"
     >
       <div class="menubar">
-
-        <button
-          class="menubar__button"
-          @click="commands.undo"
-        >
+        <button class="menubar__button" @click="commands.undo">
           <img class="icon" src="@/assets/images/icons/undo.svg" />
         </button>
 
-        <button
-          class="menubar__button"
-          @click="commands.redo"
-        >
+        <button class="menubar__button" @click="commands.redo">
           <img class="icon" src="@/assets/images/icons/redo.svg" />
         </button>
 
@@ -46,13 +38,9 @@
           H3
         </button>
 
-        <button
-          class="menubar__button"
-          @click="commands.horizontal_rule"
-        >
+        <button class="menubar__button" @click="commands.horizontal_rule">
           <img class="icon" src="@/assets/images/icons/hr.svg" />
         </button>
-
 
         <button
           class="menubar__button"
@@ -96,8 +84,15 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-disabled': shouldDisableButton(isActive.link()), 'is-active': isActive.link() }"
-          @click.prevent="isActive.link() ? changeLinkDialog(commands.link, getMarkAttrs('link')) : addLinkDialog(commands.link, getMarkAttrs('link'))"
+          :class="{
+            'is-disabled': shouldDisableButton(isActive.link()),
+            'is-active': isActive.link(),
+          }"
+          @click.prevent="
+            isActive.link()
+              ? changeLinkDialog(commands.link, getMarkAttrs('link'))
+              : addLinkDialog(commands.link, getMarkAttrs('link'))
+          "
         >
           <img class="icon" src="@/assets/images/icons/link.svg" />
         </button>
@@ -136,79 +131,56 @@
 
         <button
           class="menubar__button"
-          @click="commands.createTable({
-            rowsCount: 3,
-            colsCount: 3,
-            withHeaderRow: true
-          })"
+          @click="
+            commands.createTable({
+              rowsCount: 3,
+              colsCount: 3,
+              withHeaderRow: true,
+            })
+          "
         >
           <img class="icon" src="@/assets/images/icons/table.svg" />
         </button>
 
         <span v-if="isActive.table()">
-          <button
-            class="menubar__button"
-            @click="commands.deleteTable"
-          >
+          <button class="menubar__button" @click="commands.deleteTable">
             <img class="icon" src="@/assets/images/icons/delete_table.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.addColumnBefore"
-          >
+          <button class="menubar__button" @click="commands.addColumnBefore">
             <img class="icon" src="@/assets/images/icons/add_col_before.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.addColumnAfter"
-          >
+          <button class="menubar__button" @click="commands.addColumnAfter">
             <img class="icon" src="@/assets/images/icons/add_col_after.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.addRowBefore"
-          >
+          <button class="menubar__button" @click="commands.addRowBefore">
             <img class="icon" src="@/assets/images/icons/add_row_before.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.addRowAfter"
-          >
+          <button class="menubar__button" @click="commands.addRowAfter">
             <img class="icon" src="@/assets/images/icons/add_row_after.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.deleteColumn"
-          >
+          <button class="menubar__button" @click="commands.deleteColumn">
             <img class="icon" src="@/assets/images/icons/delete_col.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.deleteRow"
-          >
+          <button class="menubar__button" @click="commands.deleteRow">
             <img class="icon" src="@/assets/images/icons/delete_row.svg" />
           </button>
-          <button
-            class="menubar__button"
-            @click="commands.toggleCellMerge"
-          >
+          <button class="menubar__button" @click="commands.toggleCellMerge">
             <img class="icon" src="@/assets/images/icons/combine_cells.svg" />
           </button>
         </span>
-
       </div>
     </editor-menu-bar>
-    <editor-content @keydown="onKeyDown" class="overflow-auto editor__content" :editor="editor" />
+    <editor-content
+      @keydown="onKeyDown"
+      class="overflow-auto editor__content"
+      :editor="editor"
+    />
   </div>
 </template>
 
 <script>
-import { DOMParser } from 'prosemirror-model'
-import {
-  Editor,
-  EditorContent,
-  EditorMenuBar,
-} from "tiptap"
+import { DOMParser } from 'prosemirror-model';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
   Blockquote,
   CodeBlock,
@@ -233,9 +205,9 @@ import {
   TableRow,
   History,
   TrailingNode,
-} from "tiptap-extensions";
-import Iframe from '@/components/Iframe.js'
-import axios from 'axios'
+} from 'tiptap-extensions';
+import Iframe from '@/components/Iframe.js';
+import axios from 'axios';
 
 export default {
   components: {
@@ -251,7 +223,7 @@ export default {
     // supportImage: upload and link images
     // supportVideo: embed video
   },
-  data () {
+  data() {
     return {
       editor: null,
       imageDialog: false,
@@ -262,17 +234,17 @@ export default {
       selectedFile: null,
 
       id: null,
-    }
+    };
   },
-  updated () {
+  updated() {
     this.editor.content = this.options.content;
   },
-  mounted () {
-    console.log("mounted: ", this.options.content);
+  mounted() {
+    console.log('mounted: ', this.options.content);
 
     this.id = this.$route.params.id;
-    if(this.id == null || this.id == undefined) {
-      this.editor = new Editor ({
+    if (this.id == null || this.id == undefined) {
+      this.editor = new Editor({
         editable: !this.options.readonly,
         extensions: [
           new Blockquote(),
@@ -303,21 +275,21 @@ export default {
           new TableRow(),
           new History(),
           new TrailingNode(),
-          new Iframe()
+          new Iframe(),
         ],
         onUpdate: ({ getHTML }) => {
-          this.options.content = getHTML()
+          this.options.content = getHTML();
         },
         autoFocus: this.options.autoFocus,
-      })
+      });
     }
   },
-  beforeDestroy () {
-    this.editor.destroy()
+  beforeDestroy() {
+    this.editor.destroy();
   },
   watch: {
-    content (content) {
-      this.editor = new Editor ({
+    content(content) {
+      this.editor = new Editor({
         editable: !this.options.readonly,
         extensions: [
           new Blockquote(),
@@ -348,91 +320,92 @@ export default {
           new TableRow(),
           new History(),
           new TrailingNode(),
-          new Iframe()
+          new Iframe(),
         ],
         onUpdate: ({ getHTML }) => {
-          this.options.content = getHTML()
+          this.options.content = getHTML();
         },
         content: content,
         autoFocus: this.options.autoFocus,
-      })
-    }
+      });
+    },
   },
   methods: {
     onKeyDown(event, view) {
-      console.log('event', event.key)
+      console.log('event', event.key);
     },
 
     shouldDisableButton: function (isActive) {
-      return !isActive & window.getSelection().isCollapsed
+      return !isActive & window.getSelection().isCollapsed;
     },
     addLinkDialog: async function (command) {
       if (window.getSelection().isCollapsed) {
-        return
+        return;
       }
 
-      let res = await window.prompt('Add link', 'https://')
+      let res = await window.prompt('Add link', 'https://');
       if (res && res != 'https://' && res != 'http://') {
-        command({ href: res })
+        command({ href: res });
       }
     },
     changeLinkDialog: async function (command, attr) {
-      let res = await window.prompt('Change link', attr.href)
+      let res = await window.prompt('Change link', attr.href);
       if (res != undefined) {
         if (res == 'http://' || res == 'https://') {
-          res = ''
+          res = '';
         }
-        command({ href: res })
+        command({ href: res });
       }
     },
     insertHTML: function ({ state, view }, value) {
-      const { selection } = state
-      const element = document.createElement('div')
-      element.innerHTML = value.trim()
-      const slice = DOMParser.fromSchema(state.schema).parseSlice(element)
-      const transaction = state.tr.insert(selection.anchor, slice.content)
-      view.dispatch(transaction)
+      const { selection } = state;
+      const element = document.createElement('div');
+      element.innerHTML = value.trim();
+      const slice = DOMParser.fromSchema(state.schema).parseSlice(element);
+      const transaction = state.tr.insert(selection.anchor, slice.content);
+      view.dispatch(transaction);
     },
     insertVideo: function () {
-      let vm = this
-      let src = this.videoURL
+      let vm = this;
+      let src = this.videoURL;
 
       if (src.includes('youtube.com/') || src.includes('youtu.be/')) {
         axios({
           method: 'get',
-          url: 'https://www.youtube.com/oembed?url={url}&format=json&maxwidth=640&maxheight=360'.replace('{url}', src),
-        })
-        .then(function (response) {
-          const src = response.data['html']
-          vm.insertHTML(vm.editor, src)
+          url: 'https://www.youtube.com/oembed?url={url}&format=json&maxwidth=640&maxheight=360'.replace(
+            '{url}',
+            src,
+          ),
+        }).then(function (response) {
+          const src = response.data['html'];
+          vm.insertHTML(vm.editor, src);
 
-          vm.videoURL = null
-          vm.videoDialog = false
-        })
-      }
-      else {
-        let embed = '<iframe src={src}></iframe>'.replace('{src}', src)
-        this.insertHTML(vm.editor, embed)
-        this.videoURL = null
-        this.videoDialog = false
+          vm.videoURL = null;
+          vm.videoDialog = false;
+        });
+      } else {
+        let embed = '<iframe src={src}></iframe>'.replace('{src}', src);
+        this.insertHTML(vm.editor, embed);
+        this.videoURL = null;
+        this.videoDialog = false;
       }
     },
     insertImage: function (command) {
-      const src = this.fileURL
-      command({ src })
+      const src = this.fileURL;
+      command({ src });
 
-      this.selectedFile = null
-      this.fileURL = null
-      this.imageDialog = false
+      this.selectedFile = null;
+      this.fileURL = null;
+      this.imageDialog = false;
     },
     onFileChange: function () {
       if (this.selectedFile) {
-        this.uploadFile(this.selectedFile)
+        this.uploadFile(this.selectedFile);
       }
     },
     uploadFile: function (file) {
       let formData = new FormData();
-      formData.append('file', file)
+      formData.append('file', file);
 
       // File upload API required
       // axios({
@@ -443,11 +416,11 @@ export default {
       // .then(function (response) {
       //   vm.fileURL = response.data['data']['file']
       // })
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-  @import '@/assets/sass/main.scss'
+@import '@/assets/sass/main.scss';
 </style>

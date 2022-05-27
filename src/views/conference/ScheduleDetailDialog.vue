@@ -6,8 +6,8 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>
-          {{ this.year }}.{{ String(this.month).padStart(2, "0") }}.{{
-            String(this.day).padStart(2, "0")
+          {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{
+            String(this.day).padStart(2, '0')
           }}
           {{ this.schedule_title }}
           ({{ this.schedule_start }} ~ {{ this.schedule_end }})
@@ -46,13 +46,13 @@ export default {
     return {
       dialog: this.is_dialog,
 
-      schedule_title: "",
+      schedule_title: '',
       schedule_start: null,
       schedule_end: null,
       schedule_select_members: [],
       schedule_is_alram: false,
       schedule_select_time: null,
-      schedule_comment: "",
+      schedule_comment: '',
     };
   },
   watch: {
@@ -61,9 +61,9 @@ export default {
         this.schedule_title = this.schedule.title;
         this.schedule_start = this.time_format(this.schedule.startTime);
         this.schedule_end = this.time_format(this.schedule.endTime);
-        this.schedule_select_members = ["박찬준"];
+        this.schedule_select_members = ['박찬준'];
         this.schedule_is_alram = this.schedule.alarm;
-        this.schedule_select_time = ["15분전"];
+        this.schedule_select_time = ['15분전'];
         this.schedule_comment = this.schedule.comment;
       }
     },
@@ -73,20 +73,20 @@ export default {
       console.log(this.schedule);
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     edit_schedule() {
-      this.$emit("edit", this.schedule);
+      this.$emit('edit', this.schedule);
     },
     delete_schedule() {
-      this.$emit("delete", this.schedule.id);
-      this.$emit("close");
+      this.$emit('delete', this.schedule.id);
+      this.$emit('close');
     },
     time_format(time) {
       return (
-        String(time[0]).padStart(2, "0") +
-        ":" +
-        String(time[1]).padStart(2, "0")
+        String(time[0]).padStart(2, '0') +
+        ':' +
+        String(time[1]).padStart(2, '0')
       );
     },
   },

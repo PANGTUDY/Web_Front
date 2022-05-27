@@ -29,12 +29,7 @@
                 class="media d-flex align-items-center"
               >
                 <div
-                  class="
-                    icon icon-shape
-                    bg-gradient-primary
-                    rounded-circle
-                    text-white
-                  "
+                  class="icon icon-shape bg-gradient-primary rounded-circle text-white"
                 >
                   <i class="ni ni-spaceship"></i>
                 </div>
@@ -51,12 +46,7 @@
                 class="media d-flex align-items-center"
               >
                 <div
-                  class="
-                    icon icon-shape
-                    bg-gradient-warning
-                    rounded-circle
-                    text-white
-                  "
+                  class="icon icon-shape bg-gradient-warning rounded-circle text-white"
                 >
                   <i class="ni ni-ui-04"></i>
                 </div>
@@ -156,8 +146,8 @@
   </header>
 </template>
 <script>
-import BaseNav from "@/components/BaseNav";
-import CloseButton from "@/components/CloseButton";
+import BaseNav from '@/components/BaseNav';
+import CloseButton from '@/components/CloseButton';
 
 export default {
   components: {
@@ -166,5 +156,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>
