@@ -1,8 +1,4 @@
 import axios from 'axios';
-import * as AuthApi from '@/api/auth';
-import { user_instance } from '../api/http';
-import * as UserApi from '@/api/user';
-import { createLogger } from 'vuex';
 
 import {
     LOGIN_TOKEN,
@@ -15,7 +11,7 @@ import {
 
 
 export default {
-    register: async ({}, payload) => {
+    register: async ({ }, payload) => {
         let result = {};
         try {
             console.log('payload', payload);
@@ -26,11 +22,11 @@ export default {
             result = error.response.data;
             console.warn(error);
         } finally {
-            
+
         }
         return result;
     },
-    login: async ({commit}, payload) => {
+    login: async ({ commit }, payload) => {
         let result = {};
         const { email, password } = payload;
         try {
@@ -43,11 +39,11 @@ export default {
             console.warn(error.message, error);
         } finally {
             if (result.status !== 'error') {
-              commit(LOGIN_TOKEN, result.data);   
+                commit(LOGIN_TOKEN, result.data);
             }
         } return result;
     },
-    [REISSUE_TOKEN]: async ({commit}, payload) => {
+    [REISSUE_TOKEN]: async ({ commit }, payload) => {
         let result = {};
         try {
             console.log('payload', payload);
@@ -55,7 +51,7 @@ export default {
             const headers = { 'Authorization': `Bearer ${payload}` };
             const { data } = await axios.post(url, payload, { headers });
             result = data;
-           
+
         } catch (error) {
             result = error.response.data;
             console.warn(error.message, error);
@@ -64,23 +60,23 @@ export default {
         }
         return result;
     },
-    [LOGOUT]: async ({commit}, payload) => {
+    [LOGOUT]: async ({ commit }, payload) => {
         let result = {};
         try {
             const { refreshToken } = payload;
             const url = '/auth/logout';
             const headers = { 'Authorization': `Bearer ${refreshToken}` };
-            const { data } = await axios.post(url,payload,{ headers });
+            const { data } = await axios.post(url, payload, { headers });
             result = data;
         } catch (error) {
             result = error.response.data;
             console.log('result', result);
             console.warn(error.message, error);
         } finally {
-            commit(LOGOUT,result.data);
+            commit(LOGOUT, result.data);
         }
         return result;
-   },
+    },
     leftMember: async ({ }, payload) => {
         let result = {};
         const { accessToken, id } = payload;
@@ -122,15 +118,15 @@ export default {
     },
     authEmail: async ({ commit }, payload) => {
         let result = {};
-       
+
         const { accessToken, id } = payload;
-       
+
         try {
             const url = `/users/${id}`;
             const headers = { 'Authorization': `Bearer ${accessToken}` };
             const { data } = await axios.get(url, { headers });
             result = data;
-           
+
         } catch (error) {
             result = error.response.data;
             console.warn(error.message, error);
