@@ -1,6 +1,4 @@
-import axios from 'axios';
-import { json } from 'body-parser';
-import VueCookies from 'vue-cookies';
+import Vue from 'vue';
 import {
     LOGIN_TOKEN,
     AUTH_EMAIL,
@@ -22,14 +20,14 @@ export default {
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-        
+
         const obj = JSON.parse(jsonPayload);
         console.log('obj', obj);
         // 토큰 만료시간을 확인한다.
         state.timeout = obj.exp;
 
 
-        state.user = { name: obj.name, email: obj.email,id:obj.id};
+        state.user = { name: obj.name, email: obj.email, id: obj.id };
         // VueCookies.set('accessToken',payload.accessToken,'60s');
         // VueCookies.set('refreshToken',payload.refreshToken,'1h');
         state.accessToken = payload.accessToken;
@@ -51,7 +49,7 @@ export default {
 
     },
     [REISSUE_TOKEN]: (state, payload) => { // accessToken 재셋팅
-       
+
         let base64Access = payload.data.accessToken ? payload.data.accessToken.split('.')[1] : '';
         let base64 = base64Access.replace(/-/g, '+').replace(/_/g, '/');
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
@@ -68,7 +66,7 @@ export default {
 
         // VueCookies.set('accessToken',payload,'1m');
     },
-    [LOGOUT]: (state,payload) => {
+    [LOGOUT]: (state, payload) => {
         console.log('타니');
         state.user = payload;
         state.isLogin = false;
