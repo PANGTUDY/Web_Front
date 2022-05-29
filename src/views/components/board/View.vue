@@ -16,7 +16,7 @@
 
         <div class="col-lg-1 text-right">
           <template>
-            <v-menu offset-y left bottom v-if="userInfo === post.writer">
+            <v-menu offset-y left bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   text
@@ -153,11 +153,11 @@
 
                       <v-list-item-content>
                         <v-row class="comment_date" text-left justify="end">
-                          <div style="padding: 7px">
+                          <div style="padding: 7px; min-width: 110px;">
                             {{ item.date.substr(0, 10) }}
                           </div>
 
-                          <v-menu offset-y left bottom style="display: none">
+                          <v-menu offset-y left bottom style="display: none" v-if="userId === item.writer">
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
                                 text
@@ -291,13 +291,17 @@ export default {
     this.postId = this.$route.params.id;
     this.categoryId = this.$route.query.categoryId;
 
-    if(this.$state != null) {
-      this.userId = this.$state.getters.getUser;
+    console.log("id in authInfo: ", this.$store.state.authInfo.id);
+
+    // 추후 getters 사용으로 변경 예정
+    if(this.$store.state.authInfo != null) {
+      this.userId = this.$store.state.authInfo.id;
     }
     else {
       // 임시
       this.userId = 1;
     }
+    console.log("userId: ", this.userId);
 
     // 좋아요 누른 user 불러오는 Api
     Api.get_likes_user_list(this.postId)
