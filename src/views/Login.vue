@@ -95,7 +95,7 @@
         {{ message }}
       </template>
       <template v-slot:button>
-        <v-btn color="green darken-1" text @click="closePopup(false)">
+        <v-btn color="green darken-1" text @click="closePopup(false, $event)">
           확인
         </v-btn>
       </template>
@@ -117,10 +117,10 @@ import VueCookies from "vue-cookies";
 
 export default {
   components: {
-    directives,
     confirmPopup,
     Popup,
   },
+  mixins: [directives],
   data: () => ({
     email: "",
     password: "",
@@ -156,6 +156,9 @@ export default {
   },
   methods: {
     ...mapActions(["login", "authEmail"]),
+    close($event) {
+      console.log("응", $event.target.value);
+    },
     async getUser() {
       // 로그인시 isChecked가 true 라면 쿠키에 이메일 값 넣어주기 / 유효기간으 7일
       if (this.isChecked === true) {
@@ -181,7 +184,8 @@ export default {
       await this.$router.push({ path: "/" });
       return this.popupSetting;
     },
-    async closePopup(val) {
+    async closePopup(val, $event) {
+      console.log("keyCode", $event.keyCode);
       if (this.message.includes("로그인") === false) {
         this.openPopup = val;
       } else if (this.message.includes("로그인") === true) {
