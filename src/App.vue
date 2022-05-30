@@ -15,16 +15,12 @@
     <router-view name="footer"></router-view>
     <pop-up>
       <template v-slot:msg>
-        {{message}}
+        {{ message }}
       </template>
       <template v-slot:button>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="closePopup(false)"
-            >
-              확인
-            </v-btn>
+        <v-btn color="green darken-1" text @click="closePopup(false)">
+          확인
+        </v-btn>
       </template>
     </pop-up>
   </v-app>
@@ -33,17 +29,17 @@
 import { FadeTransition } from "vue2-transitions";
 // import chat from "@/views/components/chat/Chat.vue";
 import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
-import PopUp from './views/mixin/popUp.vue';
+import PopUp from "./views/mixin/popUp.vue";
 export default {
   components: {
     FadeTransition,
     // chat,
-    PopUp
+    PopUp,
   },
-  data:()=>({
-    open:false,
-    message:'',
-    openPopup: false
+  data: () => ({
+    open: false,
+    message: "",
+    openPopup: false,
   }),
   watch: {
     access() {
@@ -75,7 +71,7 @@ export default {
       timeout: ({ timeout }) => timeout,
       user: ({ user }) => user,
       refreshTimeOut: ({ refreshTimeOut }) => refreshTimeOut,
-      authInfo :({authInfo}) => authInfo
+      authInfo: ({ authInfo }) => authInfo,
     }),
     access: {
       get() {
@@ -124,8 +120,8 @@ export default {
       }, 1000);
     },
     reissue() {
-      this.reissueToken(this.refreshToken).then((result) => {
-        if(result.status === 'error'){
+      this.reissueToken(this.refreshToken).then(result => {
+        if (result.status === "error") {
           this.message = result.message;
           this.openPopup = true;
         }

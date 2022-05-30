@@ -117,7 +117,7 @@ export default {
     this.postId = this.$route.params.id;
 
     if (this.postId) {
-      Api.get_post_list(this.postId).then((res) => {
+      Api.get_post_list(this.postId).then(res => {
         var post = res.data;
         this.title = post.title;
         this.$set(this.options, "content", post.contents);
@@ -135,14 +135,14 @@ export default {
   mounted() {
     // 카테고리 전체 목록 불러오는 Api
     Api.get_category_list()
-      .then((res) => {
+      .then(res => {
         this.category_list = res.data;
 
         this.category_list.sort(function (a, b) {
           return a.categoryId - b.categoryId;
         });
 
-        this.category_list.map((item) => {
+        this.category_list.map(item => {
           let category = {};
 
           category["value"] = item["categoryId"];
@@ -151,7 +151,7 @@ export default {
           this.categoryItems.push(category);
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("error occured!: ", error);
       });
 
@@ -192,12 +192,12 @@ export default {
         // new post
         // Submit the post
         Api.create_post(post)
-          .then((res) => {
+          .then(res => {
             // Check the success
             alert("저장되었습니다");
             this.$router.push({ path: "/board/list/" });
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("error occured!: ", error);
           });
 
@@ -210,11 +210,11 @@ export default {
       } else {
         // edit post
         Api.patch_post(this.postId, post)
-          .then((res) => {
+          .then(res => {
             alert("수정되었습니다");
             this.$router.push({ path: "/board/list/" });
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("error occured!: ", error);
           });
       }

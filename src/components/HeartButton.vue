@@ -43,8 +43,14 @@ export default {
             this.likes_num = likes;
         },
     },
-}
 
+      // this.$emit("setInput", this.likes_num);
+    // },
+  // },
+  mounted() {
+    this.likes_num = this.likes;
+  },
+};
 </script>
 
 <style scoped>
@@ -53,29 +59,29 @@ export default {
 }
 
 body .using-mouse :focus {
-    outline: none;
+  outline: none;
 }
 
-.heart{
+.heart {
   width: 20px;
   fill: gray;
   pointer-events: none;
 }
 
 .heart-btn {
-    position: relative;
-    background: transparent;
+  position: relative;
+  background: transparent;
 }
 
 .liked {
-    fill: #ee3529;
+  fill: #ee3529;
 }
 
 .fill-red {
-    fill: #ee3529;
+  fill: #ee3529;
 }
 
 .fill-gray {
-    fill: gray;
+  fill: gray;
 }
 </style>

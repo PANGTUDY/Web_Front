@@ -1,4 +1,4 @@
- <template>
+<template>
   <v-app>
     <div class="container pt-lg-sd" style="min-height: 800px">
       <div class="row justify-content-center vertical-center mt-5">
@@ -367,15 +367,15 @@ export default {
           }
           
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("error occured!: ", error);
         });
 
       Api.get_adjacent_list(this.categoryId, this.postId)
-        .then((res) => {
+        .then(res => {
           this.postList = res.data;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("error occured!: ", error);
         });
     },
@@ -411,22 +411,22 @@ export default {
       };
 
       Api.create_comment(comment)
-        .then((res) => {
+        .then(res => {
           console.log("저장되었습니다");
           Api.get_comments(this.postId)
-            .then((result) => {
+            .then(result => {
               this.comments = result.data;
 
               for (let comment of this.comments) {
                 comment.edit = false;
               }
             })
-            .catch((error) => {
+            .catch(error => {
               console.log("error occured!: ", error);
             });
           this.comment = "";
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("error occured!: ", error);
         });
     },
@@ -445,7 +445,7 @@ export default {
           console.log("삭제되었습니다");
           this.$router.push({ path: "/board/list/" });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("error occured!: ", error);
         });
     },
@@ -460,7 +460,7 @@ export default {
       Api.delete_comment(this.postId, commentId)
         .then(() => {
           Api.get_comments(this.postId)
-            .then((result) => {
+            .then(result => {
               this.comments = result.data;
 
               if(this.comments != null) {
@@ -471,11 +471,11 @@ export default {
               }
               
             })
-            .catch((error) => {
+            .catch(error => {
               console.log("error occured!: ", error);
             });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("error occured!: ", error);
         });
     },
@@ -500,10 +500,10 @@ export default {
       Api.patch_comment(
         this.postId,
         this.comments[index].commentId,
-        content
-      ).then((res) => {
+        content,
+      ).then(res => {
         Api.get_comments(this.postId)
-          .then((result) => {
+          .then(result => {
             this.comments = result.data;
 
             if(this.comments != null) {
@@ -514,7 +514,7 @@ export default {
             }
             
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("error occured!: ", error);
           });
       });

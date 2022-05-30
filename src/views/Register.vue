@@ -30,66 +30,88 @@
                   Github
                 </base-button>
 
-                                <base-button type="neutral">
-                                    <img slot="icon" src="img/icons/common/google.svg">
-                                    Google
-                                </base-button>
-                            </div>
-                        </template>
-                        <template>
-                            <div class="text-center text-muted mb-4">
-                                <small>Or sign up with credentials</small>
-                            </div>
-                                <label class="ni ni-hat-3" for="name"> name</label>
-                                <base-input alternative
-                                            class="mb-3"
-                                            placeholder="name "
-                                            v-model="name">
-                                </base-input>
-                                 <label class="ni ni-email-83" for="email"> email</label>
-                                <base-input alternative
-                                            class="mb-3"
-                                            placeholder="Email"
-                                            v-model="email"
-                                            @blur.stop="validationCheck('email')">
-                                </base-input>
-                                 <div>
-                                    <base-button btn_type="primary" type="submit" @click.stop="confirmEmail">이메일 인증</base-button>
-                                </div>
-                                <label class="fa fa-check" for="comfirm_email"> confirm email</label>
-                                <span id="onlyemail">
-                                  <base-input alternative
-                                            class="mb-3 loose"
-                                            placeholder="Email 인증"
-                                            >
-                                </base-input>
-                                <div>
-                                    <base-button btn_type="primary" class="reform" type="submit">인증번호 전송</base-button>
-                                </div> 
-                                 </span> 
-                                <label class="ni ni-lock-circle-open" for="confirm_password"> password</label>
-                                <base-input alternative
-                                            type="password"
-                                            placeholder="비밀번호는 6~16자리로 숫자,영문,특수문자 혼합입니다. "
-                                            addon-left-icon="ni ni-lock-circle-open"
-                                            v-model="password"
-                                            @blur.stop="validationCheck('password')">
-                                </base-input>
-                                <label class="fa fa-check" for="password">confirm password</label>
-                                <base-input alternative
-                                            type="password"
-                                            v-model="password_confirm"
-                                            placeholder="Password 재확인"
-                                            addon-left-icon="ni ni-lock-circle-open"
-                                            >
-                                </base-input>
-                                <div class="text-muted font-italic">
-                                    <small>password strength:
-                                        <span class="font-weight-700" :class="changeStrength">{{passwordValidation}}</span>
-                                        <p>{{msg}}</p>
-                                    </small>
-                                </div>
-                                <!-- <base-checkbox>
+                <base-button type="neutral">
+                  <img slot="icon" src="img/icons/common/google.svg" />
+                  Google
+                </base-button>
+              </div>
+            </template>
+            <template>
+              <div class="text-center text-muted mb-4">
+                <small>Or sign up with credentials</small>
+              </div>
+              <label class="ni ni-hat-3" for="name"> name</label>
+              <base-input
+                alternative
+                class="mb-3"
+                placeholder="name "
+                v-model="name"
+              >
+              </base-input>
+              <label class="ni ni-email-83" for="email"> email</label>
+              <base-input
+                alternative
+                class="mb-3"
+                placeholder="Email"
+                v-model="email"
+                @blur.stop="validationCheck('email')"
+              >
+              </base-input>
+              <div>
+                <base-button
+                  btn_type="primary"
+                  type="submit"
+                  @click.stop="confirmEmail"
+                  >이메일 인증</base-button
+                >
+              </div>
+              <label class="fa fa-check" for="comfirm_email">
+                confirm email</label
+              >
+              <span id="onlyemail">
+                <base-input
+                  alternative
+                  class="mb-3 loose"
+                  placeholder="Email 인증"
+                >
+                </base-input>
+                <div>
+                  <base-button btn_type="primary" class="reform" type="submit"
+                    >인증번호 전송</base-button
+                  >
+                </div>
+              </span>
+              <label class="ni ni-lock-circle-open" for="confirm_password">
+                password</label
+              >
+              <base-input
+                alternative
+                type="password"
+                placeholder="비밀번호는 6~16자리로 숫자,영문,특수문자 혼합입니다. "
+                addon-left-icon="ni ni-lock-circle-open"
+                v-model="password"
+                @blur.stop="validationCheck('password')"
+              >
+              </base-input>
+              <label class="fa fa-check" for="password">confirm password</label>
+              <base-input
+                alternative
+                type="password"
+                v-model="password_confirm"
+                placeholder="Password 재확인"
+                addon-left-icon="ni ni-lock-circle-open"
+              >
+              </base-input>
+              <div class="text-muted font-italic">
+                <small
+                  >password strength:
+                  <span class="font-weight-700" :class="changeStrength">{{
+                    passwordValidation
+                  }}</span>
+                  <p>{{ msg }}</p>
+                </small>
+              </div>
+              <!-- <base-checkbox>
                                     <span>I agree with the
                                         <a href="#">Privacy Policy</a>
                                     </span>
@@ -117,13 +139,11 @@
     </div>
     <pop-up>
       <template v-slot:msg>
-        {{message}}
+        {{ message }}
       </template>
       <template v-slot:button>
-        <v-btn color="green darken-1"
-        text 
-        @click="closePopup(false)">
-        확인
+        <v-btn color="green darken-1" text @click="closePopup(false)">
+          확인
         </v-btn>
       </template>
     </pop-up>
@@ -136,9 +156,9 @@
   </section>
 </template>
 <script>
-import confrimPopup from "./mixin/confirmPopup.vue";
+import confrimPopup from "@/views/mixin/confirmPopup.vue";
 import { mapActions } from "vuex";
-import popUp from '../views/mixin/popUp.vue';
+import popUp from "@/views/mixin/popUp.vue";
 export default {
   data() {
     return {
@@ -146,7 +166,7 @@ export default {
       password: "",
       popupSetting: false,
       password_confirm: "",
-      message:'',
+      message: "",
       openPopup: false,
       email: "",
       registerMsg: [
@@ -160,7 +180,8 @@ export default {
     };
   },
   components: {
-    confrimPopup,popUp
+    confrimPopup,
+    popUp,
   },
   computed: {
     changeStrength: function () {
@@ -213,17 +234,16 @@ export default {
           name: this.name,
           email: this.email,
           password: this.password,
-        }).then((result) => {
-          if(result.status==='error'){
+        }).then(result => {
+          if (result.status === "error") {
             this.message = result.message;
             this.openPopup = true;
-          }else{
-            if(result.status==='success'){
-              this.message ='회원가입이 완료되었습니다.';
+          } else {
+            if (result.status === "success") {
+              this.message = "회원가입이 완료되었습니다.";
               this.popupSetting = true;
             }
           }
-          
         });
       }
     },

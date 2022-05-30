@@ -1,14 +1,18 @@
+import axios from "axios";
+import * as AuthApi from "@/api/auth";
+import { user_instance } from "../api/http";
+import * as UserApi from "@/api/user";
+import { createLogger } from "vuex";
 import axios from 'axios';
 
 import {
-    LOGIN_TOKEN,
-    AUTH_EMAIL,
-    REISSUE_TOKEN,
-    LOGOUT,
-    MODIFY_USER,
-    GET_ALL_USERS
-} from './types';
-
+  LOGIN_TOKEN,
+  AUTH_EMAIL,
+  REISSUE_TOKEN,
+  LOGOUT,
+  MODIFY_USER,
+  GET_ALL_USERS,
+} from "./types";
 
 export default {
     register: async ({ }, payload) => {
@@ -181,4 +185,5 @@ export default {
                 break;
         }
     }
-}
+  },
+};

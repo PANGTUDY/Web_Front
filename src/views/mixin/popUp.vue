@@ -10,19 +10,15 @@
 
     <v-dialog v-model="usingPopup" max-width="290">
       <v-card>
-        <v-card-title class="text-h5">
-        </v-card-title>
+        <v-card-title class="text-h5"> </v-card-title>
 
         <v-card-text>
-         <slot name="msg">
-             
-         </slot>
+          <slot name="msg"> </slot>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <slot name="button">
-          </slot>
+          <slot name="button"> </slot>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -51,5 +47,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -5,5 +5,5 @@ export const conference_instance = axios.create({
 });
 
 export const boardInstance = axios.create({
-    baseURL: 'http://127.0.0.1:10831'
+  baseURL: "http://127.0.0.1:10831",
 });

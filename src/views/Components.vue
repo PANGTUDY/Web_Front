@@ -16,7 +16,6 @@ import Examples from "./components/Examples";
 import DownloadSection from "./components/DownloadSection";
 
 export default {
-  name: "components",
   components: {
     Hero,
     BasicElements,
