@@ -1,39 +1,52 @@
 <template>
-  <button class="heart-btn" @click="heartit">
-    <svg
-      class="heart heart-icon"
-      :class="[this.liked ? 'fill-red' : 'fill-gray']"
-      viewBox="0 0 32 29.6"
-    >
-      <path
-        d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-            c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
-      />
-    </svg>
-  </button>
+    <button class="heart-btn" @click="heartit">
+        <svg class="heart heart-icon" :class="[this.like_check ? 'fill-red' : 'fill-gray']" viewBox="0 0 32 29.6">
+            <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+            c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+        </svg> 
+    </button>
 </template>
 
 <script>
 export default {
-  props: {
-    likes: Number,
-  },
-  data: () => ({
-    liked: false,
-    count: 0,
-    likes_num: 0,
-  }),
-
-  methods: {
-    heartit: function (e) {
-      e.preventDefault();
-
-      this.liked = !this.liked;
-      this.liked ? (this.likes_num += 1) : (this.likes_num -= 1);
-
-      this.$emit("setInput", this.likes_num);
+    props: {
+        likes: Number,
+        liked: Boolean,
     },
-  },
+
+    data: () => ({
+        like_check: false,
+        count: 0,
+        likes_num: 0,
+    }),
+    
+    methods: {
+        heartit: function (e) {
+            e.preventDefault();
+
+            this.like_check = !this.like_check;
+            this.$emit("setInput", this.likes_num);
+        }
+    },
+
+    mounted() {
+        this.likes_num = this.likes;
+        this.like_check = this.liked;
+    },
+
+    watch: {
+        liked (liked) {
+            this.like_check = liked;
+        },
+
+        likes (likes) {
+            this.likes_num = likes;
+        },
+    },
+
+      // this.$emit("setInput", this.likes_num);
+    // },
+  // },
   mounted() {
     this.likes_num = this.likes;
   },

@@ -172,9 +172,9 @@ export default {
 
       if (this.modify) {
         Vue.set(schedule, "id", this.modify_id);
-        Api.modify_schedule(schedule).then(data => {});
+        Api.modify_schedule(schedule).then(data => { });
       } else {
-        Api.create_schedule(schedule).then(data => {});
+        Api.create_schedule(schedule).then(data => { });
       }
 
       this.modify = false;
@@ -214,40 +214,38 @@ export default {
         String(time[1]).padStart(2, "0")
       );
     },
-  },
-  async mounted() {
-    // TODO : EventSource 주소 상수화 필요
-    this.sse_source = new EventSource(
-      "http://localhost:10831/calendar/schedules/sse",
-    );
-    this.sse_source.onmessage = event => {
-      var event_data = JSON.parse(event.data);
-      console.log(event_data);
-      // DELETE 는 event_data.schedule 에 id 만 넘어오기 때문에 일단 이렇게 처리... 개선이 필요한 부분
-      if (event_data.type === "DELETE") {
-        this.$store.dispatch("change_schedule_event", event_data);
-      }
-      if (event_data.schedule.year === this.year) {
-        if (
-          event_data.schedule.month === this.month &&
-          event_data.schedule.day === this.day
-        ) {
-          this.change = true;
+    async mounted() {
+      // TODO : EventSource 주소 상수화 필요
+      this.sse_source = new EventSource("http://pangtudy.xyz:8000/conference/calendar/schedules/sse");
+      this.sse_source.onmessage = (event) => {
+        console.log(event);
+        var event_data = JSON.parse(event.data);
+        console.log(event_data);
+        // DELETE 는 event_data.schedule 에 id 만 넘어오기 때문에 일단 이렇게 처리... 개선이 필요한 부분
+        if (event_data.type === 'DELETE') {
+          this.$store.dispatch("change_schedule_event", event_data);
         }
-        this.$store.dispatch("change_schedule_event", event_data);
+        if (event_data.schedule.year === this.year) {
+          if (event_data.schedule.month === this.month && event_data.schedule.day === this.day) {
+            this.change = true;
+          }
+          this.$store.dispatch("change_schedule_event", event_data);
+        }
       }
-    };
+      this.$store.dispatch("change_schedule_event", event_data);
+    }
+  };
 
-    // 최초 캘린더(현재날짜기준) 정보 읽어오기
-    await Api.get_calendar(this.year).then(data => {
-      this.$store.dispatch("load_calendar", {
-        year: this.year,
-        calendar: data.data,
-      });
+  // 최초 캘린더(현재날짜기준) 정보 읽어오기
+  await Api.get_calendar(this.year).then(data => {
+    this.$store.dispatch("load_calendar", {
+      year: this.year,
+      calendar: data.data,
     });
-  },
+  }),
   beforeDestroy() {
     this.sse_source.close();
     this.sse_source = null;
   },
+}
 };

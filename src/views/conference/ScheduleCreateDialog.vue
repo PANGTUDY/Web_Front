@@ -169,8 +169,6 @@
 </template>
 
 <script>
-import * as UserApi from "@/api/user";
-
 export default {
   props: {
     year: Number,
@@ -224,15 +222,15 @@ export default {
           this.schedule_comment = this.schedule.comment;
         }
 
-        UserApi.get_users().then(response => {
-          this.members = [];
-          response.data.forEach(user => {
-            this.members.push({
-              name: user.name,
-              email: user.email,
-            });
-          });
-        });
+        // UserApi.get_users().then((response) => {
+        //   this.members = [];
+        //   response.data.forEach((user) => {
+        //     this.members.push({
+        //       name: user.name,
+        //       email: user.email,
+        //     });
+        //   });
+        // });
       }
     },
   },

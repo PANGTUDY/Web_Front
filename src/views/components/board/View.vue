@@ -16,7 +16,7 @@
 
         <div class="col-lg-1 text-right">
           <template>
-            <v-menu offset-y left bottom>
+            <v-menu offset-y left bottom v-if="userInfo === post.writer">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   text
@@ -69,6 +69,7 @@
                 <td width="85%">
                   <HeartButton
                     :likes="this.likes"
+                    :liked="this.liked"
                     @setInput="setLike"
                   ></HeartButton>
                   <span class="subheading ml-2">{{ likes }}</span>
@@ -112,7 +113,7 @@
                       path: `/board/view/${post.postId}`,
                       query: { categoryId: `${post.categoryId}` },
                     }"
-                    :class="{ focus: isFoucs(post.postId) }"
+                    :class="{ focus: isFocus(post.postId) }"
                   >
                     {{ post.title }}
                   </router-link>
@@ -130,7 +131,7 @@
         <div class="col-lg-8 comment_area">
           <template v-for="(item, index) in comments">
             <v-card
-              :key="item.commentId"
+              :key="index"
               class="mx-auto"
               style="box-shadow: none"
             >
@@ -257,12 +258,17 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapGetters } from "vuex";
+
 import * as Api from "@/api/board.js";
 import HeartButton from "@/components/HeartButton";
 
 export default {
   components: { HeartButton },
   data: () => ({
+    userId: "",
+    liked: false,
+
     postId: "",
     categoryId: "",
     category: "",
@@ -278,7 +284,6 @@ export default {
     deleteDialog: false,
     editDialog: false,
 
-    // temp
     postList: [],
   }),
 
@@ -286,36 +291,81 @@ export default {
     this.postId = this.$route.params.id;
     this.categoryId = this.$route.query.categoryId;
 
-    this.fnInint();
+    if(this.$state != null) {
+      this.userId = this.$state.getters.getUser;
+    }
+    else {
+      // 임시
+      this.userId = 1;
+    }
+
+    // 좋아요 누른 user 불러오는 Api
+    Api.get_likes_user_list(this.postId)
+      .then((res) => {
+        let userList = res.data;
+        console.log(userList);
+        this.likes = userList.length;
+        if(userList.includes(this.userId)) {
+          this.liked = true;
+        }
+        else {
+          this.liked = false;
+        }
+      })
+      .catch((error) => {
+        console.log("error occured!: ", error);
+      });
+
+    this.fnInit();
   },
 
   watch: {
     $route(to, from) {
       if (to.path != from.path) {
-        console.log(this.$route);
         this.postId = this.$route.params.id;
         this.categoryId = this.$route.query.categoryId;
 
-        this.fnInint();
+        this.fnInit();
+        // 좋아요 누른 user 불러오는 Api
+        Api.get_likes_user_list(this.postId)
+          .then((res) => {
+            let userList = res.data;
+            console.log("route list: ", userList);
+            this.likes = userList.length;
+            if(userList.includes(this.userId)) {
+              this.liked = true;
+            }
+            else {
+              this.liked = false;
+            }
+          })
+          .catch((error) => {
+            console.log("error occured!: ", error);
+          });
       }
     },
   },
 
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
+
   methods: {
-    fnInint() {
+    fnInit() {
       // 특정 글 정보 불러오는 Api
-      Api.get_post_list(this.postId)
-        .then(res => {
+      Api.get_post_list(0, this.postId)
+        .then((res) => {
           this.post = res.data;
           this.category = this.post.category.categoryName;
           this.comments = res.data.comments;
 
-          for (let comment of this.comments) {
-            comment._contents = comment.contents;
-            comment.edit = false;
+          if(this.comments != null) {
+            for (let comment of this.comments) {
+              comment._contents = comment.contents;
+              comment.edit = false;
+            }
           }
-
-          this.likes = this.post.likes;
+          
         })
         .catch(error => {
           console.log("error occured!: ", error);
@@ -330,7 +380,7 @@ export default {
         });
     },
 
-    isFoucs(id) {
+    isFocus(id) {
       if (this.postId == id.toString()) {
         return true;
       } else {
@@ -338,9 +388,15 @@ export default {
       }
     },
 
-    setLike(likes) {
-      console.log(likes);
-      this.likes = likes;
+    setLike() {
+      Api.change_like(this.postId, this.userId)
+        .then((res) => {
+          this.likes = res.data;
+          this.liked = !this.liked;
+        })
+        .catch((error) => {
+          console.log("error occured!: ", error);
+        });
     },
 
     submit() {
@@ -407,10 +463,13 @@ export default {
             .then(result => {
               this.comments = result.data;
 
-              for (let comment of this.comments) {
-                comment._contents = comment.contents;
-                comment.edit = false;
+              if(this.comments != null) {
+                for (let comment of this.comments) {
+                  comment._contents = comment.contents;
+                  comment.edit = false;
+                }
               }
+              
             })
             .catch(error => {
               console.log("error occured!: ", error);
@@ -447,10 +506,13 @@ export default {
           .then(result => {
             this.comments = result.data;
 
-            for (let comment of this.comments) {
-              comment._contents = comment.contents;
-              comment.edit = false;
+            if(this.comments != null) {
+              for (let comment of this.comments) {
+                comment._contents = comment.contents;
+                comment.edit = false;
+              }
             }
+            
           })
           .catch(error => {
             console.log("error occured!: ", error);
