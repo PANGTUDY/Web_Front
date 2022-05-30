@@ -180,8 +180,8 @@ export default {
   data() {
     return {
       schedule_title_rules: [
-        (value) => !!value || "Required.",
-        (value) => (value && value.length >= 3) || "Min 3 characters",
+        value => !!value || "Required.",
+        value => (value && value.length >= 3) || "Min 3 characters",
       ],
       start_time: false,
       end_time: false,
@@ -210,7 +210,7 @@ export default {
           this.schedule_end = this.time_format(this.schedule.endTime);
 
           this.schedule_select_members = [];
-          this.schedule.participants.forEach((element) => {
+          this.schedule.participants.forEach(element => {
             this.schedule_select_members.push({
               name: element.name,
               email: element.email,
@@ -261,7 +261,7 @@ export default {
       }
       if (this.schedule_start === null || this.schedule_end === null) {
         return this.valid_alert(
-          "일정의 시작시간과 종료시간을 반드리 입력해야합니다."
+          "일정의 시작시간과 종료시간을 반드리 입력해야합니다.",
         );
       }
       // if (!this.compare_time(this.schedule_start, this.schedule_end)) {

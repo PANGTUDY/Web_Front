@@ -167,4 +167,4 @@ const router = new Router({
 
 router.beforeEach(beforeEach)
 
-export default router
+export default router;

@@ -149,13 +149,13 @@ export default {
         this.totalPage = res.data.totalPageNum;
         this.posts = res.data.posts;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("error occured!: ", error);
       });
 
     // 카테고리 전체 목록 불러오는 Api
     Api.get_category_list()
-      .then((res) => {
+      .then(res => {
         this.category_list = res.data;
         this.category_list.push({ categoryId: 0, categoryName: "전체" });
 
@@ -164,7 +164,7 @@ export default {
         });
         this.category = this.category_list[0];
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("error occured!: ", error);
       });
   },
@@ -194,14 +194,14 @@ export default {
         Api.get_search_post_list(
           this.category.categoryId,
           this.selectedItem,
-          this.keyword
+          this.keyword,
         )
           .then((res) => {
             this.posts = res.data.posts;
             this.currPage = res.data.currPageNum;
             this.totalPage = res.data.totalPageNum;
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("error occured!: ", error);
           });
       } else {
@@ -211,7 +211,7 @@ export default {
             this.currPage = res.data.currPageNum;
             this.totalPage = res.data.totalPageNum;
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("error occured!: ", error);
           });
       }
@@ -242,7 +242,7 @@ export default {
           this.currPage = res.data.currPageNum;
           this.totalPage = res.data.totalPageNum;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("error occured!: ", error);
         });
     },

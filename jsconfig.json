@@ -1,0 +1,20 @@
+// vscode 내부 기능을 활용하기 위한 파일 -> 상대경로를 절대경로로 설정 
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~/*": [
+                "./*"
+            ],
+            "@/*": [
+                "./src/*"
+            ],
+        },
+        "jsx": "preserve"
+    },
+    // 옵션에 해당하지 않는 폴더 -> 라이브러리 ,빌드된 폴더 제외
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

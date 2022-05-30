@@ -1,3 +1,4 @@
+import { AUTH_EMAIL } from "./types.js";
 export default {
   loggedIn(state) {
     return !!state.user

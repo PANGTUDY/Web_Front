@@ -20,12 +20,7 @@
                 <div class="row justify-content-center">
                   <div class="col-lg-3 order-lg-2"></div>
                   <div
-                    class="
-                      col-lg-4
-                      order-lg-3
-                      text-lg-right
-                      align-self-lg-center
-                    "
+                    class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center"
                   >
                     <div class="card-profile-actions py-4 mt-lg-0"></div>
                   </div>
@@ -183,7 +178,7 @@ export default {
           accessToken: token,
           name: this.userInfo.name,
         };
-        this.modifyUser(params).then((result) => {
+        this.modifyUser(params).then(result => {
           if (result) {
             this.popupSetting = true;
           }

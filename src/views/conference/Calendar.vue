@@ -172,5 +172,4 @@
   </div>
 </template>
 
-<script src="./calendar.js">
-</script>
+<script src="./calendar.js"></script>

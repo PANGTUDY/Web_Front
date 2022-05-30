@@ -47,6 +47,6 @@ export default class Iframe extends Node {
   }
 
   get view() {
-    return IframeView
+    return IframeView;
   }
 }

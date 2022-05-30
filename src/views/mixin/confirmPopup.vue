@@ -25,6 +25,8 @@
               color="green darken-1"
               text
               @click="$emit('settingFalse', false)"
+              @keydown.esc="$emit('settingFalse', false)"
+              @keyup.enter="$emit('settingFalse', false)"
             >
               확인
             </v-btn>
@@ -34,6 +36,8 @@
               color="green darken-1"
               text
               @click="$emit('settingFalse', false)"
+              @keyup.enter="$emit('settingFalse', false)"
+              @keydown.esc="$emit('settingFalse', false)"
             >
               확인
             </v-btn>
@@ -85,12 +89,14 @@ export default {
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
     }),
-    usingPopup() {
-      return this.popupSetting;
+    usingPopup: {
+      get() {
+        return this.popupSetting;
+      },
+      set() {},
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
