@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="container pt-lg-md" style="min-height: 1200px">
+    <div class="container pt-lg-md" id="top" style="min-height: 1200px">
       <div class="row justify-content-center">
         <div class="col-lg-2">
           <v-select
@@ -103,16 +103,15 @@
               </table>
             </div>
 
-            <div class="col-lg-10">
-                  <v-pagination
-                    v-model="currPage"
-                    :length="totalPage"
-                    light
-                    color="#b1e399"
-                  ></v-pagination>
-              </div>
-          </div>
-                   
+            <div class="col-lg-10" @click="$vuetify.goTo('#top')">
+              <v-pagination
+                v-model="currPage"
+                :length="totalPage"
+                light
+                color="#b1e399"
+              ></v-pagination>
+            </div>
+          </div>     
         </div>
       </div>
     </div>

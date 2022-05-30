@@ -15,22 +15,22 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router/router.js";
-import Argon from "./plugins/argon-kit";
-import "./registerServiceWorker";
-import store from "./store/index";
-import lodash from "lodash";
-import ko from "vee-validate/dist/locale/ko.js";
-import VeeValidate from "vee-validate";
-import VueCookies from "vue-cookies";
-import vuetify from "./plugins/vuetify";
-import ElementUI from "element-ui";
-import locale from "element-ui/lib/locale/lang/en";
-import "./registerServiceWorker";
-import "element-ui/lib/theme-chalk/index.css";
-import axios from "axios";
+import Vue from "vue"
+import App from "./App.vue"
+import router from "./router/router.js"
+import Argon from "./plugins/argon-kit"
+import "./registerServiceWorker"
+import store from "./store/index"
+import lodash from "lodash"
+import ko from "vee-validate/dist/locale/ko.js"
+import VeeValidate from "vee-validate"
+import VueCookies from "vue-cookies"
+import vuetify from "./plugins/vuetify"
+import ElementUI from "element-ui"
+import locale from "element-ui/lib/locale/lang/en"
+import "./registerServiceWorker"
+import "element-ui/lib/theme-chalk/index.css"
+import axios from "axios"
 
 // veevalidate 설치
 const config = {
@@ -38,7 +38,7 @@ const config = {
   dicitionary: {
     ko,
   },
-};
+}
 
 const dictionary = {
   ko: {
@@ -46,13 +46,13 @@ const dictionary = {
       passoword: "비밀번호",
     },
   },
-};
+}
 
-Vue.config.productionTip = false;
-Vue.use(Argon);
-Vue.use(VeeValidate, config);
-Vue.use(ElementUI, { locale });
-Vue.use(VueCookies);
+Vue.config.productionTip = false
+Vue.use(Argon)
+Vue.use(VeeValidate, config)
+Vue.use(ElementUI, { locale })
+Vue.use(VueCookies)
 
 new Vue({
   router,
@@ -60,4 +60,4 @@ new Vue({
   lodash,
   vuetify,
   render: h => h(App),
-}).$mount("#app");
+}).$mount("#app")

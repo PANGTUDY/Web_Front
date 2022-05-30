@@ -106,7 +106,7 @@ export default {
     },
     content: "",
 
-    files: null,
+    files: [],
 
     hashtag: [],
     search: null,
@@ -174,6 +174,10 @@ export default {
   methods: {
     // submit the post
     submit() {
+      if(this.category == "") {
+        alert("카테고리 입력이 필요합니다.");
+        return;
+      }
       var post = {
         categoryId: this.category,
         tags: this.hashtag.join(),
@@ -183,7 +187,7 @@ export default {
           new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] +
           " " +
           new Date().toTimeString().split(" ")[0],
-        writer: "김민주", // TODO: Change to real user
+        writer: "김민주", // TODO: Change to this.$store.state.authInfo.id
       };
 
       console.log(post);
@@ -193,20 +197,33 @@ export default {
         // Submit the post
         Api.create_post(post)
           .then(res => {
+            // When attached the file
+            if(this.files) {
+              console.log("file exist!");
+              const fd = new FormData();
+              fd.append("ufile", this.files);
+              // for (let i in this.files) {
+              //   fd.append("ufile", this.files[i]);
+              // }
+              // Submit the files
+              Api.upload_file(res.data.postId, fd)
+              .then(resizeBy => {
+                console.log("Save the file! ", res.data);
+              })
+              .catch(error => {
+                console.log("error occured!: ", error);
+              });
+            }
+
             // Check the success
+            console.log(res.data);
+            debugger;
             alert("저장되었습니다");
             this.$router.push({ path: "/board/list/" });
           })
           .catch(error => {
             console.log("error occured!: ", error);
           });
-
-        let formData = new FormData();
-        //formData.append('files', this.files);
-        for (let i in this.files) {
-          formData.append("files", this.files[i]);
-        }
-        // Submit the files
       } else {
         // edit post
         Api.patch_post(this.postId, post)

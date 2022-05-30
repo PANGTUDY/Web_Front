@@ -1,9 +1,9 @@
-import { Node } from "tiptap";
-import IframeView from "@/components/IframeView";
+import { Node } from "tiptap"
+import IframeView from "@/components/IframeView"
 
 export default class Iframe extends Node {
   get name() {
-    return "iframe";
+    return "iframe"
   }
 
   get schema() {
@@ -43,7 +43,7 @@ export default class Iframe extends Node {
             "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         },
       ],
-    };
+    }
   }
 
   get view() {
