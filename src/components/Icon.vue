@@ -17,42 +17,43 @@
 </template>
 <script>
 export default {
-  name: 'icon',
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "icon",
   props: {
     name: {
       type: String,
-      default: '',
-      description: 'Icon name',
+      default: "",
+      description: "Icon name",
     },
     size: {
       type: String,
-      default: '',
-      description: 'Icon size',
+      default: "",
+      description: "Icon size",
     },
     type: {
       type: String,
-      default: '',
-      description: 'Icon type (primary, warning etc)',
+      default: "",
+      description: "Icon type (primary, warning etc)",
     },
     gradient: {
       type: String,
-      default: '',
-      description: 'Icon gradient type (primary, warning etc)',
+      default: "",
+      description: "Icon gradient type (primary, warning etc)",
     },
     color: {
       type: String,
-      default: '',
-      description: 'Icon color (primary, warning etc)',
+      default: "",
+      description: "Icon color (primary, warning etc)",
     },
     shadow: {
       type: Boolean,
       default: false,
-      description: 'Whether icon has shadow',
+      description: "Whether icon has shadow",
     },
     rounded: {
       type: Boolean,
       default: false,
-      description: 'Whether icon is rounded',
+      description: "Whether icon is rounded",
     },
   },
 };

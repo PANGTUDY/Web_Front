@@ -109,11 +109,11 @@
   </section>
 </template>
 <script>
-import Popup from '@/views/mixin/popUp.vue';
-import confirmPopup from '@/views/mixin/confirmPopup.vue';
-import directives from '@/views/mixin/myDirectives';
-import { mapState, mapActions } from 'vuex';
-import VueCookies from 'vue-cookies';
+import Popup from "@/views/mixin/popUp.vue";
+import confirmPopup from "@/views/mixin/confirmPopup.vue";
+import directives from "@/views/mixin/myDirectives";
+import { mapState, mapActions } from "vuex";
+import VueCookies from "vue-cookies";
 
 export default {
   components: {
@@ -122,13 +122,13 @@ export default {
     Popup,
   },
   data: () => ({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     popupSetting: false,
-    popMsg: '로그인이 완료되었습니다.',
-    menuType: 'login',
+    popMsg: "로그인이 완료되었습니다.",
+    menuType: "login",
     isChecked: false,
-    message: '',
+    message: "",
     openPopup: false,
   }),
   computed: {
@@ -141,8 +141,8 @@ export default {
   },
   created() {
     // 쿠키에 값이 있다면 email 폼에 값을 넣어주기 + isChecked 체크표시로 만들기
-    if (!_.isEmpty(VueCookies.get('email'))) {
-      this.email = VueCookies.get('email');
+    if (!_.isEmpty(VueCookies.get("email"))) {
+      this.email = VueCookies.get("email");
       this.isChecked = true;
     }
   },
@@ -150,27 +150,27 @@ export default {
     isChecked() {
       // isChecked가 false로 바뀔 시에 쿠키에서 이메일 제거
       if (this.isChecked === false) {
-        VueCookies.remove('email');
+        VueCookies.remove("email");
       }
     },
   },
   methods: {
-    ...mapActions(['login', 'authEmail']),
+    ...mapActions(["login", "authEmail"]),
     async getUser() {
       // 로그인시 isChecked가 true 라면 쿠키에 이메일 값 넣어주기 / 유효기간으 7일
       if (this.isChecked === true) {
-        VueCookies.set('email', this.email, '7d');
+        VueCookies.set("email", this.email, "7d");
       }
       await this.login({
         email: this.email,
         password: this.password,
       }).then(result => {
-        if (result.status === 'error') {
+        if (result.status === "error") {
           this.message = result.message;
           this.openPopup = true;
         } else {
-          if (result.status === 'success') {
-            this.message = '로그인이 완료되었습니다.';
+          if (result.status === "success") {
+            this.message = "로그인이 완료되었습니다.";
             this.openPopup = true;
           }
         }
@@ -178,21 +178,21 @@ export default {
     },
     async checkPopup($event) {
       this.popupSetting = $event;
-      await this.$router.push({ path: '/' });
+      await this.$router.push({ path: "/" });
       return this.popupSetting;
     },
     async closePopup(val) {
-      if (this.message.includes('로그인') === false) {
+      if (this.message.includes("로그인") === false) {
         this.openPopup = val;
-      } else if (this.message.includes('로그인') === true) {
+      } else if (this.message.includes("로그인") === true) {
         this.openPopup = val;
         if (this.openPopup === false) {
           await this.authEmail({
             accessToken: this.accessToken,
             id: this.user.id,
           }).then(result => {
-            if (result.message === 'ok') {
-              this.$router.push({ path: '/' });
+            if (result.message === "ok") {
+              this.$router.push({ path: "/" });
             } else {
               this.message = result.message;
               this.openPopup = true;

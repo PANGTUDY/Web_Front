@@ -29,40 +29,40 @@
 </template>
 <script>
 export default {
-  name: 'base-pagination',
+  name: "base-pagination",
   props: {
     pageCount: {
       type: Number,
       default: 0,
       description:
-        'Pagination page count. This should be specified in combination with perPage',
+        "Pagination page count. This should be specified in combination with perPage",
     },
     perPage: {
       type: Number,
       default: 10,
       description:
-        'Pagination per page. Should be specified with total or pageCount',
+        "Pagination per page. Should be specified with total or pageCount",
     },
     total: {
       type: Number,
       default: 0,
       description:
-        'Can be specified instead of pageCount. The page count in this case will be total/perPage',
+        "Can be specified instead of pageCount. The page count in this case will be total/perPage",
     },
     value: {
       type: Number,
       default: 1,
-      description: 'Pagination value',
+      description: "Pagination value",
     },
     size: {
       type: String,
-      default: '',
-      description: 'Pagination size',
+      default: "",
+      description: "Pagination size",
     },
     align: {
       type: String,
-      default: '',
-      description: 'Pagination alignment (e.g center|start|end)',
+      default: "",
+      description: "Pagination alignment (e.g center|start|end)",
     },
   },
   computed: {
@@ -119,25 +119,25 @@ export default {
       return arr;
     },
     changePage(item) {
-      this.$emit('input', item);
+      this.$emit("input", item);
     },
     nextPage() {
       if (this.value < this.totalPages) {
-        this.$emit('input', this.value + 1);
+        this.$emit("input", this.value + 1);
       }
     },
     prevPage() {
       if (this.value > 1) {
-        this.$emit('input', this.value - 1);
+        this.$emit("input", this.value - 1);
       }
     },
   },
   watch: {
     perPage() {
-      this.$emit('input', 1);
+      this.$emit("input", 1);
     },
     total() {
-      this.$emit('input', 1);
+      this.$emit("input", 1);
     },
   },
 };

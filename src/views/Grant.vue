@@ -58,17 +58,17 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import VueCookies from 'vue-cookies';
+import { mapActions, mapState } from "vuex";
+import VueCookies from "vue-cookies";
 export default {
   data() {
     return {
       items: [
-        { name: 'User1', email: 'user1@gmail.com', admin: '관리자' },
-        { name: 'User2', email: 'user2@gmail.com', admin: '사용자' },
-        { name: 'User3', email: 'user3@gmail.com', admin: '사용자' },
+        { name: "User1", email: "user1@gmail.com", admin: "관리자" },
+        { name: "User2", email: "user2@gmail.com", admin: "사용자" },
+        { name: "User3", email: "user3@gmail.com", admin: "사용자" },
       ],
-      menus: [{ admin: '관리자' }, { admin: '사용자' }],
+      menus: [{ admin: "관리자" }, { admin: "사용자" }],
     };
   },
   computed: {
@@ -83,7 +83,7 @@ export default {
     this.allMembers(token);
   },
   methods: {
-    ...mapActions(['allMembers']),
+    ...mapActions(["allMembers"]),
   },
 };
 </script>

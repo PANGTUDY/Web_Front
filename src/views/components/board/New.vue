@@ -85,26 +85,26 @@
 </template>
 
 <script>
-import * as Api from '@/api/board.js';
-import TipTap from '@/components/TipTap';
+import * as Api from "@/api/board.js";
+import TipTap from "@/components/TipTap";
 export default {
   components: {
     TipTap,
   },
 
   data: () => ({
-    title: '',
-    postId: '',
+    title: "",
+    postId: "",
 
     category_list: [],
-    category: '',
+    category: "",
     categoryItems: [],
 
     options: {
-      content: '',
+      content: "",
       editable: true,
     },
-    content: '',
+    content: "",
 
     files: null,
 
@@ -120,14 +120,14 @@ export default {
       Api.get_post_list(this.postId).then(res => {
         var post = res.data;
         this.title = post.title;
-        this.$set(this.options, 'content', post.contents);
+        this.$set(this.options, "content", post.contents);
         this.content = post.contents;
         this.options.content = post.contents;
 
-        console.log('created: ', this.content, this.options);
+        console.log("created: ", this.content, this.options);
 
         this.category = post.category.categoryId;
-        this.hashtag = post.tags.split(',');
+        this.hashtag = post.tags.split(",");
       });
     }
   },
@@ -145,14 +145,14 @@ export default {
         this.category_list.map(item => {
           let category = {};
 
-          category['value'] = item['categoryId'];
-          category['text'] = item['categoryName'];
+          category["value"] = item["categoryId"];
+          category["text"] = item["categoryName"];
 
           this.categoryItems.push(category);
         });
       })
       .catch(error => {
-        console.log('error occured!: ', error);
+        console.log("error occured!: ", error);
       });
 
     // // 수정 케이스
@@ -180,10 +180,10 @@ export default {
         title: this.title,
         contents: this.options.content,
         date:
-          new Date(+new Date() + 3240 * 10000).toISOString().split('T')[0] +
-          ' ' +
-          new Date().toTimeString().split(' ')[0],
-        writer: '김민주', // TODO: Change to real user
+          new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] +
+          " " +
+          new Date().toTimeString().split(" ")[0],
+        writer: "김민주", // TODO: Change to real user
       };
 
       console.log(post);
@@ -194,28 +194,28 @@ export default {
         Api.create_post(post)
           .then(res => {
             // Check the success
-            alert('저장되었습니다');
-            this.$router.push({ path: '/board/list/' });
+            alert("저장되었습니다");
+            this.$router.push({ path: "/board/list/" });
           })
           .catch(error => {
-            console.log('error occured!: ', error);
+            console.log("error occured!: ", error);
           });
 
         let formData = new FormData();
         //formData.append('files', this.files);
         for (let i in this.files) {
-          formData.append('files', this.files[i]);
+          formData.append("files", this.files[i]);
         }
         // Submit the files
       } else {
         // edit post
         Api.patch_post(this.postId, post)
           .then(res => {
-            alert('수정되었습니다');
-            this.$router.push({ path: '/board/list/' });
+            alert("수정되었습니다");
+            this.$router.push({ path: "/board/list/" });
           })
           .catch(error => {
-            console.log('error occured!: ', error);
+            console.log("error occured!: ", error);
           });
       }
     },

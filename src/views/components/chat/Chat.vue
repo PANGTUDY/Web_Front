@@ -583,12 +583,12 @@
 
 <script>
 export default {
-  name: 'chat',
+  name: "chat",
   data() {
     return {
-      flag: '',
-      userName: '',
-      message: '',
+      flag: "",
+      userName: "",
+      message: "",
       recvList: [],
       count: 1,
       connected: false,
@@ -608,10 +608,10 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('closeit');
+      this.$emit("closeit");
     },
     openModal() {
-      this.$emit('openit');
+      this.$emit("openit");
     },
     uplodaUser() {
       if (this.userInfo != null) {
@@ -619,20 +619,20 @@ export default {
       }
     },
     sendMessage(e) {
-      if (e.keyCode === 13 && this.userName !== '' && this.message !== '') {
+      if (e.keyCode === 13 && this.userName !== "" && this.message !== "") {
         this.send();
-        this.message = '';
+        this.message = "";
       }
     },
     send() {
-      console.log('send message:' + this.message);
+      console.log("send message:" + this.message);
       if (this.stompClient && this.stompClient.conntecd) {
         const msg = {
           userName: this.userName,
           content: this.message,
         };
       }
-      this.stompClient.send('/receive', JSON.stringify(msg), {});
+      this.stompClient.send("/receive", JSON.stringify(msg), {});
     },
     changeList() {
       for (var i = 0; i < this.recvList.length; i += 2) {
@@ -640,20 +640,20 @@ export default {
       }
     },
     connect() {
-      const serverURL = 'http://pangtudy.xyz:8000/chat-api';
+      const serverURL = "http://pangtudy.xyz:8000/chat-api";
       let socket = new SockJs(serverUrl);
       this.stompClient = Stomp.over(socket);
-      console.log('소켓 연결을 시도합니다. 서버주소: ${serverURL}');
+      console.log("소켓 연결을 시도합니다. 서버주소: ${serverURL}");
       this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
-          console.log('소켓 연결 성공', frame);
+          console.log("소켓 연결 성공", frame);
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 한다.
-          this.stompClient.subscribe('/send', res => {
-            console.log('구독으로 받은 메시지 입니다.', res.body);
+          this.stompClient.subscribe("/send", res => {
+            console.log("구독으로 받은 메시지 입니다.", res.body);
             res.body[count] = this.count;
             // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
             this.recvList.push(JSON.parse(res.body));
@@ -661,11 +661,11 @@ export default {
         },
         error => {
           // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
+          console.log("소켓 연결 실패", error);
           this.connected = false;
         },
       );
-      if (this.count == '2') {
+      if (this.count == "2") {
         this.count = this.count - 1;
       }
     },

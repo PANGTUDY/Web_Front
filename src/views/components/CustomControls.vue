@@ -224,8 +224,8 @@
   </section>
 </template>
 <script>
-import BaseNav from '@/components/BaseNav';
-import CloseButton from '@/components/CloseButton';
+import BaseNav from "@/components/BaseNav";
+import CloseButton from "@/components/CloseButton";
 
 export default {
   components: {
@@ -241,8 +241,8 @@ export default {
         checkedDisabled: true,
       },
       radio: {
-        radio1: 'radio1',
-        radio2: 'radio3',
+        radio1: "radio1",
+        radio2: "radio3",
       },
       switches: {
         off: false,

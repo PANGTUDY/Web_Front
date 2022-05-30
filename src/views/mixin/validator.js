@@ -15,7 +15,7 @@ const validator = {
   },
   // 검증자를 배열에 넣어놓기
   setup(key, expression) {
-    const validates = expression.replace(/'/g, '').split('|');
+    const validates = expression.replace(/'/g, "").split("|");
     this.validates.set(key, validates);
   },
   // 검증하기

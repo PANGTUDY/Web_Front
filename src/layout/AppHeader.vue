@@ -81,37 +81,37 @@
   </header>
 </template>
 <script>
-import BaseNav from '@/components/BaseNav';
-import BaseDropdown from '@/components/BaseDropdown';
-import CloseButton from '@/components/CloseButton';
-import popUp from '../views/mixin/popUp.vue';
-import confirmPopup from '@/views/mixin/confirmPopup.vue';
-import { authComputed } from '../store/helper.js';
-import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
+import BaseNav from "@/components/BaseNav";
+import BaseDropdown from "@/components/BaseDropdown";
+import CloseButton from "@/components/CloseButton";
+import popUp from "../views/mixin/popUp.vue";
+import confirmPopup from "@/views/mixin/confirmPopup.vue";
+import { authComputed } from "../store/helper.js";
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
       person: {
-        src: require('../../public/img/icons/common/happy.png'),
+        src: require("../../public/img/icons/common/happy.png"),
       },
       menuList: [
         // {name:'Login', path:'login'},
-        { name: 'Register', path: 'register' },
-        { name: 'Profile', path: 'profile' },
-        { name: 'Calendar', path: 'calendar' },
-        { name: 'Board', path: 'board/list' },
+        { name: "Register", path: "register" },
+        { name: "Profile", path: "profile" },
+        { name: "Calendar", path: "calendar" },
+        { name: "Board", path: "board/list" },
       ],
       subList: [
-        { name: '권한관리', path: 'grant' },
-        { name: '설정', path: 'setting' },
+        { name: "권한관리", path: "grant" },
+        { name: "설정", path: "setting" },
       ],
       // popupSetting: false,
       popMsg:
-        '로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?',
-      menuType: 'all',
-      message: '',
+        "로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?",
+      menuType: "all",
+      message: "",
       openPopup: false,
-      selectedMenu: '',
+      selectedMenu: "",
     };
   },
   components: {
@@ -123,7 +123,7 @@ export default {
   },
   computed: {
     ...authComputed,
-    ...mapGetters['userInfo'],
+    ...mapGetters["userInfo"],
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
       refreshToken: ({ refreshToken }) => refreshToken,
@@ -131,18 +131,18 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['logout']),
-    ...mapMutations(['setValue']),
+    ...mapActions(["logout"]),
+    ...mapMutations(["setValue"]),
     memberClear() {
       this.logout({
         refreshToken: this.refreshToken,
       }).then(result => {
-        if (result.status === 'error') {
+        if (result.status === "error") {
           this.message = result.message;
           this.openPopup = true;
         } else {
-          if (result.status === 'success') {
-            this.message = '로그아웃이 완료되었습니다.';
+          if (result.status === "success") {
+            this.message = "로그아웃이 완료되었습니다.";
             this.openPopup = true;
           }
         }
@@ -152,12 +152,12 @@ export default {
       this.selectedMenu = path;
     },
     closePopup(val) {
-      if (this.message.includes('로그아웃') === false) {
+      if (this.message.includes("로그아웃") === false) {
         this.openPopup = val;
-      } else if (this.message.includes('로그아웃') === true) {
+      } else if (this.message.includes("로그아웃") === true) {
         this.openPopup = val;
         if (this.openPopup === false) {
-          this.$router.push({ path: '/login' });
+          this.$router.push({ path: "/login" });
         }
       }
     },
@@ -168,8 +168,8 @@ export default {
     },
     // 원하는 화면으로 이동시기키
     goTo(path) {
-      console.log('path', path);
-      this.$router.push('/' + path);
+      console.log("path", path);
+      this.$router.push("/" + path);
       // // 로그인 되어있을때
       // if (this.isLogin === true) {
       //   // path 로 화면을 전환한다.
@@ -203,8 +203,8 @@ export default {
     moveTo($event) {
       this.setValue({ popupSetting: $event });
 
-      if (this.$route.name !== 'login') {
-        this.$router.push({ name: 'login' });
+      if (this.$route.name !== "login") {
+        this.$router.push({ name: "login" });
       }
     },
   },

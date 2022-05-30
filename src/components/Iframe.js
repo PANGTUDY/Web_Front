@@ -1,9 +1,9 @@
-import { Node } from 'tiptap';
-import IframeView from '@/components/IframeView';
+import { Node } from "tiptap";
+import IframeView from "@/components/IframeView";
 
 export default class Iframe extends Node {
   get name() {
-    return 'iframe';
+    return "iframe";
   }
 
   get schema() {
@@ -19,28 +19,28 @@ export default class Iframe extends Node {
           default: 360,
         },
       },
-      group: 'block',
+      group: "block",
       selectable: false,
       parseDOM: [
         {
-          tag: 'iframe',
+          tag: "iframe",
           getAttrs: dom => ({
-            src: dom.getAttribute('src'),
-            width: dom.getAttribute('width') || 640,
-            height: dom.getAttribute('height') || 360,
+            src: dom.getAttribute("src"),
+            width: dom.getAttribute("width") || 640,
+            height: dom.getAttribute("height") || 360,
           }),
         },
       ],
       toDOM: node => [
-        'iframe',
+        "iframe",
         {
           src: node.attrs.src,
           width: node.attrs.width,
           height: node.attrs.height,
           frameborder: 0,
-          allowfullscreen: 'true',
+          allowfullscreen: "true",
           allow:
-            'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         },
       ],
     };

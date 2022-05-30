@@ -146,8 +146,8 @@
   </header>
 </template>
 <script>
-import BaseNav from '@/components/BaseNav';
-import CloseButton from '@/components/CloseButton';
+import BaseNav from "@/components/BaseNav";
+import CloseButton from "@/components/CloseButton";
 
 export default {
   components: {

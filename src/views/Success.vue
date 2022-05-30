@@ -80,12 +80,12 @@
   </section>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 export default {
   methods: {
     goToPages() {
       this.$router.push({
-        name: 'components',
+        name: "components",
       });
     },
   },

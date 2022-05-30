@@ -1,10 +1,10 @@
-import Modal from '@/components/Modal.vue';
-import { mdiPencil, mdiDelete, mdiStickerText } from '@mdi/js';
-import * as Api from '@/api/conference';
-import Swal from 'sweetalert2';
-import CreateDialog from './ScheduleCreateDialog.vue';
-import DetailDialog from './ScheduleDetailDialog.vue';
-import Vue from 'vue';
+import Modal from "@/components/Modal.vue";
+import { mdiPencil, mdiDelete, mdiStickerText } from "@mdi/js";
+import * as Api from "@/api/conference";
+import Swal from "sweetalert2";
+import CreateDialog from "./ScheduleCreateDialog.vue";
+import DetailDialog from "./ScheduleDetailDialog.vue";
+import Vue from "vue";
 
 export default {
   components: {
@@ -21,7 +21,7 @@ export default {
       },
 
       // v-calendar 관련 변수
-      focus_date: '',
+      focus_date: "",
       selected_schedule: {},
       selected_element: null,
       selected_open: false,
@@ -42,18 +42,18 @@ export default {
   },
   computed: {
     year() {
-      return this.focus_date !== ''
-        ? Number(this.focus_date.split('-')[0].replace(/^0+/, ''))
+      return this.focus_date !== ""
+        ? Number(this.focus_date.split("-")[0].replace(/^0+/, ""))
         : new Date().getFullYear();
     },
     month() {
-      return this.focus_date !== ''
-        ? Number(this.focus_date.split('-')[1].replace(/^0+/, ''))
+      return this.focus_date !== ""
+        ? Number(this.focus_date.split("-")[1].replace(/^0+/, ""))
         : new Date().getMonth() + 1;
     },
     day() {
-      return this.focus_date !== ''
-        ? Number(this.focus_date.split('-')[2].replace(/^0+/, ''))
+      return this.focus_date !== ""
+        ? Number(this.focus_date.split("-")[2].replace(/^0+/, ""))
         : new Date().getDate();
     },
     calendar() {
@@ -84,7 +84,7 @@ export default {
               0,
             ),
             participants: schedule.participants,
-            color: 'pink',
+            color: "pink",
             details: schedule.comment,
             timed: true,
           });
@@ -97,7 +97,7 @@ export default {
   watch: {
     year: async function (year) {
       await Api.get_calendar(this.year).then(data => {
-        this.$store.dispatch('load_calendar', {
+        this.$store.dispatch("load_calendar", {
           year: this.year,
           calendar: data.data,
         });
@@ -114,7 +114,7 @@ export default {
       this.current_schedule = null;
     },
     set_today() {
-      this.focus_date = '';
+      this.focus_date = "";
     },
     set_date({ date }) {
       this.focus_date = date;
@@ -128,9 +128,9 @@ export default {
     show_schedule({ nativeEvent, event }) {
       const event_date =
         event.start.getFullYear() +
-        '-' +
+        "-" +
         (event.start.getMonth() + 1) +
-        '-' +
+        "-" +
         event.start.getDate();
       const open = () => {
         this.focus_date = event_date;
@@ -166,12 +166,12 @@ export default {
     },
     commit_create_dialog(schedule) {
       console.log(schedule);
-      Vue.set(schedule, 'year', this.year);
-      Vue.set(schedule, 'month', this.month);
-      Vue.set(schedule, 'day', this.day);
+      Vue.set(schedule, "year", this.year);
+      Vue.set(schedule, "month", this.month);
+      Vue.set(schedule, "day", this.day);
 
       if (this.modify) {
-        Vue.set(schedule, 'id', this.modify_id);
+        Vue.set(schedule, "id", this.modify_id);
         Api.modify_schedule(schedule).then(data => {});
       } else {
         Api.create_schedule(schedule).then(data => {});
@@ -184,23 +184,23 @@ export default {
     },
     delete_schedule(id) {
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: `You won't be able to revert this!`,
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonClass: 'btn btn-success btn-fill',
-        cancelButtonClass: 'btn btn-danger btn-fill',
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonClass: "btn btn-success btn-fill",
+        cancelButtonClass: "btn btn-danger btn-fill",
+        confirmButtonText: "Yes, delete it!",
         buttonsStyling: false,
       }).then(function (result) {
         if (result.isConfirmed) {
           Api.delete_schedule(id).then(data => {
             Swal.fire({
-              title: 'Success!',
-              text: 'You succeeded in deleting the schedule.',
-              icon: 'success',
-              confirmButtonClass: 'btn btn-success btn-fill',
-              confirmButtonText: 'OK',
+              title: "Success!",
+              text: "You succeeded in deleting the schedule.",
+              icon: "success",
+              confirmButtonClass: "btn btn-success btn-fill",
+              confirmButtonText: "OK",
               buttonsStyling: false,
             });
           });
@@ -209,23 +209,23 @@ export default {
     },
     time_format(time) {
       return (
-        String(time[0]).padStart(2, '0') +
-        ':' +
-        String(time[1]).padStart(2, '0')
+        String(time[0]).padStart(2, "0") +
+        ":" +
+        String(time[1]).padStart(2, "0")
       );
     },
   },
   async mounted() {
     // TODO : EventSource 주소 상수화 필요
     this.sse_source = new EventSource(
-      'http://localhost:10831/calendar/schedules/sse',
+      "http://localhost:10831/calendar/schedules/sse",
     );
     this.sse_source.onmessage = event => {
       var event_data = JSON.parse(event.data);
       console.log(event_data);
       // DELETE 는 event_data.schedule 에 id 만 넘어오기 때문에 일단 이렇게 처리... 개선이 필요한 부분
-      if (event_data.type === 'DELETE') {
-        this.$store.dispatch('change_schedule_event', event_data);
+      if (event_data.type === "DELETE") {
+        this.$store.dispatch("change_schedule_event", event_data);
       }
       if (event_data.schedule.year === this.year) {
         if (
@@ -234,13 +234,13 @@ export default {
         ) {
           this.change = true;
         }
-        this.$store.dispatch('change_schedule_event', event_data);
+        this.$store.dispatch("change_schedule_event", event_data);
       }
     };
 
     // 최초 캘린더(현재날짜기준) 정보 읽어오기
     await Api.get_calendar(this.year).then(data => {
-      this.$store.dispatch('load_calendar', {
+      this.$store.dispatch("load_calendar", {
         year: this.year,
         calendar: data.data,
       });

@@ -26,10 +26,10 @@
   </v-app>
 </template>
 <script>
-import { FadeTransition } from 'vue2-transitions';
+import { FadeTransition } from "vue2-transitions";
 // import chat from "@/views/components/chat/Chat.vue";
-import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-import PopUp from './views/mixin/popUp.vue';
+import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import PopUp from "./views/mixin/popUp.vue";
 export default {
   components: {
     FadeTransition,
@@ -38,7 +38,7 @@ export default {
   },
   data: () => ({
     open: false,
-    message: '',
+    message: "",
     openPopup: false,
   }),
   watch: {
@@ -63,7 +63,7 @@ export default {
     //  }
   },
   computed: {
-    ...mapGetters(['userInfo', 'getToken']),
+    ...mapGetters(["userInfo", "getToken"]),
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
       accessToken: ({ accessToken }) => accessToken,
@@ -85,10 +85,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['reissueToken']),
-    ...mapMutations(['setValue', 'logout']),
+    ...mapActions(["reissueToken"]),
+    ...mapMutations(["setValue", "logout"]),
     setTimeOut() {
-      console.log('시간 설정');
+      console.log("시간 설정");
       const today = new Date();
       const curTime = today.getTime();
 
@@ -109,19 +109,19 @@ export default {
 
         if (curTime - outTime >= 0) {
           this.logout();
-          sessionStorage.removeItem('timeout');
+          sessionStorage.removeItem("timeout");
           this.stopTimer();
         }
         if (Math.floor(exitTime) === 0) {
-          this.setValue({ accessToken: '' });
-          sessionStorage.removeItem('timeout');
+          this.setValue({ accessToken: "" });
+          sessionStorage.removeItem("timeout");
           this.stopTimer();
         }
       }, 1000);
     },
     reissue() {
       this.reissueToken(this.refreshToken).then(result => {
-        if (result.status === 'error') {
+        if (result.status === "error") {
           this.message = result.message;
           this.openPopup = true;
         }
@@ -131,10 +131,10 @@ export default {
       sessionStorage.timeout = val;
     },
     stopTimer() {
-      console.log('이게 호출되기는하니');
+      console.log("이게 호출되기는하니");
       clearInterval(this.interval);
       this.interval = null;
-      sessionStorage.removeItem('timeout');
+      sessionStorage.removeItem("timeout");
     },
   },
 };

@@ -1,8 +1,8 @@
-import axios from 'axios';
-import * as AuthApi from '@/api/auth';
-import { user_instance } from '../api/http';
-import * as UserApi from '@/api/user';
-import { createLogger } from 'vuex';
+import axios from "axios";
+import * as AuthApi from "@/api/auth";
+import { user_instance } from "../api/http";
+import * as UserApi from "@/api/user";
+import { createLogger } from "vuex";
 
 import {
   LOGIN_TOKEN,
@@ -11,14 +11,14 @@ import {
   LOGOUT,
   MODIFY_USER,
   GET_ALL_USERS,
-} from './types';
+} from "./types";
 
 export default {
   register: async ({}, payload) => {
     let result = {};
     try {
-      console.log('payload', payload);
-      const url = '/auth/signup';
+      console.log("payload", payload);
+      const url = "/auth/signup";
       const { data } = await axios.post(url, payload);
       result = data;
     } catch (error) {
@@ -32,7 +32,7 @@ export default {
     let result = {};
     const { email, password } = payload;
     try {
-      const url = '/auth/login';
+      const url = "/auth/login";
       const { data } = await axios.post(url, { email, password });
       result = data;
     } catch (error) {
@@ -40,7 +40,7 @@ export default {
       result = error.response.data;
       console.warn(error.message, error);
     } finally {
-      if (result.status !== 'error') {
+      if (result.status !== "error") {
         commit(LOGIN_TOKEN, result.data);
       }
     }
@@ -49,8 +49,8 @@ export default {
   [REISSUE_TOKEN]: async ({ commit }, payload) => {
     let result = {};
     try {
-      console.log('payload', payload);
-      const url = '/auth/refresh';
+      console.log("payload", payload);
+      const url = "/auth/refresh";
       const headers = { Authorization: `Bearer ${payload}` };
       const { data } = await axios.post(url, payload, { headers });
       result = data;
@@ -66,13 +66,13 @@ export default {
     let result = {};
     try {
       const { refreshToken } = payload;
-      const url = '/auth/logout';
+      const url = "/auth/logout";
       const headers = { Authorization: `Bearer ${refreshToken}` };
       const { data } = await axios.post(url, payload, { headers });
       result = data;
     } catch (error) {
       result = error.response.data;
-      console.log('result', result);
+      console.log("result", result);
       console.warn(error.message, error);
     } finally {
       commit(LOGOUT, result.data);
@@ -84,7 +84,7 @@ export default {
     const { accessToken, id } = payload;
     console.log(payload);
     try {
-      const url = '/users/' + id;
+      const url = "/users/" + id;
       const headers = { Authorization: `Bearer ${accessToken}` };
       const { data } = await axios.delete(url, { headers });
       result = data;
@@ -100,7 +100,7 @@ export default {
     let result = {};
     console.log(payload);
     try {
-      const url = '/users';
+      const url = "/users";
       const headers = { Authorization: `Bearer ${payload}` };
       const { data } = await axios.get(url, { headers }, payload);
       result = data;
@@ -112,7 +112,7 @@ export default {
     }
   },
   verifyEmail(payload) {
-    return axios.get('/auth/verify', payload).then(({ response }) => {
+    return axios.get("/auth/verify", payload).then(({ response }) => {
       console.log(response);
     });
   },
@@ -138,13 +138,13 @@ export default {
     let result = {};
     console.log(payload);
     const { email, name, password, accessToken } = payload;
-    console.log('email', email);
-    console.log('password', password);
-    console.log('accessToken', accessToken);
+    console.log("email", email);
+    console.log("password", password);
+    console.log("accessToken", accessToken);
     try {
-      const url = '/users/' + email;
+      const url = "/users/" + email;
       // const headers = {'Authorization': `Bearer ${accessToken}`};
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
       const { data } = await axios.put(url, { name: name, email: email });
       result = data;
       console.log(result);
@@ -157,7 +157,7 @@ export default {
   },
   memberInfo({ commit }, payload) {
     return axios
-      .get('/users', {
+      .get("/users", {
         params: { email: payload },
       })
       .then(({ data }) => {
@@ -165,19 +165,19 @@ export default {
       });
   },
   load_calendar({ commit }, payload) {
-    commit('LOAD_CALENDAR', { year: payload.year, calendar: payload.calendar });
+    commit("LOAD_CALENDAR", { year: payload.year, calendar: payload.calendar });
   },
   change_schedule_event({ commit }, event_data) {
     switch (event_data.type) {
-      case 'CREATE':
-        commit('CREATE_SCHEDULE', { schedule: event_data.schedule });
+      case "CREATE":
+        commit("CREATE_SCHEDULE", { schedule: event_data.schedule });
         break;
-      case 'MODIFY':
-        commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
-        commit('CREATE_SCHEDULE', { schedule: event_data.schedule });
+      case "MODIFY":
+        commit("DELETE_SCHEDULE", { id: event_data.schedule.id });
+        commit("CREATE_SCHEDULE", { schedule: event_data.schedule });
         break;
-      case 'DELETE':
-        commit('DELETE_SCHEDULE', { id: event_data.schedule.id });
+      case "DELETE":
+        commit("DELETE_SCHEDULE", { id: event_data.schedule.id });
         break;
     }
   },

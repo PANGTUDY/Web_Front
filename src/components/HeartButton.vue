@@ -31,7 +31,7 @@ export default {
       this.liked = !this.liked;
       this.liked ? (this.likes_num += 1) : (this.likes_num -= 1);
 
-      this.$emit('setInput', this.likes_num);
+      this.$emit("setInput", this.likes_num);
     },
   },
   mounted() {

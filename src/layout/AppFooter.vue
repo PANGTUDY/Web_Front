@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-  name: 'app-footer',
+  name: "app-footer",
   data() {
     return {
       year: new Date().getFullYear(),

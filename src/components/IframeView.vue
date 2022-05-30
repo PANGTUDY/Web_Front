@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  props: ['node', 'updateAttrs', 'view'],
+  props: ["node", "updateAttrs", "view"],
   computed: {
     src: {
       get() {

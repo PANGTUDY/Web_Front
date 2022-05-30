@@ -179,8 +179,8 @@
 </template>
 
 <script>
-import { DOMParser } from 'prosemirror-model';
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import { DOMParser } from "prosemirror-model";
+import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
   CodeBlock,
@@ -205,9 +205,9 @@ import {
   TableRow,
   History,
   TrailingNode,
-} from 'tiptap-extensions';
-import Iframe from '@/components/Iframe.js';
-import axios from 'axios';
+} from "tiptap-extensions";
+import Iframe from "@/components/Iframe.js";
+import axios from "axios";
 
 export default {
   components: {
@@ -240,7 +240,7 @@ export default {
     this.editor.content = this.options.content;
   },
   mounted() {
-    console.log('mounted: ', this.options.content);
+    console.log("mounted: ", this.options.content);
 
     this.id = this.$route.params.id;
     if (this.id == null || this.id == undefined) {
@@ -261,7 +261,7 @@ export default {
           new Italic(),
           new Link({
             openOnClick: true,
-            target: '_blank',
+            target: "_blank",
           }),
           new Image(),
           new Strike(),
@@ -306,7 +306,7 @@ export default {
           new Italic(),
           new Link({
             openOnClick: true,
-            target: '_blank',
+            target: "_blank",
           }),
           new Image(),
           new Strike(),
@@ -332,7 +332,7 @@ export default {
   },
   methods: {
     onKeyDown(event, view) {
-      console.log('event', event.key);
+      console.log("event", event.key);
     },
 
     shouldDisableButton: function (isActive) {
@@ -343,23 +343,23 @@ export default {
         return;
       }
 
-      let res = await window.prompt('Add link', 'https://');
-      if (res && res != 'https://' && res != 'http://') {
+      let res = await window.prompt("Add link", "https://");
+      if (res && res != "https://" && res != "http://") {
         command({ href: res });
       }
     },
     changeLinkDialog: async function (command, attr) {
-      let res = await window.prompt('Change link', attr.href);
+      let res = await window.prompt("Change link", attr.href);
       if (res != undefined) {
-        if (res == 'http://' || res == 'https://') {
-          res = '';
+        if (res == "http://" || res == "https://") {
+          res = "";
         }
         command({ href: res });
       }
     },
     insertHTML: function ({ state, view }, value) {
       const { selection } = state;
-      const element = document.createElement('div');
+      const element = document.createElement("div");
       element.innerHTML = value.trim();
       const slice = DOMParser.fromSchema(state.schema).parseSlice(element);
       const transaction = state.tr.insert(selection.anchor, slice.content);
@@ -369,22 +369,22 @@ export default {
       let vm = this;
       let src = this.videoURL;
 
-      if (src.includes('youtube.com/') || src.includes('youtu.be/')) {
+      if (src.includes("youtube.com/") || src.includes("youtu.be/")) {
         axios({
-          method: 'get',
-          url: 'https://www.youtube.com/oembed?url={url}&format=json&maxwidth=640&maxheight=360'.replace(
-            '{url}',
+          method: "get",
+          url: "https://www.youtube.com/oembed?url={url}&format=json&maxwidth=640&maxheight=360".replace(
+            "{url}",
             src,
           ),
         }).then(function (response) {
-          const src = response.data['html'];
+          const src = response.data["html"];
           vm.insertHTML(vm.editor, src);
 
           vm.videoURL = null;
           vm.videoDialog = false;
         });
       } else {
-        let embed = '<iframe src={src}></iframe>'.replace('{src}', src);
+        let embed = "<iframe src={src}></iframe>".replace("{src}", src);
         this.insertHTML(vm.editor, embed);
         this.videoURL = null;
         this.videoDialog = false;
@@ -405,7 +405,7 @@ export default {
     },
     uploadFile: function (file) {
       let formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
       // File upload API required
       // axios({
@@ -422,5 +422,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/sass/main.scss';
+@import "@/assets/sass/main.scss";
 </style>

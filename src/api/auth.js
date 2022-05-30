@@ -1,16 +1,16 @@
-import { auth_instance } from './http';
+import { auth_instance } from "./http";
 
 export async function login(credentials) {
-  return auth_instance.post('/login', credentials);
+  return auth_instance.post("/login", credentials);
 }
 
 export async function reissue(refreshToken) {
   return auth_instance.post(
-    '/token',
+    "/token",
     {},
     {
       headers: {
-        Authorization: 'Bearer ' + refreshToken,
+        Authorization: "Bearer " + refreshToken,
       },
     },
   );

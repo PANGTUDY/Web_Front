@@ -257,23 +257,23 @@
 </template>
 
 <script>
-import * as Api from '@/api/board.js';
-import HeartButton from '@/components/HeartButton';
+import * as Api from "@/api/board.js";
+import HeartButton from "@/components/HeartButton";
 
 export default {
   components: { HeartButton },
   data: () => ({
-    postId: '',
-    categoryId: '',
-    category: '',
-    subject: '',
-    view: '',
+    postId: "",
+    categoryId: "",
+    category: "",
+    subject: "",
+    view: "",
 
     post: {},
     comments: [],
     likes: 0,
 
-    comment: '',
+    comment: "",
 
     deleteDialog: false,
     editDialog: false,
@@ -318,7 +318,7 @@ export default {
           this.likes = this.post.likes;
         })
         .catch(error => {
-          console.log('error occured!: ', error);
+          console.log("error occured!: ", error);
         });
 
       Api.get_adjacent_list(this.categoryId, this.postId)
@@ -326,7 +326,7 @@ export default {
           this.postList = res.data;
         })
         .catch(error => {
-          console.log('error occured!: ', error);
+          console.log("error occured!: ", error);
         });
     },
 
@@ -345,18 +345,18 @@ export default {
 
     submit() {
       var comment = {
-        writer: 'minju', // TODO: change to the user info
+        writer: "minju", // TODO: change to the user info
         contents: this.comment,
         date:
-          new Date(+new Date() + 3240 * 10000).toISOString().split('T')[0] +
-          ' ' +
-          new Date().toTimeString().split(' ')[0],
+          new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] +
+          " " +
+          new Date().toTimeString().split(" ")[0],
         postId: this.postId,
       };
 
       Api.create_comment(comment)
         .then(res => {
-          console.log('저장되었습니다');
+          console.log("저장되었습니다");
           Api.get_comments(this.postId)
             .then(result => {
               this.comments = result.data;
@@ -366,19 +366,19 @@ export default {
               }
             })
             .catch(error => {
-              console.log('error occured!: ', error);
+              console.log("error occured!: ", error);
             });
-          this.comment = '';
+          this.comment = "";
         })
         .catch(error => {
-          console.log('error occured!: ', error);
+          console.log("error occured!: ", error);
         });
     },
 
     editPost() {
-      console.log('view ', this.postId);
+      console.log("view ", this.postId);
       this.$router.push({
-        name: 'new',
+        name: "new",
         params: { id: this.postId },
       });
     },
@@ -386,16 +386,16 @@ export default {
     deletePost() {
       Api.delete_post(this.postId)
         .then(() => {
-          console.log('삭제되었습니다');
-          this.$router.push({ path: '/board/list/' });
+          console.log("삭제되었습니다");
+          this.$router.push({ path: "/board/list/" });
         })
         .catch(error => {
-          console.log('error occured!: ', error);
+          console.log("error occured!: ", error);
         });
     },
 
     editComment(index) {
-      this.$set(this.comments[index], 'edit', true);
+      this.$set(this.comments[index], "edit", true);
       this.$forceUpdate();
       console.log(this.comments);
     },
@@ -413,28 +413,28 @@ export default {
               }
             })
             .catch(error => {
-              console.log('error occured!: ', error);
+              console.log("error occured!: ", error);
             });
         })
         .catch(error => {
-          console.log('error occured!: ', error);
+          console.log("error occured!: ", error);
         });
     },
 
     cancelEditComment(index) {
       this.comments[index].contents = this.comments[index]._contents;
-      this.$set(this.comments[index], 'edit', false);
+      this.$set(this.comments[index], "edit", false);
       this.$forceUpdate();
     },
 
     submitComment(index) {
       let content = {
-        writer: '김민주', // TODO: change to the user info
+        writer: "김민주", // TODO: change to the user info
         contents: this.comments[index].contents,
         date:
-          new Date(+new Date() + 3240 * 10000).toISOString().split('T')[0] +
-          ' ' +
-          new Date().toTimeString().split(' ')[0],
+          new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] +
+          " " +
+          new Date().toTimeString().split(" ")[0],
         postId: this.postId,
       };
 
@@ -453,7 +453,7 @@ export default {
             }
           })
           .catch(error => {
-            console.log('error occured!: ', error);
+            console.log("error occured!: ", error);
           });
       });
     },
@@ -462,7 +462,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/scss/minju';
+@import "@/assets/scss/minju";
 
 .row + .row {
   margin-top: 10px;

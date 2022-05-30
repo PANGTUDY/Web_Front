@@ -11,8 +11,8 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>
-          {{ this.year }}.{{ String(this.month).padStart(2, '0') }}.{{
-            String(this.day).padStart(2, '0')
+          {{ this.year }}.{{ String(this.month).padStart(2, "0") }}.{{
+            String(this.day).padStart(2, "0")
           }}
           일정 등록</v-toolbar-title
         >
@@ -169,7 +169,7 @@
 </template>
 
 <script>
-import * as UserApi from '@/api/user';
+import * as UserApi from "@/api/user";
 
 export default {
   props: {
@@ -182,24 +182,24 @@ export default {
   data() {
     return {
       schedule_title_rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
+        value => !!value || "Required.",
+        value => (value && value.length >= 3) || "Min 3 characters",
       ],
       start_time: false,
       end_time: false,
 
       // TODO : 회원목록 읽어오기 (User-API)
       members: [],
-      time_list: ['15분전', '30분전', '1시간전', '2시간전', '하루전'],
+      time_list: ["15분전", "30분전", "1시간전", "2시간전", "하루전"],
 
       // 각 Input 에 바인딩될 변수
-      schedule_title: '',
+      schedule_title: "",
       schedule_start: null,
       schedule_end: null,
       schedule_select_members: [],
       schedule_is_alram: false,
       schedule_select_time: null,
-      schedule_comment: '',
+      schedule_comment: "",
     };
   },
   watch: {
@@ -220,7 +220,7 @@ export default {
           });
 
           this.schedule_is_alram = this.schedule.alarm;
-          this.schedule_select_time = ['15분전'];
+          this.schedule_select_time = ["15분전"];
           this.schedule_comment = this.schedule.comment;
         }
 
@@ -239,31 +239,31 @@ export default {
   methods: {
     test(member) {
       console.log(member);
-      return 'id';
+      return "id";
     },
     clear() {
-      this.schedule_title = '';
+      this.schedule_title = "";
       this.schedule_start = null;
       this.schedule_end = null;
       this.schedule_select_members = [];
       this.schedule_is_alram = false;
       this.schedule_select_time = [];
-      this.schedule_comment = '';
+      this.schedule_comment = "";
     },
     close() {
       this.clear();
-      this.$emit('close');
+      this.$emit("close");
     },
     data_valid_check() {
-      if (this.schedule_title === '') {
-        return this.valid_alert('일정 이름을 반드시 입력해야합니다.');
+      if (this.schedule_title === "") {
+        return this.valid_alert("일정 이름을 반드시 입력해야합니다.");
       }
       if (this.schedule_title.length < 3) {
-        return this.valid_alert('일정 이름이 너무 짧습니다..');
+        return this.valid_alert("일정 이름이 너무 짧습니다..");
       }
       if (this.schedule_start === null || this.schedule_end === null) {
         return this.valid_alert(
-          '일정의 시작시간과 종료시간을 반드리 입력해야합니다.',
+          "일정의 시작시간과 종료시간을 반드리 입력해야합니다.",
         );
       }
       // if (!this.compare_time(this.schedule_start, this.schedule_end)) {
@@ -283,26 +283,26 @@ export default {
           endTime: this.schedule_end,
           participants: this.schedule_select_members,
           // TODO : Writer 현재 로그인된 사용자로 수정
-          writer: '박찬준',
+          writer: "박찬준",
           alarm: 0,
           comment: this.schedule_comment,
         };
         this.clear();
-        this.$emit('commit', schedule);
+        this.$emit("commit", schedule);
       }
     },
     time_format(time) {
       return (
-        String(time[0]).padStart(2, '0') +
-        ':' +
-        String(time[1]).padStart(2, '0')
+        String(time[0]).padStart(2, "0") +
+        ":" +
+        String(time[1]).padStart(2, "0")
       );
     },
     compare_time(time1, time2) {
       console.log(time1);
       console.log(time2);
-      const parse_time1 = time1.split(':')[0] * 60 + time1.split(':')[1];
-      const parse_time2 = time2.split(':')[0] * 60 + time2.split(':')[1];
+      const parse_time1 = time1.split(":")[0] * 60 + time1.split(":")[1];
+      const parse_time2 = time2.split(":")[0] * 60 + time2.split(":")[1];
       return parse_time1 <= parse_time2;
     },
   },

@@ -3,27 +3,27 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['plugin:vue/essential'],
-  plugins: ['prettier'],
+  extends: ["plugin:vue/essential"],
+  plugins: ["prettier"],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'prettier/prettier': [
-      'error',
+    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "prettier/prettier": [
+      "error",
       {
         printWidth: 80,
-        singleQuote: true,
+        singleQuote: false,
         semi: true,
         userTabs: false,
         tabWidth: 2,
-        trailingComma: 'all',
+        trailingComma: "all",
         bracketSpacing: true,
-        arrowParens: 'avoid',
-        endOfLine: 'auto',
+        arrowParens: "avoid",
+        endOfLine: "auto",
       },
     ],
   },
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: "babel-eslint",
   },
-};
+}

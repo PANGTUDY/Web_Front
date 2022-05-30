@@ -6,13 +6,13 @@
 </template>
 <script>
 export default {
-  name: 'base-switch',
+  name: "base-switch",
   inheritAttrs: false,
   props: {
     value: {
       type: Boolean,
       default: false,
-      description: 'Switch value',
+      description: "Switch value",
     },
   },
   computed: {
@@ -21,7 +21,7 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit('input', value);
+        this.$emit("input", value);
       },
     },
   },

@@ -147,9 +147,9 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import { mapActions, mapMutations, mapState } from 'vuex';
-import popUp from '../views/mixin/popUp.vue';
+import axios from "axios";
+import { mapActions, mapMutations, mapState } from "vuex";
+import popUp from "../views/mixin/popUp.vue";
 
 export default {
   components: {
@@ -158,15 +158,15 @@ export default {
   data() {
     return {
       person: {
-        name: '',
-        title: '',
-        src: require('../../public/img/icons/common/happy.png'),
+        name: "",
+        title: "",
+        src: require("../../public/img/icons/common/happy.png"),
       },
 
-      mainImage: '',
-      name: '',
-      event: '',
-      title: '',
+      mainImage: "",
+      name: "",
+      event: "",
+      title: "",
     };
   },
   computed: {
@@ -187,16 +187,16 @@ export default {
     this.authEmail(params).then(result => console.log(result));
   },
   methods: {
-    ...mapActions(['authEmail', 'leftMember']),
-    ...mapMutations(['logout']),
+    ...mapActions(["authEmail", "leftMember"]),
+    ...mapMutations(["logout"]),
     closePopup(val) {
-      if (this.message.includes('회원탈퇴') === false) {
+      if (this.message.includes("회원탈퇴") === false) {
         this.openPoup = val;
-      } else if (this.message.includes('회원탈퇴') === true) {
+      } else if (this.message.includes("회원탈퇴") === true) {
         this.openPoup = val;
         if (this.openPoup === false) {
           this.logout();
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: "/" });
         }
       }
     },
@@ -215,19 +215,19 @@ export default {
     // 등록버튼
     submit() {
       if (this.namve.length <= 0 || this.title.length <= 0) {
-        window.alert('모든 내용을 입력하고 시도해주세요. ');
+        window.alert("모든 내용을 입력하고 시도해주세요. ");
         return false;
       }
 
       const formData = new formData();
-      formData.append('name', this.name);
-      formData.append('title', this.title);
-      formData.append('mainImage', this.mainImage);
+      formData.append("name", this.name);
+      formData.append("title", this.title);
+      formData.append("mainImage", this.mainImage);
 
       axios
-        .post('https://localhost:3000/:id', formData, {
+        .post("https://localhost:3000/:id", formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         })
         .then(res => {
@@ -243,19 +243,19 @@ export default {
         id: this.user.id,
       };
       this.leftMember(params).then(result => {
-        if (result.status === 'error') {
+        if (result.status === "error") {
           this.message = result.message;
           this.openPopup = true;
         } else {
-          if (result.status === 'success') {
-            this.message = '회원탈퇴가 완료되었습니다.';
+          if (result.status === "success") {
+            this.message = "회원탈퇴가 완료되었습니다.";
             this.openPopup = true;
           }
         }
       });
     },
     pageMove() {
-      this.$router.push({ path: 'pwinquiry' });
+      this.$router.push({ path: "pwinquiry" });
     },
   },
 };

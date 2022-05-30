@@ -10,7 +10,7 @@
       ref="password"
     ></base-input>
     <span v-show="errors.has('password')" class="help is-danger">{{
-      errors.first('password')
+      errors.first("password")
     }}</span>
 
     <base-input
@@ -23,7 +23,7 @@
       data-vv-as="password"
     ></base-input>
     <span v-show="errors.has('password_confirmation')" class="help is-danger">{{
-      errors.first('password_confirmation')
+      errors.first("password_confirmation")
     }}</span>
   </div>
 </template>
@@ -32,8 +32,8 @@
 export default {
   data() {
     return {
-      password: '',
-      password_confirmation: '',
+      password: "",
+      password_confirmation: "",
     };
   },
 };

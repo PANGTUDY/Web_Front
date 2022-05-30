@@ -121,23 +121,23 @@
 </template>
 
 <script>
-import * as Api from '@/api/board.js';
+import * as Api from "@/api/board.js";
 
 export default {
   data: () => ({
-    keyword: '',
+    keyword: "",
     category_list: [],
     category: {},
     posts: [],
 
-    hint: '키워드를 입력하세요',
+    hint: "키워드를 입력하세요",
     selectItems: [
-      { text: '제목', value: 'title' },
-      { text: '제목+내용', value: 'contents' },
-      { text: '해시태그', value: 'tag' },
-      { text: '작성자', value: 'writer' },
+      { text: "제목", value: "title" },
+      { text: "제목+내용", value: "contents" },
+      { text: "해시태그", value: "tag" },
+      { text: "작성자", value: "writer" },
     ],
-    selectedItem: 'title',
+    selectedItem: "title",
     selectedCategory: 0,
     page: 1,
   }),
@@ -149,14 +149,14 @@ export default {
         this.posts = res.data;
       })
       .catch(error => {
-        console.log('error occured!: ', error);
+        console.log("error occured!: ", error);
       });
 
     // 카테고리 전체 목록 불러오는 Api
     Api.get_category_list()
       .then(res => {
         this.category_list = res.data;
-        this.category_list.push({ categoryId: 0, categoryName: '전체' });
+        this.category_list.push({ categoryId: 0, categoryName: "전체" });
 
         this.category_list.sort(function (a, b) {
           return a.categoryId - b.categoryId;
@@ -164,7 +164,7 @@ export default {
         this.category = this.category_list[0];
       })
       .catch(error => {
-        console.log('error occured!: ', error);
+        console.log("error occured!: ", error);
       });
   },
 
@@ -187,7 +187,7 @@ export default {
             this.posts = res.data;
           })
           .catch(error => {
-            console.log('error occured!: ', error);
+            console.log("error occured!: ", error);
           });
       } else {
         Api.get_post_list()
@@ -195,36 +195,36 @@ export default {
             this.posts = res.data;
           })
           .catch(error => {
-            console.log('error occured!: ', error);
+            console.log("error occured!: ", error);
           });
       }
     },
 
     // create a new post
     newPost(event) {
-      this.$router.push({ path: '/board/new/' });
+      this.$router.push({ path: "/board/new/" });
     },
 
     // move to the detail page
     fnView(postId, categoryId) {
       console.log(postId);
       this.$router.push({
-        path: '/board/view/' + postId + '?categoryId=' + categoryId,
+        path: "/board/view/" + postId + "?categoryId=" + categoryId,
       });
     },
 
     // change the category
     categoryChange(idx) {
       this.category = this.category_list[idx];
-      this.selectedItem = 'title';
-      this.keyword = '';
+      this.selectedItem = "title";
+      this.keyword = "";
 
       Api.get_category_post_list(idx)
         .then(res => {
           this.posts = res.data;
         })
         .catch(error => {
-          console.log('error occured!: ', error);
+          console.log("error occured!: ", error);
         });
     },
   },

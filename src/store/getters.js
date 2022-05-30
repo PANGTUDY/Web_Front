@@ -1,4 +1,4 @@
-import { AUTH_EMAIL } from './types.js';
+import { AUTH_EMAIL } from "./types.js";
 export default {
   loggedIn(state) {
     return !!state.user;
@@ -7,7 +7,7 @@ export default {
     if (state.user) {
       return state.user.name;
     } else {
-      return '';
+      return "";
     }
   },
   getToken(state) {

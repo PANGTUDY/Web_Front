@@ -156,27 +156,27 @@
   </section>
 </template>
 <script>
-import confrimPopup from '@/views/mixin/confirmPopup.vue';
-import { mapActions } from 'vuex';
-import popUp from '@/views/mixin/popUp.vue';
+import confrimPopup from "@/views/mixin/confirmPopup.vue";
+import { mapActions } from "vuex";
+import popUp from "@/views/mixin/popUp.vue";
 export default {
   data() {
     return {
-      name: '',
-      password: '',
+      name: "",
+      password: "",
       popupSetting: false,
-      password_confirm: '',
-      message: '',
+      password_confirm: "",
+      message: "",
       openPopup: false,
-      email: '',
+      email: "",
       registerMsg: [
-        { name: '비밀번호가 일치하지 않습니다.' },
-        { name: '비밀번호가 일치합니다.' },
+        { name: "비밀번호가 일치하지 않습니다." },
+        { name: "비밀번호가 일치합니다." },
       ],
-      msg: '',
-      passwordValidation: '',
-      popMsg: '회원가입이 완료되었습니다.',
-      menuType: 'register',
+      msg: "",
+      passwordValidation: "",
+      popMsg: "회원가입이 완료되었습니다.",
+      menuType: "register",
     };
   },
   components: {
@@ -185,9 +185,9 @@ export default {
   },
   computed: {
     changeStrength: function () {
-      return this.passwordValidation === 'strong'
-        ? 'text-success'
-        : 'text-warning';
+      return this.passwordValidation === "strong"
+        ? "text-success"
+        : "text-warning";
     },
   },
   watch: {
@@ -195,35 +195,35 @@ export default {
       //숫자6자리
       let weak = /^[0-9]{1,5}$/g;
       if (this.password.match(weak) != null) {
-        this.passwordValidation = 'weak';
+        this.passwordValidation = "weak";
       }
       // 영어 소문자,대문자,숫자 모두6자리
       let medium = /^\w{6}$/;
       if (this.password.match(medium) != null) {
-        this.passwordValidation = 'medium';
+        this.passwordValidation = "medium";
       }
       let strong = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
       if (this.password.match(strong) != null) {
-        this.passwordValidation = 'strong';
+        this.passwordValidation = "strong";
       }
     },
     password_confirm() {
       if (this.password_confirm.match(this.password) != null) {
-        this.msg = '비밀번호가 일치합니다.';
+        this.msg = "비밀번호가 일치합니다.";
       } else {
-        this.msg = '비밀번호가 일치하지 않습니다.';
+        this.msg = "비밀번호가 일치하지 않습니다.";
       }
     },
   },
   methods: {
-    ...mapActions(['verifyEmail', 'register']),
+    ...mapActions(["verifyEmail", "register"]),
     registerInfo() {
       if (
         _.isEmpty(this.password) ||
         _.isEmpty(this.email) ||
         _.isEmpty(this.password_confirm)
       ) {
-        alert('입력해야할 항목을 모두 입력해주세요');
+        alert("입력해야할 항목을 모두 입력해주세요");
       }
       if (
         !_.isEmpty(this.password) &&
@@ -235,12 +235,12 @@ export default {
           email: this.email,
           password: this.password,
         }).then(result => {
-          if (result.status === 'error') {
+          if (result.status === "error") {
             this.message = result.message;
             this.openPopup = true;
           } else {
-            if (result.status === 'success') {
-              this.message = '회원가입이 완료되었습니다.';
+            if (result.status === "success") {
+              this.message = "회원가입이 완료되었습니다.";
               this.popupSetting = true;
             }
           }
@@ -249,16 +249,16 @@ export default {
     },
     async checkPopup($event) {
       this.popupSetting = $event;
-      await this.$router.push({ path: '/' });
+      await this.$router.push({ path: "/" });
       return this.popupSetting;
     },
     confirmEmail() {
       this.verifyEmail({ email: this.email });
     },
     validationCheck(type) {
-      if (type == 'email') {
+      if (type == "email") {
         if (_.isEmpty(this.email)) {
-          alert('이메일을 입력해주세요');
+          alert("이메일을 입력해주세요");
           return false;
         } else {
           let regExp =
@@ -266,19 +266,19 @@ export default {
           if (this.email.match(regExp) !== null) {
             return true;
           } else {
-            alert('이메일을 올바르게 입력해주세요');
+            alert("이메일을 올바르게 입력해주세요");
           }
         }
-      } else if (type == 'password') {
+      } else if (type == "password") {
         if (_.isEmpty(this.password)) {
-          alert('비밀번호를 입력해주세요');
+          alert("비밀번호를 입력해주세요");
           return false;
         } else {
           let regExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
           if (this.password.match(regExp) != null) {
             return true;
           } else {
-            alert('비밀번호를 올바르게 입력해주세요');
+            alert("비밀번호를 올바르게 입력해주세요");
           }
         }
       }
