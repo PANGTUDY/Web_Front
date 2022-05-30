@@ -135,14 +135,23 @@ const router = new Router({
       },
     },
     {
-      path: "/setting",
-      name: Setting,
+      path: "*",
+      name: "notFoundPage",
       components: {
         header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Setting.vue"),
+        default: () => import("@/views/notFoundPage.vue"),
         footer: () => import("@/layout/AppFooter.vue"),
       },
     },
+    // {
+    //   path: "/setting",
+    //   name: Setting,
+    //   components: {
+    //     header: () => import("@/layout/AppHeader.vue"),
+    //     default: () => import("@/views/Setting.vue"),
+    //     footer: () => import("@/layout/AppFooter.vue"),
+    //   },
+    // },
   ],
 });
 

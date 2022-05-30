@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { get } from "http";
 import { mapState } from "vuex";
 export default {
   props: {
@@ -40,8 +41,11 @@ export default {
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
     }),
-    usingPopup() {
-      return this.popupSetting;
+    usingPopup: {
+      get() {
+        return this.popupSetting;
+      },
+      set() {},
     },
   },
 };

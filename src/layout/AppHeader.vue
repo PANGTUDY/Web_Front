@@ -29,8 +29,14 @@
               class="nav-link nav-link-icon"
               @click="goTo(menu.path), changeMenu(menu.path)"
               :class="selectedMenu === menu.path ? 'on' : ''"
-              >{{ menu.name }}</a
             >
+              <template v-if="isLogin === true && menu.loginRequire === true"
+                >{{ menu.name }}
+              </template>
+              <template v-else-if="isLogin === false">
+                {{ menu.name }}
+              </template>
+            </a>
           </li>
 
           <base-dropdown tag="li" title="settings">
@@ -43,7 +49,7 @@
               {{ sub.name }}
             </a>
           </base-dropdown>
-          <div class="header-left" v-if="userInfo">{{ userInfo.name }}님</div>
+          <div class="header-left" v-if="authInfo">{{ authInfo.name }}님</div>
           <div class="left_menu">
             <li class="nav-item" v-if="!isLogin">
               <v-btn elevation="2" @click="goTo('login')">Login</v-btn>
@@ -53,9 +59,7 @@
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
           </li> -->
             <li class="nav-item" v-else>
-              <a class="nav-link nav-link-icon" @click.stop="memberClear"
-                >Logout</a
-              >
+              <v-btn elevation="2" @click.stop="memberClear">Logout</v-btn>
             </li>
           </div>
         </ul>
@@ -73,7 +77,13 @@
         {{ message }}
       </template>
       <template v-slot:button>
-        <v-btn color="green darken-1" text @click="closePopup(false)">
+        <v-btn
+          color="green darken-1"
+          text
+          @keyup.enter="closePopup(false)"
+          @keydown.esc="closePopup(false)"
+          @click="closePopup(false)"
+        >
           확인
         </v-btn>
       </template>
@@ -96,14 +106,14 @@ export default {
       },
       menuList: [
         // {name:'Login', path:'login'},
-        { name: "Register", path: "register" },
-        { name: "Profile", path: "profile" },
-        { name: "Calendar", path: "calendar" },
-        { name: "Board", path: "board/list" },
+        { name: "Register", path: "register", loginRequire: false },
+        { name: "Profile", path: "profile", loginRequire: true },
+        { name: "Calendar", path: "calendar", loginRequire: true },
+        { name: "Board", path: "board/list", loginRequire: true },
       ],
       subList: [
-        { name: "권한관리", path: "grant" },
-        { name: "설정", path: "setting" },
+        { name: "권한관리", path: "grant", loginRequire: true },
+        { name: "설정", path: "setting", loginRequire: true },
       ],
       // popupSetting: false,
       popMsg:
@@ -128,6 +138,7 @@ export default {
       isLogin: ({ isLogin }) => isLogin,
       refreshToken: ({ refreshToken }) => refreshToken,
       popupSetting: ({ popupSetting }) => popupSetting,
+      authInfo: ({ authInfo }) => authInfo,
     }),
   },
   methods: {
@@ -152,6 +163,7 @@ export default {
       this.selectedMenu = path;
     },
     closePopup(val) {
+      console.log("타니");
       if (this.message.includes("로그아웃") === false) {
         this.openPopup = val;
       } else if (this.message.includes("로그아웃") === true) {
