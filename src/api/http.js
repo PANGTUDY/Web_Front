@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const conference_instance = axios.create({
-    baseURL: 'http://pangtudy.xyz:8000/conference/'
+  baseURL: "http://pangtudy.xyz:8000/conference/",
 });
 
 export const boardInstance = axios.create({

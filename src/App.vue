@@ -14,9 +14,7 @@
     /> -->
     <router-view name="footer"></router-view>
     <pop-up>
-      <template v-slot:msg>
-        {{ message }}
-      </template>
+      <template v-slot:msg> {{ message }}</template>
       <template v-slot:button>
         <v-btn color="green darken-1" text @click="closePopup(false)">
           확인
@@ -135,6 +133,7 @@ export default {
       clearInterval(this.interval);
       this.interval = null;
       sessionStorage.removeItem("timeout");
+      this.$router.push({ path: "/login" });
     },
   },
 };

@@ -85,6 +85,20 @@ export default {
   data: () => ({
     dialog: "",
   }),
+  // mounted() {
+  //   var modal = document.querySelector("v-btn");
+  //   const vm = this;
+  //   console.log("modal", modal);
+  //   window.addEventListener("keydown", function (e) {
+  //     if (e.key === "Escape") {
+  //       vm.$emit("settingTrue", true);
+  //     }
+  //     if (e.key === "Enter") {
+  //       vm.$emit("settingTrue", true);
+  //       console.log("this.pop", this.popupSetting);
+  //     }
+  //   });
+  // },
   computed: {
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
