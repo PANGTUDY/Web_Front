@@ -1,4 +1,4 @@
-import { boardInstance } from "./http";
+import { boardInstance, fileInstance } from "./http";
 
 export async function get_post_list(page, postId) {
   if (postId) {
@@ -53,6 +53,14 @@ export async function create_post(post) {
   return boardInstance.post("/board/posts", post, {
     headers: {
       "Content-Type": `application/json`,
+    },
+  });
+}
+
+export async function upload_file(post, files) {
+  return fileInstance.post("/post/" + post + "/upload", files, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
   });
 }

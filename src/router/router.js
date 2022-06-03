@@ -1,8 +1,27 @@
-import Vue from "vue";
-import Router from "vue-router";
-import beforeEach from "@/router/beforeEach.js";
+import Vue from "vue"
+import Router from "vue-router"
+import beforeEach from "./beforeEach.js"
+import AppHeader from "../layout/AppHeader"
+import AppFooter from "../layout/AppFooter"
+import Components from "../views/Components.vue"
+import Landing from "../views/Landing.vue"
+import Login from "../views/Login.vue"
+import Register from "../views/Register.vue"
+import Profile from "../views/Profile.vue"
+import Success from "../views/Success.vue"
+import pwinquiry from "../views/pwinquiry.vue"
+import Delete from "../views/delete.vue"
+import practice from "../views/practice.vue"
+import Calendar from "../views/conference/Calendar.vue"
+import Grant from "../views/Grant.vue"
+import Setting from "../views/Setting.vue"
+import List from "../views/components/board/List"
+import View from "../views/components/board/View"
+import New from "../views/components/board/New"
+import store from "../store/index.js"
+import confirmPopup from "../views/mixin/confirmPopup"
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   linkExactActiveClass: "active",
@@ -12,107 +31,107 @@ const router = new Router({
       path: "/",
       name: "components",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Components.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Components,
+        footer: AppFooter,
       },
     },
     {
       path: "/calendar",
       name: "calendar",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/conference/Calendar.vue"),
+        header: AppHeader,
+        default: Calendar,
       },
     },
     {
       path: "/landing",
       name: "landing",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Landing.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Landing,
+        footer: AppFooter,
       },
     },
     {
       path: "/login",
       name: "login",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Login.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Login,
+        footer: AppFooter,
       },
     },
     {
       path: "/register",
       name: "register",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Register.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Register,
+        footer: AppFooter,
       },
     },
     {
       path: "/profile",
       name: "profile",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Profile.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Profile,
+        footer: AppFooter,
       },
     },
     {
       path: "/success", // 로그인 완료
       name: "success",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Success.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Success,
+        footer: AppFooter,
       },
     },
     {
       path: "/pwinquiry",
       name: "pwinquiry",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/pwinquiry.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: pwinquiry,
+        footer: AppFooter,
       },
     },
     {
       path: "/delete",
       name: "delete",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/delete.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Delete,
+        footer: AppFooter,
       },
     },
     {
       path: "/practice",
       name: "practice",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/practice.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: practice,
+        footer: AppFooter,
       },
     },
     {
       path: "/board/list",
       name: "list",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/components/board/List"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: List,
+        footer: AppFooter,
       },
     },
     {
       path: "/board/new",
       name: "new",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/components/board/New"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: New,
+        footer: AppFooter,
       },
     },
     {
@@ -120,41 +139,32 @@ const router = new Router({
       name: "view",
       props: true,
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/components/board/View"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: View,
+        footer: AppFooter,
       },
     },
     {
       path: "/grant",
       name: "grant",
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/Grant.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Grant,
+        footer: AppFooter,
       },
     },
     {
-      path: "*",
-      name: "notFoundPage",
+      path: "/setting",
+      name: Setting,
       components: {
-        header: () => import("@/layout/AppHeader.vue"),
-        default: () => import("@/views/notFoundPage.vue"),
-        footer: () => import("@/layout/AppFooter.vue"),
+        header: AppHeader,
+        default: Setting,
+        footer: AppFooter,
       },
     },
-    // {
-    //   path: "/setting",
-    //   name: Setting,
-    //   components: {
-    //     header: () => import("@/layout/AppHeader.vue"),
-    //     default: () => import("@/views/Setting.vue"),
-    //     footer: () => import("@/layout/AppFooter.vue"),
-    //   },
-    // },
   ],
-});
+})
 
-router.beforeEach(beforeEach);
+router.beforeEach(beforeEach)
 
 export default router;

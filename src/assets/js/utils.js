@@ -1,5 +1,5 @@
-import persistedstate from 'vuex-persistedstate';
-import { encrypt, decrypt } from './crypto';
+import persistedstate from "vuex-persistedstate"
+import { encrypt, decrypt } from "./crypto"
 export const createPersistedstate = () =>
   persistedstate({
     storage: {
@@ -10,4 +10,4 @@ export const createPersistedstate = () =>
       setItem: (key, value) => sessionStorage.setItem(key, encrypt(value)),
       removeItem: key => sessionStorage.removeItem(key),
     },
-  });
+  })
