@@ -22,28 +22,27 @@
           <v-spacer></v-spacer>
           <template v-if="this.menuType === 'register'">
             <v-btn
+              ref="btn"
               color="green darken-1"
               text
               @click="$emit('settingFalse', false)"
-              @keydown.esc="$emit('settingFalse', false)"
-              @keyup.enter="$emit('settingFalse', false)"
             >
               확인
             </v-btn>
           </template>
           <template v-else-if="this.menuType === 'login'">
             <v-btn
+              ref="btn"
               color="green darken-1"
               text
               @click="$emit('settingFalse', false)"
-              @keyup.enter="$emit('settingFalse', false)"
-              @keydown.esc="$emit('settingFalse', false)"
             >
               확인
             </v-btn>
           </template>
           <template v-else-if="this.menuType === 'pwinquiry'">
             <v-btn
+              ref="btn"
               color="green darken-1"
               text
               @click="$emit('settingFalse', false)"
@@ -63,6 +62,7 @@
             <v-btn
               color="green darken-1"
               text
+              ref="btn"
               @click="$emit('settingTrue', false)"
             >
               확인
@@ -85,6 +85,17 @@ export default {
   data: () => ({
     dialog: "",
   }),
+  mounted() {
+    window.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        this.$emit("settingTrue", true);
+      }
+      if (e.key === "Enter") {
+        this.$emit("settingTrue", true);
+        console.log("this.pop", this.popupSetting);
+      }
+    });
+  },
   computed: {
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
