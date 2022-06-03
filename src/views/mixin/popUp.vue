@@ -37,6 +37,16 @@ export default {
   data: () => ({
     dialog: "",
   }),
+  mounted() {
+    window.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        this.$emit("close");
+      }
+      if (e.key === "Enter") {
+        this.$emit("close");
+      }
+    });
+  },
   computed: {
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,

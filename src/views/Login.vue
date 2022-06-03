@@ -90,7 +90,7 @@
         </div>
       </div>
     </div>
-    <popup :popupSetting="openPopup">
+    <popup :popupSetting="openPopup" @close="closePopup(false)">
       <template v-slot:msg>
         {{ message }}
       </template>
@@ -139,19 +139,6 @@ export default {
       user: ({ user }) => user,
     }),
   },
-  mounted() {
-    // 모달창 esc키로 꺼지는 문제 ->  그냥 esc키로도 작동되게 구현
-    var modal = document.querySelector("popup");
-    console.log("modal", modal);
-    document
-      .querySelector("popup")
-      .addEventListener("keydown", this.submitByKey);
-  },
-  beforeDestory() {
-    document
-      .querySelector("popup")
-      .removeEventListener("keydown", this.submitByKey);
-  },
   created() {
     // 쿠키에 값이 있다면 email 폼에 값을 넣어주기 + isChecked 체크표시로 만들기
     if (!_.isEmpty(VueCookies.get("email"))) {
@@ -173,14 +160,6 @@ export default {
       this.email = "";
       this.password = "";
     },
-    submitByKey(e) {
-      if (e.key === "Escape") {
-        this.closePopup(false);
-      }
-      if (e.key === "Enter") {
-        this.closePopup(false);
-      }
-    },
     async getUser() {
       // 로그인시 isChecked가 true 라면 쿠키에 이메일 값 넣어주기 / 유효기간으 7일
       if (this.isChecked === true) {
@@ -195,7 +174,6 @@ export default {
           this.openPopup = true;
         } else {
           if (result.status === "success") {
-            console.log("여기타니");
             this.message = "로그인이 완료되었습니다.";
             this.openPopup = true;
           }
@@ -212,10 +190,8 @@ export default {
         this.openPopup = val;
       } else if (this.message.includes("로그인") === true) {
         this.openPopup = val;
-        console.log("this.openPopup", this.openPopup);
+
         if (this.openPopup === false) {
-          console.log("this.accessToken", this.accessToken);
-          console.log("this.userId", this.user.id);
           await this.authEmail({
             accessToken: this.accessToken,
             id: this.user.id,

@@ -180,11 +180,12 @@ export default {
     // 원하는 화면으로 이동시기키
     goTo(path) {
       console.log("path", path);
-      this.$router.push("/" + path);
+      if (path !== this.$route.name) {
+        this.$router.push("/" + path);
+      }
     },
     moveTo($event) {
       this.setValue({ popupSetting: $event });
-
       if (this.$route.name !== "login") {
         this.$router.push({ name: "login" });
       }
