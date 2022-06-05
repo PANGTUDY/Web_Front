@@ -72,7 +72,6 @@
                     :liked="this.liked"
                     @setInput="setLike"
                   ></HeartButton>
-                  <!-- <span class="subheading ml-2">{{ likes }}</span> -->
                 </td>
               </tr>
               <tr class="attach">
