@@ -312,6 +312,7 @@ export default {
         } else {
           this.liked = false
         }
+        console.log("mounted liked: ", this.liked)
       })
       .catch(error => {
         console.log("error occured!: ", error)
@@ -338,6 +339,8 @@ export default {
             } else {
               this.liked = false
             }
+
+            console.log("watch liked: ", this.liked)
           })
           .catch(error => {
             console.log("error occured!: ", error)

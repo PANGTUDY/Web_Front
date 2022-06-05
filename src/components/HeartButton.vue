@@ -23,6 +23,20 @@ export default {
       count: 0,
       likes_num: 0,
   }),
+
+  mounted() {
+      this.likes_num = this.likes;
+      this.like_check = this.liked;
+  },
+
+  watch: {
+    liked(liked) {
+      this.like_check = liked;
+    },
+    likes(likes) {
+      this.likes_num = likes;
+    },
+  },
   
   methods: {
     heartit(e) {
@@ -32,12 +46,7 @@ export default {
         this.likes_num = this.likes_num;
         this.$emit("setInput");
     },
-  },
-
-  mounted() {
-      this.likes_num = this.likes;
-      this.like_check = this.liked;
-  },
+  },  
 };
 </script>
 
