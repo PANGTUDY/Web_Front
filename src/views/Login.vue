@@ -90,34 +90,34 @@
         </div>
       </div>
     </div>
-    <popup :popupSetting="openPopup">
+    <popup :popupSetting="openPopup" @close="closePopup(false)">
       <template v-slot:msg>
         {{ message }}
       </template>
       <template v-slot:button>
-        <v-btn color="green darken-1" text @click="closePopup(false, $event)">
+        <div text color="green darken-1" id="button" @click="closePopup(false)">
           확인
-        </v-btn>
+        </div>
       </template>
     </popup>
-    <confirm-popup
+    <!-- <confirm-popup
       :popupSetting="popupSetting"
       @settingFalse="checkPopup($event)"
       :popMsg="popMsg"
       :menuType="menuType"
-    ></confirm-popup>
+    ></confirm-popup> -->
   </section>
 </template>
 <script>
 import Popup from "@/views/mixin/popUp.vue";
-import confirmPopup from "@/views/mixin/confirmPopup.vue";
+// import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import directives from "@/views/mixin/myDirectives";
 import { mapState, mapActions } from "vuex";
 import VueCookies from "vue-cookies";
 
 export default {
   components: {
-    confirmPopup,
+    // confirmPopup,
     Popup,
   },
   mixins: [directives],
@@ -156,8 +156,9 @@ export default {
   },
   methods: {
     ...mapActions(["login", "authEmail"]),
-    close($event) {
-      console.log("응", $event.target.value);
+    initForm() {
+      this.email = "";
+      this.password = "";
     },
     async getUser() {
       // 로그인시 isChecked가 true 라면 쿠키에 이메일 값 넣어주기 / 유효기간으 7일
@@ -182,14 +183,14 @@ export default {
     async checkPopup($event) {
       this.popupSetting = $event;
       await this.$router.push({ path: "/" });
-      return this.popupSetting;
+      // return this.popupSetting;
     },
-    async closePopup(val, $event) {
-      console.log("keyCode", $event.keyCode);
+    async closePopup(val) {
       if (this.message.includes("로그인") === false) {
         this.openPopup = val;
       } else if (this.message.includes("로그인") === true) {
         this.openPopup = val;
+
         if (this.openPopup === false) {
           await this.authEmail({
             accessToken: this.accessToken,
@@ -201,6 +202,7 @@ export default {
               this.message = result.message;
               this.openPopup = true;
             }
+            this.initForm();
           });
         }
       }

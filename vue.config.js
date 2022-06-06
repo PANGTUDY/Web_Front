@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 module.exports = {
   // publicPath: process.env.NODE_ENV === 'production'
@@ -6,14 +6,14 @@ module.exports = {
   // : '/',
   devServer: {
     proxy: {
-      '^/auth/': {
+      "^/auth/": {
         // target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
-        target: 'http://pangtudy.xyz:8000',
+        target: "http://pangtudy.xyz:8000",
         changeOrigin: true,
       },
-      '^/users': {
+      "^/users": {
         // target: 'http://ec2-54-242-72-201.compute-1.amazonaws.com:8080',
-        target: 'http://pangtudy.xyz:8000/user',
+        target: "http://pangtudy.xyz:8000/user",
         changeOrigin: true,
       },
     },
@@ -29,17 +29,17 @@ module.exports = {
   },
 
   pwa: {
-    name: 'Vue Argon Design',
-    themeColor: '#172b4d',
-    msTileColor: '#172b4d',
-    appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: '#172b4d',
+    name: "Vue Argon Design",
+    themeColor: "#172b4d",
+    msTileColor: "#172b4d",
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "#172b4d",
   },
 
   css: {
     // Enable CSS source maps.
-    sourceMap: process.env.NODE_ENV !== 'production',
+    sourceMap: process.env.NODE_ENV !== "production",
   },
 
-  transpileDependencies: ['vuetify'],
+  transpileDependencies: ["vuetify"],
 };

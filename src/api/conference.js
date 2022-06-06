@@ -1,12 +1,12 @@
-import { conference_instance } from "./http"
-import store from "@/store/index.js"
+import { conference_instance } from "./http";
+import store from "@/store/index.js";
 
 export async function get_calendar(year) {
   return conference_instance.get("/calendar/" + year + "/schedules", {
     headers: {
       Authorization: "Bearer " + store.getters.getToken.access,
     },
-  })
+  });
 }
 
 export async function delete_schedule(id) {
@@ -14,7 +14,7 @@ export async function delete_schedule(id) {
     headers: {
       Authorization: "Bearer " + store.getters.getToken.access,
     },
-  })
+  });
 }
 
 export async function create_schedule(schedule) {
@@ -23,7 +23,7 @@ export async function create_schedule(schedule) {
       "Content-Type": `application/json`,
       Authorization: "Bearer " + store.getters.getToken.access,
     },
-  })
+  });
 }
 
 export async function modify_schedule(schedule) {
@@ -36,5 +36,5 @@ export async function modify_schedule(schedule) {
         Authorization: "Bearer " + store.getters.getToken.access,
       },
     },
-  )
+  );
 }

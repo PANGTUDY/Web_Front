@@ -4,7 +4,7 @@
       <v-col cols="9">
         <v-sheet height="64">
           <v-toolbar flat>
-            <v-btn outlined class="mr-4" color=" darken-2" @click="set_today">
+            <v-btn outlined class="mr-4" color="darken-2" @click="set_today">
               Today
             </v-btn>
             <v-spacer />

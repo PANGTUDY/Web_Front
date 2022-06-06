@@ -73,9 +73,7 @@
       ></confirm-popup>
     </div>
     <pop-up>
-      <template v-slot:msg>
-        {{ message }}
-      </template>
+      <template v-slot:msg> {{ message }}</template>
       <template v-slot:button>
         <v-btn
           color="green darken-1"
@@ -148,6 +146,7 @@ export default {
       this.logout({
         refreshToken: this.refreshToken,
       }).then(result => {
+        console.log("result", result);
         if (result.status === "error") {
           this.message = result.message;
           this.openPopup = true;
@@ -181,40 +180,12 @@ export default {
     // 원하는 화면으로 이동시기키
     goTo(path) {
       console.log("path", path);
-      this.$router.push("/" + path);
-      // // 로그인 되어있을때
-      // if (this.isLogin === true) {
-      //   // path 로 화면을 전환한다.
-      //   // 단, path와 현재 path가 같을 시에 이동시키지 않는다. 다를 경우만 이동
-      //   if (path) {
-      //     if (this.$route.path !== path) {
-      //       this.$router.push("/" + path);
-      //     }
-      //   } else {
-      //     this.$router.push("/");
-      //   }
-      //   // 로그인 되어있지 않을때
-      // } else if (this.isLogin === false) {
-      //   if (path === "") {
-      //     // 메인으로 이동하고자 하면 이동시킨다.
-      //     if (this.$route.path !== "/") {
-      //       this.$router.push("/");
-      //     }
-      //   } else if (path === "register") {
-      //     this.$router.push({ path: "/register" });
-      //   } else if (path === "login") {
-      //     if (this.$route.path !== "/login") {
-      //       this.popupSetting = true;
-      //       this.$router.push({ path: "/login" });
-      //     }
-      //   } else {
-      //     this.popupSetting = true;
-      //   }
-      // }
+      if (path !== this.$route.name) {
+        this.$router.push("/" + path);
+      }
     },
     moveTo($event) {
       this.setValue({ popupSetting: $event });
-
       if (this.$route.name !== "login") {
         this.$router.push({ name: "login" });
       }
