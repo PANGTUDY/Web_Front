@@ -1,28 +1,28 @@
 import { AUTH_EMAIL } from "./types.js";
 export default {
   loggedIn(state) {
-    return !!state.user
+    return !!state.user;
   },
   loginInfo(state) {
     if (state.user) {
-      return state.user.name
+      return state.user.name;
     } else {
-      return ""
+      return "";
     }
   },
   getToken(state) {
     return {
       access: state.accessToken,
       refresh: state.refreshToken,
-    }
+    };
   },
   userInfo(state) {
-    return state.user
+    return state.user;
   },
   get_calendar(state) {
-    return state.calendar
+    return state.calendar;
   },
   loggedout(state) {
-    return (state.user = null)
+    return (state.user = null);
   },
-}
+};

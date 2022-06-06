@@ -1,27 +1,27 @@
-import Vue from "vue"
-import Router from "vue-router"
-import beforeEach from "./beforeEach.js"
-import AppHeader from "../layout/AppHeader"
-import AppFooter from "../layout/AppFooter"
-import Components from "../views/Components.vue"
-import Landing from "../views/Landing.vue"
-import Login from "../views/Login.vue"
-import Register from "../views/Register.vue"
-import Profile from "../views/Profile.vue"
-import Success from "../views/Success.vue"
-import pwinquiry from "../views/pwinquiry.vue"
-import Delete from "../views/delete.vue"
-import practice from "../views/practice.vue"
-import Calendar from "../views/conference/Calendar.vue"
-import Grant from "../views/Grant.vue"
-import Setting from "../views/Setting.vue"
-import List from "../views/components/board/List"
-import View from "../views/components/board/View"
-import New from "../views/components/board/New"
-import store from "../store/index.js"
-import confirmPopup from "../views/mixin/confirmPopup"
+import Vue from "vue";
+import Router from "vue-router";
+import beforeEach from "./beforeEach.js";
+import AppHeader from "../layout/AppHeader";
+import AppFooter from "../layout/AppFooter";
+import Components from "../views/Components.vue";
+import Landing from "../views/Landing.vue";
+import Login from "../views/Login.vue";
+import Register from "../views/Register.vue";
+import Profile from "../views/Profile.vue";
+import Success from "../views/Success.vue";
+import pwinquiry from "../views/pwinquiry.vue";
+import Delete from "../views/delete.vue";
+import practice from "../views/practice.vue";
+import Calendar from "../views/conference/Calendar.vue";
+import Grant from "../views/Grant.vue";
+import Setting from "../views/Setting.vue";
+import List from "../views/components/board/List";
+import View from "../views/components/board/View";
+import New from "../views/components/board/New";
+import store from "../store/index.js";
+import confirmPopup from "../views/mixin/confirmPopup";
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
   linkExactActiveClass: "active",
@@ -163,8 +163,8 @@ const router = new Router({
       },
     },
   ],
-})
+});
 
-router.beforeEach(beforeEach)
+router.beforeEach(beforeEach);
 
 export default router;
