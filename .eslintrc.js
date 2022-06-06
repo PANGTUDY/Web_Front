@@ -10,7 +10,21 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     "vue/multi-word-component-names": [
       "error",
-      { ignores: ["default", "Login", "Grant"] },
+      {
+        ignores: [
+          "default",
+          "Login",
+          "Grant",
+          "Starter",
+          "Success",
+          "Register",
+          "Setting",
+          "Components",
+          "delete",
+          "practice",
+          "Calendar",
+        ],
+      },
     ],
     "prettier/prettier": [
       "error",
