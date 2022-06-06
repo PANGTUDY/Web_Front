@@ -130,11 +130,7 @@
       <div v-if="comments != null" class="row justify-content-center">
         <div class="col-lg-8 comment_area">
           <template v-for="(item, index) in comments">
-            <v-card
-              :key="index"
-              class="mx-auto"
-              style="box-shadow: none;"
-            >
+            <v-card :key="index" class="mx-auto" style="box-shadow: none">
               <v-container style="display: inline-block">
                 <v-card-title>
                   <v-list two-line width="100%">
@@ -153,7 +149,7 @@
 
                       <v-list-item-content>
                         <v-row class="comment_date" text-left justify="end">
-                          <div style="padding: 7px; min-width: 110px;">
+                          <div style="padding: 7px; min-width: 110px">
                             {{ item.date.substr(0, 10) }}
                           </div>
 
@@ -264,10 +260,10 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex"
+import { mapState, mapActions, mapGetters } from "vuex";
 
-import * as Api from "@/api/board.js"
-import HeartButton from "@/components/HeartButton"
+import * as Api from "@/api/board.js";
+import HeartButton from "@/components/HeartButton";
 
 export default {
   components: { HeartButton },
@@ -294,61 +290,61 @@ export default {
   }),
 
   mounted() {
-    this.postId = this.$route.params.id
-    this.categoryId = this.$route.query.categoryId
+    this.postId = this.$route.params.id;
+    this.categoryId = this.$route.query.categoryId;
 
-    console.log("id in authInfo: ", this.$store.state.authInfo.id)
+    console.log("id in authInfo: ", this.$store.state.authInfo.id);
 
     // 추후 getters 사용으로 변경 예정
     if (this.$store.state.authInfo != null) {
-      this.userId = this.$store.state.authInfo.id
+      this.userId = this.$store.state.authInfo.id;
     } else {
       // 임시
-      this.userId = 1
+      this.userId = 1;
     }
-    console.log("userId: ", this.userId)
+    console.log("userId: ", this.userId);
 
     // 좋아요 누른 user 불러오는 Api
     Api.get_likes_user_list(this.postId)
       .then(res => {
-        let userList = res.data
-        console.log(userList)
-        this.likes = userList.length
+        let userList = res.data;
+        console.log(userList);
+        this.likes = userList.length;
         if (userList.includes(this.userId)) {
-          this.liked = true
+          this.liked = true;
         } else {
-          this.liked = false
+          this.liked = false;
         }
       })
       .catch(error => {
-        console.log("error occured!: ", error)
-      })
+        console.log("error occured!: ", error);
+      });
 
-    this.fnInit()
+    this.fnInit();
   },
 
   watch: {
     $route(to, from) {
       if (to.path != from.path) {
-        this.postId = this.$route.params.id
-        this.categoryId = this.$route.query.categoryId
+        this.postId = this.$route.params.id;
+        this.categoryId = this.$route.query.categoryId;
 
-        this.fnInit()
+        this.fnInit();
         // 좋아요 누른 user 불러오는 Api
         Api.get_likes_user_list(this.postId)
           .then(res => {
-            let userList = res.data
-            console.log("route list: ", userList)
-            this.likes = userList.length
+            let userList = res.data;
+            console.log("route list: ", userList);
+            this.likes = userList.length;
             if (userList.includes(this.userId)) {
-              this.liked = true
+              this.liked = true;
             } else {
-              this.liked = false
+              this.liked = false;
             }
           })
           .catch(error => {
-            console.log("error occured!: ", error)
-          })
+            console.log("error occured!: ", error);
+          });
       }
     },
   },
@@ -362,47 +358,47 @@ export default {
       // 특정 글 정보 불러오는 Api
       Api.get_post_list(0, this.postId)
         .then(res => {
-          this.post = res.data
-          this.category = this.post.category.categoryName
-          this.comments = res.data.comments
+          this.post = res.data;
+          this.category = this.post.category.categoryName;
+          this.comments = res.data.comments;
 
           if (this.comments != null) {
             for (let comment of this.comments) {
-              comment._contents = comment.contents
-              this.$set(comment, "edit", false)
+              comment._contents = comment.contents;
+              this.$set(comment, "edit", false);
             }
           }
         })
         .catch(error => {
-          console.log("error occured!: ", error)
-        })
+          console.log("error occured!: ", error);
+        });
 
       Api.get_adjacent_list(this.categoryId, this.postId)
         .then(res => {
-          this.postList = res.data
+          this.postList = res.data;
         })
         .catch(error => {
-          console.log("error occured!: ", error)
-        })
+          console.log("error occured!: ", error);
+        });
     },
 
     isFocus(id) {
       if (this.postId == id.toString()) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     },
 
     setLike() {
       Api.change_like(this.postId, this.userId)
         .then(res => {
-          this.likes = res.data
-          this.liked = !this.liked
+          this.likes = res.data;
+          this.liked = !this.liked;
         })
         .catch(error => {
-          console.log("error occured!: ", error)
-        })
+          console.log("error occured!: ", error);
+        });
     },
 
     submit() {
@@ -414,52 +410,52 @@ export default {
           " " +
           new Date().toTimeString().split(" ")[0],
         postId: this.postId,
-      }
+      };
 
       Api.create_comment(comment)
         .then(res => {
-          console.log("저장되었습니다")
+          console.log("저장되었습니다");
           Api.get_comments(this.postId)
             .then(result => {
-              this.comments = result.data
+              this.comments = result.data;
 
               for (let comment of this.comments) {
-                comment.edit = false
+                comment.edit = false;
               }
             })
             .catch(error => {
-              console.log("error occured!: ", error)
-            })
-          this.comment = ""
+              console.log("error occured!: ", error);
+            });
+          this.comment = "";
         })
         .catch(error => {
-          console.log("error occured!: ", error)
-        })
+          console.log("error occured!: ", error);
+        });
     },
 
     editPost() {
-      console.log("view ", this.postId)
+      console.log("view ", this.postId);
       this.$router.push({
         name: "new",
         params: { id: this.postId },
-      })
+      });
     },
 
     deletePost() {
       Api.delete_post(this.postId)
         .then(() => {
-          console.log("삭제되었습니다")
-          this.$router.push({ path: "/board/list/" })
+          console.log("삭제되었습니다");
+          this.$router.push({ path: "/board/list/" });
         })
         .catch(error => {
-          console.log("error occured!: ", error)
-        })
+          console.log("error occured!: ", error);
+        });
     },
 
     editComment(index) {
-      this.$set(this.comments[index], "edit", true)
-      this.$forceUpdate()
-      console.log(this.comments)
+      this.$set(this.comments[index], "edit", true);
+      this.$forceUpdate();
+      console.log(this.comments);
     },
 
     deleteComment(commentId) {
@@ -467,27 +463,27 @@ export default {
         .then(() => {
           Api.get_comments(this.postId)
             .then(result => {
-              this.comments = result.data
+              this.comments = result.data;
 
               if (this.comments != null) {
                 for (let comment of this.comments) {
-                  comment._contents = comment.contents
-                  comment.edit = false
+                  comment._contents = comment.contents;
+                  comment.edit = false;
                 }
               }
             })
             .catch(error => {
-              console.log("error occured!: ", error)
-            })
+              console.log("error occured!: ", error);
+            });
         })
         .catch(error => {
-          console.log("error occured!: ", error)
-        })
+          console.log("error occured!: ", error);
+        });
     },
 
     cancelEditComment(index) {
-      this.comments[index].contents = this.comments[index]._contents
-      this.$set(this.comments[index], "edit", false)
+      this.comments[index].contents = this.comments[index]._contents;
+      this.$set(this.comments[index], "edit", false);
       // this.$forceUpdate()
     },
 
@@ -500,7 +496,7 @@ export default {
           " " +
           new Date().toTimeString().split(" ")[0],
         postId: this.postId,
-      }
+      };
 
       Api.patch_comment(
         this.postId,
@@ -509,22 +505,22 @@ export default {
       ).then(res => {
         Api.get_comments(this.postId)
           .then(result => {
-            this.comments = result.data
+            this.comments = result.data;
 
             if (this.comments != null) {
               for (let comment of this.comments) {
-                comment._contents = comment.contents
-                this.$set(comment, "edit", false)
+                comment._contents = comment.contents;
+                this.$set(comment, "edit", false);
               }
             }
           })
           .catch(error => {
-            console.log("error occured!: ", error)
-          })
-      })
+            console.log("error occured!: ", error);
+          });
+      });
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

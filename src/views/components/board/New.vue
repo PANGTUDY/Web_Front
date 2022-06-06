@@ -174,7 +174,7 @@ export default {
   methods: {
     // submit the post
     submit() {
-      if(this.category == "") {
+      if (this.category == "") {
         alert("카테고리 입력이 필요합니다.");
         return;
       }
@@ -198,7 +198,7 @@ export default {
         Api.create_post(post)
           .then(res => {
             // When attached the file
-            if(this.files) {
+            if (this.files) {
               console.log("file exist!");
               const fd = new FormData();
               fd.append("ufile", this.files);
@@ -207,12 +207,12 @@ export default {
               // }
               // Submit the files
               Api.upload_file(res.data.postId, fd)
-              .then(resizeBy => {
-                console.log("Save the file! ", res.data);
-              })
-              .catch(error => {
-                console.log("error occured!: ", error);
-              });
+                .then(resizeBy => {
+                  console.log("Save the file! ", res.data);
+                })
+                .catch(error => {
+                  console.log("error occured!: ", error);
+                });
             }
 
             // Check the success
