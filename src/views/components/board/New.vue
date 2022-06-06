@@ -208,14 +208,10 @@ export default {
                 fd.append("ufile", this.files[i]);
               }
 
-              for (var pair of fd.entries()) {
-                console.log(pair[0] + ", " + pair[1]);
-              }
-
               // Submit the files
               Api.upload_file(res.data.postId, fd)
-                .then(resizeBy => {
-                  console.log("Save the file! ", res.data);
+                .then(file => {
+                  console.log("Save the file! ", file.data);
                 })
                 .catch(error => {
                   console.log("error occured!: ", error);

@@ -292,8 +292,6 @@ export default {
     this.postId = this.$route.params.id;
     this.categoryId = this.$route.query.categoryId;
 
-    console.log("id in authInfo: ", this.$store.state.authInfo.id);
-
     // 추후 getters 사용으로 변경 예정
     if (this.$store.state.authInfo != null) {
       this.userId = this.$store.state.authInfo.id;
@@ -314,7 +312,6 @@ export default {
         } else {
           this.liked = false;
         }
-        console.log("mounted liked: ", this.liked);
       })
       .catch(error => {
         console.log("error occured!: ", error);
@@ -341,8 +338,6 @@ export default {
             } else {
               this.liked = false;
             }
-
-            console.log("watch liked: ", this.liked);
           })
           .catch(error => {
             console.log("error occured!: ", error);
