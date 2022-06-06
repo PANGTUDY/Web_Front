@@ -8,7 +8,24 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    "vue/multi-word-component-names":["error",{"ignores":["default","Login","Grant"]}],
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: [
+          "default",
+          "Login",
+          "Grant",
+          "Starter",
+          "Success",
+          "Register",
+          "Setting",
+          "Components",
+          "delete",
+          "practice",
+          "Calendar",
+        ],
+      },
+    ],
     "prettier/prettier": [
       "error",
       {
@@ -27,4 +44,4 @@ module.exports = {
   parserOptions: {
     parser: "babel-eslint",
   },
-}
+};
