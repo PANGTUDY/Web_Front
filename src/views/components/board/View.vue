@@ -72,7 +72,6 @@
                     :liked="this.liked"
                     @setInput="setLike"
                   ></HeartButton>
-                  <span class="subheading ml-2">{{ likes }}</span>
                 </td>
               </tr>
               <tr class="attach">
@@ -269,7 +268,7 @@ export default {
   components: { HeartButton },
   data: () => ({
     userId: "",
-    liked: false,
+    liked: true,
 
     postId: "",
     categoryId: "",
@@ -315,6 +314,7 @@ export default {
         } else {
           this.liked = false;
         }
+        console.log("mounted liked: ", this.liked);
       })
       .catch(error => {
         console.log("error occured!: ", error);
@@ -341,6 +341,8 @@ export default {
             } else {
               this.liked = false;
             }
+
+            console.log("watch liked: ", this.liked);
           })
           .catch(error => {
             console.log("error occured!: ", error);

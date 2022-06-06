@@ -56,6 +56,36 @@ export default {
   mounted() {
     this.likes_num = this.likes;
   },
+
+  data: () => ({
+    like_check: false,
+    count: 0,
+    likes_num: 0,
+  }),
+
+  mounted() {
+    this.likes_num = this.likes;
+    this.like_check = this.liked;
+  },
+
+  watch: {
+    liked(liked) {
+      this.like_check = liked;
+    },
+    likes(likes) {
+      this.likes_num = likes;
+    },
+  },
+
+  methods: {
+    heartit(e) {
+      e.preventDefault();
+
+      this.like_check = !this.like_check;
+      this.likes_num = this.likes_num;
+      this.$emit("setInput");
+    },
+  },
 };
 </script>
 
