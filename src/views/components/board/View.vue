@@ -72,7 +72,6 @@
                     :liked="this.liked"
                     @setInput="setLike"
                   ></HeartButton>
-                  <span class="subheading ml-2">{{ likes }}</span>
                 </td>
               </tr>
               <tr class="attach">
@@ -130,11 +129,7 @@
       <div v-if="comments != null" class="row justify-content-center">
         <div class="col-lg-8 comment_area">
           <template v-for="(item, index) in comments">
-            <v-card
-              :key="index"
-              class="mx-auto"
-              style="box-shadow: none;"
-            >
+            <v-card :key="index" class="mx-auto" style="box-shadow: none">
               <v-container style="display: inline-block">
                 <v-card-title>
                   <v-list two-line width="100%">
@@ -273,7 +268,7 @@ export default {
   components: { HeartButton },
   data: () => ({
     userId: "",
-    liked: false,
+    liked: true,
 
     postId: "",
     categoryId: "",
@@ -297,8 +292,6 @@ export default {
     this.postId = this.$route.params.id
     this.categoryId = this.$route.query.categoryId
 
-    console.log("id in authInfo: ", this.$store.state.authInfo.id)
-
     // 추후 getters 사용으로 변경 예정
     if (this.$store.state.authInfo != null) {
       this.userId = this.$store.state.authInfo.id
@@ -319,6 +312,7 @@ export default {
         } else {
           this.liked = false
         }
+        console.log("mounted liked: ", this.liked)
       })
       .catch(error => {
         console.log("error occured!: ", error)
@@ -345,6 +339,8 @@ export default {
             } else {
               this.liked = false
             }
+
+            console.log("watch liked: ", this.liked)
           })
           .catch(error => {
             console.log("error occured!: ", error)
@@ -438,7 +434,6 @@ export default {
     },
 
     editPost() {
-      console.log("view ", this.postId)
       this.$router.push({
         name: "new",
         params: { id: this.postId },
@@ -458,7 +453,7 @@ export default {
 
     editComment(index) {
       this.$set(this.comments[index], "edit", true)
-      this.$forceUpdate()
+      //this.$forceUpdate()
       console.log(this.comments)
     },
 

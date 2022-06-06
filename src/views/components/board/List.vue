@@ -127,8 +127,8 @@ export default {
     category_list: [],
     category: {},
     posts: [],
-    currPage: "",
-    totalPage: "",
+    currPage: 1,
+    totalPage: 0,
 
     hint: "키워드를 입력하세요",
     selectItems: [

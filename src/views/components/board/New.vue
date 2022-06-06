@@ -201,10 +201,17 @@ export default {
             if(this.files) {
               console.log("file exist!");
               const fd = new FormData();
-              fd.append("ufile", this.files);
-              // for (let i in this.files) {
-              //   fd.append("ufile", this.files[i]);
-              // }
+              console.log("files ", this.files);
+              console.log("fd ", fd);
+              // fd.append("ufile", this.files);
+              for (let i in this.files) {
+                fd.append("ufile", this.files[i]);
+              }
+
+              for (var pair of fd.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]);
+              }
+
               // Submit the files
               Api.upload_file(res.data.postId, fd)
               .then(resizeBy => {
