@@ -11,4 +11,6 @@ export default {
   allUsers: [],
   refreshTimeOut: "",
   popupSetting: false,
+  isPopupShow: false,
+  message: "",
 };

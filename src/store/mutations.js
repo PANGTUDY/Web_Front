@@ -7,9 +7,14 @@ import {
   MODIFY_USER,
   GET_ALL_USERS,
   SET_VALUE,
+  ALERT_POP_UP,
 } from "./types.js";
 
 export default {
+  [ALERT_POP_UP]: (staet, payload) => {
+    state.message = payload.message;
+    state.isPopupShow = payload.isPopupShow;
+  },
   [SET_VALUE]: (state, payload) => {
     Object.entries(payload).forEach(([key, value]) => (state[key] = value));
   },
@@ -22,7 +27,7 @@ export default {
     let jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
-        .map(function (c) {
+        .map(function(c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join(""),
@@ -49,7 +54,7 @@ export default {
     let jsonPayloadAnother = decodeURIComponent(
       atob(base64Another)
         .split("")
-        .map(function (c) {
+        .map(function(c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join(""),
@@ -71,7 +76,7 @@ export default {
     let jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
-        .map(function (c) {
+        .map(function(c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join(""),

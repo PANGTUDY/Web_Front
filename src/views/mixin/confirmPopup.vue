@@ -86,7 +86,8 @@ export default {
     dialog: "",
   }),
   mounted() {
-    window.addEventListener("keydown", function (e) {
+    console.log(this.$refs.btn);
+    document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
         this.$emit("settingTrue", true);
       }
