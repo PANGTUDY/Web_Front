@@ -13,26 +13,29 @@
       :userInfo="userInfo"
     /> -->
     <router-view name="footer"></router-view>
-    <pop-up>
+    <!-- <pop-up>
       <template v-slot:msg> {{ message }}</template>
       <template v-slot:button>
         <v-btn color="green darken-1" text @click="closePopup(false)">
           확인
         </v-btn>
       </template>
-    </pop-up>
+    </pop-up> -->
+    <confirm-popup></confirm-popup>
   </v-app>
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
 // import chat from "@/views/components/chat/Chat.vue";
 import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
-import PopUp from "./views/mixin/popUp.vue";
+// import PopUp from "./views/mixin/popUp.vue";
+import confirmPopup from "@/components/modal/confirmPopup.vue";
 export default {
   components: {
     FadeTransition,
     // chat,
-    PopUp,
+    // PopUp,
+    confirmPopup,
   },
   data: () => ({
     open: false,
@@ -51,14 +54,6 @@ export default {
         }
       }
     },
-  },
-  created() {
-    // // 메인 컴포넌트를 렌더링 하면서 토큰 체크
-    //  let token = this.$store.getters.getToken;
-    //  if(token.access == null && token.refresh == null){
-    //    //현재 경로와 동일한 경로로 화면 이동 시 발생하는 예외 처리 코드
-    //    this.$router.push({name:'login'}).catch(()=>{});
-    //  }
   },
   computed: {
     ...mapGetters(["userInfo", "getToken"]),

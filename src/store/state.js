@@ -12,5 +12,6 @@ export default {
   refreshTimeOut: "",
   popupSetting: false,
   isPopupShow: false,
-  message: "",
+  alertMsg: "",
+  movePath:""
 };

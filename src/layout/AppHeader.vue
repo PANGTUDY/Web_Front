@@ -72,20 +72,6 @@
         :menuType="menuType"
       ></confirm-popup>
     </div>
-    <pop-up>
-      <template v-slot:msg> {{ message }}</template>
-      <template v-slot:button>
-        <v-btn
-          color="green darken-1"
-          text
-          @keyup.enter="closePopup(false)"
-          @keydown.esc="closePopup(false)"
-          @click="closePopup(false)"
-        >
-          확인
-        </v-btn>
-      </template>
-    </pop-up>
   </header>
 </template>
 <script>
@@ -182,6 +168,9 @@ export default {
       console.log("path", path);
       if (path !== this.$route.name) {
         this.$router.push("/" + path);
+      }
+      if(_.isEmpty(this.authInfo)){
+        this.setValue({movePath:path});
       }
     },
     moveTo($event) {

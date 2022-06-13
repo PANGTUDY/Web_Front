@@ -127,8 +127,8 @@ export default {
     popupSetting: false,
     popMsg: "로그인이 완료되었습니다.",
     menuType: "login",
+    message:"",
     isChecked: false,
-    message: "",
     openPopup: false,
   }),
   computed: {
@@ -137,6 +137,7 @@ export default {
       refreshToken: ({ refreshToken }) => refreshToken,
       timeout: ({ timeout }) => timeout,
       user: ({ user }) => user,
+      movePath:({movePath})=>movePath
     }),
   },
   created() {
@@ -174,12 +175,21 @@ export default {
           // this.openPopup = true;
         } else {
           if (result.status === "success") {
-            this.alarm("로그인이 완료되었습니다.");
-            // this.message = "로그인이 완료되었습니다.";
-            // this.openPopup = true;
+            this.authEmail({
+            accessToken: this.accessToken,
+            id: this.user.id,
+          });
+            if(!_.isEmpty(this.movePath)){
+              this.$router.push({path:'/'+ this.movePath});
+            }else{
+              this.$router.push({path:'/'});
+            }
           }
         }
       });
+      
+     
+      
     },
     async checkPopup($event) {
       this.popupSetting = $event;

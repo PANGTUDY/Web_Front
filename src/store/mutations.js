@@ -8,12 +8,16 @@ import {
   GET_ALL_USERS,
   SET_VALUE,
   ALERT_POP_UP,
+  CLOSE_POPUP,
 } from "./types.js";
 
 export default {
-  [ALERT_POP_UP]: (staet, payload) => {
-    state.message = payload.message;
+  [ALERT_POP_UP]: (state, payload) => {
+    state.alertMsg = payload.alertMsg;
     state.isPopupShow = payload.isPopupShow;
+  },
+  [CLOSE_POPUP]: (state, payload) => {
+    state.isPopupShow = payload;
   },
   [SET_VALUE]: (state, payload) => {
     Object.entries(payload).forEach(([key, value]) => (state[key] = value));
@@ -100,6 +104,8 @@ export default {
     state.refreshToken = "";
     state.timeout = "";
     state.refreshTimeOut = "";
+    state.authInfo = "";
+    state.movePath = "";
     // VueCookies.remove('accessToken');
     // VueCookies.remove('refreshToken');
   },

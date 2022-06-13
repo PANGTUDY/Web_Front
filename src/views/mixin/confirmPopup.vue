@@ -85,18 +85,6 @@ export default {
   data: () => ({
     dialog: "",
   }),
-  mounted() {
-    console.log(this.$refs.btn);
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        this.$emit("settingTrue", true);
-      }
-      if (e.key === "Enter") {
-        this.$emit("settingTrue", true);
-        console.log("this.pop", this.popupSetting);
-      }
-    });
-  },
   computed: {
     ...mapState({
       isLogin: ({ isLogin }) => isLogin,
