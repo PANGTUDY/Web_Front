@@ -221,7 +221,7 @@ export default {
       user: ({ user }) => user,
     }),
     ...mapGetters(["userInfo"]),
-    changeStrength: function () {
+    changeStrength() {
       return this.passwordValidation === "strong"
         ? "text-success"
         : "text-warning";

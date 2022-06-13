@@ -7,9 +7,18 @@ import {
   MODIFY_USER,
   GET_ALL_USERS,
   SET_VALUE,
+  ALERT_POP_UP,
+  CLOSE_POPUP,
 } from "./types.js";
 
 export default {
+  [ALERT_POP_UP]: (state, payload) => {
+    state.alertMsg = payload.alertMsg;
+    state.isPopupShow = payload.isPopupShow;
+  },
+  [CLOSE_POPUP]: (state, payload) => {
+    state.isPopupShow = payload;
+  },
   [SET_VALUE]: (state, payload) => {
     Object.entries(payload).forEach(([key, value]) => (state[key] = value));
   },
@@ -22,7 +31,7 @@ export default {
     let jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
-        .map(function (c) {
+        .map(function(c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join(""),
@@ -49,7 +58,7 @@ export default {
     let jsonPayloadAnother = decodeURIComponent(
       atob(base64Another)
         .split("")
-        .map(function (c) {
+        .map(function(c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join(""),
@@ -71,7 +80,7 @@ export default {
     let jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
-        .map(function (c) {
+        .map(function(c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join(""),
@@ -95,6 +104,8 @@ export default {
     state.refreshToken = "";
     state.timeout = "";
     state.refreshTimeOut = "";
+    state.authInfo = "";
+    state.movePath = "";
     // VueCookies.remove('accessToken');
     // VueCookies.remove('refreshToken');
   },

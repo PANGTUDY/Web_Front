@@ -20,7 +20,7 @@ import App from "./App.vue";
 import router from "./router/router.js";
 import Argon from "./plugins/argon-kit";
 import "./registerServiceWorker";
-import store from "./store/index";
+import store from "@/store/index";
 import lodash from "lodash";
 import ko from "vee-validate/dist/locale/ko.js";
 import VeeValidate from "vee-validate";
@@ -29,30 +29,16 @@ import vuetify from "./plugins/vuetify";
 import ElementUI from "element-ui";
 import locale from "element-ui/lib/locale/lang/en";
 import "./registerServiceWorker";
+import { alertPopup } from "@/mixins/alertPopup";
 import "element-ui/lib/theme-chalk/index.css";
 import axios from "axios";
 
-// veevalidate 설치
-const config = {
-  locale: "ko",
-  dicitionary: {
-    ko,
-  },
-};
-
-const dictionary = {
-  ko: {
-    attributes: {
-      passoword: "비밀번호",
-    },
-  },
-};
-
 Vue.config.productionTip = false;
 Vue.use(Argon);
-Vue.use(VeeValidate, config);
 Vue.use(ElementUI, { locale });
 Vue.use(VueCookies);
+
+Vue.mixin(alertPopup);
 
 new Vue({
   router,

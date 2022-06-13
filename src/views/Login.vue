@@ -90,7 +90,7 @@
         </div>
       </div>
     </div>
-    <popup :popupSetting="openPopup" @close="closePopup(false)">
+    <!-- <popup :popupSetting="openPopup" @close="closePopup(false)">
       <template v-slot:msg>
         {{ message }}
       </template>
@@ -100,7 +100,7 @@
         </div>
       </template>
     </popup>
-    <!-- <confirm-popup
+    <confirm-popup
       :popupSetting="popupSetting"
       @settingFalse="checkPopup($event)"
       :popMsg="popMsg"
@@ -109,7 +109,7 @@
   </section>
 </template>
 <script>
-import Popup from "@/views/mixin/popUp.vue";
+// import Popup from "@/views/mixin/popUp.vue";
 // import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import directives from "@/views/mixin/myDirectives";
 import { mapState, mapActions } from "vuex";
@@ -118,7 +118,7 @@ import VueCookies from "vue-cookies";
 export default {
   components: {
     // confirmPopup,
-    Popup,
+    // Popup,
   },
   mixins: [directives],
   data: () => ({
@@ -127,8 +127,8 @@ export default {
     popupSetting: false,
     popMsg: "로그인이 완료되었습니다.",
     menuType: "login",
+    message:"",
     isChecked: false,
-    message: "",
     openPopup: false,
   }),
   computed: {
@@ -137,6 +137,7 @@ export default {
       refreshToken: ({ refreshToken }) => refreshToken,
       timeout: ({ timeout }) => timeout,
       user: ({ user }) => user,
+      movePath:({movePath})=>movePath
     }),
   },
   created() {
@@ -170,15 +171,25 @@ export default {
         password: this.password,
       }).then(result => {
         if (result.status === "error") {
-          this.message = result.message;
-          this.openPopup = true;
+          // this.message = result.message;
+          // this.openPopup = true;
         } else {
           if (result.status === "success") {
-            this.message = "로그인이 완료되었습니다.";
-            this.openPopup = true;
+            this.authEmail({
+            accessToken: this.accessToken,
+            id: this.user.id,
+          });
+            if(!_.isEmpty(this.movePath)){
+              this.$router.push({path:'/'+ this.movePath});
+            }else{
+              this.$router.push({path:'/'});
+            }
           }
         }
       });
+      
+     
+      
     },
     async checkPopup($event) {
       this.popupSetting = $event;

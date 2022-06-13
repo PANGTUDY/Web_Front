@@ -11,4 +11,7 @@ export default {
   allUsers: [],
   refreshTimeOut: "",
   popupSetting: false,
+  isPopupShow: false,
+  alertMsg: "",
+  movePath:""
 };

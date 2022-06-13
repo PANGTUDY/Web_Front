@@ -1,3 +1,4 @@
+// eslint-disable-next-line vue/multi-word-component-names
 const webpack = require("webpack");
 
 module.exports = {

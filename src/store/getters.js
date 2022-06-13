@@ -25,4 +25,10 @@ export default {
   loggedout(state) {
     return (state.user = null);
   },
+  isPop(state) {
+    return state.isPopupShow;
+  },
+  getMsg(state) {
+    return state.message;
+  },
 };

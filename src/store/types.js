@@ -6,3 +6,5 @@ export const MODIFY_USER = "modifyUser";
 export const GET_ALL_USERS = "getAllUsers";
 export const LEFT_MEMBER = "leftMember";
 export const SET_VALUE = "setValue";
+export const ALERT_POP_UP = "alertPopup";
+export const CLOSE_POPUP = "closePopup";
