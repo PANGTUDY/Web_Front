@@ -65,6 +65,7 @@
       &.show {
         [data-toggle="dropdown"]::after {
           transform: rotate(180deg);
+         
         }
       }
     }
