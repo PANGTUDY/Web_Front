@@ -18,7 +18,7 @@
     "crypto-js": "^4.1.1",
     "element-ui": "^2.15.6",
     "eslint-plugin-vue": "^9.0.1",
-    "event-source-polyfill": "^1.0.26",
+    "event-source": "git+https://github.com/AlexGalays/EventSource.git#923b9a0998fcfd7753040e09aa83764b3cc0230d",
     "express": "^4.17.1",
     "flatpickr": "^4.5.1",
     "jsonwebtoken": "^8.5.1",

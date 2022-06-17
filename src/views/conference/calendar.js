@@ -217,8 +217,12 @@ export default {
   },
   async mounted() {
     // TODO : EventSource 주소 상수화 필요
+    console.log(this.$store.getters.getToken.access);
     this.sse_source = new EventSource(
       "http://pangtudy.xyz:8000/conference/calendar/schedules/sse",
+      {
+        headers: { Authorization: this.$store.getters.getToken.access },
+      },
     );
     this.sse_source.onmessage = event => {
       console.log(event);
