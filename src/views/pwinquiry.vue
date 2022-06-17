@@ -227,7 +227,6 @@ export default {
         : "text-warning";
     },
   },
-  created() {},
 };
 </script>
 <style>
