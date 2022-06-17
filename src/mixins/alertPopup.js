@@ -5,24 +5,19 @@ export const alertPopup = {
   computed: {
     ...mapState({
       isPopupShow: ({ isPopupShow }) => isPopupShow,
-      alertMsg:({alertMsg})=>alertMsg
+      alertMsg: ({ alertMsg }) => alertMsg,
     }),
-   
-  },
-  mounted: {
-  
-
   },
   methods: {
     ...mapMutations({
       alertAlarm: ALERT_POP_UP,
       close: CLOSE_POPUP,
-      setValue:SET_VALUE
+      setValue: SET_VALUE,
     }),
-   
+
     alarm(alertMsg) {
       console.log("타니");
-      this.alertAlarm({ isPopupShow: true, alertMsg:alertMsg });
+      this.alertAlarm({ isPopupShow: true, alertMsg: alertMsg });
     },
-  }
+  },
 };

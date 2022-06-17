@@ -72,7 +72,7 @@ export default {
       });
     },
   },
-  mounted() {
+  mounted: function () {
     this.createSlider();
   },
   watch: {

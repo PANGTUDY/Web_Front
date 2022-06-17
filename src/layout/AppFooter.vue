@@ -11,10 +11,11 @@
 <script>
 export default {
   name: "app-footer",
-  data() {
-    return {
-      year: new Date().getFullYear(),
-    };
+  data: () => ({
+    year: "",
+  }),
+  created() {
+    this.year = new Date().getFullYear();
   },
 };
 </script>

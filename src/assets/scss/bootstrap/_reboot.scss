@@ -231,7 +231,7 @@ a {
 a:not([href]):not([tabindex]) {
   color: #3a3939;
   text-decoration: none;
-  font-family: 'NanumGothicExtraBold';
+  font-family: 'NanumSquareBold';
 
   @include hover-focus {
     color: inherit;

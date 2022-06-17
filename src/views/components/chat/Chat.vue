@@ -602,7 +602,6 @@ export default {
   created() {
     this.uplodaUser();
   },
-  computed: {},
   updated() {
     this.changeList();
   },

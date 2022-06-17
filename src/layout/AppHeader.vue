@@ -7,12 +7,7 @@
           width="40px"
           height="40px"
         />
-        <a
-          class="navbar-brand fa-2x custom-fa"
-          @click="goTo('')"
-          style="font-weight: 600; margin-left: 0.5rem; font-size: 33px"
-          >Pangtudy</a
-        >
+        <a class="navbar-brand fa-2x custom-fa" @click="goTo('')">Pangtudy</a>
 
         <div class="row" slot="content-header" slot-scope="{ closeMenu }">
           <div class="col-6 collapse-brand">
@@ -52,14 +47,14 @@
           <div class="header-left" v-if="authInfo">{{ authInfo.name }}님</div>
           <div class="left_menu">
             <li class="nav-item" v-if="!isLogin">
-              <v-btn elevation="2" @click="goTo('login')">Login</v-btn>
+              <a @click="goTo('login')">Login</a>
               <!-- <a class="nav-link nav-link-icon" @click="goTo('login')">Login</a> -->
             </li>
             <!-- <li class="nav-item" v-if="!isLogin">
             <a class="nav-link nav-link-icon" @click="goTo('register')">Register</a>
           </li> -->
             <li class="nav-item" v-else>
-              <v-btn elevation="2" @click.stop="memberClear">Logout</v-btn>
+              <a @click.stop="memberClear">Logout</a>
             </li>
           </div>
         </ul>
@@ -169,8 +164,8 @@ export default {
       if (path !== this.$route.name) {
         this.$router.push("/" + path);
       }
-      if(_.isEmpty(this.authInfo)){
-        this.setValue({movePath:path});
+      if (_.isEmpty(this.authInfo)) {
+        this.setValue({ movePath: path });
       }
     },
     moveTo($event) {

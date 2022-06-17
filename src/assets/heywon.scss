@@ -1179,15 +1179,15 @@ label {
 // header 오른쪽에 넣기
 .header-left {
   position: absolute;
-  right: 14%;
+  right: 9%;
   margin-top: 5px;
   color: #8e8e8e;
 }
 span.no-icon {
   font-size: 18px;
   font-weight: 500;
-  font-family: "NanumSquareRoundExtraBold";
-  margin-left: -10px;
+  font-family: 'NanumSquareBold';
+  margin-left: -21px;
 }
 .h6.font-weight-300.custom-heywon {
   margin-top: 56px;
@@ -1212,13 +1212,25 @@ section.section-profile-cover.section-shaped.my-0 {
   margin-bottom: -50px;
 }
 .navbar-brand.fa-2x.custom-fa{
-  font-family: 'NanumYeBbeunMinGyeongCe';
-}
-.navbar-nav.ml-lg-auto.flex.custom-flex {
-    padding-left: 25%;
+  font-family: 'NanumSquareExtraBold';
+  font-size:24px;
+  margin-left:0.5rem;
 }
 .left_menu {
-    position: relative;
-    margin-left: 51%;
-    /* right: -43%; */
+    position: absolute;
+    left: 93%;
+    margin-top: 5px;
+}
+
+@media (min-width: 992px){
+.navbar-expand-lg {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    height:61px;
+}
 }
