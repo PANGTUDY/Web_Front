@@ -16,7 +16,6 @@ export const alertPopup = {
     }),
 
     alarm(alertMsg) {
-      console.log("타니");
       this.alertAlarm({ isPopupShow: true, alertMsg: alertMsg });
     },
   },

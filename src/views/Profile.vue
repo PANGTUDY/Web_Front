@@ -134,27 +134,13 @@
         </section>
       </div>
     </template>
-    <pop-up>
-      <template v-slot:msg>
-        {{ message }}
-      </template>
-      <template v-slot:button>
-        <v-btn color="green darken-1" text @click="closePopup(false)">
-          확인
-        </v-btn>
-      </template>
-    </pop-up>
   </div>
 </template>
 <script>
 import axios from "axios";
 import { mapActions, mapMutations, mapState } from "vuex";
-import popUp from "../views/mixin/popUp.vue";
 
 export default {
-  components: {
-    popUp,
-  },
   data() {
     return {
       person: {
@@ -189,17 +175,6 @@ export default {
   methods: {
     ...mapActions(["authEmail", "leftMember"]),
     ...mapMutations(["logout"]),
-    closePopup(val) {
-      if (this.message.includes("회원탈퇴") === false) {
-        this.openPoup = val;
-      } else if (this.message.includes("회원탈퇴") === true) {
-        this.openPoup = val;
-        if (this.openPoup === false) {
-          this.logout();
-          this.$router.push({ path: "/" });
-        }
-      }
-    },
     func: () => {
       if (this.name) {
         this.event.name = this.name;
@@ -245,11 +220,11 @@ export default {
       this.leftMember(params).then(result => {
         if (result.status === "error") {
           this.message = result.message;
-          this.openPopup = true;
+          this.alarm(this.message);
         } else {
           if (result.status === "success") {
             this.message = "회원탈퇴가 완료되었습니다.";
-            this.openPopup = true;
+            this.alarm(this.message);
           }
         }
       });

@@ -10,14 +10,30 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <div
-            text
-            color="green darken-1"
-            id="button"
-            @click="closePopup(false)"
-          >
-            확인
-          </div>
+          <template v-if="alertMsg.includes('로그인')">
+            <v-btn
+              ref="btn"
+              color="green darken-1"
+              text
+              @click="closePopup(false)"
+            >
+              확인
+            </v-btn>
+
+            <v-btn color="green darken-1" text @click="cancelMove(false)">
+              취소
+            </v-btn>
+          </template>
+          <template v-else>
+            <v-btn
+              ref="btn"
+              color="green darken-1"
+              text
+              @click="cancelMove(false)"
+            >
+              확인
+            </v-btn>
+          </template>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -48,22 +64,33 @@ export default {
     },
   },
   methods: {
+    // 팝업 닫고 로그인 화면으로 이동
     closePopup(val) {
       this.close(val);
-      this.isOpen = val;
-      if (this.$route.name === "login") {
-        return;
-      }
-      this.$router.push({ path: "/" });
+      // this.isOpen = val;
+     
+        if (this.$route.name === "login") {
+          return;
+        } else {
+          this.$router.push({ path: "/login" });
+        }
+      
+    },
+    // 로그인 이동 취소 시 해당 화면에 머물러 있기
+    cancelMove(val) {
+      this.close(val);
+      // this.isOpen = val;
+      return;
     },
   },
   mounted() {
+    // esc,enter 누르면 팝업창 닫히는 이슈 => esc,enter에도 팝업창이 닫히도록 설정
     window.addEventListener("keydown", e => {
       if (e.key === "Escape") {
-        this.$emit("settingTrue", true);
+        this.alertAlarm({ isPopupShow: false });
       }
       if (e.key === "Enter") {
-        this.$emit("settingTrue", true);
+        this.alertAlarm({ isPopupShow: false });
       }
     });
   },

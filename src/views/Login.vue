@@ -71,8 +71,12 @@
                   >login</base-button
                 >
               </div>
+              <div class="setColor">
+                {{ message }}
+              </div>
             </template>
           </card>
+
           <div class="row mt-3">
             <div class="col-6">
               <a href="#" class="text-light">
@@ -148,9 +152,11 @@ export default {
         password: this.password,
       }).then(result => {
         if (result.status === "error") {
-          this.message= result.message;
-          this.alarm(this.message);
-          
+          this.message = result.message;
+          if (this.isChecked === false) {
+            this.email = "";
+          }
+          this.password = "";
         } else {
           if (result.status === "success") {
             this.authEmail({
