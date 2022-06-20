@@ -59,13 +59,6 @@
           </div>
         </ul>
       </base-nav>
-      <confirm-popup
-        :popupSetting="popupSetting"
-        @settingFalse="checkPopup($event)"
-        @settingTrue="moveTo($event)"
-        :popMsg="popMsg"
-        :menuType="menuType"
-      ></confirm-popup>
     </div>
   </header>
 </template>
@@ -73,8 +66,6 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
-import popUp from "../views/mixin/popUp.vue";
-import confirmPopup from "@/views/mixin/confirmPopup.vue";
 import { authComputed } from "../store/helper.js";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 export default {
@@ -94,9 +85,6 @@ export default {
         { name: "권한관리", path: "grant", loginRequire: true },
         { name: "설정", path: "setting", loginRequire: true },
       ],
-      // popupSetting: false,
-      popMsg:
-        "로그인이 필요한 화면입니다.\u00A0 \u00A0 \u00A0 로그인하시겠습니까?",
       menuType: "all",
       message: "",
       openPopup: false,
@@ -107,8 +95,6 @@ export default {
     BaseNav,
     CloseButton,
     BaseDropdown,
-    confirmPopup,
-    popUp,
   },
   computed: {
     ...authComputed,
@@ -153,11 +139,6 @@ export default {
         }
       }
     },
-    checkPopup($event) {
-      this.setValue({ popupSetting: $event });
-
-      return this.popupSetting;
-    },
     // 원하는 화면으로 이동시기키
     goTo(path) {
       console.log("path", path);
@@ -166,12 +147,6 @@ export default {
       }
       if (_.isEmpty(this.authInfo)) {
         this.setValue({ movePath: path });
-      }
-    },
-    moveTo($event) {
-      this.setValue({ popupSetting: $event });
-      if (this.$route.name !== "login") {
-        this.$router.push({ name: "login" });
       }
     },
   },

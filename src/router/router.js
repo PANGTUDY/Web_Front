@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import beforeEach from "./beforeEach.js";
+import beforeEach from "@/router/beforeEach.js";
 import AppHeader from "../layout/AppHeader";
 import AppFooter from "../layout/AppFooter";
 import Components from "../views/Components.vue";
@@ -19,7 +19,7 @@ import List from "../views/components/board/List";
 import View from "../views/components/board/View";
 import New from "../views/components/board/New";
 import store from "../store/index.js";
-import confirmPopup from "../views/mixin/confirmPopup";
+
 
 Vue.use(Router);
 

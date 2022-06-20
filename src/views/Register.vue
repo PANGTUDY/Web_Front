@@ -137,28 +137,12 @@
         </div>
       </div>
     </div>
-    <pop-up>
-      <template v-slot:msg>
-        {{ message }}
-      </template>
-      <template v-slot:button>
-        <v-btn color="green darken-1" text @click="closePopup(false)">
-          확인
-        </v-btn>
-      </template>
-    </pop-up>
-    <confrim-popup
-      :popupSetting="popupSetting"
-      @settingFalse="checkPopup($event)"
-      :popMsg="popMsg"
-      :menuType="menuType"
-    ></confrim-popup>
   </section>
 </template>
 <script>
-import confrimPopup from "@/views/mixin/confirmPopup.vue";
+
 import { mapActions } from "vuex";
-import popUp from "@/views/mixin/popUp.vue";
+
 export default {
   data() {
     return {
@@ -178,10 +162,6 @@ export default {
       popMsg: "회원가입이 완료되었습니다.",
       menuType: "register",
     };
-  },
-  components: {
-    confrimPopup,
-    popUp,
   },
   computed: {
     changeStrength: function () {
@@ -237,20 +217,15 @@ export default {
         }).then(result => {
           if (result.status === "error") {
             this.message = result.message;
-            this.openPopup = true;
+            this.alarm(this.message);
           } else {
             if (result.status === "success") {
               this.message = "회원가입이 완료되었습니다.";
-              this.popupSetting = true;
+              this.alarm(this.message);
             }
           }
         });
       }
-    },
-    async checkPopup($event) {
-      this.popupSetting = $event;
-      await this.$router.push({ path: "/" });
-      return this.popupSetting;
     },
     confirmEmail() {
       this.verifyEmail({ email: this.email });

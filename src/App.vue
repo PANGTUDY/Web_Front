@@ -13,14 +13,6 @@
       :userInfo="userInfo"
     /> -->
     <router-view name="footer"></router-view>
-    <!-- <pop-up>
-      <template v-slot:msg> {{ message }}</template>
-      <template v-slot:button>
-        <v-btn color="green darken-1" text @click="closePopup(false)">
-          확인
-        </v-btn>
-      </template>
-    </pop-up> -->
     <confirm-popup></confirm-popup>
   </v-app>
 </template>
@@ -28,13 +20,11 @@
 import { FadeTransition } from "vue2-transitions";
 // import chat from "@/views/components/chat/Chat.vue";
 import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
-// import PopUp from "./views/mixin/popUp.vue";
 import confirmPopup from "@/components/modal/confirmPopup.vue";
 export default {
   components: {
     FadeTransition,
     // chat,
-    // PopUp,
     confirmPopup,
   },
   data: () => ({
@@ -94,11 +84,6 @@ export default {
       this.interval = setInterval(() => {
         this.setTimer(exitTime);
         exitTime = exitTime - 1;
-        // console.log('timeout',exitTime);
-        // console.log('refresh',this.refreshTimeOut);
-        // console.log('cur', curTime);
-        // console.log('값',curTime - outTime);
-        // console.log('응',outTime - curTime);
 
         if (curTime - outTime >= 0) {
           this.logout();
