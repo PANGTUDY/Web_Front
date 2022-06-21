@@ -68,13 +68,12 @@ export default {
     closePopup(val) {
       this.close(val);
       // this.isOpen = val;
-     
-        if (this.$route.name === "login") {
-          return;
-        } else {
-          this.$router.push({ path: "/login" });
-        }
-      
+
+      if (this.$route.name === "login") {
+        return;
+      } else {
+        this.$router.push({ path: "/login" });
+      }
     },
     // 로그인 이동 취소 시 해당 화면에 머물러 있기
     cancelMove(val) {

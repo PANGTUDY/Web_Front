@@ -115,7 +115,6 @@
 import axios from "axios";
 import { mapState, mapActions, mapGetters } from "vuex";
 
-
 export default {
   data() {
     return {
